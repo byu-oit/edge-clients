@@ -25,16 +25,16 @@
 		<commons-pool.version>1.6</commons-pool.version>
 		<data-access.version>1.0.0.0</data-access.version>
 		<ehcache.version>2.5.1</ehcache.version>
-		<framework.decorator.version>1.0.0.1</framework.decorator.version>
-		<framework.security.version>1.2.0.0</framework.security.version>
-		<framework.web.version>1.5.1.0</framework.web.version>
+		<framework.decorator.version>1.5.1.2</framework.decorator.version>
+		<framework.security.version>1.2.0.0-RC4</framework.security.version>
+		<framework.web.version>1.5.1.2</framework.web.version>
 		<hibernate.version>3.6.10.Final</hibernate.version>
 		<hsqldb.version>2.2.8</hsqldb.version>
 		<jackson.version>1.8.3</jackson.version>
 		<javamail.version>1.4.3</javamail.version>
 		<jaxb-api.version>2.2.6</jaxb-api.version>
 		<jaxb-impl.version>2.2.5</jaxb-impl.version>
-		<jersey.version>1.9.1</jersey.version>
+		<jersey.version>1.1.5.2</jersey.version>
 		<junit.version>4.9</junit.version>
 		<log4j.version>1.2.16</log4j.version>
 		<oracle.version>11.2.0.3.0</oracle.version>
@@ -314,31 +314,31 @@
 			<dependency>
 				<groupId>edu.byu.security</groupId>
 				<artifactId>security-core</artifactId>
-				<version>${framework.security.version}</version>
+				<version>${byuSecurity.version}</version>
 				<scope>runtime</scope>
 			</dependency>
 			<dependency>
 				<groupId>edu.byu.security</groupId>
 				<artifactId>security-athens</artifactId>
-				<version>${framework.security.version}</version>
+				<version>${byuSecurity.version}</version>
 				<scope>runtime</scope>
 			</dependency>
 			<dependency>
 				<groupId>edu.byu.security</groupId>
 				<artifactId>security-web</artifactId>
-				<version>${framework.security.version}</version>
+				<version>${byuSecurity.version}</version>
 				<scope>runtime</scope>
 			</dependency>
 			<dependency>
 				<groupId>edu.byu.security</groupId>
 				<artifactId>security-ws</artifactId>
-				<version>${framework.security.version}</version>
+				<version>${byuSecurity.version}</version>
 				<scope>runtime</scope>
 			</dependency>
 			<dependency>
 				<groupId>edu.byu.security</groupId>
 				<artifactId>security-cas</artifactId>
-				<version>${framework.security.version}</version>
+				<version>${byuSecurity.version}</version>
 				<scope>runtime</scope>
 				<exclusions>
 					<exclusion>
@@ -376,6 +376,18 @@
 			<dependency>
 				<groupId>edu.byu.security</groupId>
 				<artifactId>security-ws-actor</artifactId>
+				<version>${byuSecurity.version}</version>
+				<scope>runtime</scope>
+			</dependency>
+			<dependency>
+				<groupId>edu.byu.security</groupId>
+				<artifactId>security-hmac</artifactId>
+				<version>${byuSecurity.version}</version>
+				<scope>runtime</scope>
+			</dependency>
+			<dependency>
+				<groupId>edu.byu.security</groupId>
+				<artifactId>security-hmac-client</artifactId>
 				<version>${framework.security.version}</version>
 				<scope>runtime</scope>
 			</dependency>
@@ -406,6 +418,12 @@
 			<dependency>
 				<groupId>com.sun.jersey</groupId>
 				<artifactId>jersey-json</artifactId>
+				<version>${jersey.version}</version>
+				<scope>runtime</scope>
+			</dependency>
+			<dependency>
+				<groupId>com.sun.jersey</groupId>
+				<artifactId>jersey-client</artifactId>
 				<version>${jersey.version}</version>
 				<scope>runtime</scope>
 			</dependency>
@@ -478,6 +496,12 @@
 						<artifactId>ehcache-core</artifactId>
 					</exclusion>
 				</exclusions>
+			</dependency>
+			<dependency>
+				<groupId>net.sf.ehcache</groupId>
+				<artifactId>ehcache-core</artifactId>
+				<version>${ehcache.version}</version>
+				<scope>runtime</scope>
 			</dependency>
 		</dependencies>
 	</dependencyManagement>
