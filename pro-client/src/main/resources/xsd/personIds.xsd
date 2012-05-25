@@ -1,0 +1,67 @@
+<?xml version="1.0"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified"
+		targetNamespace="uri://byu/c/ry/ae/prod/person_new/cgi/personIds.cgi"
+		xmlns="uri://byu/c/ry/ae/prod/person_new/cgi/personIds.cgi">
+	<xs:complexType name="PersonIdsServiceType">
+		<xs:sequence>
+			<xs:element name="request" type="requestType" />
+			<xs:element name="errors" type="errorsType" />
+			<xs:element name="response" type="responseType" />
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="requestType">
+		<xs:sequence>
+			<xs:element name="method" type="xs:string" />
+			<xs:element name="resource" type="xs:string" />
+			<xs:element name="attributes" type="xs:string" />
+			<xs:element name="status" type="xs:integer" />
+			<xs:element name="statusMessage" type="xs:string" />
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="errorsType">
+		<xs:sequence>
+			<xs:element name="error" type="errorType" />
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="errorType">
+		<xs:sequence>
+			<xs:element name="code" type="xs:integer" />
+			<xs:element name="message" type="xs:string" />
+			<xs:element name="httpStatusCode" type="xs:integer" />
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="responseType">
+		<xs:sequence>
+			<xs:element name="person_summary_line" type="person_summary_lineType" />
+			<xs:element name="identifiers" type="identifiersType" />
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="person_summary_lineType">
+		<xs:sequence>
+			<xs:element name="email" type="xs:string" />
+			<xs:element name="name" type="xs:string" />
+			<xs:element name="suffix" type="xs:string" />
+			<xs:element name="net_id" type="xs:string" />
+			<xs:element name="byu_id" type="xs:string" />
+			<xs:element name="person_id" type="xs:string" />
+			<xs:element name="date_of_birth" type="xs:date" />
+			<xs:element name="gender" type="xs:string" />
+			<xs:element name="student_role" type="xs:string" />
+			<xs:element name="employee_role" type="xs:string" />
+			<xs:element name="academic_record" type="xs:boolean" />
+			<xs:element name="is_employee" type="xs:boolean" />
+			<xs:element name="non_person_organization" type="xs:boolean" />
+			<xs:element name="restricted" type="xs:boolean" />
+			<xs:element name="deceased" type="xs:boolean" />
+			<xs:element name="merge_pending" type="xs:boolean" />
+			<xs:element name="new_byu_id" type="xs:string" />
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="identifiersType">
+		<xs:sequence>
+			<xs:element name="ssn" type="xs:string" />
+			<xs:element name="net_id" type="xs:string" />
+			<xs:element name="prox_id" type="xs:string" />
+		</xs:sequence>
+	</xs:complexType>
+</xs:schema>

@@ -1,8 +1,10 @@
 package edu.byu.security.hmac.jersey;
 
 import com.sun.jersey.api.client.Client;
+import com.sun.jersey.api.client.WebResource;
 import com.sun.jersey.api.client.config.ClientConfig;
 import com.sun.jersey.api.client.config.DefaultClientConfig;
+import edu.byu.edge.client.pro.domain.personSummary.JaxbContextResolver;
 import org.apache.log4j.Logger;
 
 /**
@@ -13,15 +15,20 @@ public abstract class BaseClient {
 
 	private static final Logger LOG = Logger.getLogger(BaseClient.class);
 
+	protected final String baseUrl;
+	protected final BaseHeaderAuthenticationClientFilter filter;
 	protected final Client client;
+	protected final WebResource webResource;
 
-	protected BaseClient(final BaseHeaderAuthenticationClientFilter filter, final int readTimeout) {
+	protected BaseClient(final String baseUrl, final BaseHeaderAuthenticationClientFilter filter, final int readTimeout) {
+		this.baseUrl = baseUrl;
+		this.filter = filter;
 		final ClientConfig config = new DefaultClientConfig();
-		final BodyRenderingClientHandler clientHandler = new BodyRenderingClientHandler();
-		config.getSingletons().add(clientHandler);
-		client = initClient(config);
-		client.addFilter(filter);
-		client.setReadTimeout(readTimeout);
+		config.getClasses().add(JaxbContextResolver.class);
+		this.client = initClient(config);
+		this.client.addFilter(filter);
+		this.client.setReadTimeout(readTimeout);
+		this.webResource = this.client.resource(baseUrl);
 	}
 
 	protected Client initClient(ClientConfig config) {
@@ -30,5 +37,9 @@ public abstract class BaseClient {
 
 	protected final Client getClient() {
 		return client;
+	}
+
+	protected WebResource getResource() {
+		return webResource;
 	}
 }

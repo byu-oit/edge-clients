@@ -1,0 +1,205 @@
+<?xml version="1.0"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified"
+		targetNamespace="uri://byu/c/ry/ae/prod/person_new/cgi/personSummary.cgi"
+		xmlns="uri://byu/c/ry/ae/prod/person_new/cgi/personSummary.cgi">
+	<xs:complexType name="PersonSummaryServiceType">
+		<xs:sequence>
+			<xs:element name="request" type="requestType" />
+			<xs:element name="errors" type="errorsType" />
+			<xs:element name="response" type="responseType" />
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="requestType">
+		<xs:sequence>
+			<xs:element name="method" type="xs:string" />
+			<xs:element name="resource" type="xs:string" />
+			<xs:element name="attributes" type="xs:string" />
+			<xs:element name="status" type="xs:integer" />
+			<xs:element name="statusMessage" type="xs:string" />
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="errorsType">
+		<xs:sequence>
+			<xs:element name="error" type="errorType" />
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="errorType">
+		<xs:sequence>
+			<xs:element name="code" type="xs:integer" />
+			<xs:element name="message" type="xs:string" />
+			<xs:element name="httpStatusCode" type="xs:integer" />
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="responseType">
+		<xs:sequence>
+			<xs:element name="person_summary_line" type="person_summary_lineType" />
+			<xs:element name="identifiers" type="identifiersType" />
+			<xs:element name="names" type="namesType" />
+			<xs:element name="personal_information" type="personal_informationType" />
+			<xs:element name="employee_information" type="employee_informationType" />
+			<xs:element name="contact_information" type="contact_informationType" />
+			<xs:element name="student_information" type="student_informationType" />
+			<xs:element name="relationships" type="relationshipsType" />
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="person_summary_lineType">
+		<xs:sequence>
+			<xs:element name="email" type="xs:string" />
+			<xs:element name="name" type="xs:string" />
+			<xs:element name="suffix" type="xs:string" />
+			<xs:element name="net_id" type="xs:string" />
+			<xs:element name="byu_id" type="xs:string" />
+			<xs:element name="person_id" type="xs:string" />
+			<xs:element name="date_of_birth" type="xs:date" />
+			<xs:element name="gender" type="xs:string" />
+			<xs:element name="student_role" type="xs:string" />
+			<xs:element name="employee_role" type="xs:string" />
+			<xs:element name="academic_record" type="xs:boolean" />
+			<xs:element name="is_employee" type="xs:boolean" />
+			<xs:element name="non_person_organization" type="xs:boolean" />
+			<xs:element name="restricted" type="xs:boolean" />
+			<xs:element name="deceased" type="xs:boolean" />
+			<xs:element name="merge_pending" type="xs:boolean" />
+			<xs:element name="new_byu_id" type="xs:string" />
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="identifiersType">
+		<xs:sequence>
+			<xs:element name="person_id" type="xs:string" />
+			<xs:element name="byu_id" type="xs:string" />
+			<xs:element name="byu_id_issue_number" type="xs:string" />
+			<xs:element name="id_card_status" type="xs:string" />
+			<xs:element name="net_id" type="xs:string" />
+			<xs:element name="ssn" type="xs:string" minOccurs="2" maxOccurs="2" />
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="namesType">
+		<xs:sequence>
+			<xs:element name="preferred_name" type="xs:string" />
+			<xs:element name="complete_name" type="xs:string" />
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="personal_informationType">
+		<xs:sequence>
+			<xs:element name="date_of_birth" type="xs:date" />
+			<xs:element name="age" type="xs:integer" />
+			<xs:element name="ethnicity" type="xs:string" />
+			<xs:element name="gender" type="xs:string" />
+			<xs:element name="marital_status" type="xs:string" />
+			<xs:element name="citizenship" type="xs:string" />
+			<xs:element name="visa" type="visaType" minOccurs="2" maxOccurs="2" />
+			<xs:element name="home_town" type="xs:string" />
+			<xs:element name="religion" type="xs:string" />
+			<xs:element name="deceased" type="xs:boolean" />
+			<xs:element name="date_of_death" type="xs:date" />
+			<xs:element name="restricted_record" type="xs:boolean" />
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="visaType">
+		<xs:sequence>
+			<xs:element name="expired" type="xs:boolean" />
+			<xs:element name="expires_in_30_days" type="xs:boolean" />
+		</xs:sequence>
+	</xs:complexType>
+	<!-- Warning: The name "visaType" is being used to identify more than one complexType definition. Try a different name. The following is the redefined complexType: <xs:complexType name="visaType">
+ <xs:sequence> Error: No elements found in sequence for complex type visaType. </xs:sequence>
+ </xs:complexType>-->
+	<xs:complexType name="employee_informationType">
+		<xs:sequence>
+			<xs:element name="employee_role" type="xs:string" />
+			<xs:element name="department" type="xs:string" />
+			<xs:element name="job_title" type="xs:string" />
+			<xs:element name="date_hired" type="date_hiredType" />
+			<xs:element name="retirement_date" type="xs:date" />
+			<xs:element name="secondary_role" type="secondary_roleType" />
+			<xs:element name="university_affiliation" type="university_affiliationType" />
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="date_hiredType">
+		<xs:sequence>
+			<xs:element name="date" type="xs:date" />
+			<xs:element name="qualification" type="xs:string" />
+			<xs:element name="years_of_service" type="xs:string" />
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="secondary_roleType">
+		<xs:sequence>
+			<xs:element name="employee_role" type="xs:string" />
+			<xs:element name="department" type="xs:string" />
+			<xs:element name="hire_date" type="xs:date" />
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="university_affiliationType">
+		<xs:sequence>
+			<xs:element name="affiliation" type="xs:string" />
+			<xs:element name="effective_date" type="xs:date" />
+			<xs:element name="expires" type="xs:date" />
+			<xs:element name="inactivated" type="xs:dateTime" />
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="contact_informationType">
+		<xs:sequence>
+			<xs:element name="mailing_address" type="mailing_addressType" />
+			<xs:element name="mailing_address_unlisted" type="xs:boolean" />
+			<xs:element name="phone_number" type="xs:string" />
+			<xs:element name="mailing_phone" type="xs:string" />
+			<xs:element name="mailing_phone_unlisted" type="xs:boolean" />
+			<xs:element name="work_address" type="work_addressType" />
+			<xs:element name="work_address_unlisted" type="xs:boolean" />
+			<xs:element name="work_phone" type="xs:string" />
+			<xs:element name="work_phone_unlisted" type="xs:boolean" />
+			<xs:element name="email" type="xs:string" />
+			<xs:element name="email_address" type="xs:string" />
+			<xs:element name="email_address_unlisted" type="xs:boolean" />
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="mailing_addressType">
+		<xs:sequence>
+			<xs:element name="address_line" type="xs:string" />
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="work_addressType">
+		<xs:sequence>
+			<xs:element name="address_line" type="xs:string" />
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="student_informationType">
+		<xs:sequence>
+			<xs:element name="student_role" type="xs:string" />
+			<xs:element name="year_term" type="xs:string" />
+			<xs:element name="credit_hours" type="xs:string" />
+			<xs:element name="classes" type="classesType" />
+			<!-- Error: The element "year_term" is defined more than once in complexType student_informationType. -->
+			<!-- Error: The element "credit_hours" is defined more than once in complexType student_informationType. -->
+			<!-- Error: The element "classes" is defined more than once in complexType student_informationType. -->
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="classesType">
+		<xs:sequence>
+			<xs:element name="class" type="classType" minOccurs="0" maxOccurs="unbounded" />
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="classType">
+		<xs:sequence>
+			<!-- Error: No elements found in sequence for complex type classType. -->
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="relationshipsType">
+		<xs:sequence>
+			<xs:element name="relationship" type="relationshipType" minOccurs="0" maxOccurs="unbounded" />
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="relationshipType">
+		<xs:sequence>
+			<xs:element name="type" type="xs:string" />
+			<xs:element name="person_id" type="xs:string" />
+			<xs:element name="name" type="xs:string" />
+			<xs:element name="deceased" type="xs:boolean" />
+			<xs:element name="employee" type="xs:string" />
+			<xs:element name="hired" type="xs:date" />
+			<xs:element name="years_of_service" type="xs:string" />
+			<xs:element name="student" type="xs:string" />
+			<xs:element name="affiliation" type="xs:string" />
+		</xs:sequence>
+	</xs:complexType>
+</xs:schema>

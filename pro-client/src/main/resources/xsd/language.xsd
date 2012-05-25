@@ -1,0 +1,54 @@
+<?xml version="1.0"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified"
+		targetNamespace="uri://byu/c/ry/ae/prod/person_new/cgi/language.cgi"
+		xmlns="uri://byu/c/ry/ae/prod/person_new/cgi/language.cgi">
+	<xs:complexType name="LanguageServiceType">
+		<xs:sequence>
+			<xs:element name="request" type="requestType" />
+			<xs:element name="errors" type="errorsType" />
+			<xs:element name="response" type="responseType" />
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="requestType">
+		<xs:sequence>
+			<xs:element name="method" type="xs:string" />
+			<xs:element name="resource" type="xs:string" />
+			<xs:element name="attributes" type="xs:string" />
+			<xs:element name="status" type="xs:integer" />
+			<xs:element name="statusMessage" type="xs:string" />
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="errorsType">
+		<xs:sequence>
+			<xs:element name="error" type="errorType" />
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="errorType">
+		<xs:sequence>
+			<xs:element name="code" type="xs:integer" />
+			<xs:element name="message" type="xs:string" />
+			<xs:element name="httpStatusCode" type="xs:integer" />
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="responseType">
+		<xs:sequence>
+			<xs:element name="message" type="xs:string" />
+			<xs:element name="languages" type="languagesType" />
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="languagesType">
+		<xs:sequence>
+			<xs:element name="language" type="languageType" minOccurs="0" maxOccurs="unbounded" />
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="languageType">
+		<xs:sequence>
+			<xs:element name="language_code" type="xs:string" />
+			<xs:element name="description" type="xs:string" />
+			<xs:element name="speak_proficiency" type="xs:string" />
+			<xs:element name="read_proficiency" type="xs:string" />
+			<xs:element name="write_proficiency" type="xs:string" />
+			<xs:element name="translator" type="xs:string" />
+		</xs:sequence>
+	</xs:complexType>
+</xs:schema>

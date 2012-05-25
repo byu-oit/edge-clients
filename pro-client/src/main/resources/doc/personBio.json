@@ -1,0 +1,204 @@
+{"WebService":{
+	"name":"PersonBioService",
+	"operations":[
+		{
+			"name":"Get Person Biographical Info",
+			"description":"Gets biographical information about a person.",
+			"method":"GET",
+			"path":"/{person_id}",
+			"path_identifiers":[
+				{
+					"name":"person_id",
+					"type":"string",
+					"format":null
+				}
+			],
+			"query_attributes":[]
+		},
+		{
+			"name":"Save Person Biographical Info",
+			"description":"Update a person's biographical info.",
+			"method":"PUT",
+			"path":"/{person_id}",
+			"path_identifiers":[
+				{
+					"name":"person_id",
+					"type":"string",
+					"format":null
+				}
+			],
+			"query_attributes":[
+				{
+					"name":"date_of_birth",
+					"type":"date",
+					"format":"YYYY-MM-DD",
+					"required":"false"
+				},
+				{
+					"name":"date_of_death",
+					"type":"date",
+					"format":"YYYY-MM-DD",
+					"required":"false"
+				},
+				{
+					"name":"birth_country",
+					"type":"string",
+					"format":null,
+					"required":"false"
+				},
+				{
+					"name":"citizenship_country",
+					"type":"string",
+					"format":null,
+					"required":"false"
+				},
+				{
+					"name":"gender",
+					"type":"string",
+					"format":"M|F",
+					"required":"false"
+				},
+				{
+					"name":"marital_status",
+					"type":"string",
+					"format":"S|M|W|D|?",
+					"required":"false"
+				},
+				{
+					"name":"religion",
+					"type":"string",
+					"format":null,
+					"required":"false"
+				},
+				{
+					"name":"home_country",
+					"type":"string",
+					"format":null,
+					"required":"false"
+				},
+				{
+					"name":"home_state",
+					"type":"string",
+					"format":null,
+					"required":"false"
+				},
+				{
+					"name":"home_town",
+					"type":"string",
+					"format":null,
+					"required":"false"
+				},
+				{
+					"name":"restricted",
+					"type":"string",
+					"format":null,
+					"required":"false"
+				},
+				{
+					"name":"ethnicity",
+					"type":"string",
+					"format":null,
+					"required":"false"
+				},
+				{
+					"name":"primary_ethnicity",
+					"type":"string",
+					"format":null,
+					"required":"false"
+				}
+			]
+		}
+	],
+	"errors":[
+		{
+			"code":1,
+			"message":"Please try your action again. The program was unable to complete the action you requested. If you continue to experience problems you may try again at a later time or contact our customer service staff at 1-801-422-4000 for assistance.",
+			"httpStatusCode":500
+		},
+		{
+			"code":2,
+			"message":"Page Not Found. We are sorry but we were unable to access the service you requested. If you believe this to be in error, please contact our customer service staff at 1-801-422-4000 for assistance.",
+			"httpStatusCode":403
+		},
+		{
+			"code":3,
+			"message":"Resource not found.",
+			"httpStatusCode":404
+		},
+		{
+			"code":4,
+			"message":"GET method not supported.",
+			"httpStatusCode":405
+		},
+		{
+			"code":5,
+			"message":"PUT method not supported.",
+			"httpStatusCode":405
+		},
+		{
+			"code":6,
+			"message":"POST method not supported.",
+			"httpStatusCode":405
+		},
+		{
+			"code":7,
+			"message":"PUT and POST methods not supported.",
+			"httpStatusCode":405
+		},
+		{
+			"code":8,
+			"message":"DELETE method not supported.",
+			"httpStatusCode":405
+		},
+		{
+			"code":9,
+			"message":"Not authorized to this resource.",
+			"httpStatusCode":403
+		},
+		{
+			"code":10,
+			"message":"This person is currently in the process of being merged, and cannot be updated.",
+			"httpStatusCode":409
+		},
+		{
+			"code":11,
+			"message":"Religion cannot be changed to or from LDS without authorization.",
+			"httpStatusCode":403
+		},
+		{
+			"code":12,
+			"message":"Citizenship country cannot be changed to or from USA without authorization.",
+			"httpStatusCode":403
+		}
+	],
+	"httpStatusCodes":[
+		{
+			"code":200,
+			"message":"Service request is OK and a response has been generated."
+		},
+		{
+			"code":500,
+			"message":"An error occurred generating the response to the service request. This is strictly a server error and not an application error."
+		},
+		{
+			"code":400,
+			"message":"There appears to be a syntax error in the composition of the service request. The response structure may contain information about the error. If the base URI or service request URI is invalid, any response will come as an HTTP response."
+		},
+		{
+			"code":403,
+			"message":"The user does not have access to the resource."
+		},
+		{
+			"code":404,
+			"message":"The target resource can not be found for the provided resource identifiers."
+		},
+		{
+			"code":405,
+			"message":"The service method is not supported by the service."
+		},
+		{
+			"code":409,
+			"message":"A conflict has occurred. The response structure may contain information about the conflict."
+		}
+	]
+}}

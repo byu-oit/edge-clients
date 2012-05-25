@@ -20,6 +20,7 @@
 		<byuSecurity.version>1.2.0.0</byuSecurity.version>
 		<byuSpringUtil.version>1.1.0</byuSpringUtil.version>
 		<cglib.version>2.2.2</cglib.version>
+		<commons-codec.version>1.5</commons-codec.version>
 		<commons-collections.version>3.2.1</commons-collections.version>
 		<commons-dbcp.version>1.4</commons-dbcp.version>
 		<commons-pool.version>1.6</commons-pool.version>
@@ -213,6 +214,12 @@
 				<groupId>commons-pool</groupId>
 				<artifactId>commons-pool</artifactId>
 				<version>${commons-pool.version}</version>
+				<scope>runtime</scope>
+			</dependency>
+			<dependency>
+				<groupId>commons-codec</groupId>
+				<artifactId>commons-codec</artifactId>
+				<version>${commons-codec.version}</version>
 				<scope>runtime</scope>
 			</dependency>
 			<dependency>

@@ -21,19 +21,17 @@
 			c:credentialDAO-ref="sharedSecretCredentialDAO" />
 
 	<bean id="credentialResolutionRequest" class="edu.byu.security.hmac.PersonIdCredentialResolutionRequest"
-			c:personId="76224702" />
+			c:personId="766224702" />
 
 	<bean id="sharedSecretNonceEncodingFilter" class="edu.byu.security.hmac.jersey.SharedSecretNonceEncodingFilter"
 			c:credentialResolver-ref="sharedSecretCredentialResolver"
 			c:resolutionRequest-ref="credentialResolutionRequest"
 			c:nonceDAO-ref="nonceDAO" />
 
-	<bean id="proClient" class="edu.byu.edge.client.pro.impl.ProClientImpl"
+	<bean id="personSummaryClient" class="edu.byu.edge.client.pro.impl.PersonSummaryClientImpl"
 			c:baseUrl="https://ws.byu.edu/rest/v2.0/identity/person/PRO"
 			c:sharedSecretNonceEncodingFilter-ref="sharedSecretNonceEncodingFilter"
 			c:readTimeout="30000"/>
-
-
 
 	<bean id="wsAuthenticationSessionFactory" class="org.springframework.orm.hibernate3.LocalSessionFactoryBean"
 			p:dataSource-ref="wsAuthenticationDataSource"
@@ -61,7 +59,7 @@
 			p:dataSource-ref="wsAuthenticationDataSource" p:sessionFactory-ref="wsAuthenticationSessionFactory"/>
 
 	<bean id="wsAuthenticationDataSource" class="org.apache.commons.dbcp.BasicDataSource"
-			p:url="jdbcs[byu@PROD]" p:driverClassName="edu.byu.jdbc.SecureDriver"
+			p:url="jdbcs[byujava@PROD]" p:driverClassName="edu.byu.jdbc.SecureDriver"
 			p:initialSize="2" p:maxActive="5" p:maxIdle="5" p:minIdle="1"
 			p:testWhileIdle="true" p:testOnBorrow="true" p:testOnReturn="true"
 			p:validationQuery="select 1 from dual" />

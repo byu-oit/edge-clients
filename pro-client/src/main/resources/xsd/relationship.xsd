@@ -1,0 +1,59 @@
+<?xml version="1.0"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified"
+		targetNamespace="uri://byu/c/ry/ae/prod/person_new/cgi/relationship.cgi"
+		xmlns="uri://byu/c/ry/ae/prod/person_new/cgi/relationship.cgi">
+	<xs:complexType name="RelationshipServiceType">
+		<xs:sequence>
+			<xs:element name="request" type="requestType" />
+			<xs:element name="errors" type="errorsType" />
+			<xs:element name="response" type="responseType" />
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="requestType">
+		<xs:sequence>
+			<xs:element name="method" type="xs:string" />
+			<xs:element name="resource" type="xs:string" />
+			<xs:element name="attributes" type="xs:string" />
+			<xs:element name="status" type="xs:integer" />
+			<xs:element name="statusMessage" type="xs:string" />
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="errorsType">
+		<xs:sequence>
+			<xs:element name="error" type="errorType" />
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="errorType">
+		<xs:sequence>
+			<xs:element name="code" type="xs:integer" />
+			<xs:element name="message" type="xs:string" />
+			<xs:element name="httpStatusCode" type="xs:integer" />
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="responseType">
+		<xs:sequence>
+			<xs:element name="relationshipsSaved" type="xs:string" />
+			<xs:element name="spouse" type="xs:string" />
+			<xs:element name="relationshipInformation" type="relationshipInformationType" />
+			<xs:element name="maximumAllowedRelationships" type="xs:string" />
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="relationshipInformationType">
+		<xs:sequence>
+			<xs:element name="class" type="classType" minOccurs="0" maxOccurs="unbounded" />
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="classType">
+		<xs:sequence>
+			<xs:element name="preferredName" type="xs:string" />
+			<xs:element name="relationship" type="xs:string" />
+			<xs:element name="maritalStatus" type="xs:string" />
+			<xs:element name="age" type="xs:integer" />
+			<xs:element name="gender" type="xs:string" />
+			<xs:element name="studentRole" type="xs:string" />
+			<xs:element name="employeeRole" type="xs:string" />
+			<xs:element name="personID" type="xs:string" />
+			<xs:element name="verified" type="xs:string" />
+		</xs:sequence>
+	</xs:complexType>
+</xs:schema>

@@ -1,0 +1,215 @@
+<?xml version="1.0"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified"
+		targetNamespace="uri://byu/c/ry/ae/prod/person_new/cgi/address.cgi"
+		xmlns="uri://byu/c/ry/ae/prod/person_new/cgi/address.cgi">
+	<xs:complexType name="AddressServiceType">
+		<xs:sequence>
+			<xs:element name="request" type="requestType" />
+			<xs:element name="errors" type="errorsType" />
+			<xs:element name="response" type="responseType" />
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="requestType">
+		<xs:sequence>
+			<xs:element name="method" type="xs:string" />
+			<xs:element name="resource" type="xs:string" />
+			<xs:element name="attributes" type="xs:string" />
+			<xs:element name="status" type="xs:integer" />
+			<xs:element name="statusMessage" type="xs:string" />
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="errorsType">
+		<xs:sequence>
+			<xs:element name="error" type="errorType" />
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="errorType">
+		<xs:sequence>
+			<xs:element name="code" type="xs:integer" />
+			<xs:element name="message" type="xs:string" />
+			<xs:element name="httpStatusCode" type="xs:integer" />
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="responseType">
+		<xs:sequence>
+			<xs:element name="person_summary_line" type="person_summary_lineType" />
+			<xs:element name="housing_policy_compliance" type="housing_policy_complianceType" />
+			<xs:element name="mailing" type="mailingType" />
+			<xs:element name="residential" type="residentialType" />
+			<xs:element name="work" type="workType" />
+			<xs:element name="permanent" type="permanentType" />
+			<xs:element name="email_address" type="email_addressType" />
+			<xs:element name="emergency_contact" type="emergency_contactType" />
+			<xs:element name="campus_emergency_alert" type="campus_emergency_alertType" />
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="person_summary_lineType">
+		<xs:sequence>
+			<xs:element name="email" type="xs:string" />
+			<xs:element name="name" type="xs:string" />
+			<xs:element name="suffix" type="xs:string" />
+			<xs:element name="net_id" type="xs:string" />
+			<xs:element name="byu_id" type="xs:string" />
+			<xs:element name="person_id" type="xs:string" />
+			<xs:element name="date_of_birth" type="xs:date" />
+			<xs:element name="gender" type="xs:string" />
+			<xs:element name="student_role" type="xs:string" />
+			<xs:element name="employee_role" type="xs:string" />
+			<xs:element name="academic_record" type="xs:boolean" />
+			<xs:element name="is_employee" type="xs:boolean" />
+			<xs:element name="non_person_organization" type="xs:boolean" />
+			<xs:element name="restricted" type="xs:boolean" />
+			<xs:element name="deceased" type="xs:boolean" />
+			<xs:element name="merge_pending" type="xs:boolean" />
+			<xs:element name="new_byu_id" type="xs:string" />
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="housing_policy_complianceType">
+		<xs:sequence>
+			<xs:element name="compliant" type="xs:boolean" />
+			<xs:element name="mailing_address_invalid" type="xs:boolean" />
+			<xs:element name="residential_address_invalid" type="xs:boolean" />
+			<xs:element name="email_address_invalid" type="xs:boolean" />
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="mailingType">
+		<xs:sequence>
+			<xs:element name="mailing_address" type="mailing_addressType" />
+			<xs:element name="mailing_phone" type="mailing_phoneType" />
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="mailing_addressType">
+		<xs:sequence>
+			<xs:element name="address" type="addressType" minOccurs="0" maxOccurs="unbounded" />
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="addressType">
+		<xs:sequence>
+			<xs:element name="address_line_1" type="xs:string" />
+			<xs:element name="address_line_2" type="xs:string" />
+			<xs:element name="address_line_3" type="xs:string" />
+			<xs:element name="address_line_4" type="xs:string" />
+			<xs:element name="unlisted" type="xs:boolean" />
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="mailing_phoneType">
+		<xs:sequence>
+			<xs:element name="phone" type="phoneType" minOccurs="0" maxOccurs="unbounded" />
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="phoneType">
+		<xs:sequence>
+			<xs:element name="phone_number" type="xs:string" />
+			<xs:element name="label" type="xs:string" />
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="residentialType">
+		<xs:sequence>
+			<xs:element name="residential_address" type="residential_addressType" />
+			<xs:element name="residential_phone" type="residential_phoneType" />
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="residential_addressType">
+		<xs:sequence>
+			<xs:element name="address" type="addressType" minOccurs="0" maxOccurs="unbounded" />
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="residential_phoneType">
+		<xs:sequence>
+			<xs:element name="phone" type="phoneType" minOccurs="0" maxOccurs="unbounded" />
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="workType">
+		<xs:sequence>
+			<xs:element name="work_address" type="work_addressType" />
+			<xs:element name="work_phone" type="work_phoneType" />
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="work_addressType">
+		<xs:sequence>
+			<xs:element name="address" type="addressType" minOccurs="0" maxOccurs="unbounded" />
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="work_phoneType">
+		<xs:sequence>
+			<xs:element name="phone" type="phoneType" minOccurs="0" maxOccurs="unbounded" />
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="permanentType">
+		<xs:sequence>
+			<xs:element name="permanent_address" type="permanent_addressType" />
+			<xs:element name="permanent_phone" type="permanent_phoneType" />
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="permanent_addressType">
+		<xs:sequence>
+			<xs:element name="address" type="addressType" minOccurs="0" maxOccurs="unbounded" />
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="permanent_phoneType">
+		<xs:sequence>
+			<xs:element name="phone" type="phoneType" minOccurs="0" maxOccurs="unbounded" />
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="email_addressType">
+		<xs:sequence>
+			<xs:element name="email" type="emailType" minOccurs="0" maxOccurs="unbounded" />
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="emailType">
+		<xs:sequence>
+			<xs:element name="email_address" type="xs:string" />
+			<xs:element name="unlisted" type="xs:boolean" />
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="emergency_contactType">
+		<xs:sequence>
+			<xs:element name="contact" type="contactType" minOccurs="0" maxOccurs="unbounded" />
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="contactType">
+		<xs:sequence>
+			<xs:element name="phone_number" type="xs:string" />
+			<xs:element name="contact_name" type="xs:string" />
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="campus_emergency_alertType">
+		<xs:sequence>
+			<xs:element name="text_message_address" type="text_message_addressType" />
+			<xs:element name="phone_number" type="phone_numberType" />
+			<xs:element name="email" type="emailType" />
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="text_message_addressType">
+		<xs:sequence>
+			<xs:element name="emergency_alert" type="emergency_alertType" minOccurs="0" maxOccurs="unbounded" />
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="emergency_alertType">
+		<xs:sequence>
+			<xs:element name="device_address" type="xs:string" />
+			<xs:element name="provider_suffix" type="xs:string" />
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="phone_numberType">
+		<xs:sequence>
+			<xs:element name="emergency_alert" type="emergency_alertType" minOccurs="0" maxOccurs="unbounded" />
+		</xs:sequence>
+	</xs:complexType>
+	<!-- Warning: The name "emergency_alertType" is being used to identify more than one complexType definition. Try a different name. The following is the redefined complexType: <xs:complexType name="emergency_alertType">
+ <xs:sequence>
+ <xs:element name="phone_number" type="xs:string"/>
+ <xs:element name="label" type="xs:string"/>
+ </xs:sequence>
+ </xs:complexType>-->
+	<!-- Warning: The name "emailType" is being used to identify more than one complexType definition. Try a different name. The following is the redefined complexType: <xs:complexType name="emailType">
+ <xs:sequence>
+ <xs:element name="emergency_alert" type="emergency_alertType" minOccurs="0" maxOccurs="unbounded"/>
+ </xs:sequence>
+ </xs:complexType>-->
+	<!-- Warning: The name "emergency_alertType" is being used to identify more than one complexType definition. Try a different name. The following is the redefined complexType: <xs:complexType name="emergency_alertType">
+ <xs:sequence>
+ <xs:element name="email_address" type="xs:string"/>
+ </xs:sequence>
+ </xs:complexType>-->
+</xs:schema>
