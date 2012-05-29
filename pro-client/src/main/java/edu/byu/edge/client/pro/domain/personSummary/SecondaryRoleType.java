@@ -19,9 +19,9 @@ import javax.xml.datatype.XMLGregorianCalendar;
  *   &lt;complexContent>
  *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
  *       &lt;sequence>
- *         &lt;element name="employee_role" type="{http://www.w3.org/2001/XMLSchema}string"/>
- *         &lt;element name="department" type="{http://www.w3.org/2001/XMLSchema}string"/>
- *         &lt;element name="hire_date" type="{http://www.w3.org/2001/XMLSchema}date"/>
+ *         &lt;element name="employee_role" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/>
+ *         &lt;element name="department" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/>
+ *         &lt;element name="hire_date" type="{http://www.w3.org/2001/XMLSchema}date" minOccurs="0"/>
  *       &lt;/sequence>
  *     &lt;/restriction>
  *   &lt;/complexContent>
@@ -38,11 +38,11 @@ import javax.xml.datatype.XMLGregorianCalendar;
 })
 public class SecondaryRoleType {
 
-    @XmlElement(name = "employee_role", namespace = "uri://byu/c/ry/ae/prod/person_new/cgi/personSummary.cgi", required = true)
+    @XmlElement(name = "employee_role", namespace = "uri://byu/c/ry/ae/prod/person_new/cgi/personSummary.cgi")
     protected String employeeRole;
-    @XmlElement(namespace = "uri://byu/c/ry/ae/prod/person_new/cgi/personSummary.cgi", required = true)
+    @XmlElement(namespace = "uri://byu/c/ry/ae/prod/person_new/cgi/personSummary.cgi")
     protected String department;
-    @XmlElement(name = "hire_date", namespace = "uri://byu/c/ry/ae/prod/person_new/cgi/personSummary.cgi", required = true)
+    @XmlElement(name = "hire_date", namespace = "uri://byu/c/ry/ae/prod/person_new/cgi/personSummary.cgi")
     @XmlSchemaType(name = "date")
     protected XMLGregorianCalendar hireDate;
 

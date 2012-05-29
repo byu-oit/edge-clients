@@ -19,10 +19,10 @@ import javax.xml.datatype.XMLGregorianCalendar;
  *   &lt;complexContent>
  *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
  *       &lt;sequence>
- *         &lt;element name="affiliation" type="{http://www.w3.org/2001/XMLSchema}string"/>
- *         &lt;element name="effective_date" type="{http://www.w3.org/2001/XMLSchema}date"/>
- *         &lt;element name="expires" type="{http://www.w3.org/2001/XMLSchema}date"/>
- *         &lt;element name="inactivated" type="{http://www.w3.org/2001/XMLSchema}dateTime"/>
+ *         &lt;element name="affiliation" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/>
+ *         &lt;element name="effective_date" type="{http://www.w3.org/2001/XMLSchema}date" minOccurs="0"/>
+ *         &lt;element name="expires" type="{http://www.w3.org/2001/XMLSchema}date" minOccurs="0"/>
+ *         &lt;element name="inactivated" type="{http://www.w3.org/2001/XMLSchema}dateTime" minOccurs="0"/>
  *       &lt;/sequence>
  *     &lt;/restriction>
  *   &lt;/complexContent>
@@ -40,15 +40,15 @@ import javax.xml.datatype.XMLGregorianCalendar;
 })
 public class UniversityAffiliationType {
 
-    @XmlElement(namespace = "uri://byu/c/ry/ae/prod/person_new/cgi/personSummary.cgi", required = true)
+    @XmlElement(namespace = "uri://byu/c/ry/ae/prod/person_new/cgi/personSummary.cgi")
     protected String affiliation;
-    @XmlElement(name = "effective_date", namespace = "uri://byu/c/ry/ae/prod/person_new/cgi/personSummary.cgi", required = true)
+    @XmlElement(name = "effective_date", namespace = "uri://byu/c/ry/ae/prod/person_new/cgi/personSummary.cgi")
     @XmlSchemaType(name = "date")
     protected XMLGregorianCalendar effectiveDate;
-    @XmlElement(namespace = "uri://byu/c/ry/ae/prod/person_new/cgi/personSummary.cgi", required = true)
+    @XmlElement(namespace = "uri://byu/c/ry/ae/prod/person_new/cgi/personSummary.cgi")
     @XmlSchemaType(name = "date")
     protected XMLGregorianCalendar expires;
-    @XmlElement(namespace = "uri://byu/c/ry/ae/prod/person_new/cgi/personSummary.cgi", required = true)
+    @XmlElement(namespace = "uri://byu/c/ry/ae/prod/person_new/cgi/personSummary.cgi")
     @XmlSchemaType(name = "dateTime")
     protected XMLGregorianCalendar inactivated;
 

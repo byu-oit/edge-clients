@@ -19,15 +19,15 @@ import javax.xml.datatype.XMLGregorianCalendar;
  *   &lt;complexContent>
  *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
  *       &lt;sequence>
- *         &lt;element name="type" type="{http://www.w3.org/2001/XMLSchema}string"/>
- *         &lt;element name="person_id" type="{http://www.w3.org/2001/XMLSchema}string"/>
- *         &lt;element name="name" type="{http://www.w3.org/2001/XMLSchema}string"/>
- *         &lt;element name="deceased" type="{http://www.w3.org/2001/XMLSchema}boolean"/>
- *         &lt;element name="employee" type="{http://www.w3.org/2001/XMLSchema}string"/>
- *         &lt;element name="hired" type="{http://www.w3.org/2001/XMLSchema}date"/>
- *         &lt;element name="years_of_service" type="{http://www.w3.org/2001/XMLSchema}string"/>
- *         &lt;element name="student" type="{http://www.w3.org/2001/XMLSchema}string"/>
- *         &lt;element name="affiliation" type="{http://www.w3.org/2001/XMLSchema}string"/>
+ *         &lt;element name="type" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/>
+ *         &lt;element name="person_id" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/>
+ *         &lt;element name="name" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/>
+ *         &lt;element name="deceased" type="{http://www.w3.org/2001/XMLSchema}boolean" minOccurs="0"/>
+ *         &lt;element name="employee" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/>
+ *         &lt;element name="hired" type="{http://www.w3.org/2001/XMLSchema}date" minOccurs="0"/>
+ *         &lt;element name="years_of_service" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/>
+ *         &lt;element name="student" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/>
+ *         &lt;element name="affiliation" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/>
  *       &lt;/sequence>
  *     &lt;/restriction>
  *   &lt;/complexContent>
@@ -50,24 +50,24 @@ import javax.xml.datatype.XMLGregorianCalendar;
 })
 public class RelationshipType {
 
-    @XmlElement(namespace = "uri://byu/c/ry/ae/prod/person_new/cgi/personSummary.cgi", required = true)
+    @XmlElement(namespace = "uri://byu/c/ry/ae/prod/person_new/cgi/personSummary.cgi")
     protected String type;
-    @XmlElement(name = "person_id", namespace = "uri://byu/c/ry/ae/prod/person_new/cgi/personSummary.cgi", required = true)
+    @XmlElement(name = "person_id", namespace = "uri://byu/c/ry/ae/prod/person_new/cgi/personSummary.cgi")
     protected String personId;
-    @XmlElement(namespace = "uri://byu/c/ry/ae/prod/person_new/cgi/personSummary.cgi", required = true)
+    @XmlElement(namespace = "uri://byu/c/ry/ae/prod/person_new/cgi/personSummary.cgi")
     protected String name;
     @XmlElement(namespace = "uri://byu/c/ry/ae/prod/person_new/cgi/personSummary.cgi")
-    protected boolean deceased;
-    @XmlElement(namespace = "uri://byu/c/ry/ae/prod/person_new/cgi/personSummary.cgi", required = true)
+    protected Boolean deceased;
+    @XmlElement(namespace = "uri://byu/c/ry/ae/prod/person_new/cgi/personSummary.cgi")
     protected String employee;
-    @XmlElement(namespace = "uri://byu/c/ry/ae/prod/person_new/cgi/personSummary.cgi", required = true)
+    @XmlElement(namespace = "uri://byu/c/ry/ae/prod/person_new/cgi/personSummary.cgi")
     @XmlSchemaType(name = "date")
     protected XMLGregorianCalendar hired;
-    @XmlElement(name = "years_of_service", namespace = "uri://byu/c/ry/ae/prod/person_new/cgi/personSummary.cgi", required = true)
+    @XmlElement(name = "years_of_service", namespace = "uri://byu/c/ry/ae/prod/person_new/cgi/personSummary.cgi")
     protected String yearsOfService;
-    @XmlElement(namespace = "uri://byu/c/ry/ae/prod/person_new/cgi/personSummary.cgi", required = true)
+    @XmlElement(namespace = "uri://byu/c/ry/ae/prod/person_new/cgi/personSummary.cgi")
     protected String student;
-    @XmlElement(namespace = "uri://byu/c/ry/ae/prod/person_new/cgi/personSummary.cgi", required = true)
+    @XmlElement(namespace = "uri://byu/c/ry/ae/prod/person_new/cgi/personSummary.cgi")
     protected String affiliation;
 
     /**
@@ -145,16 +145,24 @@ public class RelationshipType {
     /**
      * Gets the value of the deceased property.
      * 
+     * @return
+     *     possible object is
+     *     {@link Boolean }
+     *     
      */
-    public boolean isDeceased() {
+    public Boolean getDeceased() {
         return deceased;
     }
 
     /**
      * Sets the value of the deceased property.
      * 
+     * @param value
+     *     allowed object is
+     *     {@link Boolean }
+     *     
      */
-    public void setDeceased(boolean value) {
+    public void setDeceased(Boolean value) {
         this.deceased = value;
     }
 

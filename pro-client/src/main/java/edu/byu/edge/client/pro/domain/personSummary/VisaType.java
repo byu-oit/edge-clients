@@ -17,8 +17,8 @@ import javax.xml.bind.annotation.XmlType;
  *   &lt;complexContent>
  *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
  *       &lt;sequence>
- *         &lt;element name="expired" type="{http://www.w3.org/2001/XMLSchema}boolean"/>
- *         &lt;element name="expires_in_30_days" type="{http://www.w3.org/2001/XMLSchema}boolean"/>
+ *         &lt;element name="expired" type="{http://www.w3.org/2001/XMLSchema}boolean" minOccurs="0"/>
+ *         &lt;element name="expires_in_30_days" type="{http://www.w3.org/2001/XMLSchema}boolean" minOccurs="0"/>
  *       &lt;/sequence>
  *     &lt;/restriction>
  *   &lt;/complexContent>
@@ -35,39 +35,55 @@ import javax.xml.bind.annotation.XmlType;
 public class VisaType {
 
     @XmlElement(namespace = "uri://byu/c/ry/ae/prod/person_new/cgi/personSummary.cgi")
-    protected boolean expired;
+    protected Boolean expired;
     @XmlElement(name = "expires_in_30_days", namespace = "uri://byu/c/ry/ae/prod/person_new/cgi/personSummary.cgi")
-    protected boolean expiresIn30Days;
+    protected Boolean expiresIn30Days;
 
     /**
      * Gets the value of the expired property.
      * 
+     * @return
+     *     possible object is
+     *     {@link Boolean }
+     *     
      */
-    public boolean isExpired() {
+    public Boolean getExpired() {
         return expired;
     }
 
     /**
      * Sets the value of the expired property.
      * 
+     * @param value
+     *     allowed object is
+     *     {@link Boolean }
+     *     
      */
-    public void setExpired(boolean value) {
+    public void setExpired(Boolean value) {
         this.expired = value;
     }
 
     /**
      * Gets the value of the expiresIn30Days property.
      * 
+     * @return
+     *     possible object is
+     *     {@link Boolean }
+     *     
      */
-    public boolean isExpiresIn30Days() {
+    public Boolean getExpiresIn30Days() {
         return expiresIn30Days;
     }
 
     /**
      * Sets the value of the expiresIn30Days property.
      * 
+     * @param value
+     *     allowed object is
+     *     {@link Boolean }
+     *     
      */
-    public void setExpiresIn30Days(boolean value) {
+    public void setExpiresIn30Days(Boolean value) {
         this.expiresIn30Days = value;
     }
 

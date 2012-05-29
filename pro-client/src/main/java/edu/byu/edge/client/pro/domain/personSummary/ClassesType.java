@@ -34,7 +34,6 @@ import javax.xml.bind.annotation.XmlType;
 })
 public class ClassesType {
 
-	/** */
     @XmlElement(name = "class", namespace = "uri://byu/c/ry/ae/prod/person_new/cgi/personSummary.cgi")
     protected List<ClassType> clazz;
 

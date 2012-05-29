@@ -8,6 +8,8 @@ import edu.byu.edge.client.pro.domain.personSummary.PersonSummaryServiceType;
  */
 public interface PersonSummaryClient {
 	/**
+	 *
+	 *
 	 * @param netId the netId to look up
 	 * @return the PersonSummary data
 	 */

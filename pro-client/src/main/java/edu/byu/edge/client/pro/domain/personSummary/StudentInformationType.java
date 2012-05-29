@@ -17,10 +17,10 @@ import javax.xml.bind.annotation.XmlType;
  *   &lt;complexContent>
  *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
  *       &lt;sequence>
- *         &lt;element name="student_role" type="{http://www.w3.org/2001/XMLSchema}string"/>
- *         &lt;element name="year_term" type="{http://www.w3.org/2001/XMLSchema}string"/>
- *         &lt;element name="credit_hours" type="{http://www.w3.org/2001/XMLSchema}string"/>
- *         &lt;element name="classes" type="{uri://byu/c/ry/ae/prod/person_new/cgi/personSummary.cgi}classesType"/>
+ *         &lt;element name="student_role" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/>
+ *         &lt;element name="year_term" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/>
+ *         &lt;element name="credit_hours" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/>
+ *         &lt;element name="classes" type="{uri://byu/c/ry/ae/prod/person_new/cgi/personSummary.cgi}classesType" minOccurs="0"/>
  *       &lt;/sequence>
  *     &lt;/restriction>
  *   &lt;/complexContent>
@@ -38,13 +38,13 @@ import javax.xml.bind.annotation.XmlType;
 })
 public class StudentInformationType {
 
-    @XmlElement(name = "student_role", namespace = "uri://byu/c/ry/ae/prod/person_new/cgi/personSummary.cgi", required = true)
+    @XmlElement(name = "student_role", namespace = "uri://byu/c/ry/ae/prod/person_new/cgi/personSummary.cgi")
     protected String studentRole;
-    @XmlElement(name = "year_term", namespace = "uri://byu/c/ry/ae/prod/person_new/cgi/personSummary.cgi", required = true)
+    @XmlElement(name = "year_term", namespace = "uri://byu/c/ry/ae/prod/person_new/cgi/personSummary.cgi")
     protected String yearTerm;
-    @XmlElement(name = "credit_hours", namespace = "uri://byu/c/ry/ae/prod/person_new/cgi/personSummary.cgi", required = true)
+    @XmlElement(name = "credit_hours", namespace = "uri://byu/c/ry/ae/prod/person_new/cgi/personSummary.cgi")
     protected String creditHours;
-    @XmlElement(namespace = "uri://byu/c/ry/ae/prod/person_new/cgi/personSummary.cgi", required = true)
+    @XmlElement(namespace = "uri://byu/c/ry/ae/prod/person_new/cgi/personSummary.cgi")
     protected ClassesType classes;
 
     /**

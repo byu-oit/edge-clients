@@ -46,8 +46,10 @@
 		<slf4j.version>1.6.4</slf4j.version>
 		<spring.version>3.1.1.RELEASE</spring.version>
 		<spring.security.version>3.1.0.RELEASE</spring.security.version>
+		<stax.version>1.0.1</stax.version>
 		<ws-authentication.version>1.0.0.1</ws-authentication.version>
 		<!--<hibernate.version>4.1.0</hibernate.version>-->
+		<jaxrs.version>1.1.1</jaxrs.version>
 	</properties>
 
 	<dependencyManagement>
@@ -119,6 +121,12 @@
 				<artifactId>spring-tx</artifactId>
 				<version>${spring.version}</version>
 				<scope>compile</scope>
+			</dependency>
+			<dependency>
+				<groupId>org.springframework</groupId>
+				<artifactId>spring-expression</artifactId>
+				<version>${spring.version}</version>
+				<scope>runtime</scope>
 			</dependency>
 			<dependency>
 				<groupId>org.springframework.security</groupId>
@@ -509,6 +517,18 @@
 				<artifactId>ehcache-core</artifactId>
 				<version>${ehcache.version}</version>
 				<scope>runtime</scope>
+			</dependency>
+			<dependency>
+				<groupId>stax</groupId>
+				<artifactId>stax-api</artifactId>
+				<version>${stax.version}</version>
+				<scope>runtime</scope>
+			</dependency>
+			<dependency>
+				<groupId>javax.ws.rs</groupId>
+				<artifactId>jsr311-api</artifactId>
+				<version>${jaxrs.version}</version>
+				<scope>compile</scope>
 			</dependency>
 		</dependencies>
 	</dependencyManagement>

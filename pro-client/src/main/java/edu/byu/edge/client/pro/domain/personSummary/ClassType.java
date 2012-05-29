@@ -27,4 +27,6 @@ import javax.xml.bind.annotation.XmlType;
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "classType", namespace = "uri://byu/c/ry/ae/prod/person_new/cgi/personSummary.cgi")
 public class ClassType {
+
+
 }

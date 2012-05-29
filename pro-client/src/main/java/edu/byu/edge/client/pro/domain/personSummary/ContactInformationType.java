@@ -17,18 +17,18 @@ import javax.xml.bind.annotation.XmlType;
  *   &lt;complexContent>
  *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
  *       &lt;sequence>
- *         &lt;element name="mailing_address" type="{uri://byu/c/ry/ae/prod/person_new/cgi/personSummary.cgi}mailing_addressType"/>
- *         &lt;element name="mailing_address_unlisted" type="{http://www.w3.org/2001/XMLSchema}boolean"/>
- *         &lt;element name="phone_number" type="{http://www.w3.org/2001/XMLSchema}string"/>
- *         &lt;element name="mailing_phone" type="{http://www.w3.org/2001/XMLSchema}string"/>
- *         &lt;element name="mailing_phone_unlisted" type="{http://www.w3.org/2001/XMLSchema}boolean"/>
- *         &lt;element name="work_address" type="{uri://byu/c/ry/ae/prod/person_new/cgi/personSummary.cgi}work_addressType"/>
- *         &lt;element name="work_address_unlisted" type="{http://www.w3.org/2001/XMLSchema}boolean"/>
- *         &lt;element name="work_phone" type="{http://www.w3.org/2001/XMLSchema}string"/>
- *         &lt;element name="work_phone_unlisted" type="{http://www.w3.org/2001/XMLSchema}boolean"/>
- *         &lt;element name="email" type="{http://www.w3.org/2001/XMLSchema}string"/>
- *         &lt;element name="email_address" type="{http://www.w3.org/2001/XMLSchema}string"/>
- *         &lt;element name="email_address_unlisted" type="{http://www.w3.org/2001/XMLSchema}boolean"/>
+ *         &lt;element name="mailing_address" type="{uri://byu/c/ry/ae/prod/person_new/cgi/personSummary.cgi}mailing_addressType" minOccurs="0"/>
+ *         &lt;element name="mailing_address_unlisted" type="{http://www.w3.org/2001/XMLSchema}boolean" minOccurs="0"/>
+ *         &lt;element name="phone_number" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/>
+ *         &lt;element name="mailing_phone" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/>
+ *         &lt;element name="mailing_phone_unlisted" type="{http://www.w3.org/2001/XMLSchema}boolean" minOccurs="0"/>
+ *         &lt;element name="work_address" type="{uri://byu/c/ry/ae/prod/person_new/cgi/personSummary.cgi}work_addressType" minOccurs="0"/>
+ *         &lt;element name="work_address_unlisted" type="{http://www.w3.org/2001/XMLSchema}boolean" minOccurs="0"/>
+ *         &lt;element name="work_phone" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/>
+ *         &lt;element name="work_phone_unlisted" type="{http://www.w3.org/2001/XMLSchema}boolean" minOccurs="0"/>
+ *         &lt;element name="email" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/>
+ *         &lt;element name="email_address" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/>
+ *         &lt;element name="email_address_unlisted" type="{http://www.w3.org/2001/XMLSchema}boolean" minOccurs="0"/>
  *       &lt;/sequence>
  *     &lt;/restriction>
  *   &lt;/complexContent>
@@ -54,53 +54,30 @@ import javax.xml.bind.annotation.XmlType;
 })
 public class ContactInformationType {
 
-	/** */
-    @XmlElement(name = "mailing_address", namespace = "uri://byu/c/ry/ae/prod/person_new/cgi/personSummary.cgi", required = true)
+    @XmlElement(name = "mailing_address", namespace = "uri://byu/c/ry/ae/prod/person_new/cgi/personSummary.cgi")
     protected MailingAddressType mailingAddress;
-
-	/** */
     @XmlElement(name = "mailing_address_unlisted", namespace = "uri://byu/c/ry/ae/prod/person_new/cgi/personSummary.cgi")
-    protected boolean mailingAddressUnlisted;
-
-	/** */
-    @XmlElement(name = "phone_number", namespace = "uri://byu/c/ry/ae/prod/person_new/cgi/personSummary.cgi", required = true)
+    protected Boolean mailingAddressUnlisted;
+    @XmlElement(name = "phone_number", namespace = "uri://byu/c/ry/ae/prod/person_new/cgi/personSummary.cgi")
     protected String phoneNumber;
-
-	/** */
-    @XmlElement(name = "mailing_phone", namespace = "uri://byu/c/ry/ae/prod/person_new/cgi/personSummary.cgi", required = true)
+    @XmlElement(name = "mailing_phone", namespace = "uri://byu/c/ry/ae/prod/person_new/cgi/personSummary.cgi")
     protected String mailingPhone;
-
-	/** */
     @XmlElement(name = "mailing_phone_unlisted", namespace = "uri://byu/c/ry/ae/prod/person_new/cgi/personSummary.cgi")
-    protected boolean mailingPhoneUnlisted;
-
-	/** */
-    @XmlElement(name = "work_address", namespace = "uri://byu/c/ry/ae/prod/person_new/cgi/personSummary.cgi", required = true)
+    protected Boolean mailingPhoneUnlisted;
+    @XmlElement(name = "work_address", namespace = "uri://byu/c/ry/ae/prod/person_new/cgi/personSummary.cgi")
     protected WorkAddressType workAddress;
-
-	/** */
     @XmlElement(name = "work_address_unlisted", namespace = "uri://byu/c/ry/ae/prod/person_new/cgi/personSummary.cgi")
-    protected boolean workAddressUnlisted;
-
-	/** */
-    @XmlElement(name = "work_phone", namespace = "uri://byu/c/ry/ae/prod/person_new/cgi/personSummary.cgi", required = true)
+    protected Boolean workAddressUnlisted;
+    @XmlElement(name = "work_phone", namespace = "uri://byu/c/ry/ae/prod/person_new/cgi/personSummary.cgi")
     protected String workPhone;
-
-	/** */
     @XmlElement(name = "work_phone_unlisted", namespace = "uri://byu/c/ry/ae/prod/person_new/cgi/personSummary.cgi")
-    protected boolean workPhoneUnlisted;
-
-	/** */
-    @XmlElement(namespace = "uri://byu/c/ry/ae/prod/person_new/cgi/personSummary.cgi", required = true)
+    protected Boolean workPhoneUnlisted;
+    @XmlElement(namespace = "uri://byu/c/ry/ae/prod/person_new/cgi/personSummary.cgi")
     protected String email;
-
-	/** */
-    @XmlElement(name = "email_address", namespace = "uri://byu/c/ry/ae/prod/person_new/cgi/personSummary.cgi", required = true)
+    @XmlElement(name = "email_address", namespace = "uri://byu/c/ry/ae/prod/person_new/cgi/personSummary.cgi")
     protected String emailAddress;
-
-	/** */
     @XmlElement(name = "email_address_unlisted", namespace = "uri://byu/c/ry/ae/prod/person_new/cgi/personSummary.cgi")
-    protected boolean emailAddressUnlisted;
+    protected Boolean emailAddressUnlisted;
 
     /**
      * Gets the value of the mailingAddress property.
@@ -129,16 +106,24 @@ public class ContactInformationType {
     /**
      * Gets the value of the mailingAddressUnlisted property.
      * 
+     * @return
+     *     possible object is
+     *     {@link Boolean }
+     *     
      */
-    public boolean isMailingAddressUnlisted() {
+    public Boolean getMailingAddressUnlisted() {
         return mailingAddressUnlisted;
     }
 
     /**
      * Sets the value of the mailingAddressUnlisted property.
      * 
+     * @param value
+     *     allowed object is
+     *     {@link Boolean }
+     *     
      */
-    public void setMailingAddressUnlisted(boolean value) {
+    public void setMailingAddressUnlisted(Boolean value) {
         this.mailingAddressUnlisted = value;
     }
 
@@ -193,16 +178,24 @@ public class ContactInformationType {
     /**
      * Gets the value of the mailingPhoneUnlisted property.
      * 
+     * @return
+     *     possible object is
+     *     {@link Boolean }
+     *     
      */
-    public boolean isMailingPhoneUnlisted() {
+    public Boolean getMailingPhoneUnlisted() {
         return mailingPhoneUnlisted;
     }
 
     /**
      * Sets the value of the mailingPhoneUnlisted property.
      * 
+     * @param value
+     *     allowed object is
+     *     {@link Boolean }
+     *     
      */
-    public void setMailingPhoneUnlisted(boolean value) {
+    public void setMailingPhoneUnlisted(Boolean value) {
         this.mailingPhoneUnlisted = value;
     }
 
@@ -233,16 +226,24 @@ public class ContactInformationType {
     /**
      * Gets the value of the workAddressUnlisted property.
      * 
+     * @return
+     *     possible object is
+     *     {@link Boolean }
+     *     
      */
-    public boolean isWorkAddressUnlisted() {
+    public Boolean getWorkAddressUnlisted() {
         return workAddressUnlisted;
     }
 
     /**
      * Sets the value of the workAddressUnlisted property.
      * 
+     * @param value
+     *     allowed object is
+     *     {@link Boolean }
+     *     
      */
-    public void setWorkAddressUnlisted(boolean value) {
+    public void setWorkAddressUnlisted(Boolean value) {
         this.workAddressUnlisted = value;
     }
 
@@ -273,16 +274,24 @@ public class ContactInformationType {
     /**
      * Gets the value of the workPhoneUnlisted property.
      * 
+     * @return
+     *     possible object is
+     *     {@link Boolean }
+     *     
      */
-    public boolean isWorkPhoneUnlisted() {
+    public Boolean getWorkPhoneUnlisted() {
         return workPhoneUnlisted;
     }
 
     /**
      * Sets the value of the workPhoneUnlisted property.
      * 
+     * @param value
+     *     allowed object is
+     *     {@link Boolean }
+     *     
      */
-    public void setWorkPhoneUnlisted(boolean value) {
+    public void setWorkPhoneUnlisted(Boolean value) {
         this.workPhoneUnlisted = value;
     }
 
@@ -337,16 +346,24 @@ public class ContactInformationType {
     /**
      * Gets the value of the emailAddressUnlisted property.
      * 
+     * @return
+     *     possible object is
+     *     {@link Boolean }
+     *     
      */
-    public boolean isEmailAddressUnlisted() {
+    public Boolean getEmailAddressUnlisted() {
         return emailAddressUnlisted;
     }
 
     /**
      * Sets the value of the emailAddressUnlisted property.
      * 
+     * @param value
+     *     allowed object is
+     *     {@link Boolean }
+     *     
      */
-    public void setEmailAddressUnlisted(boolean value) {
+    public void setEmailAddressUnlisted(Boolean value) {
         this.emailAddressUnlisted = value;
     }
 

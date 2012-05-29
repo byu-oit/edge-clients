@@ -1,0 +1,121 @@
+<?xml version="1.0"?>
+<PersonSummaryService
+		xmlns="uri://byu/c/ry/ae/prod/person_new/cgi/personSummary.cgi"
+		xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+		xsi:schemaLocation="uri://byu/c/ry/ae/prod/person_new/cgi/personSummary.cgi ../../main/resources/xsd/personSummary.xsd">
+	<request>
+		<method>
+			<![CDATA[GET]]>
+		</method>
+		<resource>
+			<![CDATA[/xyz]]>
+		</resource>
+		<attributes/>
+		<status>
+			<![CDATA[200]]>
+		</status>
+		<statusMessage>
+			<![CDATA[Service request is OK and a response has been generated.]]>
+		</statusMessage>
+	</request>
+	<response>
+		<person_summary_line>
+			<email>xyz@gmail.com</email>
+			<name>Zee, X Y</name>
+			<suffix/>
+			<net_id>xyz</net_id>
+			<byu_id>01-234-5678</byu_id>
+			<person_id>012234562</person_id>
+			<date_of_birth>1980-01-01</date_of_birth>
+			<gender>Female</gender>
+			<student_role>Junior</student_role>
+			<employee_role>STD/PT/TRM</employee_role>
+			<academic_record>true</academic_record>
+			<is_employee>true</is_employee>
+			<non_person_organization>false</non_person_organization>
+			<restricted>false</restricted>
+			<deceased>false</deceased>
+			<merge_pending>false</merge_pending>
+			<new_byu_id/>
+		</person_summary_line>
+		<identifiers>
+			<person_id>012234562</person_id>
+			<byu_id>01-234-5678</byu_id>
+			<byu_id_issue_number>03</byu_id_issue_number>
+			<net_id>xyz</net_id>
+		</identifiers>
+		<names>
+			<preferred_name>X Zee</preferred_name>
+			<complete_name>Zee, X Y</complete_name>
+		</names>
+		<personal_information>
+			<date_of_birth>1980-01-01</date_of_birth>
+			<age>32</age>
+			<ethnicity>White</ethnicity>
+			<gender>Female</gender>
+			<marital_status>Married</marital_status>
+			<citizenship>United States of America</citizenship>
+			<home_town/>
+			<religion>Latter-day Saint</religion>
+			<deceased>false</deceased>
+			<restricted_record>false</restricted_record>
+		</personal_information>
+		<employee_information>
+			<employee_role>Previously employed</employee_role>
+			<date_hired>
+				<qualification>part_time</qualification>
+			</date_hired>
+			<termination_date>2004-10-07</termination_date>
+		</employee_information>
+		<contact_information>
+			<mailing_address>
+				<address_line>1234 W Any St</address_line>
+				<address_line>Provo, UT  84604</address_line>
+			</mailing_address>
+			<mailing_address_unlisted>false</mailing_address_unlisted>
+			<phone_number>801-555-1234</phone_number>
+			<mailing_phone>801-555-4321</mailing_phone>
+			<mailing_phone_unlisted>true</mailing_phone_unlisted>
+			<email>xyz@gmail.com</email>
+			<email_address>xyz@gmail.com</email_address>
+			<email_address_unlisted>true</email_address_unlisted>
+		</contact_information>
+		<student_information>
+			<student_role>Junior</student_role>
+		</student_information>
+		<relationships>
+			<relationship>
+				<type>Spouse of:</type>
+				<person_id>987265432</person_id>
+				<name>A B Zee</name>
+				<deceased>false</deceased>
+				<employee>ADM/FT/ACT</employee>
+				<hired>2005-06-20</hired>
+				<years_of_service>6 Years, 11 Months of Service</years_of_service>
+				<student>Former Student</student>
+				<affiliation>Data Center</affiliation>
+			</relationship>
+			<relationship>
+				<type>Child of:</type>
+				<person_id>131292142</person_id>
+				<name>D E Cee</name>
+				<deceased>false</deceased>
+				<employee>STF/C2/ACT</employee>
+				<hired>2008-12-18</hired>
+				<student>Former Student</student>
+				<affiliation/>
+			</relationship>
+			<relationship>
+				<type>Child of:</type>
+				<person_id>899292992</person_id>
+				<name>F G Cee</name>
+				<deceased>false</deceased>
+				<employee>ADM/FT/ACT</employee>
+				<hired>1985-04-22</hired>
+				<years_of_service>27 Years, 1 Month of Service</years_of_service>
+				<student>Former Student</student>
+				<affiliation/>
+			</relationship>
+		</relationships>
+	</response>
+</PersonSummaryService>

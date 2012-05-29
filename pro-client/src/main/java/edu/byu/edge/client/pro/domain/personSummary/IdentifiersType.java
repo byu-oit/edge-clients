@@ -22,9 +22,9 @@ import javax.xml.bind.annotation.XmlType;
  *         &lt;element name="person_id" type="{http://www.w3.org/2001/XMLSchema}string"/>
  *         &lt;element name="byu_id" type="{http://www.w3.org/2001/XMLSchema}string"/>
  *         &lt;element name="byu_id_issue_number" type="{http://www.w3.org/2001/XMLSchema}string"/>
- *         &lt;element name="id_card_status" type="{http://www.w3.org/2001/XMLSchema}string"/>
- *         &lt;element name="net_id" type="{http://www.w3.org/2001/XMLSchema}string"/>
- *         &lt;element name="ssn" type="{http://www.w3.org/2001/XMLSchema}string" maxOccurs="2" minOccurs="2"/>
+ *         &lt;element name="id_card_status" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/>
+ *         &lt;element name="net_id" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/>
+ *         &lt;element name="ssn" type="{http://www.w3.org/2001/XMLSchema}string" maxOccurs="2" minOccurs="0"/>
  *       &lt;/sequence>
  *     &lt;/restriction>
  *   &lt;/complexContent>
@@ -50,11 +50,11 @@ public class IdentifiersType {
     protected String byuId;
     @XmlElement(name = "byu_id_issue_number", namespace = "uri://byu/c/ry/ae/prod/person_new/cgi/personSummary.cgi", required = true)
     protected String byuIdIssueNumber;
-    @XmlElement(name = "id_card_status", namespace = "uri://byu/c/ry/ae/prod/person_new/cgi/personSummary.cgi", required = true)
+    @XmlElement(name = "id_card_status", namespace = "uri://byu/c/ry/ae/prod/person_new/cgi/personSummary.cgi")
     protected String idCardStatus;
-    @XmlElement(name = "net_id", namespace = "uri://byu/c/ry/ae/prod/person_new/cgi/personSummary.cgi", required = true)
+    @XmlElement(name = "net_id", namespace = "uri://byu/c/ry/ae/prod/person_new/cgi/personSummary.cgi")
     protected String netId;
-    @XmlElement(namespace = "uri://byu/c/ry/ae/prod/person_new/cgi/personSummary.cgi", required = true)
+    @XmlElement(namespace = "uri://byu/c/ry/ae/prod/person_new/cgi/personSummary.cgi")
     protected List<String> ssn;
 
     /**

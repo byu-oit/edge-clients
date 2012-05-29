@@ -2,7 +2,6 @@ package edu.byu.edge.client.pro.impl;
 
 import edu.byu.edge.client.pro.PersonSummaryClient;
 import edu.byu.edge.client.pro.domain.personSummary.PersonSummaryServiceType;
-import edu.byu.security.hmac.jersey.BaseClient;
 import edu.byu.security.hmac.jersey.SharedSecretNonceEncodingFilter;
 import org.apache.log4j.Logger;
 
@@ -25,6 +24,6 @@ public class PersonSummaryClientImpl extends BaseClient implements PersonSummary
 
 	@Override
 	public PersonSummaryServiceType getSummaryByNetId(final String netId) {
-		return getResource().path(netId).accept(MediaType.APPLICATION_JSON_TYPE).get(PersonSummaryServiceType.class);
+		return getResource().path(netId).accept(MediaType.APPLICATION_XML_TYPE).get(PersonSummaryServiceType.class);
 	}
 }

@@ -19,23 +19,23 @@ import javax.xml.datatype.XMLGregorianCalendar;
  *   &lt;complexContent>
  *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
  *       &lt;sequence>
- *         &lt;element name="email" type="{http://www.w3.org/2001/XMLSchema}string"/>
- *         &lt;element name="name" type="{http://www.w3.org/2001/XMLSchema}string"/>
- *         &lt;element name="suffix" type="{http://www.w3.org/2001/XMLSchema}string"/>
- *         &lt;element name="net_id" type="{http://www.w3.org/2001/XMLSchema}string"/>
- *         &lt;element name="byu_id" type="{http://www.w3.org/2001/XMLSchema}string"/>
- *         &lt;element name="person_id" type="{http://www.w3.org/2001/XMLSchema}string"/>
- *         &lt;element name="date_of_birth" type="{http://www.w3.org/2001/XMLSchema}date"/>
- *         &lt;element name="gender" type="{http://www.w3.org/2001/XMLSchema}string"/>
- *         &lt;element name="student_role" type="{http://www.w3.org/2001/XMLSchema}string"/>
- *         &lt;element name="employee_role" type="{http://www.w3.org/2001/XMLSchema}string"/>
- *         &lt;element name="academic_record" type="{http://www.w3.org/2001/XMLSchema}boolean"/>
- *         &lt;element name="is_employee" type="{http://www.w3.org/2001/XMLSchema}boolean"/>
- *         &lt;element name="non_person_organization" type="{http://www.w3.org/2001/XMLSchema}boolean"/>
- *         &lt;element name="restricted" type="{http://www.w3.org/2001/XMLSchema}boolean"/>
- *         &lt;element name="deceased" type="{http://www.w3.org/2001/XMLSchema}boolean"/>
- *         &lt;element name="merge_pending" type="{http://www.w3.org/2001/XMLSchema}boolean"/>
- *         &lt;element name="new_byu_id" type="{http://www.w3.org/2001/XMLSchema}string"/>
+ *         &lt;element name="email" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/>
+ *         &lt;element name="name" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/>
+ *         &lt;element name="suffix" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/>
+ *         &lt;element name="net_id" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/>
+ *         &lt;element name="byu_id" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/>
+ *         &lt;element name="person_id" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/>
+ *         &lt;element name="date_of_birth" type="{http://www.w3.org/2001/XMLSchema}date" minOccurs="0"/>
+ *         &lt;element name="gender" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/>
+ *         &lt;element name="student_role" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/>
+ *         &lt;element name="employee_role" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/>
+ *         &lt;element name="academic_record" type="{http://www.w3.org/2001/XMLSchema}boolean" minOccurs="0"/>
+ *         &lt;element name="is_employee" type="{http://www.w3.org/2001/XMLSchema}boolean" minOccurs="0"/>
+ *         &lt;element name="non_person_organization" type="{http://www.w3.org/2001/XMLSchema}boolean" minOccurs="0"/>
+ *         &lt;element name="restricted" type="{http://www.w3.org/2001/XMLSchema}boolean" minOccurs="0"/>
+ *         &lt;element name="deceased" type="{http://www.w3.org/2001/XMLSchema}boolean" minOccurs="0"/>
+ *         &lt;element name="merge_pending" type="{http://www.w3.org/2001/XMLSchema}boolean" minOccurs="0"/>
+ *         &lt;element name="new_byu_id" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/>
  *       &lt;/sequence>
  *     &lt;/restriction>
  *   &lt;/complexContent>
@@ -66,40 +66,40 @@ import javax.xml.datatype.XMLGregorianCalendar;
 })
 public class PersonSummaryLineType {
 
-    @XmlElement(namespace = "uri://byu/c/ry/ae/prod/person_new/cgi/personSummary.cgi", required = true)
+    @XmlElement(namespace = "uri://byu/c/ry/ae/prod/person_new/cgi/personSummary.cgi")
     protected String email;
-    @XmlElement(namespace = "uri://byu/c/ry/ae/prod/person_new/cgi/personSummary.cgi", required = true)
+    @XmlElement(namespace = "uri://byu/c/ry/ae/prod/person_new/cgi/personSummary.cgi")
     protected String name;
-    @XmlElement(namespace = "uri://byu/c/ry/ae/prod/person_new/cgi/personSummary.cgi", required = true)
+    @XmlElement(namespace = "uri://byu/c/ry/ae/prod/person_new/cgi/personSummary.cgi")
     protected String suffix;
-    @XmlElement(name = "net_id", namespace = "uri://byu/c/ry/ae/prod/person_new/cgi/personSummary.cgi", required = true)
+    @XmlElement(name = "net_id", namespace = "uri://byu/c/ry/ae/prod/person_new/cgi/personSummary.cgi")
     protected String netId;
-    @XmlElement(name = "byu_id", namespace = "uri://byu/c/ry/ae/prod/person_new/cgi/personSummary.cgi", required = true)
+    @XmlElement(name = "byu_id", namespace = "uri://byu/c/ry/ae/prod/person_new/cgi/personSummary.cgi")
     protected String byuId;
-    @XmlElement(name = "person_id", namespace = "uri://byu/c/ry/ae/prod/person_new/cgi/personSummary.cgi", required = true)
+    @XmlElement(name = "person_id", namespace = "uri://byu/c/ry/ae/prod/person_new/cgi/personSummary.cgi")
     protected String personId;
-    @XmlElement(name = "date_of_birth", namespace = "uri://byu/c/ry/ae/prod/person_new/cgi/personSummary.cgi", required = true)
+    @XmlElement(name = "date_of_birth", namespace = "uri://byu/c/ry/ae/prod/person_new/cgi/personSummary.cgi")
     @XmlSchemaType(name = "date")
     protected XMLGregorianCalendar dateOfBirth;
-    @XmlElement(namespace = "uri://byu/c/ry/ae/prod/person_new/cgi/personSummary.cgi", required = true)
+    @XmlElement(namespace = "uri://byu/c/ry/ae/prod/person_new/cgi/personSummary.cgi")
     protected String gender;
-    @XmlElement(name = "student_role", namespace = "uri://byu/c/ry/ae/prod/person_new/cgi/personSummary.cgi", required = true)
+    @XmlElement(name = "student_role", namespace = "uri://byu/c/ry/ae/prod/person_new/cgi/personSummary.cgi")
     protected String studentRole;
-    @XmlElement(name = "employee_role", namespace = "uri://byu/c/ry/ae/prod/person_new/cgi/personSummary.cgi", required = true)
+    @XmlElement(name = "employee_role", namespace = "uri://byu/c/ry/ae/prod/person_new/cgi/personSummary.cgi")
     protected String employeeRole;
     @XmlElement(name = "academic_record", namespace = "uri://byu/c/ry/ae/prod/person_new/cgi/personSummary.cgi")
-    protected boolean academicRecord;
+    protected Boolean academicRecord;
     @XmlElement(name = "is_employee", namespace = "uri://byu/c/ry/ae/prod/person_new/cgi/personSummary.cgi")
-    protected boolean isEmployee;
+    protected Boolean isEmployee;
     @XmlElement(name = "non_person_organization", namespace = "uri://byu/c/ry/ae/prod/person_new/cgi/personSummary.cgi")
-    protected boolean nonPersonOrganization;
+    protected Boolean nonPersonOrganization;
     @XmlElement(namespace = "uri://byu/c/ry/ae/prod/person_new/cgi/personSummary.cgi")
-    protected boolean restricted;
+    protected Boolean restricted;
     @XmlElement(namespace = "uri://byu/c/ry/ae/prod/person_new/cgi/personSummary.cgi")
-    protected boolean deceased;
+    protected Boolean deceased;
     @XmlElement(name = "merge_pending", namespace = "uri://byu/c/ry/ae/prod/person_new/cgi/personSummary.cgi")
-    protected boolean mergePending;
-    @XmlElement(name = "new_byu_id", namespace = "uri://byu/c/ry/ae/prod/person_new/cgi/personSummary.cgi", required = true)
+    protected Boolean mergePending;
+    @XmlElement(name = "new_byu_id", namespace = "uri://byu/c/ry/ae/prod/person_new/cgi/personSummary.cgi")
     protected String newByuId;
 
     /**
@@ -345,96 +345,144 @@ public class PersonSummaryLineType {
     /**
      * Gets the value of the academicRecord property.
      * 
+     * @return
+     *     possible object is
+     *     {@link Boolean }
+     *     
      */
-    public boolean isAcademicRecord() {
+    public Boolean getAcademicRecord() {
         return academicRecord;
     }
 
     /**
      * Sets the value of the academicRecord property.
      * 
+     * @param value
+     *     allowed object is
+     *     {@link Boolean }
+     *     
      */
-    public void setAcademicRecord(boolean value) {
+    public void setAcademicRecord(Boolean value) {
         this.academicRecord = value;
     }
 
     /**
      * Gets the value of the isEmployee property.
      * 
+     * @return
+     *     possible object is
+     *     {@link Boolean }
+     *     
      */
-    public boolean isIsEmployee() {
+    public Boolean getIsEmployee() {
         return isEmployee;
     }
 
     /**
      * Sets the value of the isEmployee property.
      * 
+     * @param value
+     *     allowed object is
+     *     {@link Boolean }
+     *     
      */
-    public void setIsEmployee(boolean value) {
+    public void setIsEmployee(Boolean value) {
         this.isEmployee = value;
     }
 
     /**
      * Gets the value of the nonPersonOrganization property.
      * 
+     * @return
+     *     possible object is
+     *     {@link Boolean }
+     *     
      */
-    public boolean isNonPersonOrganization() {
+    public Boolean getNonPersonOrganization() {
         return nonPersonOrganization;
     }
 
     /**
      * Sets the value of the nonPersonOrganization property.
      * 
+     * @param value
+     *     allowed object is
+     *     {@link Boolean }
+     *     
      */
-    public void setNonPersonOrganization(boolean value) {
+    public void setNonPersonOrganization(Boolean value) {
         this.nonPersonOrganization = value;
     }
 
     /**
      * Gets the value of the restricted property.
      * 
+     * @return
+     *     possible object is
+     *     {@link Boolean }
+     *     
      */
-    public boolean isRestricted() {
+    public Boolean getRestricted() {
         return restricted;
     }
 
     /**
      * Sets the value of the restricted property.
      * 
+     * @param value
+     *     allowed object is
+     *     {@link Boolean }
+     *     
      */
-    public void setRestricted(boolean value) {
+    public void setRestricted(Boolean value) {
         this.restricted = value;
     }
 
     /**
      * Gets the value of the deceased property.
      * 
+     * @return
+     *     possible object is
+     *     {@link Boolean }
+     *     
      */
-    public boolean isDeceased() {
+    public Boolean getDeceased() {
         return deceased;
     }
 
     /**
      * Sets the value of the deceased property.
      * 
+     * @param value
+     *     allowed object is
+     *     {@link Boolean }
+     *     
      */
-    public void setDeceased(boolean value) {
+    public void setDeceased(Boolean value) {
         this.deceased = value;
     }
 
     /**
      * Gets the value of the mergePending property.
      * 
+     * @return
+     *     possible object is
+     *     {@link Boolean }
+     *     
      */
-    public boolean isMergePending() {
+    public Boolean getMergePending() {
         return mergePending;
     }
 
     /**
      * Sets the value of the mergePending property.
      * 
+     * @param value
+     *     allowed object is
+     *     {@link Boolean }
+     *     
      */
-    public void setMergePending(boolean value) {
+    public void setMergePending(Boolean value) {
         this.mergePending = value;
     }
 

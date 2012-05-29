@@ -1,10 +1,7 @@
 
 package edu.byu.edge.client.pro.domain.personSummary;
 
-import javax.xml.bind.annotation.XmlAccessType;
-import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlType;
+import javax.xml.bind.annotation.*;
 
 
 /**
@@ -17,9 +14,9 @@ import javax.xml.bind.annotation.XmlType;
  *   &lt;complexContent>
  *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
  *       &lt;sequence>
- *         &lt;element name="request" type="{uri://byu/c/ry/ae/prod/person_new/cgi/personSummary.cgi}requestType"/>
- *         &lt;element name="errors" type="{uri://byu/c/ry/ae/prod/person_new/cgi/personSummary.cgi}errorsType"/>
- *         &lt;element name="response" type="{uri://byu/c/ry/ae/prod/person_new/cgi/personSummary.cgi}responseType"/>
+ *         &lt;element name="request" type="{uri://byu/c/ry/ae/prod/person_new/cgi/personSummary.cgi}requestType" minOccurs="0"/>
+ *         &lt;element name="errors" type="{uri://byu/c/ry/ae/prod/person_new/cgi/personSummary.cgi}errorsType" minOccurs="0"/>
+ *         &lt;element name="response" type="{uri://byu/c/ry/ae/prod/person_new/cgi/personSummary.cgi}responseType" minOccurs="0"/>
  *       &lt;/sequence>
  *     &lt;/restriction>
  *   &lt;/complexContent>
@@ -36,11 +33,11 @@ import javax.xml.bind.annotation.XmlType;
 })
 public class PersonSummaryServiceType {
 
-    @XmlElement(namespace = "uri://byu/c/ry/ae/prod/person_new/cgi/personSummary.cgi", required = true)
+    @XmlElement(namespace = "uri://byu/c/ry/ae/prod/person_new/cgi/personSummary.cgi")
     protected RequestType request;
-    @XmlElement(namespace = "uri://byu/c/ry/ae/prod/person_new/cgi/personSummary.cgi", required = true)
+    @XmlElement(namespace = "uri://byu/c/ry/ae/prod/person_new/cgi/personSummary.cgi")
     protected ErrorsType errors;
-    @XmlElement(namespace = "uri://byu/c/ry/ae/prod/person_new/cgi/personSummary.cgi", required = true)
+    @XmlElement(namespace = "uri://byu/c/ry/ae/prod/person_new/cgi/personSummary.cgi")
     protected ResponseType response;
 
     /**

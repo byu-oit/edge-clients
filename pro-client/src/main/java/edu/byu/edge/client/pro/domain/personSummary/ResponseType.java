@@ -17,14 +17,14 @@ import javax.xml.bind.annotation.XmlType;
  *   &lt;complexContent>
  *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
  *       &lt;sequence>
- *         &lt;element name="person_summary_line" type="{uri://byu/c/ry/ae/prod/person_new/cgi/personSummary.cgi}person_summary_lineType"/>
- *         &lt;element name="identifiers" type="{uri://byu/c/ry/ae/prod/person_new/cgi/personSummary.cgi}identifiersType"/>
- *         &lt;element name="names" type="{uri://byu/c/ry/ae/prod/person_new/cgi/personSummary.cgi}namesType"/>
- *         &lt;element name="personal_information" type="{uri://byu/c/ry/ae/prod/person_new/cgi/personSummary.cgi}personal_informationType"/>
- *         &lt;element name="employee_information" type="{uri://byu/c/ry/ae/prod/person_new/cgi/personSummary.cgi}employee_informationType"/>
- *         &lt;element name="contact_information" type="{uri://byu/c/ry/ae/prod/person_new/cgi/personSummary.cgi}contact_informationType"/>
- *         &lt;element name="student_information" type="{uri://byu/c/ry/ae/prod/person_new/cgi/personSummary.cgi}student_informationType"/>
- *         &lt;element name="relationships" type="{uri://byu/c/ry/ae/prod/person_new/cgi/personSummary.cgi}relationshipsType"/>
+ *         &lt;element name="person_summary_line" type="{uri://byu/c/ry/ae/prod/person_new/cgi/personSummary.cgi}person_summary_lineType" minOccurs="0"/>
+ *         &lt;element name="identifiers" type="{uri://byu/c/ry/ae/prod/person_new/cgi/personSummary.cgi}identifiersType" minOccurs="0"/>
+ *         &lt;element name="names" type="{uri://byu/c/ry/ae/prod/person_new/cgi/personSummary.cgi}namesType" minOccurs="0"/>
+ *         &lt;element name="personal_information" type="{uri://byu/c/ry/ae/prod/person_new/cgi/personSummary.cgi}personal_informationType" minOccurs="0"/>
+ *         &lt;element name="employee_information" type="{uri://byu/c/ry/ae/prod/person_new/cgi/personSummary.cgi}employee_informationType" minOccurs="0"/>
+ *         &lt;element name="contact_information" type="{uri://byu/c/ry/ae/prod/person_new/cgi/personSummary.cgi}contact_informationType" minOccurs="0"/>
+ *         &lt;element name="student_information" type="{uri://byu/c/ry/ae/prod/person_new/cgi/personSummary.cgi}student_informationType" minOccurs="0"/>
+ *         &lt;element name="relationships" type="{uri://byu/c/ry/ae/prod/person_new/cgi/personSummary.cgi}relationshipsType" minOccurs="0"/>
  *       &lt;/sequence>
  *     &lt;/restriction>
  *   &lt;/complexContent>
@@ -46,21 +46,21 @@ import javax.xml.bind.annotation.XmlType;
 })
 public class ResponseType {
 
-    @XmlElement(name = "person_summary_line", namespace = "uri://byu/c/ry/ae/prod/person_new/cgi/personSummary.cgi", required = true)
+    @XmlElement(name = "person_summary_line", namespace = "uri://byu/c/ry/ae/prod/person_new/cgi/personSummary.cgi")
     protected PersonSummaryLineType personSummaryLine;
-    @XmlElement(namespace = "uri://byu/c/ry/ae/prod/person_new/cgi/personSummary.cgi", required = true)
+    @XmlElement(namespace = "uri://byu/c/ry/ae/prod/person_new/cgi/personSummary.cgi")
     protected IdentifiersType identifiers;
-    @XmlElement(namespace = "uri://byu/c/ry/ae/prod/person_new/cgi/personSummary.cgi", required = true)
+    @XmlElement(namespace = "uri://byu/c/ry/ae/prod/person_new/cgi/personSummary.cgi")
     protected NamesType names;
-    @XmlElement(name = "personal_information", namespace = "uri://byu/c/ry/ae/prod/person_new/cgi/personSummary.cgi", required = true)
+    @XmlElement(name = "personal_information", namespace = "uri://byu/c/ry/ae/prod/person_new/cgi/personSummary.cgi")
     protected PersonalInformationType personalInformation;
-    @XmlElement(name = "employee_information", namespace = "uri://byu/c/ry/ae/prod/person_new/cgi/personSummary.cgi", required = true)
+    @XmlElement(name = "employee_information", namespace = "uri://byu/c/ry/ae/prod/person_new/cgi/personSummary.cgi")
     protected EmployeeInformationType employeeInformation;
-    @XmlElement(name = "contact_information", namespace = "uri://byu/c/ry/ae/prod/person_new/cgi/personSummary.cgi", required = true)
+    @XmlElement(name = "contact_information", namespace = "uri://byu/c/ry/ae/prod/person_new/cgi/personSummary.cgi")
     protected ContactInformationType contactInformation;
-    @XmlElement(name = "student_information", namespace = "uri://byu/c/ry/ae/prod/person_new/cgi/personSummary.cgi", required = true)
+    @XmlElement(name = "student_information", namespace = "uri://byu/c/ry/ae/prod/person_new/cgi/personSummary.cgi")
     protected StudentInformationType studentInformation;
-    @XmlElement(namespace = "uri://byu/c/ry/ae/prod/person_new/cgi/personSummary.cgi", required = true)
+    @XmlElement(namespace = "uri://byu/c/ry/ae/prod/person_new/cgi/personSummary.cgi")
     protected RelationshipsType relationships;
 
     /**

@@ -20,10 +20,11 @@ public class JaxbContextResolver implements ContextResolver<JAXBContext> {
 	private final Set<Class> classes;
 
 	public JaxbContextResolver() {
-		final Class[] classArray = {ClassType.class, ClassesType.class, ContactInformationType.class, DateHiredType.class, EmployeeInformationType.class, ErrorType.class, ErrorsType.class, IdentifiersType.class, JaxbContextResolver.class, MailingAddressType.class, NamesType.class, ObjectFactory.class, PersonSummaryLineType.class, PersonSummaryServiceType.class, PersonalInformationType.class, RelationshipType.class, RelationshipsType.class, RequestType.class, ResponseType.class, SecondaryRoleType.class, StudentInformationType.class, UniversityAffiliationType.class, VisaType.class, WorkAddressType.class, ClassType.class, ClassesType.class, ContactInformationType.class, DateHiredType.class, EmployeeInformationType.class, ErrorType.class, ErrorsType.class, IdentifiersType.class, JaxbContextResolver.class, MailingAddressType.class, NamesType.class, ObjectFactory.class, PersonSummaryLineType.class, PersonSummaryServiceType.class, PersonalInformationType.class, RelationshipType.class, RelationshipsType.class, RequestType.class, ResponseType.class, SecondaryRoleType.class, StudentInformationType.class, UniversityAffiliationType.class, VisaType.class, WorkAddressType.class};
+		final Class[] classArray = {ClassType.class, ClassesType.class, ContactInformationType.class, DateHiredType.class, EmployeeInformationType.class, ErrorType.class, ErrorsType.class, IdentifiersType.class, MailingAddressType.class, NamesType.class, PersonSummaryLineType.class, PersonSummaryServiceType.class, PersonalInformationType.class, RelationshipType.class, RelationshipsType.class, RequestType.class, ResponseType.class, SecondaryRoleType.class, StudentInformationType.class, UniversityAffiliationType.class, VisaType.class, WorkAddressType.class};
 		this.classes = Collections.unmodifiableSet(new HashSet<Class>(Arrays.asList(classArray)));
 		try {
-			this.context = new JSONJAXBContext(JSONConfiguration.mapped().build(), classArray);
+			this.context = new JSONJAXBContext(JSONConfiguration.mapped().attributeAsElement("*").build(), classArray);
+//			this.context = new JSONJAXBContext(JSONConfiguration.mapped().build(), classArray);
 		} catch (JAXBException e) {
 			throw new RuntimeException("Unable to create JAXB Context Resolver", e);
 		}

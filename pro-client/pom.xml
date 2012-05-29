@@ -18,12 +18,17 @@
 		<dependency>
 			<groupId>edu.byu.security</groupId>
 			<artifactId>security-jersey-support</artifactId>
-			<scope>compile</scope>
+			<scope>runtime</scope>
 		</dependency>
 		<dependency>
 			<groupId>edu.byu.security</groupId>
 			<artifactId>security-ws-actor</artifactId>
-			<scope>compile</scope>
+			<scope>runtime</scope>
+		</dependency>
+		<dependency>
+			<groupId>edu.byu.security</groupId>
+			<artifactId>security-core</artifactId>
+			<scope>runtime</scope>
 		</dependency>
 		<dependency>
 			<groupId>edu.byu.ws</groupId>
@@ -33,6 +38,11 @@
 			<groupId>edu.byu.security</groupId>
 			<artifactId>security-hmac-client</artifactId>
 			<scope>compile</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.security</groupId>
+			<artifactId>spring-security-core</artifactId>
+			<scope>runtime</scope>
 		</dependency>
 		<dependency>
 			<groupId>com.sun.jersey</groupId>
@@ -65,6 +75,7 @@
 		<dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-context</artifactId>
+			<scope>runtime</scope>
 		</dependency>
 		<dependency>
 			<groupId>net.sf.ehcache</groupId>
@@ -74,6 +85,10 @@
 			<groupId>commons-codec</groupId>
 			<artifactId>commons-codec</artifactId>
 			<scope>runtime</scope>
+		</dependency>
+		<dependency>
+			<groupId>javax.ws.rs</groupId>
+			<artifactId>jsr311-api</artifactId>
 		</dependency>
 
 		<dependency>
