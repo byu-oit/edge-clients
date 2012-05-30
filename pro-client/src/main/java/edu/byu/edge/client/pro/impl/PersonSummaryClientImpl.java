@@ -8,12 +8,20 @@ import org.apache.log4j.Logger;
 import javax.ws.rs.core.MediaType;
 
 /**
+ * This is the implementation to access the person service via the SOA Registry using shared secret nonce-encoding security.
+ *
  * Author: Wyatt Taylor (wyatt_taylor@byu.edu)
  * Date: 5/24/12
  */
 public class PersonSummaryClientImpl extends BaseClient implements PersonSummaryClient {
 	private static final Logger LOG = Logger.getLogger(PersonSummaryClientImpl.class);
 
+	/**
+	 *
+	 * @param baseUrl the base url of the service
+	 * @param sharedSecretNonceEncodingFilter the nonce encoding filter
+	 * @param readTimeout the default read timeout for the service
+	 */
 	public PersonSummaryClientImpl(
 										  final String baseUrl,
 										  final SharedSecretNonceEncodingFilter sharedSecretNonceEncodingFilter,

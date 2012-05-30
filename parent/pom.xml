@@ -10,8 +10,8 @@
 	<parent>
 		<groupId>edu.byu</groupId>
 		<artifactId>byu-framework-pom</artifactId>
-		<version>1.0.1</version>
-		<relativePath>${settings.localRepository}/edu/byu/byu-framework-pom/1.0.1/byu-framework-pom-1.0.1.pom</relativePath>
+		<version>1.0.3</version>
+		<relativePath>${settings.localRepository}/edu/byu/byu-framework-pom/1.0.3/byu-framework-pom-1.0.3.pom</relativePath>
 	</parent>
 
 	<properties>
@@ -31,11 +31,14 @@
 		<framework.web.version>1.5.1.2</framework.web.version>
 		<hibernate.version>3.6.10.Final</hibernate.version>
 		<hsqldb.version>2.2.8</hsqldb.version>
-		<jackson.version>1.8.3</jackson.version>
+		<!--<jackson.version>1.8.3</jackson.version>-->
+		<jackson.version>1.9.7</jackson.version>
 		<javamail.version>1.4.3</javamail.version>
 		<jaxb-api.version>2.2.6</jaxb-api.version>
-		<jaxb-impl.version>2.2.5</jaxb-impl.version>
-		<jersey.version>1.1.5.2</jersey.version>
+		<jaxb-impl.version>2.2.5.1</jaxb-impl.version><!--soon to be 2.2.6-->
+		<jaxrs.version>1.1.1</jaxrs.version>
+		<!--<jersey.version>1.1.5.2</jersey.version>-->
+		<jersey.version>1.12</jersey.version>
 		<junit.version>4.9</junit.version>
 		<log4j.version>1.2.16</log4j.version>
 		<oracle.version>11.2.0.3.0</oracle.version>
@@ -45,11 +48,9 @@
 		<servlet.jstl.version>1.1.2</servlet.jstl.version>
 		<slf4j.version>1.6.4</slf4j.version>
 		<spring.version>3.1.1.RELEASE</spring.version>
-		<spring.security.version>3.1.0.RELEASE</spring.security.version>
-		<stax.version>1.0.1</stax.version>
+		<spring.security.version>3.1.0.RELEASE</spring.security.version><stax.version>1.0.1</stax.version>
 		<ws-authentication.version>1.0.0.1</ws-authentication.version>
 		<!--<hibernate.version>4.1.0</hibernate.version>-->
-		<jaxrs.version>1.1.1</jaxrs.version>
 	</properties>
 
 	<dependencyManagement>
@@ -528,45 +529,13 @@
 				<groupId>javax.ws.rs</groupId>
 				<artifactId>jsr311-api</artifactId>
 				<version>${jaxrs.version}</version>
-				<scope>compile</scope>
+				<scope>provided</scope>
 			</dependency>
 		</dependencies>
 	</dependencyManagement>
 
 	<build>
 		<plugins>
-			<!--<plugin>-->
-			<!--<groupId>org.scala-tools</groupId>-->
-			<!--<artifactId>maven-scala-plugin</artifactId>-->
-			<!--<version>2.12</version>-->
-			<!--<executions>-->
-			<!--<execution>-->
-			<!--<id>scala-compile-first</id>-->
-			<!--<phase>process-resources</phase>-->
-			<!--<goals>-->
-			<!--<goal>add-source</goal>-->
-			<!--<goal>compile</goal>-->
-			<!--</goals>-->
-			<!--<configuration>-->
-			<!--<args>-->
-			<!--<arg>-deprecation</arg>-->
-			<!--</args>-->
-			<!--</configuration>-->
-			<!--</execution>-->
-			<!--<execution>-->
-			<!--<id>scala-test-compile</id>-->
-			<!--<phase>process-test-resources</phase>-->
-			<!--<goals>-->
-			<!--<goal>testCompile</goal>-->
-			<!--</goals>-->
-			<!--<configuration>-->
-			<!--<args>-->
-			<!--<arg>-deprecation</arg>-->
-			<!--</args>-->
-			<!--</configuration>-->
-			<!--</execution>-->
-			<!--</executions>-->
-			<!--</plugin>-->
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-compiler-plugin</artifactId>
@@ -592,57 +561,28 @@
 					</execution>
 				</executions>
 			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-checkstyle-plugin</artifactId>
+				<configuration>
+					<skip>true</skip>
+				</configuration>
+			</plugin>
 		</plugins>
-		<pluginManagement>
-			<plugins>
-				<plugin>
-					<groupId>org.codehaus.mojo</groupId>
-					<artifactId>cobertura-maven-plugin</artifactId>
-					<version>2.5.1</version>
-				</plugin>
-				<plugin>
-					<groupId>org.apache.maven.plugins</groupId>
-					<artifactId>maven-javadoc-plugin</artifactId>
-					<version>2.8.1</version>
-				</plugin>
-				<plugin>
-					<groupId>org.apache.maven.plugins</groupId>
-					<artifactId>maven-compiler-plugin</artifactId>
-					<version>2.3.2</version>
-				</plugin>
-				<plugin>
-					<groupId>org.apache.maven.plugins</groupId>
-					<artifactId>maven-checkstyle-plugin</artifactId>
-					<version>2.9.1</version>
-				</plugin>
-				<plugin>
-					<groupId>org.apache.maven.plugins</groupId>
-					<artifactId>maven-source-plugin</artifactId>
-					<version>2.1.2</version>
-				</plugin>
-				<plugin>
-					<groupId>org.apache.maven.plugins</groupId>
-					<artifactId>maven-jar-plugin</artifactId>
-					<version>2.4</version>
-				</plugin>
-				<plugin>
-					<groupId>org.codehaus.mojo</groupId>
-					<artifactId>keytool-maven-plugin</artifactId>
-					<version>1.0</version>
-				</plugin>
-			</plugins>
-		</pluginManagement>
 	</build>
 
-	<!--<reporting>-->
-		<!--<plugins>-->
-			<!--<plugin>-->
-				<!--<groupId>org.scala-tools</groupId>-->
-				<!--<artifactId>maven-scala-plugin</artifactId>-->
-				<!--<version>2.12</version>-->
-			<!--</plugin>-->
-		<!--</plugins>-->
-	<!--</reporting>-->
+	<reporting>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-checkstyle-plugin</artifactId>
+				<version>2.9.1</version>
+				<configuration>
+					<skip>true</skip>
+				</configuration>
+			</plugin>
+		</plugins>
+	</reporting>
 
 	<repositories>
 		<!--<repository>-->
@@ -684,4 +624,3 @@
 		<!--</repository>-->
 	</repositories>
 </project>
-
