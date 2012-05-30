@@ -10,28 +10,11 @@
 		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.1.xsd
 		http://www.springframework.org/schema/tx      http://www.springframework.org/schema/tx/spring-tx-3.1.xsd
 		http://www.springframework.org/schema/aop     http://www.springframework.org/schema/aop/spring-aop-3.1.xsd http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-2.0.xsd">
-	<context:annotation-config />
-	<context:component-scan base-package="edu.byu.edge.client.pro.impl" />
 
+	<context:annotation-config />
 
 	<import resource="classpath:/wsAuthentication-core-dao-config.xml" />
 	<!--<import resource="classpath:/wsAuthentication-hibernate-config.xml" />-->
-
-	<bean id="sharedSecretCredentialResolver" class="edu.byu.security.hmac.DaoSharedSecretCredentialResolver"
-			c:credentialDAO-ref="sharedSecretCredentialDAO" />
-
-	<bean id="credentialResolutionRequest" class="edu.byu.security.hmac.PersonIdCredentialResolutionRequest"
-			c:personId="766224702" />
-
-	<bean id="sharedSecretNonceEncodingFilter" class="edu.byu.security.hmac.jersey.SharedSecretNonceEncodingFilter"
-			c:credentialResolver-ref="sharedSecretCredentialResolver"
-			c:resolutionRequest-ref="credentialResolutionRequest"
-			c:nonceDAO-ref="nonceDAO" />
-
-	<bean id="personSummaryClient" class="edu.byu.edge.client.pro.impl.PersonSummaryClientImpl"
-			c:baseUrl="https://ws.byu.edu/rest/v2.0/identity/person/PRO"
-			c:sharedSecretNonceEncodingFilter-ref="sharedSecretNonceEncodingFilter"
-			c:readTimeout="30000"/>
 
 	<bean id="wsAuthenticationSessionFactory" class="org.springframework.orm.hibernate3.LocalSessionFactoryBean"
 			p:dataSource-ref="wsAuthenticationDataSource"

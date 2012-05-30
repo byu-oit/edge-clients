@@ -24,7 +24,8 @@ import static org.junit.Assert.*;
  */
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = {
-		"classpath:test-context.xml"
+		"classpath:test-context.xml",
+		"classpath:personSummary-context.xml"
 })
 public class ProClientUnitTest {
 	private static final Logger LOG = Logger.getLogger(ProClientUnitTest.class);
