@@ -585,42 +585,5 @@
 	</reporting>
 
 	<repositories>
-		<!--<repository>-->
-			<!--<id>wandetaylor-thirdparty</id>-->
-			<!--<name>wandetaylor thirdparty Repository</name>-->
-			<!--<url>https://www.wandetaylor.com/nexus/content/groups/wandetaylor-thirdparty</url>-->
-			<!--<releases>-->
-				<!--<enabled>true</enabled>-->
-			<!--</releases>-->
-			<!--<snapshots>-->
-				<!--<enabled>true</enabled>-->
-			<!--</snapshots>-->
-		<!--</repository>-->
-		<!--<repository>-->
-			<!--<snapshots>-->
-				<!--<enabled>false</enabled>-->
-			<!--</snapshots>-->
-			<!--<id>maven-central</id>-->
-			<!--<name>Maven central Repository</name>-->
-			<!--<url>http://repo1.maven.org/maven2</url>-->
-		<!--</repository>-->
-		<!--<repository>-->
-			<!--<snapshots>-->
-				<!--<enabled>false</enabled>-->
-			<!--</snapshots>-->
-			<!--<id>springsource-milestone</id>-->
-			<!--<name>Spring Framework Milestone Repository</name>-->
-			<!--<url>http://maven.springframework.org/milestone</url>-->
-		<!--</repository>-->
-		<!--<repository>-->
-			<!--<id>scala-tools</id>-->
-			<!--<name>Scala</name>-->
-			<!--<url>http://scala-tools.org/repo-releases</url>-->
-		<!--</repository>-->
-		<!--<repository>-->
-			<!--<id>jboss-release</id>-->
-			<!--<name>jboss-release</name>-->
-			<!--<url>https://repository.jboss.org/nexus/content/repositories/releases</url>-->
-		<!--</repository>-->
 	</repositories>
 </project>
