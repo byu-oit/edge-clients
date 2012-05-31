@@ -4,6 +4,7 @@ package edu.byu.edge.client.pro.domain.personSummary;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlType;
+import java.io.Serializable;
 
 
 /**
@@ -26,7 +27,8 @@ import javax.xml.bind.annotation.XmlType;
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "classType", namespace = "uri://byu/c/ry/ae/prod/person_new/cgi/personSummary.cgi")
-public class ClassType {
+public class ClassType implements Serializable {
 
+	private static final long serialVersionUID = 100L;
 
 }

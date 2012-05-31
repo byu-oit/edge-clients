@@ -7,6 +7,7 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlSchemaType;
 import javax.xml.bind.annotation.XmlType;
 import javax.xml.datatype.XMLGregorianCalendar;
+import java.io.Serializable;
 
 
 /**
@@ -38,16 +39,21 @@ import javax.xml.datatype.XMLGregorianCalendar;
     "expires",
     "inactivated"
 })
-public class UniversityAffiliationType {
+public class UniversityAffiliationType implements Serializable {
 
-    @XmlElement(namespace = "uri://byu/c/ry/ae/prod/person_new/cgi/personSummary.cgi")
+	private static final long serialVersionUID = 100L;
+
+	@XmlElement(namespace = "uri://byu/c/ry/ae/prod/person_new/cgi/personSummary.cgi")
     protected String affiliation;
+
     @XmlElement(name = "effective_date", namespace = "uri://byu/c/ry/ae/prod/person_new/cgi/personSummary.cgi")
     @XmlSchemaType(name = "date")
     protected XMLGregorianCalendar effectiveDate;
+
     @XmlElement(namespace = "uri://byu/c/ry/ae/prod/person_new/cgi/personSummary.cgi")
     @XmlSchemaType(name = "date")
     protected XMLGregorianCalendar expires;
+
     @XmlElement(namespace = "uri://byu/c/ry/ae/prod/person_new/cgi/personSummary.cgi")
     @XmlSchemaType(name = "dateTime")
     protected XMLGregorianCalendar inactivated;

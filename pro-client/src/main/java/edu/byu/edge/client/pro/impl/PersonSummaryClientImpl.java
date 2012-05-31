@@ -4,6 +4,7 @@ import edu.byu.edge.client.pro.PersonSummaryClient;
 import edu.byu.edge.client.pro.domain.personSummary.PersonSummaryServiceType;
 import edu.byu.security.hmac.jersey.SharedSecretNonceEncodingFilter;
 import org.apache.log4j.Logger;
+import org.springframework.cache.annotation.Cacheable;
 
 import javax.ws.rs.core.MediaType;
 
@@ -30,8 +31,15 @@ public class PersonSummaryClientImpl extends BaseClient implements PersonSummary
 		super(baseUrl + "/personSummary.cgi/", sharedSecretNonceEncodingFilter, readTimeout);
 	}
 
+	@Cacheable(key = "#netId", value = "personSummaryClientCache")
 	@Override
 	public PersonSummaryServiceType getSummaryByNetId(final String netId) {
 		return getResource().path(netId).accept(MediaType.APPLICATION_XML_TYPE).get(PersonSummaryServiceType.class);
+	}
+
+	@Cacheable(key = "#personId", value = "personSummaryClientCache")
+	@Override
+	public PersonSummaryServiceType getSummaryByPersonId(final String personId) {
+		return getResource().path(personId).accept(MediaType.APPLICATION_XML_TYPE).get(PersonSummaryServiceType.class);
 	}
 }

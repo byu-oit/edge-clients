@@ -5,6 +5,7 @@ import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlType;
+import java.io.Serializable;
 
 
 /**
@@ -52,30 +53,43 @@ import javax.xml.bind.annotation.XmlType;
     "emailAddress",
     "emailAddressUnlisted"
 })
-public class ContactInformationType {
+public class ContactInformationType implements Serializable {
 
-    @XmlElement(name = "mailing_address", namespace = "uri://byu/c/ry/ae/prod/person_new/cgi/personSummary.cgi")
+	private static final long serialVersionUID = 100L;
+
+	@XmlElement(name = "mailing_address", namespace = "uri://byu/c/ry/ae/prod/person_new/cgi/personSummary.cgi")
     protected MailingAddressType mailingAddress;
+
     @XmlElement(name = "mailing_address_unlisted", namespace = "uri://byu/c/ry/ae/prod/person_new/cgi/personSummary.cgi")
     protected Boolean mailingAddressUnlisted;
+
     @XmlElement(name = "phone_number", namespace = "uri://byu/c/ry/ae/prod/person_new/cgi/personSummary.cgi")
     protected String phoneNumber;
+
     @XmlElement(name = "mailing_phone", namespace = "uri://byu/c/ry/ae/prod/person_new/cgi/personSummary.cgi")
     protected String mailingPhone;
+
     @XmlElement(name = "mailing_phone_unlisted", namespace = "uri://byu/c/ry/ae/prod/person_new/cgi/personSummary.cgi")
     protected Boolean mailingPhoneUnlisted;
+
     @XmlElement(name = "work_address", namespace = "uri://byu/c/ry/ae/prod/person_new/cgi/personSummary.cgi")
     protected WorkAddressType workAddress;
+
     @XmlElement(name = "work_address_unlisted", namespace = "uri://byu/c/ry/ae/prod/person_new/cgi/personSummary.cgi")
     protected Boolean workAddressUnlisted;
+
     @XmlElement(name = "work_phone", namespace = "uri://byu/c/ry/ae/prod/person_new/cgi/personSummary.cgi")
     protected String workPhone;
+
     @XmlElement(name = "work_phone_unlisted", namespace = "uri://byu/c/ry/ae/prod/person_new/cgi/personSummary.cgi")
     protected Boolean workPhoneUnlisted;
+
     @XmlElement(namespace = "uri://byu/c/ry/ae/prod/person_new/cgi/personSummary.cgi")
     protected String email;
+
     @XmlElement(name = "email_address", namespace = "uri://byu/c/ry/ae/prod/person_new/cgi/personSummary.cgi")
     protected String emailAddress;
+
     @XmlElement(name = "email_address_unlisted", namespace = "uri://byu/c/ry/ae/prod/person_new/cgi/personSummary.cgi")
     protected Boolean emailAddressUnlisted;
 

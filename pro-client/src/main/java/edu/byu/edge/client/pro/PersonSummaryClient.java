@@ -9,6 +9,7 @@ import edu.byu.edge.client.pro.domain.personSummary.PersonSummaryServiceType;
  * Date: 5/24/12
  */
 public interface PersonSummaryClient {
+
 	/**
 	 * Retrieves the person info based on netId.
 	 *
@@ -16,4 +17,12 @@ public interface PersonSummaryClient {
 	 * @return the PersonSummary data
 	 */
 	public PersonSummaryServiceType getSummaryByNetId(String netId);
+
+	/**
+	 * Retrieves the person info based on personId.
+	 *
+	 * @param personId the netId to look up
+	 * @return the PersonSummary data
+	 */
+	public PersonSummaryServiceType getSummaryByPersonId(String personId);
 }

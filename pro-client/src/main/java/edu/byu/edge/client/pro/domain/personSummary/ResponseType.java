@@ -5,6 +5,7 @@ import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlType;
+import java.io.Serializable;
 
 
 /**
@@ -44,22 +45,31 @@ import javax.xml.bind.annotation.XmlType;
     "studentInformation",
     "relationships"
 })
-public class ResponseType {
+public class ResponseType implements Serializable {
 
-    @XmlElement(name = "person_summary_line", namespace = "uri://byu/c/ry/ae/prod/person_new/cgi/personSummary.cgi")
+	private static final long serialVersionUID = 100L;
+
+	@XmlElement(name = "person_summary_line", namespace = "uri://byu/c/ry/ae/prod/person_new/cgi/personSummary.cgi")
     protected PersonSummaryLineType personSummaryLine;
+
     @XmlElement(namespace = "uri://byu/c/ry/ae/prod/person_new/cgi/personSummary.cgi")
     protected IdentifiersType identifiers;
+
     @XmlElement(namespace = "uri://byu/c/ry/ae/prod/person_new/cgi/personSummary.cgi")
     protected NamesType names;
+
     @XmlElement(name = "personal_information", namespace = "uri://byu/c/ry/ae/prod/person_new/cgi/personSummary.cgi")
     protected PersonalInformationType personalInformation;
+
     @XmlElement(name = "employee_information", namespace = "uri://byu/c/ry/ae/prod/person_new/cgi/personSummary.cgi")
     protected EmployeeInformationType employeeInformation;
+
     @XmlElement(name = "contact_information", namespace = "uri://byu/c/ry/ae/prod/person_new/cgi/personSummary.cgi")
     protected ContactInformationType contactInformation;
+
     @XmlElement(name = "student_information", namespace = "uri://byu/c/ry/ae/prod/person_new/cgi/personSummary.cgi")
     protected StudentInformationType studentInformation;
+
     @XmlElement(namespace = "uri://byu/c/ry/ae/prod/person_new/cgi/personSummary.cgi")
     protected RelationshipsType relationships;
 

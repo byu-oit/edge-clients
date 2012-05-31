@@ -1,6 +1,7 @@
 
 package edu.byu.edge.client.pro.domain.personSummary;
 
+import java.io.Serializable;
 import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.List;
@@ -57,32 +58,45 @@ import javax.xml.datatype.XMLGregorianCalendar;
     "dateOfDeath",
     "restrictedRecord"
 })
-public class PersonalInformationType {
+public class PersonalInformationType implements Serializable {
 
-    @XmlElement(name = "date_of_birth", namespace = "uri://byu/c/ry/ae/prod/person_new/cgi/personSummary.cgi")
+	private static final long serialVersionUID = 100L;
+
+	@XmlElement(name = "date_of_birth", namespace = "uri://byu/c/ry/ae/prod/person_new/cgi/personSummary.cgi")
     @XmlSchemaType(name = "date")
     protected XMLGregorianCalendar dateOfBirth;
+
     @XmlElement(namespace = "uri://byu/c/ry/ae/prod/person_new/cgi/personSummary.cgi")
     protected BigInteger age;
+
     @XmlElement(namespace = "uri://byu/c/ry/ae/prod/person_new/cgi/personSummary.cgi")
     protected String ethnicity;
+
     @XmlElement(namespace = "uri://byu/c/ry/ae/prod/person_new/cgi/personSummary.cgi")
     protected String gender;
+
     @XmlElement(name = "marital_status", namespace = "uri://byu/c/ry/ae/prod/person_new/cgi/personSummary.cgi")
     protected String maritalStatus;
+
     @XmlElement(namespace = "uri://byu/c/ry/ae/prod/person_new/cgi/personSummary.cgi")
     protected String citizenship;
+
     @XmlElement(namespace = "uri://byu/c/ry/ae/prod/person_new/cgi/personSummary.cgi")
     protected List<VisaType> visa;
+
     @XmlElement(name = "home_town", namespace = "uri://byu/c/ry/ae/prod/person_new/cgi/personSummary.cgi")
     protected String homeTown;
+
     @XmlElement(namespace = "uri://byu/c/ry/ae/prod/person_new/cgi/personSummary.cgi")
     protected String religion;
+
     @XmlElement(namespace = "uri://byu/c/ry/ae/prod/person_new/cgi/personSummary.cgi")
     protected Boolean deceased;
+
     @XmlElement(name = "date_of_death", namespace = "uri://byu/c/ry/ae/prod/person_new/cgi/personSummary.cgi")
     @XmlSchemaType(name = "date")
     protected XMLGregorianCalendar dateOfDeath;
+
     @XmlElement(name = "restricted_record", namespace = "uri://byu/c/ry/ae/prod/person_new/cgi/personSummary.cgi")
     protected Boolean restrictedRecord;
 

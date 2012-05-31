@@ -1,6 +1,7 @@
 
 package edu.byu.edge.client.pro.domain.personSummary;
 
+import java.io.Serializable;
 import java.math.BigInteger;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
@@ -39,16 +40,22 @@ import javax.xml.bind.annotation.XmlType;
     "status",
     "statusMessage"
 })
-public class RequestType {
+public class RequestType implements Serializable {
+
+	private static final long serialVersionUID = 100L;
+
+	@XmlElement(namespace = "uri://byu/c/ry/ae/prod/person_new/cgi/personSummary.cgi", required = true)
+    protected String method;
 
     @XmlElement(namespace = "uri://byu/c/ry/ae/prod/person_new/cgi/personSummary.cgi", required = true)
-    protected String method;
-    @XmlElement(namespace = "uri://byu/c/ry/ae/prod/person_new/cgi/personSummary.cgi", required = true)
     protected String resource;
+
     @XmlElement(namespace = "uri://byu/c/ry/ae/prod/person_new/cgi/personSummary.cgi", required = true)
     protected String attributes;
+
     @XmlElement(namespace = "uri://byu/c/ry/ae/prod/person_new/cgi/personSummary.cgi", required = true)
     protected BigInteger status;
+
     @XmlElement(namespace = "uri://byu/c/ry/ae/prod/person_new/cgi/personSummary.cgi", required = true)
     protected String statusMessage;
 

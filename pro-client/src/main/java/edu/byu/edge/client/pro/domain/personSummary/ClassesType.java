@@ -1,5 +1,6 @@
 package edu.byu.edge.client.pro.domain.personSummary;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import javax.xml.bind.annotation.XmlAccessType;
@@ -31,7 +32,9 @@ import javax.xml.bind.annotation.XmlType;
 @XmlType(name = "classesType", namespace = "uri://byu/c/ry/ae/prod/person_new/cgi/personSummary.cgi", propOrder = {
     "clazz"
 })
-public class ClassesType {
+public class ClassesType implements Serializable {
+
+	private static final long serialVersionUID = 100L;
 
 	/** */
     @XmlElement(name = "class", namespace = "uri://byu/c/ry/ae/prod/person_new/cgi/personSummary.cgi")

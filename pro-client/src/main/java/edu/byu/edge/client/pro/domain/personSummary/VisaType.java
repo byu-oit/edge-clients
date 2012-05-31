@@ -5,6 +5,7 @@ import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlType;
+import java.io.Serializable;
 
 
 /**
@@ -32,10 +33,13 @@ import javax.xml.bind.annotation.XmlType;
     "expired",
     "expiresIn30Days"
 })
-public class VisaType {
+public class VisaType implements Serializable {
 
-    @XmlElement(namespace = "uri://byu/c/ry/ae/prod/person_new/cgi/personSummary.cgi")
+	private static final long serialVersionUID = 100L;
+
+	@XmlElement(namespace = "uri://byu/c/ry/ae/prod/person_new/cgi/personSummary.cgi")
     protected Boolean expired;
+
     @XmlElement(name = "expires_in_30_days", namespace = "uri://byu/c/ry/ae/prod/person_new/cgi/personSummary.cgi")
     protected Boolean expiresIn30Days;
 

@@ -7,6 +7,7 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlSchemaType;
 import javax.xml.bind.annotation.XmlType;
 import javax.xml.datatype.XMLGregorianCalendar;
+import java.io.Serializable;
 
 
 /**
@@ -64,41 +65,59 @@ import javax.xml.datatype.XMLGregorianCalendar;
     "mergePending",
     "newByuId"
 })
-public class PersonSummaryLineType {
+public class PersonSummaryLineType implements Serializable {
+
+	private static final long serialVersionUID = 100L;
+
+	@XmlElement(namespace = "uri://byu/c/ry/ae/prod/person_new/cgi/personSummary.cgi")
+    protected String email;
 
     @XmlElement(namespace = "uri://byu/c/ry/ae/prod/person_new/cgi/personSummary.cgi")
-    protected String email;
-    @XmlElement(namespace = "uri://byu/c/ry/ae/prod/person_new/cgi/personSummary.cgi")
     protected String name;
+
     @XmlElement(namespace = "uri://byu/c/ry/ae/prod/person_new/cgi/personSummary.cgi")
     protected String suffix;
+
     @XmlElement(name = "net_id", namespace = "uri://byu/c/ry/ae/prod/person_new/cgi/personSummary.cgi")
     protected String netId;
+
     @XmlElement(name = "byu_id", namespace = "uri://byu/c/ry/ae/prod/person_new/cgi/personSummary.cgi")
     protected String byuId;
+
     @XmlElement(name = "person_id", namespace = "uri://byu/c/ry/ae/prod/person_new/cgi/personSummary.cgi")
     protected String personId;
+
     @XmlElement(name = "date_of_birth", namespace = "uri://byu/c/ry/ae/prod/person_new/cgi/personSummary.cgi")
     @XmlSchemaType(name = "date")
     protected XMLGregorianCalendar dateOfBirth;
+
     @XmlElement(namespace = "uri://byu/c/ry/ae/prod/person_new/cgi/personSummary.cgi")
     protected String gender;
+
     @XmlElement(name = "student_role", namespace = "uri://byu/c/ry/ae/prod/person_new/cgi/personSummary.cgi")
     protected String studentRole;
+
     @XmlElement(name = "employee_role", namespace = "uri://byu/c/ry/ae/prod/person_new/cgi/personSummary.cgi")
     protected String employeeRole;
+
     @XmlElement(name = "academic_record", namespace = "uri://byu/c/ry/ae/prod/person_new/cgi/personSummary.cgi")
     protected Boolean academicRecord;
+
     @XmlElement(name = "is_employee", namespace = "uri://byu/c/ry/ae/prod/person_new/cgi/personSummary.cgi")
     protected Boolean isEmployee;
+
     @XmlElement(name = "non_person_organization", namespace = "uri://byu/c/ry/ae/prod/person_new/cgi/personSummary.cgi")
     protected Boolean nonPersonOrganization;
+
     @XmlElement(namespace = "uri://byu/c/ry/ae/prod/person_new/cgi/personSummary.cgi")
     protected Boolean restricted;
+
     @XmlElement(namespace = "uri://byu/c/ry/ae/prod/person_new/cgi/personSummary.cgi")
     protected Boolean deceased;
+
     @XmlElement(name = "merge_pending", namespace = "uri://byu/c/ry/ae/prod/person_new/cgi/personSummary.cgi")
     protected Boolean mergePending;
+
     @XmlElement(name = "new_byu_id", namespace = "uri://byu/c/ry/ae/prod/person_new/cgi/personSummary.cgi")
     protected String newByuId;
 

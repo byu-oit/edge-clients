@@ -1,6 +1,7 @@
 
 package edu.byu.edge.client.pro.domain.personSummary;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import javax.xml.bind.annotation.XmlAccessType;
@@ -32,9 +33,11 @@ import javax.xml.bind.annotation.XmlType;
 @XmlType(name = "relationshipsType", namespace = "uri://byu/c/ry/ae/prod/person_new/cgi/personSummary.cgi", propOrder = {
     "relationship"
 })
-public class RelationshipsType {
+public class RelationshipsType implements Serializable {
 
-    @XmlElement(namespace = "uri://byu/c/ry/ae/prod/person_new/cgi/personSummary.cgi")
+	private static final long serialVersionUID = 100L;
+
+	@XmlElement(namespace = "uri://byu/c/ry/ae/prod/person_new/cgi/personSummary.cgi")
     protected List<RelationshipType> relationship;
 
     /**

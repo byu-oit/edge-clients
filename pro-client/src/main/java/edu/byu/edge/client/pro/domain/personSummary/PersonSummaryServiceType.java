@@ -2,6 +2,7 @@
 package edu.byu.edge.client.pro.domain.personSummary;
 
 import javax.xml.bind.annotation.*;
+import java.io.Serializable;
 
 
 /**
@@ -31,12 +32,16 @@ import javax.xml.bind.annotation.*;
     "errors",
     "response"
 })
-public class PersonSummaryServiceType {
+public class PersonSummaryServiceType implements Serializable {
+
+	private static final long serialVersionUID = 100L;
+
+	@XmlElement(namespace = "uri://byu/c/ry/ae/prod/person_new/cgi/personSummary.cgi")
+    protected RequestType request;
 
     @XmlElement(namespace = "uri://byu/c/ry/ae/prod/person_new/cgi/personSummary.cgi")
-    protected RequestType request;
-    @XmlElement(namespace = "uri://byu/c/ry/ae/prod/person_new/cgi/personSummary.cgi")
     protected ErrorsType errors;
+
     @XmlElement(namespace = "uri://byu/c/ry/ae/prod/person_new/cgi/personSummary.cgi")
     protected ResponseType response;
 

@@ -7,6 +7,7 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlSchemaType;
 import javax.xml.bind.annotation.XmlType;
 import javax.xml.datatype.XMLGregorianCalendar;
+import java.io.Serializable;
 
 
 /**
@@ -48,25 +49,35 @@ import javax.xml.datatype.XMLGregorianCalendar;
     "universityAffiliation",
     "restrictedRecord"
 })
-public class EmployeeInformationType {
+public class EmployeeInformationType implements Serializable {
 
-    @XmlElement(name = "employee_role", namespace = "uri://byu/c/ry/ae/prod/person_new/cgi/personSummary.cgi")
+	private static final long serialVersionUID = 100L;
+
+	@XmlElement(name = "employee_role", namespace = "uri://byu/c/ry/ae/prod/person_new/cgi/personSummary.cgi")
     protected String employeeRole;
+
     @XmlElement(namespace = "uri://byu/c/ry/ae/prod/person_new/cgi/personSummary.cgi")
     protected String department;
+
     @XmlElement(name = "job_title", namespace = "uri://byu/c/ry/ae/prod/person_new/cgi/personSummary.cgi")
     protected String jobTitle;
+
     @XmlElement(name = "date_hired", namespace = "uri://byu/c/ry/ae/prod/person_new/cgi/personSummary.cgi")
     protected DateHiredType dateHired;
+
     @XmlElement(name = "termination_date", namespace = "uri://byu/c/ry/ae/prod/person_new/cgi/personSummary.cgi")
     protected String terminationDate;
+
     @XmlElement(name = "retirement_date", namespace = "uri://byu/c/ry/ae/prod/person_new/cgi/personSummary.cgi")
     @XmlSchemaType(name = "date")
     protected XMLGregorianCalendar retirementDate;
+
     @XmlElement(name = "secondary_role", namespace = "uri://byu/c/ry/ae/prod/person_new/cgi/personSummary.cgi")
     protected SecondaryRoleType secondaryRole;
+
     @XmlElement(name = "university_affiliation", namespace = "uri://byu/c/ry/ae/prod/person_new/cgi/personSummary.cgi")
     protected UniversityAffiliationType universityAffiliation;
+
     @XmlElement(name = "restricted_record", namespace = "uri://byu/c/ry/ae/prod/person_new/cgi/personSummary.cgi")
     protected Boolean restrictedRecord;
 

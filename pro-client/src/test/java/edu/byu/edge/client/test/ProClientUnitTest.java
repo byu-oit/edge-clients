@@ -25,7 +25,7 @@ import static org.junit.Assert.*;
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = {
 		"classpath:test-context.xml",
-		"classpath:personSummary-context.xml"
+		"classpath:edge/personSummary/personSummary-context.xml"
 })
 public class ProClientUnitTest {
 	private static final Logger LOG = Logger.getLogger(ProClientUnitTest.class);
@@ -37,8 +37,10 @@ public class ProClientUnitTest {
 	public void testClient() throws Exception {
 		setActor();
 		assertNotNull("need client", personSummaryClient);
-		final PersonSummaryServiceType ps = personSummaryClient.getSummaryByNetId("els1984");
+		final PersonSummaryServiceType ps = personSummaryClient.getSummaryByNetId("wct5");
 		LOG.debug(ps);
+		personSummaryClient.getSummaryByNetId("wct5");
+		personSummaryClient.getSummaryByNetId("wct5");
 	}
 
 	private void setActor() {

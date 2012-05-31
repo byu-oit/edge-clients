@@ -5,6 +5,7 @@ import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlType;
+import java.io.Serializable;
 
 
 /**
@@ -32,10 +33,13 @@ import javax.xml.bind.annotation.XmlType;
     "preferredName",
     "completeName"
 })
-public class NamesType {
+public class NamesType implements Serializable {
 
-    @XmlElement(name = "preferred_name", namespace = "uri://byu/c/ry/ae/prod/person_new/cgi/personSummary.cgi")
+	private static final long serialVersionUID = 100L;
+
+	@XmlElement(name = "preferred_name", namespace = "uri://byu/c/ry/ae/prod/person_new/cgi/personSummary.cgi")
     protected String preferredName;
+
     @XmlElement(name = "complete_name", namespace = "uri://byu/c/ry/ae/prod/person_new/cgi/personSummary.cgi")
     protected String completeName;
 

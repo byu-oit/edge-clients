@@ -1,6 +1,7 @@
 
 package edu.byu.edge.client.pro.domain.personSummary;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import javax.xml.bind.annotation.XmlAccessType;
@@ -42,18 +43,25 @@ import javax.xml.bind.annotation.XmlType;
     "netId",
     "ssn"
 })
-public class IdentifiersType {
+public class IdentifiersType implements Serializable {
 
-    @XmlElement(name = "person_id", namespace = "uri://byu/c/ry/ae/prod/person_new/cgi/personSummary.cgi", required = true)
+	private static final long serialVersionUID = 100L;
+
+	@XmlElement(name = "person_id", namespace = "uri://byu/c/ry/ae/prod/person_new/cgi/personSummary.cgi", required = true)
     protected String personId;
+
     @XmlElement(name = "byu_id", namespace = "uri://byu/c/ry/ae/prod/person_new/cgi/personSummary.cgi", required = true)
     protected String byuId;
+
     @XmlElement(name = "byu_id_issue_number", namespace = "uri://byu/c/ry/ae/prod/person_new/cgi/personSummary.cgi", required = true)
     protected String byuIdIssueNumber;
+
     @XmlElement(name = "id_card_status", namespace = "uri://byu/c/ry/ae/prod/person_new/cgi/personSummary.cgi")
     protected String idCardStatus;
+
     @XmlElement(name = "net_id", namespace = "uri://byu/c/ry/ae/prod/person_new/cgi/personSummary.cgi")
     protected String netId;
+
     @XmlElement(namespace = "uri://byu/c/ry/ae/prod/person_new/cgi/personSummary.cgi")
     protected List<String> ssn;
 
