@@ -1,5 +1,6 @@
 package edu.byu.edge.client.pro.impl;
 
+import com.sun.jersey.api.client.UniformInterfaceException;
 import edu.byu.edge.client.pro.PersonSummaryClient;
 import edu.byu.edge.client.pro.domain.personSummary.PersonSummaryServiceType;
 import edu.byu.security.hmac.jersey.SharedSecretNonceEncodingFilter;
@@ -34,12 +35,30 @@ public class PersonSummaryClientImpl extends BaseClient implements PersonSummary
 	@Cacheable(key = "#netId", value = "personSummaryClientCache")
 	@Override
 	public PersonSummaryServiceType getSummaryByNetId(final String netId) {
-		return getResource().path(netId).accept(MediaType.APPLICATION_XML_TYPE).get(PersonSummaryServiceType.class);
+		try {
+			return getResource().path(netId).accept(MediaType.APPLICATION_XML_TYPE).get(PersonSummaryServiceType.class);
+		} catch (final UniformInterfaceException e) {
+			if (e.getMessage().contains(" returned a response status of 502 Bad Gateway")) {
+				LOG.info("retrying GET due to '502 Bad Gateway'");
+				return getResource().path(netId).accept(MediaType.APPLICATION_XML_TYPE).get(PersonSummaryServiceType.class);
+			} else {
+				throw e;
+			}
+		}
 	}
 
 	@Cacheable(key = "#personId", value = "personSummaryClientCache")
 	@Override
 	public PersonSummaryServiceType getSummaryByPersonId(final String personId) {
-		return getResource().path(personId).accept(MediaType.APPLICATION_XML_TYPE).get(PersonSummaryServiceType.class);
+		try {
+			return getResource().path(personId).accept(MediaType.APPLICATION_XML_TYPE).get(PersonSummaryServiceType.class);
+		} catch (final UniformInterfaceException e) {
+			if (e.getMessage().contains(" returned a response status of 502 Bad Gateway")) {
+				LOG.info("retrying GET due to '502 Bad Gateway'");
+				return getResource().path(personId).accept(MediaType.APPLICATION_XML_TYPE).get(PersonSummaryServiceType.class);
+			} else {
+				throw e;
+			}
+		}
 	}
 }
