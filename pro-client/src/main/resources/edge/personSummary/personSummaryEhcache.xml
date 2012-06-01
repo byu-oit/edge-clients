@@ -2,7 +2,7 @@
 		xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 		xsi:noNamespaceSchemaLocation="http://ehcache.org/ehcache.xsd"
 		updateCheck="false" monitoring="autodetect" dynamicConfig="true" name="personSummaryCacheManager">
-	<diskStore path="java.io.tmpdir" />
+	<diskStore path="java.io.tmpdir/personSummaryCache" />
 	<defaultCache eternal="false" overflowToDisk="false"
 		diskPersistent="false"
 		maxElementsInMemory="5"
