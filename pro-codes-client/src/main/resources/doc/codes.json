@@ -1,0 +1,357 @@
+{"WebService":{
+	"name":"CodeMaintenanceService",
+	"operations":[
+		{
+			"name":"getCodeMaintenanceDomainNameList",
+			"description":"shows a list of all domain names",
+			"method":"GET",
+			"path":"/",
+			"path_identifiers":[],
+			"query_attributes":[]
+		},
+		{
+			"name":"getCodeMaintenanceCountries",
+			"description":"shows a list of all maintainable codes for countries",
+			"method":"GET",
+			"path":"/countries",
+			"path_identifiers":[],
+			"query_attributes":[]
+		},
+		{
+			"name":"getCodeMaintenanceStates",
+			"description":"shows a list of all maintainable codes for states",
+			"method":"GET",
+			"path":"/states/{country_code}",
+			"path_identifiers":[
+				{
+					"name":"country_code",
+					"type":"string",
+					"format":"the code for a specific country"
+				}
+			],
+			"query_attributes":[]
+		},
+		{
+			"name":"getCodeMaintenanceReligions",
+			"description":"shows a list of all maintainable codes for religions",
+			"method":"GET",
+			"path":"/religions",
+			"path_identifiers":[],
+			"query_attributes":[]
+		},
+		{
+			"name":"getCodeMaintenanceValues",
+			"description":"shows a list of all maintainable codes for other general categories",
+			"method":"GET",
+			"path":"/{domain_name}",
+			"path_identifiers":[
+				{
+					"name":"domain_name",
+					"type":"string",
+					"format":"the name of a domain of code values"
+				}
+			],
+			"query_attributes":[]
+		},
+		{
+			"name":"saveCodeMaintenanceStates",
+			"description":"Updates an existing state name",
+			"method":"PUT",
+			"path":"/states/{country_code}/{state_code}",
+			"path_identifiers":[
+				{
+					"name":"country_code",
+					"type":"string",
+					"format":"the code for a specific country"
+				},
+				{
+					"name":"state_code",
+					"type":"string",
+					"format":"the code for a specific state inside the selected country"
+				}
+			],
+			"query_attributes":[
+				{
+					"name":"name",
+					"type":"string",
+					"format":"The name of the country, state or religion",
+					"required":"true"
+				}
+			]
+		},
+		{
+			"name":"saveCodeMaintenanceCountries",
+			"description":"Updates an existing country name",
+			"method":"PUT",
+			"path":"/countries/{country_code}",
+			"path_identifiers":[
+				{
+					"name":"country_code",
+					"type":"string",
+					"format":"the code for a specific country"
+				}
+			],
+			"query_attributes":[
+				{
+					"name":"name",
+					"type":"string",
+					"format":"The name of the country, state or religion",
+					"required":"true"
+				},
+				{
+					"name":"iso_code",
+					"type":"string",
+					"format":"ISO 3166-1-alpha-2 code for the country",
+					"required":"false"
+				},
+				{
+					"name":"country_phone_prefix",
+					"type":"string",
+					"format":"Country calling code",
+					"required":"false"
+				},
+				{
+					"name":"valid_for_citizenship",
+					"type":"boolean",
+					"format":"[true|false]. If true (has a value) indicates that the country code can be used to designate citizenship",
+					"required":"false"
+				},
+				{
+					"name":"valid_for_address",
+					"type":"boolean",
+					"format":"[true|false].  If true (has a value) indicates that the country code can be used with addresses",
+					"required":"false"
+				},
+				{
+					"name":"valid_for_birth_country",
+					"type":"boolean",
+					"format":"[true|false].  If true (has a value) indicates that the country code can be to designate the country of birth",
+					"required":"false"
+				},
+				{
+					"name":"valid_for_home_country",
+					"type":"boolean",
+					"format":"[true|false].  If true (has a value) indicates that the country code can be used to designate a home country",
+					"required":"false"
+				}
+			]
+		},
+		{
+			"name":"saveCodeMaintenanceReligions",
+			"description":"Updates an existing religion name",
+			"method":"PUT",
+			"path":"/religions/{religion_code}",
+			"path_identifiers":[
+				{
+					"name":"religion_code",
+					"type":"string",
+					"format":"the 3 letter code for a given religion"
+				}
+			],
+			"query_attributes":[
+				{
+					"name":"name",
+					"type":"string",
+					"format":"The name of the country, state or religion",
+					"required":"true"
+				}
+			]
+		},
+		{
+			"name":"saveCodeMaintenanceValues",
+			"description":"Updates an existing value in the current selected list",
+			"method":"PUT",
+			"path":"/{domain_name}/{domain_value}",
+			"path_identifiers":[
+				{
+					"name":"domain_name",
+					"type":"string",
+					"format":"the name of a domain of code values"
+				},
+				{
+					"name":"domain_value",
+					"type":"string",
+					"format":"the value for a given item in the domain"
+				}
+			],
+			"query_attributes":[
+				{
+					"name":"description",
+					"type":"string",
+					"format":"Description of the domain value",
+					"required":"false"
+				},
+				{
+					"name":"desc_15",
+					"type":"string",
+					"format":"Shortened or abbreviated description of the domain value",
+					"required":"false"
+				},
+				{
+					"name":"active_status",
+					"type":"string",
+					"format":"A value that can be used as an indicator for the purpose of preserving inactive values instead of deleting the value.  The definition of the value is domain specific",
+					"required":"false"
+				}
+			]
+		},
+		{
+			"name":"deleteCodeMaintenanceCountries",
+			"description":"deletes a given country",
+			"method":"DELETE",
+			"path":"/delete/countries/{country_code}",
+			"path_identifiers":[
+				{
+					"name":"country_code",
+					"type":"string",
+					"format":"the code for a specific country"
+				}
+			],
+			"query_attributes":[]
+		},
+		{
+			"name":"deleteCodeMaintenanceStates",
+			"description":"deletes a single state identified by a state and country code",
+			"method":"DELETE",
+			"path":"/delete/states/{country_code}/{state_code}",
+			"path_identifiers":[
+				{
+					"name":"country_code",
+					"type":"string",
+					"format":"the code for a specific country"
+				},
+				{
+					"name":"state_code",
+					"type":"string",
+					"format":"the code for a specific state inside the selected country"
+				}
+			],
+			"query_attributes":[]
+		},
+		{
+			"name":"deleteCodeMaintenanceReligions",
+			"description":"deletes a religion identified by a religion code",
+			"method":"DELETE",
+			"path":"/delete/religions/{religion_code}",
+			"path_identifiers":[
+				{
+					"name":"religion_code",
+					"type":"string",
+					"format":"the 3 letter code for a given religion"
+				}
+			],
+			"query_attributes":[]
+		},
+		{
+			"name":"deleteCodeMaintenanceValues",
+			"description":"deletes a code value identified by a given domain name and value",
+			"method":"DELETE",
+			"path":"/delete/{domain_name}/{domain_value}",
+			"path_identifiers":[
+				{
+					"name":"domain_name",
+					"type":"string",
+					"format":"the name of a domain of code values"
+				},
+				{
+					"name":"domain_value",
+					"type":"string",
+					"format":"the value for a given item in the domain"
+				}
+			],
+			"query_attributes":[]
+		}
+	],
+	"errors":[
+		{
+			"code":1,
+			"message":"Please try your action again. The program was unable to complete the action you requested. If you continue to experience problems you may try again at a later time or contact our customer service staff at 1-801-422-4000 for assistance.",
+			"httpStatusCode":500
+		},
+		{
+			"code":2,
+			"message":"Page Not Found. We are sorry but we were unable to access the service you requested. If you believe this to be in error, please contact our customer service staff at 1-801-422-4000 for assistance.",
+			"httpStatusCode":403
+		},
+		{
+			"code":3,
+			"message":"Resource not found.",
+			"httpStatusCode":404
+		},
+		{
+			"code":4,
+			"message":"GET method not supported.",
+			"httpStatusCode":405
+		},
+		{
+			"code":5,
+			"message":"PUT method not supported.",
+			"httpStatusCode":405
+		},
+		{
+			"code":6,
+			"message":"POST method not supported.",
+			"httpStatusCode":405
+		},
+		{
+			"code":7,
+			"message":"PUT and POST methods not supported.",
+			"httpStatusCode":405
+		},
+		{
+			"code":8,
+			"message":"DELETE method not supported.",
+			"httpStatusCode":405
+		},
+		{
+			"code":9,
+			"message":"Too many path identifiers.",
+			"httpStatusCode":400
+		},
+		{
+			"code":10,
+			"message":"Invalid or missing state or country code.",
+			"httpStatusCode":400
+		},
+		{
+			"code":11,
+			"message":"The name attribute is required for a PUT.",
+			"httpStatusCode":400
+		},
+		{
+			"code":12,
+			"message":"description, desc_15 and active_status cannot be null.",
+			"httpStatusCode":400
+		}
+	],
+	"httpStatusCodes":[
+		{
+			"code":200,
+			"message":"Service request is OK and a response has been generated."
+		},
+		{
+			"code":500,
+			"message":"An error occurred generating the response to the service request. This is strictly a server error and not an application error."
+		},
+		{
+			"code":400,
+			"message":"There appears to be a syntax error in the composition of the service request. The response structure may contain information about the error. If the base URI or service request URI is invalid, any response will come as an HTTP response."
+		},
+		{
+			"code":403,
+			"message":"The user does not have access to the resource."
+		},
+		{
+			"code":404,
+			"message":"The target resource can not be found for the provided resource identifiers."
+		},
+		{
+			"code":405,
+			"message":"The service method is not supported by the service."
+		},
+		{
+			"code":409,
+			"message":"A conflict has occurred. The response structure may contain information about the conflict."
+		}
+	]
+}}
