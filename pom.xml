@@ -9,6 +9,7 @@
 
 	<modules>
 		<module>parent</module>
+		<module>auth-client</module>
 		<module>pro-client</module>
 		<module>pro-codes-client</module>
 	</modules>

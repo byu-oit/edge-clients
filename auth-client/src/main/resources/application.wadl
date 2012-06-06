@@ -1,0 +1,196 @@
+<wadl:application xmlns:wadl="http://research.sun.com/wadl/2006/10" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <wadl:doc xmlns:enunciate="http://enunciate.codehaus.org/" enunciate:generatedBy="Enunciate-1.22"/>
+  <wadl:grammars>
+    <wadl:include href="Authentication.xsd"/>
+  </wadl:grammars>
+  <wadl:resources base="http://localhost:8080/Authentication-WS">
+    <wadl:resource path="/services/rest/v1/ws/session">
+      <wadl:method name="POST">
+        <wadl:doc>
+          <![CDATA[Create a new ws session.]]>
+        </wadl:doc>
+        <wadl:request/>
+        <wadl:response>
+          <wadl:doc>
+            <![CDATA[This returns a new web service session]]>
+          </wadl:doc>
+          <wadl:representation mediaType="application/xml" element="authentication:wsSession" xmlns:authentication="http://ws.byu.edu/namespaces/security/authentication/v1.0"/>
+          <wadl:representation mediaType="application/json"/>
+        </wadl:response>
+      </wadl:method>
+    </wadl:resource>
+    <wadl:resource path="/services/rest/v1/hmac/nonce/{WSId}">
+      <wadl:param name="WSId" style="path">
+        <wadl:doc>
+          <![CDATA[Your wsId.]]>
+        </wadl:doc>
+      </wadl:param>
+      <wadl:method name="POST">
+        <wadl:doc>
+          <![CDATA[Request a new nonce.]]>
+        </wadl:doc>
+        <wadl:request/>
+        <wadl:response>
+          <wadl:doc>
+            <![CDATA[This is composed of the nonce key and value.]]>
+          </wadl:doc>
+          <wadl:representation mediaType="application/xml" element="authentication:nonce" xmlns:authentication="http://ws.byu.edu/namespaces/security/authentication/v1.0"/>
+          <wadl:representation mediaType="application/json"/>
+        </wadl:response>
+      </wadl:method>
+    </wadl:resource>
+    <wadl:resource path="/services/rest/v1/provider/Nonce-Encoded-API-Key/validate">
+      <wadl:method name="POST">
+        <wadl:doc>
+          <![CDATA[Validates a Nonce-Encoded API-Key Authorization Header. You will need the WS_AUTHN_SERVICE GRO group for this call.]]>
+        </wadl:doc>
+        <wadl:request/>
+        <wadl:response>
+          <wadl:doc>
+            <![CDATA[An identity object is returned with the personId of the principal.]]>
+          </wadl:doc>
+          <wadl:representation mediaType="application/xml" element="authentication:identity" xmlns:authentication="http://ws.byu.edu/namespaces/security/authentication/v1.0"/>
+          <wadl:representation mediaType="application/json"/>
+        </wadl:response>
+      </wadl:method>
+    </wadl:resource>
+    <wadl:resource path="/services/rest/v1/provider/Nonce-Encoded-WsSession-Key/validate">
+      <wadl:method name="POST">
+        <wadl:doc>
+          <![CDATA[Validates a Nonce-Encoded API-Key Authorization Header. You will need the WS_AUTHN_SERVICE GRO group for this call.]]>
+        </wadl:doc>
+        <wadl:request/>
+        <wadl:response>
+          <wadl:doc>
+            <![CDATA[An identity object is returned with the personId of the principal.]]>
+          </wadl:doc>
+          <wadl:representation mediaType="application/xml" element="authentication:identity" xmlns:authentication="http://ws.byu.edu/namespaces/security/authentication/v1.0"/>
+          <wadl:representation mediaType="application/json"/>
+        </wadl:response>
+      </wadl:method>
+    </wadl:resource>
+    <wadl:resource path="/services/rest/v1/provider/URL-Encoded-API-Key/validate">
+      <wadl:method name="POST">
+        <wadl:doc>
+          <![CDATA[Validates a URL-Encoded API-Key Authorization Header.  You will need the WS_AUTHN_SERVICE GRO group for this call.]]>
+        </wadl:doc>
+        <wadl:request/>
+        <wadl:response>
+          <wadl:doc>
+            <![CDATA[An identity object is returned with the personId of the principal.]]>
+          </wadl:doc>
+          <wadl:representation mediaType="application/xml" element="authentication:identity" xmlns:authentication="http://ws.byu.edu/namespaces/security/authentication/v1.0"/>
+          <wadl:representation mediaType="application/json"/>
+        </wadl:response>
+      </wadl:method>
+    </wadl:resource>
+    <wadl:resource path="/services/rest/v1/provider/URL-Encoded-WsSession-Key/validate">
+      <wadl:method name="POST">
+        <wadl:doc>
+          <![CDATA[Validates a URL-Encoded API-Key Authorization Header. You will need the WS_AUTHN_SERVICE GRO group for this call.]]>
+        </wadl:doc>
+        <wadl:request/>
+        <wadl:response>
+          <wadl:doc>
+            <![CDATA[An identity object is returned with the personId of the principal.]]>
+          </wadl:doc>
+          <wadl:representation mediaType="application/xml" element="authentication:identity" xmlns:authentication="http://ws.byu.edu/namespaces/security/authentication/v1.0"/>
+          <wadl:representation mediaType="application/json"/>
+        </wadl:response>
+      </wadl:method>
+    </wadl:resource>
+    <wadl:resource path="/services/rest/v1/ws/session/{apiKey}">
+      <wadl:param name="apiKey" style="path"/>
+      <wadl:method name="DELETE">
+        <wadl:doc>
+          <![CDATA[This removes or invalidates a web service session. This call requires authentication.]]>
+        </wadl:doc>
+        <wadl:request/>
+      </wadl:method>
+      <wadl:method name="POST">
+        <wadl:doc>
+          <![CDATA[This will renews a session.]]>
+        </wadl:doc>
+        <wadl:request/>
+        <wadl:response>
+          <wadl:doc>
+            <![CDATA[A new web service session or null if credential can not be renewed.]]>
+          </wadl:doc>
+          <wadl:representation mediaType="application/xml" element="authentication:wsSession" xmlns:authentication="http://ws.byu.edu/namespaces/security/authentication/v1.0"/>
+          <wadl:representation mediaType="application/json"/>
+        </wadl:response>
+      </wadl:method>
+    </wadl:resource>
+    <wadl:resource path="/services/rest/v1/hmac/nonce/{WSId}/{actor}">
+      <wadl:param name="WSId" style="path">
+        <wadl:doc>
+          <![CDATA[Your wsId]]>
+        </wadl:doc>
+      </wadl:param>
+      <wadl:param name="actor" style="path">
+        <wadl:doc>
+          <![CDATA[The netId of the Actor that will be used as the Principal for Authorization. <em>NOTE:</em> Successfully getting a nonce with the Actor does not mean that you are authorized to present Actor information to the service you are calling. See <a href="https://developer.byu.edu/wiki/display/OITCoreDeveloperResources/Authenticating+Entities">Authenticating Entities</a> for more information.]]>
+        </wadl:doc>
+      </wadl:param>
+      <wadl:method name="POST">
+        <wadl:doc>
+          <![CDATA[Request a new nonce]]>
+        </wadl:doc>
+        <wadl:request/>
+        <wadl:response>
+          <wadl:doc>
+            <![CDATA[nonce This is composed of the nonce key and value.]]>
+          </wadl:doc>
+          <wadl:representation mediaType="application/xml" element="authentication:nonce" xmlns:authentication="http://ws.byu.edu/namespaces/security/authentication/v1.0"/>
+          <wadl:representation mediaType="application/json"/>
+        </wadl:response>
+      </wadl:method>
+    </wadl:resource>
+    <wadl:resource path="/services/rest/v1/management/credential/API-Key/{personId}">
+      <wadl:param name="personId" style="path">
+        <wadl:doc>
+          <![CDATA[This is the identity for the API-Key credential.]]>
+        </wadl:doc>
+      </wadl:param>
+      <wadl:method name="POST">
+        <wadl:doc>
+          <![CDATA[This call provisions a new API-Key.  A personId must be created before a API-Key can be created. You must have the API_KEY_ADMIN GRO Group to look someone else's APK-Key.]]>
+        </wadl:doc>
+        <wadl:request/>
+        <wadl:response>
+          <wadl:doc>
+            <![CDATA[An API-Key credential for the given identity.]]>
+          </wadl:doc>
+          <wadl:representation mediaType="application/xml" element="authentication:credential" xmlns:authentication="http://ws.byu.edu/namespaces/security/authentication/v1.0"/>
+          <wadl:representation mediaType="application/json"/>
+        </wadl:response>
+      </wadl:method>
+      <wadl:method name="GET">
+        <wadl:doc>
+          <![CDATA[This call retrieves the active API-Key for a given identity. You must have the API_KEY_ADMIN GRO Group to look someone else's APK-Key.]]>
+        </wadl:doc>
+        <wadl:request/>
+        <wadl:response>
+          <wadl:doc>
+            <![CDATA[An API-Key credential for the given identity.  Null is returned if personId does not have an active credential]]>
+          </wadl:doc>
+          <wadl:representation mediaType="application/xml" element="authentication:credential" xmlns:authentication="http://ws.byu.edu/namespaces/security/authentication/v1.0"/>
+          <wadl:representation mediaType="application/json"/>
+        </wadl:response>
+      </wadl:method>
+    </wadl:resource>
+    <wadl:resource path="/services/rest/v1/management/credential/expire/WSId/{personId}">
+      <wadl:param name="personId" style="path">
+        <wadl:doc>
+          <![CDATA[This is the identity for API-Key credential to expire.]]>
+        </wadl:doc>
+      </wadl:param>
+      <wadl:method name="POST">
+        <wadl:doc>
+          <![CDATA[This call expires the active API-Key credential for a given identity. You must have the API_KEY_ADMIN GRO Group to look someone else's APK-Key.]]>
+        </wadl:doc>
+        <wadl:request/>
+      </wadl:method>
+    </wadl:resource>
+  </wadl:resources>
+</wadl:application>
