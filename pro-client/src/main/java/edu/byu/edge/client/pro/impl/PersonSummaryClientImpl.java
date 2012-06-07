@@ -25,10 +25,10 @@ public class PersonSummaryClientImpl extends BaseClient implements PersonSummary
 	 * @param readTimeout the default read timeout for the service
 	 */
 	public PersonSummaryClientImpl(
-										  final String baseUrl,
-										  final SharedSecretNonceEncodingFilter sharedSecretNonceEncodingFilter,
-										  final int readTimeout
-								  ) {
+			final String baseUrl,
+			final SharedSecretNonceEncodingFilter sharedSecretNonceEncodingFilter,
+			final int readTimeout
+	) {
 		super(baseUrl + "/personSummary.cgi/", sharedSecretNonceEncodingFilter, readTimeout);
 	}
 

@@ -30,6 +30,7 @@
 		<framework.decorator.version>1.5.1.2</framework.decorator.version>
 		<framework.security.version>1.2.0.0-RC4</framework.security.version>
 		<framework.web.version>1.5.1.2</framework.web.version>
+		<hashUtil.version>1.0.0</hashUtil.version>
 		<hibernate.version>3.6.10.Final</hibernate.version>
 		<hsqldb.version>2.2.8</hsqldb.version>
 		<!--<jackson.version>1.8.3</jackson.version>-->
@@ -607,6 +608,12 @@
 				<artifactId>jsr311-api</artifactId>
 				<version>${jaxrs.version}</version>
 				<scope>provided</scope>
+			</dependency>
+			<dependency>
+				<groupId>edu.byu.util</groupId>
+				<artifactId>hashUtil</artifactId>
+				<version>${hashUtil.version}</version>
+				<scope>compile</scope>
 			</dependency>
 		</dependencies>
 	</dependencyManagement>
