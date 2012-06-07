@@ -41,6 +41,9 @@ public class ProClientUnitTest {
 		LOG.debug(ps);
 		personSummaryClient.getSummaryByNetId("wct5");
 		personSummaryClient.getSummaryByNetId("wct5");
+		final PersonSummaryServiceType ps2 = personSummaryClient.getSummaryByNetId("bhumdee");
+		assertNotNull("should have second result", ps2);
+		assertFalse("the values should be different", ps2.getResponse().getIdentifiers().getNetId().equals(ps.getResponse().getIdentifiers().getNetId()));
 	}
 
 	private void setActor() {
