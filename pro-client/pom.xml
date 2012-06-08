@@ -16,6 +16,12 @@
 	
 	<dependencies>
 		<dependency>
+			<groupId>edu.byu.common</groupId>
+			<artifactId>common-exception</artifactId>
+			<version>1.0.0-SNAPSHOT</version>
+			<scope>compile</scope>
+		</dependency>
+		<dependency>
 			<groupId>edu.byu.security</groupId>
 			<artifactId>security-jersey-support</artifactId>
 			<scope>runtime</scope>

@@ -21,17 +21,21 @@ public final class CliInterface {
 	private static final PrintWriter OUT = CONSOLE.writer();
 
 	public static void main(String[] args) {
-		OUT.println("Welcome to the command-line interface for the BYU Temporary API Key client.");
-		OUT.println("You will be prompted for your username and password. This should be your Route-Y Net-ID and password.");
-		OUT.println("You will need to specify a timeout for your session.");
-		OUT.println();
-		OUT.println("Please enter your username:");
-		final String user = readString();
-		OUT.println("Please enter your password:");
-		final String pass = readPassword();
-		OUT.println("Please provide a session duration in minutes (1-480).");
-		final int dur = readIntExitOnFail();
-		new CliInterface(user, pass, dur).loop();
+		String user, pass;
+		int dur;
+		do {
+			OUT.println();
+			OUT.println("Welcome to the command-line interface for the BYU Temporary API Key client.");
+			OUT.println("You will be prompted for your username and password. This should be your Route-Y Net-ID and password.");
+			OUT.println("You will need to specify a timeout for your session.");
+			OUT.println();
+			OUT.println("Please enter your username:");
+			user = readString();
+			OUT.println("Please enter your password:");
+			pass = readPassword();
+			OUT.println("Please provide a session duration in minutes (1-480).");
+			dur = readIntExitOnFail();
+		} while (new CliInterface(user, pass, dur).loop());
 	}
 
 	private static int readIntExitOnFail() {
@@ -84,12 +88,16 @@ public final class CliInterface {
 		EXEC.submit(new LoginTask(this));
 	}
 
-	private void loop() {
+	private boolean loop() {
 		displayCommands();
 		while (true) {
 			OUT.println("");
 			OUT.println("Enter command ('help'/'h'/'?' for help):");
 			switch (parseCommand(readString())) {
+				case -1:
+					OUT.println("");
+					OUT.println("Session not created yet.");
+					break;
 				case 0: displayCommands();
 					break;
 				case 1: doInfo();
@@ -99,12 +107,15 @@ public final class CliInterface {
 				case 3: doActor();
 					break;
 				case 4: doLogout();
-					return;
+					return true;
+				case 5: doLogout();
+					return false;
 			}
 		}
 	}
 
 	private int parseCommand(final String line) {
+		if (session == null) return -1;
 		if (line == null) return 0;
 		if ("help".equals(line)) return 0;
 		if ("h".equals(line)) return 0;
@@ -115,10 +126,12 @@ public final class CliInterface {
 		if ("n".equals(line)) return 2;
 		if ("actor".equals(line)) return 3;
 		if ("a".equals(line)) return 3;
-		if ("exit".equals(line)) return 4;
-		if ("e".equals(line)) return 4;
-		if ("quit".equals(line)) return 4;
-		if ("q".equals(line)) return 4;
+		if ("login".equals(line)) return 4;
+		if ("l".equals(line)) return 4;
+		if ("exit".equals(line)) return 5;
+		if ("e".equals(line)) return 5;
+		if ("quit".equals(line)) return 5;
+		if ("q".equals(line)) return 5;
 		return 0;
 	}
 
@@ -180,6 +193,8 @@ public final class CliInterface {
 			keepGoing = false;
 			EXEC.shutdownNow();
 			client.logout(session);
+			OUT.println("Logging out...");
+			OUT.println("");
 		}
 	}
 
@@ -187,6 +202,7 @@ public final class CliInterface {
 		OUT.println("");
 		OUT.println("Commands are:");
 		OUT.println("'help' '?' 'h' for this list");
+		OUT.println("'login' 'l' to logout and login (change user)");
 		OUT.println("'info' 'i' to display the current session attributes.");
 		OUT.println("'nonce' 'n' to generate a normal nonce - this will display the nonce and the authorization header.");
 		OUT.println("'actor' 'a' to generate a nonce with actor, you will be prompted to enter the actor netId - this will display the same info as 'nonce'.");
@@ -224,7 +240,7 @@ public final class CliInterface {
 			final long expTime = getExpTime();
 			try {
 				Thread.sleep(expTime - System.currentTimeMillis() - 5000);
-			} catch (InterruptedException e) {
+			} catch (InterruptedException ignore) {
 			}
 			synchronized (cli.EXEC) {
 				cli.session = cli.client.renew(cli.session, cli.duration);
