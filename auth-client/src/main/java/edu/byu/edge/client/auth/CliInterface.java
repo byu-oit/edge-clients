@@ -115,17 +115,17 @@ public final class CliInterface {
 	}
 
 	private int parseCommand(final String line) {
-		if (session == null) return -1;
+		final boolean ns = session == null;
 		if (line == null) return 0;
 		if ("help".equals(line)) return 0;
 		if ("h".equals(line)) return 0;
 		if ("?".equals(line)) return 0;
-		if ("info".equals(line)) return 1;
-		if ("i".equals(line)) return 1;
-		if ("nonce".equals(line)) return 2;
-		if ("n".equals(line)) return 2;
-		if ("actor".equals(line)) return 3;
-		if ("a".equals(line)) return 3;
+		if (!ns && "info".equals(line)) return 1;
+		if (!ns && "i".equals(line)) return 1;
+		if (!ns && "nonce".equals(line)) return 2;
+		if (!ns && "n".equals(line)) return 2;
+		if (!ns && "actor".equals(line)) return 3;
+		if (!ns && "a".equals(line)) return 3;
 		if ("login".equals(line)) return 4;
 		if ("l".equals(line)) return 4;
 		if ("exit".equals(line)) return 5;
@@ -192,7 +192,7 @@ public final class CliInterface {
 		synchronized (EXEC) {
 			keepGoing = false;
 			EXEC.shutdownNow();
-			client.logout(session);
+			if (session != null) client.logout(session);
 			OUT.println("Logging out...");
 			OUT.println("");
 		}
