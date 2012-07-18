@@ -132,6 +132,7 @@ public final class CliInterface {
 		if ("e".equals(line)) return 5;
 		if ("quit".equals(line)) return 5;
 		if ("q".equals(line)) return 5;
+		if (ns) return -1;
 		return 0;
 	}
 
