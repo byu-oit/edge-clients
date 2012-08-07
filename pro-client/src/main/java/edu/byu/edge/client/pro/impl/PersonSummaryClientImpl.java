@@ -20,7 +20,6 @@ public class PersonSummaryClientImpl extends BaseClient implements PersonSummary
 	private static final Logger LOG = Logger.getLogger(PersonSummaryClientImpl.class);
 
 	/**
-	 *
 	 * @param baseUrl the base url of the service
 	 * @param sharedSecretNonceEncodingFilter the nonce encoding filter
 	 * @param readTimeout the default read timeout for the service

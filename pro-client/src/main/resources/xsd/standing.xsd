@@ -1,0 +1,40 @@
+<?xml version="1.0"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified" targetNamespace="uri://byu/c/ry/ae/prod/records/cgi/recStdAcadStanding.cgi" xmlns="uri://byu/c/ry/ae/prod/records/cgi/recStdAcadStanding.cgi">
+	<xs:element name="RecStdAcadStandingService" type="RecStdAcadStandingServiceType"/>
+	<xs:complexType name="RecStdAcadStandingServiceType">
+		<xs:sequence>
+			<xs:element name="request" type="requestType"/>
+			<xs:element name="errors" type="errorsType"/>
+			<xs:element name="response" type="responseType"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="requestType">
+		<xs:sequence>
+			<xs:element name="method" type="xs:string"/>
+			<xs:element name="resource" type="xs:string"/>
+			<xs:element name="attributes" type="xs:string"/>
+			<xs:element name="status" type="xs:integer"/>
+			<xs:element name="statusMessage" type="xs:string"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="errorsType">
+		<xs:sequence>
+			<xs:element name="error" type="errorType"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="errorType">
+		<xs:sequence>
+			<xs:element name="code" type="xs:integer"/>
+			<xs:element name="name" type="xs:string"/>
+			<xs:element name="message" type="xs:string"/>
+			<xs:element name="httpStatusCode" type="xs:integer"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="responseType">
+		<xs:sequence>
+			<xs:element name="year_term" type="xs:string"/>
+			<xs:element name="standing" type="xs:string"/>
+			<xs:element name="explanation" type="xs:string"/>
+		</xs:sequence>
+	</xs:complexType>
+</xs:schema>

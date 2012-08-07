@@ -17,6 +17,7 @@ import org.apache.log4j.Logger;
  * Author: Wyatt Taylor (wyatt_taylor@byu.edu)
  * Date: 5/24/12
  */
+
 public abstract class BaseClient {
 
 	private static final Logger LOG = Logger.getLogger(BaseClient.class);
@@ -50,7 +51,13 @@ public abstract class BaseClient {
 	 * @return the client
 	 */
 	protected Client initClient(ClientConfig config) {
+		try {
 		return Client.create(config);
+		} catch (final Throwable t) {
+			LOG.error("error initializing client", t);
+			if (RuntimeException.class.isAssignableFrom(t.getClass())) throw (RuntimeException) t;
+			throw new RuntimeException(t);
+		}
 	}
 
 	/**
