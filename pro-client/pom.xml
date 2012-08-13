@@ -16,7 +16,7 @@
 	
 	<dependencies>
 		<dependency>
-			<groupId>edu.byu.common</groupId>
+			<groupId>edu.byu.commons-util</groupId>
 			<artifactId>common-exception</artifactId>
 			<version>1.0.0-SNAPSHOT</version>
 			<scope>compile</scope>
