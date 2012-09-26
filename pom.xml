@@ -8,7 +8,7 @@
 	<packaging>pom</packaging>
 
 	<modules>
-		<module>parent</module>
+		<module>edge-pom</module>
 		<module>ws-auth-filters</module>
 	</modules>
 </project>
