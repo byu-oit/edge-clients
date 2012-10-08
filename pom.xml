@@ -13,6 +13,7 @@
 		<module>pro-client</module>
 		<module>pro-codes-client</module>
 		<module>person-basic</module>
+		<module>control-dates-client</module>
 	</modules>
 </project>
 
