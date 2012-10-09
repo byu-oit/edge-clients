@@ -1,8 +1,10 @@
 package edu.byu.edge.client.controldates;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
+import java.util.List;
 
 import javax.ws.rs.Path;
 import javax.ws.rs.core.MediaType;
@@ -17,7 +19,17 @@ import edu.byu.common.domain.YearTerm;
 import edu.byu.commons.exception.ByuException;
 import edu.byu.edge.client.controldates.domain.ControlDateType;
 import edu.byu.edge.client.controldates.domain.ControldateswsServiceType;
+import edu.byu.edge.client.controldates.domain.DateRowType;
+import edu.byu.edge.client.controldates.domain.ResponseType;
 
+/**
+ * Client interface to the control dates web service. Note: The service's xsd
+ * provides for an errors field as part of the service call response. Experience
+ * has shown this is not used and we are assuming as much for this service. Any
+ * successful result will be returned as the service provides it without regard
+ * for the errors field.
+ * 
+ */
 public class ControlDatesClientImpl extends BaseClient implements ControlDatesClient {
 	private static final Logger LOG = Logger.getLogger(ControlDatesClientImpl.class);
 
@@ -31,24 +43,34 @@ public class ControlDatesClientImpl extends BaseClient implements ControlDatesCl
 	@Cacheable(key = "#type", value = "controlDatesClientCache")
 	@Path("/all")
 	@Override
-	public ControldateswsServiceType getAll(ControlDateType type) {
+	public List<DateRowType> getAll(ControlDateType type) {
 		Preconditions.checkArgument(type != null, "Invalid (null) Control Date Type.");
 		String path = "all/" + type.toString();
-		return executeCall(path);
+		ControldateswsServiceType cdws = executeCall(path);
+		ResponseType response = cdws.getResponse();
+		if (response != null && response.getDateList() != null && response.getDateList().getDateRow() != null) {
+			return response.getDateList().getDateRow();
+		}
+		return new ArrayList<DateRowType>();
 	}
 
 	@Override
-	public ControldateswsServiceType getRange(YearTerm startYearTerm, YearTerm endYearTerm, ControlDateType controlDateType) {
+	public List<DateRowType> getRange(YearTerm startYearTerm, YearTerm endYearTerm, ControlDateType controlDateType) {
 		Preconditions.checkArgument(startYearTerm != null, "Invalid (null) Start YearTerm.");
 		Preconditions.checkArgument(endYearTerm != null, "Invalid (null) End YearTerm.");
 		Preconditions.checkArgument(controlDateType != null, "Invalid (null) Control Date Type.");
 
 		String path = "range/" + startYearTerm.getYearTerm() + "," + endYearTerm.getYearTerm() + "/" + controlDateType;
-		return executeCall(path);
+		ControldateswsServiceType cdws = executeCall(path);
+		ResponseType response = cdws.getResponse();
+		if (response != null && response.getDateList() != null && response.getDateList().getDateRow() != null) {
+			return response.getDateList().getDateRow();
+		}
+		return new ArrayList<DateRowType>();
 	}
 
 	@Override
-	public ControldateswsServiceType getByYearTerm(YearTerm yearTerm, ControlDateType... controlDateTypes) {
+	public List<DateRowType> getByYearTermAndTypes(YearTerm yearTerm, ControlDateType... controlDateTypes) {
 		Preconditions.checkArgument(yearTerm != null, "Invalid (null) YearTerm.");
 		Preconditions.checkArgument(controlDateTypes != null && controlDateTypes.length > 0 && controlDateTypes.length < 10
 				&& !isAllNulls(Arrays.asList(controlDateTypes)),
@@ -60,12 +82,25 @@ public class ControlDatesClientImpl extends BaseClient implements ControlDatesCl
 			path += controlDateType + ",";
 		}
 		path = path.substring(0, path.lastIndexOf(","));
-
-		return executeCall(path);
+		ControldateswsServiceType cdws = executeCall(path);
+		ResponseType response = cdws.getResponse();
+		if (response != null && response.getDateList() != null && response.getDateList().getDateRow() != null) {
+			return response.getDateList().getDateRow();
+		}
+		return new ArrayList<DateRowType>();
 	}
 
 	@Override
-	public ControldateswsServiceType getByDate(Date asOfDate, ControlDateType... controlDateTypes) {
+	public DateRowType getByYearTermAndType(YearTerm yearTerm, ControlDateType controlDateType) {
+		List<DateRowType> byDate = getByYearTermAndTypes(yearTerm, controlDateType);
+		if (byDate != null && byDate.size() > 0) {
+			return byDate.get(0);
+		}
+		return null;
+	}
+
+	@Override
+	public List<DateRowType> getByDateAndTypes(Date asOfDate, ControlDateType... controlDateTypes) {
 		Preconditions.checkArgument(asOfDate != null, "Invalid (null) asOfDate Date.");
 		Preconditions.checkArgument(
 				controlDateTypes != null && controlDateTypes.length > 0 && controlDateTypes.length < 10 && !isAllNulls(Arrays.asList(controlDateTypes)),
@@ -76,8 +111,21 @@ public class ControlDatesClientImpl extends BaseClient implements ControlDatesCl
 			path += controlDateType + ",";
 		}
 		path = path.substring(0, path.lastIndexOf(","));
+		ControldateswsServiceType cdws = executeCall(path);
+		ResponseType response = cdws.getResponse();
+		if (response != null && response.getDateList() != null && response.getDateList().getDateRow() != null) {
+			return response.getDateList().getDateRow();
+		}
+		return new ArrayList<DateRowType>();
+	}
 
-		return executeCall(path);
+	@Override
+	public DateRowType getByDateAndType(Date asOfDate, ControlDateType controlDateType) {
+		List<DateRowType> byDate = getByDateAndTypes(asOfDate, controlDateType);
+		if (byDate != null && byDate.size() > 0) {
+			return byDate.get(0);
+		}
+		return null;
 	}
 
 	private ControldateswsServiceType executeCall(String path) {

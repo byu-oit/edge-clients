@@ -3,18 +3,18 @@ package edu.byu.edge.client.controldates;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
-import java.math.BigInteger;
 import java.text.ParseException;
 import java.util.Date;
+import java.util.List;
 
 import org.junit.Test;
+
+import com.google.common.base.Strings;
 
 import edu.byu.common.domain.YearTerm;
 import edu.byu.edge.client.controldates.domain.ControlDateType;
 import edu.byu.edge.client.controldates.domain.ControldateswsServiceType;
 import edu.byu.edge.client.controldates.domain.DateRowType;
-import edu.byu.edge.client.controldates.domain.ErrorsType;
-import edu.byu.edge.client.controldates.domain.ResponseType;
 
 public class ControlDatesClientImplTestCase {
 
@@ -32,24 +32,18 @@ public class ControlDatesClientImplTestCase {
 
 	@Test
 	public void getAllTest() throws ParseException {
-		ControldateswsServiceType cdws = controlDatesClient.getAll(ControlDateType.CURRICULUM);
-		ensureNoErrors(cdws);
-		ResponseType response = cdws.getResponse();
-		assertTrue("Control Dates' getAll returned a smaller than expected number of results", response.getRequestCount().compareTo(BigInteger.valueOf(75)) > 0);
+		List<DateRowType> results = controlDatesClient.getAll(ControlDateType.CURRICULUM);
 
-		DateRowType firstControlDate = response.getDateList()
-												.getDateRow()
-												.get(0);
+		assertTrue("Control Dates' getAll returned a smaller than expected number of results", results.size() > 75);
+
+		DateRowType firstControlDate = results.get(0);
 		assertTrue(firstControlDate.getDateType()
 									.equals(ControlDateType.CURRICULUM.toString()));
 
 		assertTrue(new YearTerm(firstControlDate.getYearTerm()).equals(new YearTerm("19001")));
 
 		// The last date is way in the future, so use the second to last
-		DateRowType secondToLastControlDate = response.getDateList()
-												.getDateRow()
-												.get(response.getRequestCount()
-																.intValue() - 2);
+		DateRowType secondToLastControlDate = results.get(results.size() - 2);
 		assertTrue(secondToLastControlDate.getDateType()
 											.equals(ControlDateType.CURRICULUM.toString()));
 
@@ -87,44 +81,36 @@ public class ControlDatesClientImplTestCase {
 
 	@Test
 	public void getRangeTest() {
-		ControldateswsServiceType cdws = controlDatesClient.getRange(new YearTerm("20121"), new YearTerm("20125"), ControlDateType.CURRENT_YYT);
-		ensureNoErrors(cdws);
-		ResponseType response = cdws.getResponse();
-		assertTrue("Control Dates' getRange returned a smaller than expected number of results", response.getRequestCount()
-																											.equals(BigInteger.valueOf(4)));
+		List<DateRowType> results = controlDatesClient.getRange(new YearTerm("20121"), new YearTerm("20125"), ControlDateType.CURRENT_YYT);
+		assertTrue("Control Dates' getRange returned a smaller than expected number of results", results.size() == 4);
 
-		DateRowType first = response.getDateList().getDateRow().get(0);
-		DateRowType fourth = response.getDateList()
-										.getDateRow()
-										.get(3);
+		DateRowType first = results.get(0);
+		DateRowType fourth = results.get(3);
 		
-		assertTrue(first.getDateType()
-						.equals(ControlDateType.CURRENT_YYT.toString()));
-		
-		assertTrue(fourth.getYearTerm()
-							.equals("20125"));
+		assertTrue(first.getDateType().equals(ControlDateType.CURRENT_YYT.toString()));
+		assertTrue(fourth.getYearTerm().equals("20125"));
 	}
 
 	@Test
-	public void getByYearTermTestInvalidInput() {
+	public void getByYearTermAndTypesTestInvalidInput() {
 		YearTerm someYearTerm = new YearTerm("20121");
 
 		try {
-			controlDatesClient.getByYearTerm(null, ControlDateType.CURRICULUM);
+			controlDatesClient.getByYearTermAndTypes(null, ControlDateType.CURRICULUM);
 			fail("Expected Exception was not thrown");
 		} catch (IllegalArgumentException e) {
 			// expected
 		}
 
 		try {
-			controlDatesClient.getByYearTerm(someYearTerm, null);
+			controlDatesClient.getByYearTermAndTypes(someYearTerm, null);
 			fail("Expected Exception was not thrown");
 		} catch (IllegalArgumentException e) {
 			// expected
 		}
 
 		try {
-			controlDatesClient.getByYearTerm(someYearTerm, null, null, null);
+			controlDatesClient.getByYearTermAndTypes(someYearTerm, null, null, null);
 			fail("Expected Exception was not thrown");
 		} catch (IllegalArgumentException e) {
 			// expected
@@ -132,7 +118,7 @@ public class ControlDatesClientImplTestCase {
 
 		// Attempt 11 types
 		try {
-			controlDatesClient.getByYearTerm(someYearTerm, ControlDateType.CURRICULUM, ControlDateType.CURRICULUM, ControlDateType.CURRICULUM,
+			controlDatesClient.getByYearTermAndTypes(someYearTerm, ControlDateType.CURRICULUM, ControlDateType.CURRICULUM, ControlDateType.CURRICULUM,
 					ControlDateType.CURRICULUM, ControlDateType.CURRICULUM, ControlDateType.CURRICULUM, ControlDateType.CURRICULUM, ControlDateType.CURRICULUM,
 					ControlDateType.CURRICULUM, ControlDateType.CURRICULUM, ControlDateType.CURRICULUM);
 			fail("Expected Exception was not thrown");
@@ -142,43 +128,68 @@ public class ControlDatesClientImplTestCase {
 	}
 
 	@Test
-	public void getByYearTermTest() {
+	public void getByYearTermAndTypesTest() {
 		YearTerm someYearTerm = new YearTerm("20125");
-		ControldateswsServiceType byYearTerm = controlDatesClient.getByYearTerm(someYearTerm, ControlDateType.CURRICULUM, ControlDateType.CURRENT_YYT,
-				ControlDateType.DEGREE);
-		ResponseType response = byYearTerm.getResponse();
-		assertTrue("Control Dates' getByYearTerm returned a smaller than expected number of results", response.getRequestCount()
-																										.equals(BigInteger.valueOf(3)));
+		List<DateRowType> results = controlDatesClient.getByYearTermAndTypes(someYearTerm, ControlDateType.CURRICULUM, ControlDateType.CURRENT_YYT, ControlDateType.DEGREE);
+		assertTrue("Control Dates' getByYearTermAndTypes returned a smaller than expected number of results", results.size() == 3);
 
 		// Test getting a date type that doesn't exist. In that case the service
 		// returns a result but all the values are empty
-		byYearTerm = controlDatesClient.getByYearTerm(someYearTerm, ControlDateType.ID_CARD_EXP_BLACKOUT);
-		response = byYearTerm.getResponse();
-		assertTrue("Control Dates' getByYearTerm expected a single record returned (even though values should be null).",
-				response.getRequestCount()
-																					.equals(BigInteger.valueOf(1)));
+		results = controlDatesClient.getByYearTermAndTypes(someYearTerm, ControlDateType.ID_CARD_EXP_BLACKOUT);
+		assertTrue("Control Dates' getByYearTermAndTypes expected a single record returned (even though values should be null).", results.size() == 1);
 	}
 
 	@Test
-	public void getByDateTestInvalidInput() {
+	public void getByYearTermAndTypeTestInvalidInput() {
+		YearTerm someYearTerm = new YearTerm("20121");
+
+		try {
+			controlDatesClient.getByYearTermAndType(null, ControlDateType.CURRICULUM);
+			fail("Expected Exception was not thrown");
+		} catch (IllegalArgumentException e) {
+			// expected
+		}
+
+		try {
+			controlDatesClient.getByYearTermAndType(someYearTerm, null);
+			fail("Expected Exception was not thrown");
+		} catch (IllegalArgumentException e) {
+			// expected
+		}
+	}
+
+	@Test
+	public void getByYearTermAndTypeTest() {
+		YearTerm someYearTerm = new YearTerm("20125");
+		DateRowType result = controlDatesClient.getByYearTermAndType(someYearTerm, ControlDateType.CURRICULUM);
+		assertTrue(result != null);
+
+		// Test getting a date type that doesn't exist. In that case the service
+		// returns a result but all the values are empty
+		result = controlDatesClient.getByYearTermAndType(someYearTerm, ControlDateType.ID_CARD_EXP_BLACKOUT);
+		assertTrue(result != null && Strings.isNullOrEmpty(result.getDateType()));
+	}
+
+	@Test
+	public void getByDateAndTypesTestInvalidInput() {
 		Date today = new Date();
 
 		try {
-			controlDatesClient.getByDate(null, ControlDateType.CURRICULUM);
+			controlDatesClient.getByDateAndTypes(null, ControlDateType.CURRICULUM);
 			fail("Expected Exception was not thrown");
 		} catch (IllegalArgumentException e) {
 			// expected
 		}
 
 		try {
-			controlDatesClient.getByDate(today, null);
+			controlDatesClient.getByDateAndTypes(today, null);
 			fail("Expected Exception was not thrown");
 		} catch (IllegalArgumentException e) {
 			// expected
 		}
 
 		try {
-			controlDatesClient.getByDate(today, null, null, null);
+			controlDatesClient.getByDateAndTypes(today, null, null, null);
 			fail("Expected Exception was not thrown");
 		} catch (IllegalArgumentException e) {
 			// expected
@@ -186,7 +197,8 @@ public class ControlDatesClientImplTestCase {
 
 		// Attempt 11 types
 		try {
-			controlDatesClient.getByDate(today, ControlDateType.CURRICULUM, ControlDateType.CURRICULUM, ControlDateType.CURRICULUM, ControlDateType.CURRICULUM,
+			controlDatesClient.getByDateAndTypes(today, ControlDateType.CURRICULUM, ControlDateType.CURRICULUM, ControlDateType.CURRICULUM,
+					ControlDateType.CURRICULUM,
 					ControlDateType.CURRICULUM, ControlDateType.CURRICULUM, ControlDateType.CURRICULUM, ControlDateType.CURRICULUM, ControlDateType.CURRICULUM,
 					ControlDateType.CURRICULUM, ControlDateType.CURRICULUM);
 			fail("Expected Exception was not thrown");
@@ -196,26 +208,45 @@ public class ControlDatesClientImplTestCase {
 	}
 
 	@Test
-	public void getByDateTest() {
+	public void getByDateAndTypesTest() {
 		Date today = new Date();
-		ControldateswsServiceType ByDate = controlDatesClient.getByDate(today, ControlDateType.CURRICULUM, ControlDateType.CURRENT_YYT, ControlDateType.DEGREE);
-		ResponseType response = ByDate.getResponse();
-		assertTrue("Control Dates' getByDate returned a smaller than expected number of results", response.getRequestCount()
-																											.equals(BigInteger.valueOf(3)));
+		List<DateRowType> results = controlDatesClient.getByDateAndTypes(today, ControlDateType.CURRICULUM, ControlDateType.CURRENT_YYT, ControlDateType.DEGREE);
+		assertTrue("Control Dates' getByDateAndTypes returned a smaller than expected number of results", results.size() == 3);
 
 		// Test getting a date type that doesn't exist. This call behaves like
-		// you would expect (unlike getByYearTerm)
-		ByDate = controlDatesClient.getByDate(today, ControlDateType.ID_CARD_EXP_BLACKOUT);
-		response = ByDate.getResponse();
-		assertTrue("Control Dates' getByDate expected no results.", response.getRequestCount()
-																			.equals(BigInteger.valueOf(0)));
+		// you would expect (unlike getByYearTermAndTypes)
+		results = controlDatesClient.getByDateAndTypes(today, ControlDateType.ID_CARD_EXP_BLACKOUT);
+		assertTrue("Control Dates' getByDateAndTypes expected no results.", results.size() == 0);
 	}
 
-	protected void ensureNoErrors(ControldateswsServiceType cdws) {
-		ErrorsType errors = cdws.getErrors();
-		if (errors != null) {
-			fail("Unexpected error: " + errors.getError());
+	@Test
+	public void getByDateAndTypeTestInvalidInput() {
+		Date today = new Date();
+
+		try {
+			controlDatesClient.getByDateAndType(null, ControlDateType.CURRICULUM);
+			fail("Expected Exception was not thrown");
+		} catch (IllegalArgumentException e) {
+			// expected
+		}
+
+		try {
+			controlDatesClient.getByDateAndType(today, null);
+			fail("Expected Exception was not thrown");
+		} catch (IllegalArgumentException e) {
+			// expected
 		}
 	}
 
+	@Test
+	public void getByDateAndTypeTest() {
+		Date today = new Date();
+		DateRowType result = controlDatesClient.getByDateAndType(today, ControlDateType.CURRICULUM);
+		assertTrue(result != null);
+
+		// Test getting a date type that doesn't exist. This call behaves like
+		// you would expect (unlike getByYearTermAndTypes)
+		result = controlDatesClient.getByDateAndType(today, ControlDateType.ID_CARD_EXP_BLACKOUT);
+		assertTrue(result == null);
+	}
 }
