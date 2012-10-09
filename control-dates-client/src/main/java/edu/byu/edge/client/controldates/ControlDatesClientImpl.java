@@ -33,7 +33,7 @@ import edu.byu.edge.client.controldates.domain.ResponseType;
 public class ControlDatesClientImpl extends BaseClient implements ControlDatesClient {
 	private static final Logger LOG = Logger.getLogger(ControlDatesClientImpl.class);
 
-	private static final String productionBaseUrl = "https://ws.byu.edu/rest/v1/academic/controls/controldatesws";
+	private static final String productionBaseUrl = "https://soaregistry.byu.edu:443/services/rest/v1/academic/control/controldatesws";
 	private static final int timeoutMs = 30000;
 
 	public ControlDatesClientImpl() {
