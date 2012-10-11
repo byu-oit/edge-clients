@@ -27,4 +27,12 @@ public interface BasicPersonLookup {
 	 * @return result
 	 */
 	BasicPerson getPersonByPersonId(final String personId);
+
+	/**
+	 * Gets BasicPerson for a netId
+	 *
+	 * @param netId NetId
+	 * @return result
+	 */
+	BasicPerson getPersonByNetId(final String netId);
 }

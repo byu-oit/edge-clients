@@ -53,7 +53,7 @@
 		<spring.security.version>3.1.0.RELEASE</spring.security.version><stax.version>1.0.1</stax.version>
 		<ws-authentication.version>1.0.0.1</ws-authentication.version>
 		<!--<hibernate.version>4.1.0</hibernate.version>-->
-		<common-domain.version>1.7.2-SNAPSHOT</common-domain.version>
+		<common-domain.version>1.7.1</common-domain.version>
 		<guava.version>13.0</guava.version>
 	</properties>
 

@@ -15,4 +15,12 @@
 		  c:jdbcTemplate-ref="basicTemplate"
 			/>
 
+	<bean id="phoneLookup" class="edu.byu.edge.person.basic.impl.PhoneLookupImpl"
+		  c:jdbcTemplate-ref="basicTemplate"
+			/>
+
+	<bean id="addressLookup" class="edu.byu.edge.person.basic.impl.AddressLookupImpl"
+		  c:jdbcTemplate-ref="basicTemplate"
+		  />
+
 </beans>

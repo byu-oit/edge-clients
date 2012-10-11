@@ -15,7 +15,7 @@
 	<context:annotation-config />
 
 	<bean id="basicDataSource" class="org.apache.commons.dbcp.BasicDataSource"
-		  p:url="jdbcs[ces@DEV]" p:driverClassName="edu.byu.jdbc.SecureDriver"
+		  p:url="jdbcs[ces@PROD]" p:driverClassName="edu.byu.jdbc.SecureDriver"
 		  p:initialSize="2" p:maxActive="5" p:maxIdle="5" p:minIdle="1"
 		  p:testWhileIdle="true" p:testOnBorrow="true" p:testOnReturn="true"
 		  p:validationQuery="select 1 from dual" />

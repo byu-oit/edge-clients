@@ -29,39 +29,44 @@ public class BasicPersonLookupImpl implements BasicPersonLookup {
 	private static final String BIRTH_DATE_COL = "birth_date";
 
 	@Autowired
-	public BasicPersonLookupImpl(JdbcTemplate jdbcTemplate){
+	public BasicPersonLookupImpl(JdbcTemplate jdbcTemplate) {
 		this.cesTemplate = jdbcTemplate;
 	}
 
 	@Override
-	public BasicPerson getPersonByPersonId(String personId) {
+	public BasicPerson getPersonByPersonId(final String personId) {
 		return cesTemplate.queryForObject(BASIC_LOOKUP_SQL, new BasicPersonRowMapper(), personId);
 	}
 
 	@Override
-	public List<BasicPerson> getPersonsByListPersonIds(List<String> personIds) {
+	public List<BasicPerson> getPersonsByListPersonIds(final List<String> personIds) {
 		List<BasicPerson> returningList = new LinkedList<BasicPerson>();
 		List<String> persons = new LinkedList<String>();
 		int begin = 0;
-		for(int end=0; personIds.size() != end; end++, begin++){
+		for (int end = 0; personIds.size() != end; end++, begin++) {
 			persons.add(personIds.get(end));
-			if(begin == 4){
+			if (begin == 4) {
 				returningList.addAll(getFivePersonQuery(persons));
 				begin = -1;
 				persons.clear();
 			}
 		}
-		if(begin != 0){
+		if (begin != 0) {
 			returningList.addAll(getFivePersonQuery(persons));
 		}
 		return returningList;
 	}
 
-	private List<BasicPerson> getFivePersonQuery(List<String> personIds){
+	@Override
+	public BasicPerson getPersonByNetId(final String netId) {
+		return cesTemplate.queryForObject(BASIC_NET_ID_LOOKUP_SQL, new BasicPersonRowMapper(), netId);
+	}
+
+	private List<BasicPerson> getFivePersonQuery(List<String> personIds) {
 		final Object[] objects = new Object[5];
 		int size = personIds.size();
-		for(int i=0; i<=4; i++){
-			if(size != 0){
+		for (int i = 0; i <= 4; i++) {
+			if (size != 0) {
 				size--;
 			}
 			objects[i] = personIds.get(size);
@@ -87,20 +92,31 @@ public class BasicPersonLookupImpl implements BasicPersonLookup {
 	private static final String BASIC_LOOKUP_SQL = "select " +
 			"p.person_id as " + PERSON_ID_COL + ", " +
 			"p.net_id as " + NET_ID_COL + ", " +
-			"p.rest_of_name as " + REST_OF_NAME_COL + ", "+
-			"p.preferred_first_name as " + PREFERRED_NAME_COL + ", "+
-			"p.surname as " + SURNAME_COL + ", "+
+			"p.rest_of_name as " + REST_OF_NAME_COL + ", " +
+			"p.preferred_first_name as " + PREFERRED_NAME_COL + ", " +
+			"p.surname as " + SURNAME_COL + ", " +
 			"p.byu_id as " + BYU_ID_COL + ", " +
 			"p.date_of_birth as " + BIRTH_DATE_COL + " " +
 			"from pro.person p " +
 			"where p.person_id=?";
 
+	private static final String BASIC_NET_ID_LOOKUP_SQL = "select " +
+			"p.person_id as " + PERSON_ID_COL + ", " +
+			"p.net_id as " + NET_ID_COL + ", " +
+			"p.rest_of_name as " + REST_OF_NAME_COL + ", " +
+			"p.preferred_first_name as " + PREFERRED_NAME_COL + ", " +
+			"p.surname as " + SURNAME_COL + ", " +
+			"p.byu_id as " + BYU_ID_COL + ", " +
+			"p.date_of_birth as " + BIRTH_DATE_COL + " " +
+			"from pro.person p " +
+			"where p.net_id=?";
+
 	private static final String MULTIPLE_LOOKUP_SQL = "select " +
 			"p.person_id as " + PERSON_ID_COL + ", " +
 			"p.net_id as " + NET_ID_COL + ", " +
-			"p.rest_of_name as " + REST_OF_NAME_COL + ", "+
-			"p.preferred_first_name as " + PREFERRED_NAME_COL + ", "+
-			"p.surname as " + SURNAME_COL + ", "+
+			"p.rest_of_name as " + REST_OF_NAME_COL + ", " +
+			"p.preferred_first_name as " + PREFERRED_NAME_COL + ", " +
+			"p.surname as " + SURNAME_COL + ", " +
 			"p.byu_id as " + BYU_ID_COL + ", " +
 			"p.date_of_birth as " + BIRTH_DATE_COL + " " +
 			"from pro.person p " +
