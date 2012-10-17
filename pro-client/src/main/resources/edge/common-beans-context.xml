@@ -11,6 +11,9 @@
 	<bean id="credentialResolutionRequest" class="edu.byu.security.hmac.PersonIdCredentialResolutionRequest"
 			c:personId="766224702" />
 
+	<!--<bean id="credentialResolutionRequest" class="edu.byu.security.hmac.PersonIdCredentialResolutionRequest"-->
+			<!--c:personId="327232672" />-->
+
 	<bean id="sharedSecretNonceEncodingFilter" class="edu.byu.security.hmac.jersey.SharedSecretNonceEncodingFilter"
 			c:credentialResolver-ref="sharedSecretCredentialResolver"
 			c:resolutionRequest-ref="credentialResolutionRequest"

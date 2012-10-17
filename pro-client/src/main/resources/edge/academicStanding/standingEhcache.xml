@@ -1,20 +1,18 @@
 <ehcache
 		xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 		xsi:noNamespaceSchemaLocation="http://ehcache.org/ehcache.xsd"
-		updateCheck="false" monitoring="autodetect" dynamicConfig="true" name="academicStandingCacheManager">
+		updateCheck="false" monitoring="autodetect" dynamicConfig="true"
+		name="academicStandingCacheManager">
 	<diskStore path="java.io.tmpdir/academicStandingCache" />
 	<defaultCache eternal="false" overflowToDisk="false"
 		diskPersistent="false"
 		maxElementsInMemory="5"
 		timeToIdleSeconds="15"
 		timeToLiveSeconds="30"
-		maxEntriesLocalHeap="5"
 		/>
 	<cache eternal="false" name="academicStandingClientCache" overflowToDisk="true"
 		diskPersistent="false"
 		maxElementsInMemory="32"
-		maxEntriesLocalHeap="32"
-		maxEntriesLocalDisk="128"
 		timeToIdleSeconds="15"
 		timeToLiveSeconds="60"
 		diskExpiryThreadIntervalSeconds="10"

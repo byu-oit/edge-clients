@@ -1,6 +1,7 @@
 package edu.byu.edge.client.pro.impl;
 
 import com.sun.jersey.api.client.UniformInterfaceException;
+import com.sun.jersey.api.client.WebResource;
 import edu.byu.commons.exception.ByuException;
 import edu.byu.edge.client.pro.PersonSummaryClient;
 import edu.byu.edge.client.pro.domain.personSummary.PersonSummaryServiceType;

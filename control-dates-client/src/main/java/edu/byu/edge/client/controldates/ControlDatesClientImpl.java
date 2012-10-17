@@ -106,12 +106,22 @@ public class ControlDatesClientImpl extends BaseClient implements ControlDatesCl
 				controlDateTypes != null && controlDateTypes.length > 0 && controlDateTypes.length < 10 && !isAllNulls(Arrays.asList(controlDateTypes)),
 				"At least 1 and no more than 10 Control Date Types are required.");
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
-		String path = "asofdate/" + sdf.format(asOfDate) + "/";
-		for (ControlDateType controlDateType : controlDateTypes) {
-			path += controlDateType + ",";
+		StringBuilder path = new StringBuilder();
+		path.append("asofdate/");
+		path.append(sdf.format(asOfDate));
+		path.append("/");
+		if (controlDateTypes == null || controlDateTypes.length == 0) {
+			//append nothing
+		} else if (controlDateTypes.length == 1) {
+			path.append(controlDateTypes[0]);
+		} else {
+			for (int i = 0; i < controlDateTypes.length; i++) {
+				ControlDateType cdt = controlDateTypes[i];
+				path.append(cdt);
+				if (i < controlDateTypes.length - 1) path.append(",");
+			}
 		}
-		path = path.substring(0, path.lastIndexOf(","));
-		ControldateswsServiceType cdws = executeCall(path);
+		ControldateswsServiceType cdws = executeCall(path.toString());
 		ResponseType response = cdws.getResponse();
 		if (response != null && response.getDateList() != null && response.getDateList().getDateRow() != null) {
 			return response.getDateList().getDateRow();

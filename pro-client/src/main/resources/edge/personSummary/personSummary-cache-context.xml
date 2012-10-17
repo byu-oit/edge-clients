@@ -15,6 +15,7 @@
 			p:cacheManager-ref="personSummaryClientEhcache" />
 
 	<bean id="personSummaryClientEhcache" class="org.springframework.cache.ehcache.EhCacheManagerFactoryBean"
+			p:shared="true"
 			p:configLocation="classpath:/edge/personSummary/personSummaryEhcache.xml" />
 
 </beans>

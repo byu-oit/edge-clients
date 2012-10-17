@@ -5,7 +5,9 @@ import edu.byu.edge.client.pro.domain.standing.RecStdAcadStandingServiceType;
 import org.apache.log4j.Logger;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.springframework.beans.factory.BeanFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
@@ -23,6 +25,7 @@ import static org.junit.Assert.assertNotNull;
 		"classpath:test-context.xml",
 		"classpath:edge/academicStanding/standing-context.xml"
 })
+@DirtiesContext
 public class StandingUnitTest extends BaseTest {
 	private static final Logger LOG = Logger.getLogger(StandingUnitTest.class);
 

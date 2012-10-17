@@ -13,6 +13,10 @@
 		<version>1.0.0-SNAPSHOT</version>
 		<relativePath>../parent/pom.xml</relativePath>
 	</parent>
+
+	<properties>
+		<ehcache.version>2.4.4</ehcache.version>
+	</properties>
 	
 	<dependencies>
 		<dependency>

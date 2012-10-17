@@ -6,6 +6,7 @@ import org.apache.log4j.Logger;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
@@ -20,6 +21,7 @@ import static org.junit.Assert.*;
 		"classpath:test-context.xml",
 		"classpath:edge/personSummary/personSummary-context.xml"
 })
+@DirtiesContext
 public class ProClientUnitTest extends BaseTest {
 	private static final Logger LOG = Logger.getLogger(ProClientUnitTest.class);
 
