@@ -9,6 +9,7 @@ import java.util.List;
 import javax.ws.rs.Path;
 import javax.ws.rs.core.MediaType;
 
+import com.sun.jersey.api.client.WebResource;
 import org.apache.log4j.Logger;
 import org.springframework.cache.annotation.Cacheable;
 
@@ -140,7 +141,9 @@ public class ControlDatesClientImpl extends BaseClient implements ControlDatesCl
 
 	private ControldateswsServiceType executeCall(String path) {
 		try {
-			return getResource().path(path).accept(MediaType.APPLICATION_XML_TYPE).get(ControldateswsServiceType.class);
+			final WebResource webres = getResource().path(path);
+			LOG.debug("calling: " + webres.toString());
+			return webres.accept(MediaType.APPLICATION_XML_TYPE).get(ControldateswsServiceType.class);
 		} catch (final UniformInterfaceException e) {
 			if (super.processExceptionForRetry(e)) {
 				LOG.info("retrying GET due to '502 Bad Gateway'");
