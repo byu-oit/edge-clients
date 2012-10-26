@@ -23,4 +23,8 @@
 		  c:jdbcTemplate-ref="basicTemplate"
 		  />
 
+	<bean id="emailLookup" class="edu.byu.edge.person.basic.impl.EmailAddressLookupImpl"
+		  c:jdbcTemplate-ref="basicTemplate"
+		  />
+
 </beans>
