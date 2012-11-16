@@ -13,7 +13,7 @@ import com.google.common.base.Strings;
 
 import edu.byu.common.domain.YearTerm;
 import edu.byu.edge.client.controldates.domain.ControlDateType;
-import edu.byu.edge.client.controldates.domain.ControldateswsServiceType;
+import edu.byu.edge.client.controldates.domain.ControlDatesWSServiceType;
 import edu.byu.edge.client.controldates.domain.DateRowType;
 
 public class ControlDatesClientImplTestCase {
@@ -47,7 +47,7 @@ public class ControlDatesClientImplTestCase {
 		assertTrue(secondToLastControlDate.getDateType()
 											.equals(ControlDateType.CURRICULUM.toString()));
 
-		assertTrue(ControldateswsServiceType.dateFormatter.parse(secondToLastControlDate.getStartDate())
+		assertTrue(ControlDatesWSServiceType.dateFormatter.parse(secondToLastControlDate.getStartDate())
 															.compareTo(new Date()) >= 0);
 	}
 

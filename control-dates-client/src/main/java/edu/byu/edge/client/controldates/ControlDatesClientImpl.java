@@ -13,13 +13,14 @@ import org.apache.log4j.Logger;
 import org.springframework.cache.annotation.Cacheable;
 
 import com.google.common.base.Preconditions;
+import com.sun.jersey.api.client.ClientHandlerException;
 import com.sun.jersey.api.client.UniformInterfaceException;
 import com.sun.jersey.api.client.WebResource;
 
 import edu.byu.common.domain.YearTerm;
 import edu.byu.commons.exception.ByuException;
 import edu.byu.edge.client.controldates.domain.ControlDateType;
-import edu.byu.edge.client.controldates.domain.ControldateswsServiceType;
+import edu.byu.edge.client.controldates.domain.ControlDatesWSServiceType;
 import edu.byu.edge.client.controldates.domain.DateRowType;
 import edu.byu.edge.client.controldates.domain.ResponseType;
 
@@ -47,7 +48,7 @@ public class ControlDatesClientImpl extends BaseClient implements ControlDatesCl
 	public List<DateRowType> getAll(ControlDateType type) {
 		Preconditions.checkArgument(type != null, "Invalid (null) Control Date Type.");
 		String path = "all/" + type.toString();
-		ControldateswsServiceType cdws = executeCall(path);
+		ControlDatesWSServiceType cdws = executeCall(path);
 		ResponseType response = cdws.getResponse();
 		if (response != null && response.getDateList() != null && response.getDateList().getDateRow() != null) {
 			return response.getDateList().getDateRow();
@@ -62,7 +63,7 @@ public class ControlDatesClientImpl extends BaseClient implements ControlDatesCl
 		Preconditions.checkArgument(controlDateType != null, "Invalid (null) Control Date Type.");
 
 		String path = "range/" + startYearTerm.getYearTerm() + "," + endYearTerm.getYearTerm() + "/" + controlDateType;
-		ControldateswsServiceType cdws = executeCall(path);
+		ControlDatesWSServiceType cdws = executeCall(path);
 		ResponseType response = cdws.getResponse();
 		if (response != null && response.getDateList() != null && response.getDateList().getDateRow() != null) {
 			return response.getDateList().getDateRow();
@@ -83,7 +84,7 @@ public class ControlDatesClientImpl extends BaseClient implements ControlDatesCl
 			path += controlDateType + ",";
 		}
 		path = path.substring(0, path.lastIndexOf(","));
-		ControldateswsServiceType cdws = executeCall(path);
+		ControlDatesWSServiceType cdws = executeCall(path);
 		ResponseType response = cdws.getResponse();
 		if (response != null && response.getDateList() != null && response.getDateList().getDateRow() != null) {
 			return response.getDateList().getDateRow();
@@ -122,7 +123,7 @@ public class ControlDatesClientImpl extends BaseClient implements ControlDatesCl
 				if (i < controlDateTypes.length - 1) path.append(",");
 			}
 		}
-		ControldateswsServiceType cdws = executeCall(path.toString());
+		ControlDatesWSServiceType cdws = executeCall(path.toString());
 		ResponseType response = cdws.getResponse();
 		if (response != null && response.getDateList() != null && response.getDateList().getDateRow() != null) {
 			return response.getDateList().getDateRow();
@@ -139,15 +140,15 @@ public class ControlDatesClientImpl extends BaseClient implements ControlDatesCl
 		return null;
 	}
 
-	private ControldateswsServiceType executeCall(String path) {
+	private ControlDatesWSServiceType executeCall(String path) {
 		try {
 			final WebResource webres = getResource().path(path);
 			LOG.debug("calling: " + webres.toString());
-			return webres.accept(MediaType.APPLICATION_XML_TYPE).get(ControldateswsServiceType.class);
+			return webres.accept(MediaType.APPLICATION_XML_TYPE).get(ControlDatesWSServiceType.class);
 		} catch (final UniformInterfaceException e) {
 			if (super.processExceptionForRetry(e)) {
 				LOG.info("retrying GET due to '502 Bad Gateway'");
-				return getResource().path(path).accept(MediaType.APPLICATION_XML_TYPE).get(ControldateswsServiceType.class);
+				return getResource().path(path).accept(MediaType.APPLICATION_XML_TYPE).get(ControlDatesWSServiceType.class);
 			} else {
 				final Throwable t = processExceptionToCommon(e);
 				if (ByuException.class.isAssignableFrom(t.getClass())) {
@@ -156,6 +157,9 @@ public class ControlDatesClientImpl extends BaseClient implements ControlDatesCl
 					throw e;
 				}
 			}
+		} catch (ClientHandlerException e) {
+			LOG.error("Could not process the control date response.", e);
+			throw e;
 		}
 	}
 
