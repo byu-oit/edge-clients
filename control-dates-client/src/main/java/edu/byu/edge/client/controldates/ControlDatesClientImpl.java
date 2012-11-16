@@ -9,12 +9,12 @@ import java.util.List;
 import javax.ws.rs.Path;
 import javax.ws.rs.core.MediaType;
 
-import com.sun.jersey.api.client.WebResource;
 import org.apache.log4j.Logger;
 import org.springframework.cache.annotation.Cacheable;
 
 import com.google.common.base.Preconditions;
 import com.sun.jersey.api.client.UniformInterfaceException;
+import com.sun.jersey.api.client.WebResource;
 
 import edu.byu.common.domain.YearTerm;
 import edu.byu.commons.exception.ByuException;
@@ -34,7 +34,7 @@ import edu.byu.edge.client.controldates.domain.ResponseType;
 public class ControlDatesClientImpl extends BaseClient implements ControlDatesClient {
 	private static final Logger LOG = Logger.getLogger(ControlDatesClientImpl.class);
 
-	private static final String productionBaseUrl = "https://soaregistry.byu.edu:443/services/rest/v1/academic/control/controldatesws";
+	public static final String productionBaseUrl = "https://soaregistry.byu.edu:443/services/rest/v1/academic/control/controldatesws";
 	private static final int timeoutMs = 30000;
 
 	public ControlDatesClientImpl() {
