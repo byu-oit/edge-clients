@@ -11,9 +11,52 @@
 		<groupId>edu.byu.edge.framework</groupId>
 		<artifactId>edge-pom</artifactId>
 		<version>1.0.0-SNAPSHOT</version>
+		<relativePath>../edge-pom/pom.xml</relativePath>
 	</parent>
 	
 	<dependencies>
+		<dependency>
+			<groupId>javax.servlet</groupId>
+			<artifactId>servlet-api</artifactId>
+			<scope>compile</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.security</groupId>
+			<artifactId>spring-security-core</artifactId>
+			<scope>compile</scope>
+		</dependency>
+		<dependency>
+			<groupId>edu.byu.security</groupId>
+			<artifactId>security-ws</artifactId>
+			<version>${byuSecurity.version}</version>
+			<scope>compile</scope>
+		</dependency>
+		<dependency>
+			<groupId>edu.byu.security</groupId>
+			<artifactId>security-core</artifactId>
+			<version>${byuSecurity.version}</version>
+			<scope>compile</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-beans</artifactId>
+			<scope>compile</scope>
+		</dependency>
+		<dependency>
+			<groupId>log4j</groupId>
+			<artifactId>log4j</artifactId>
+			<scope>compile</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-core</artifactId>
+			<scope>compile</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-tx</artifactId>
+			<scope>compile</scope>
+		</dependency>
 	</dependencies>
 </project>
 
