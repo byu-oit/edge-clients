@@ -5,13 +5,13 @@
 	<artifactId>parent-pom</artifactId>
 	<packaging>pom</packaging>
 	<name>edge ws client parent POM</name>
-	<version>1.0.0-SNAPSHOT</version>
+	<version>1.0.0</version>
 
 	<parent>
-		<groupId>edu.byu</groupId>
-		<artifactId>byu-framework-pom</artifactId>
-		<version>1.0.3</version>
-		<relativePath>${settings.localRepository}/edu/byu/byu-framework-pom/1.0.3/byu-framework-pom-1.0.3.pom</relativePath>
+		<groupId>edu.byu.edge.framework</groupId>
+		<artifactId>edge-pom</artifactId>
+		<version>1.0.0</version>
+		<relativePath>${settings.localRepository}/edu/byu/edge/framework/edge-pom/1.0.0/edge-pom-1.0.0.pom</relativePath>
 	</parent>
 
 	<properties>

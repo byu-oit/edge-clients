@@ -212,7 +212,7 @@ public final class ApiKeyCli {
 				OUT.format("Nonce Key:   %s\n", nonce.getNonceKey());
 				OUT.format("Nonce Value: %s\n", nonce.getNonceValue());
 				OUT.format("HMAC:        %s\n", hmac);
-				OUT.format("Auth Header: %s\n", head);
+				OUT.format("Auth Header: %s\n", head.replace("Nonce-Encoded-WsSession-Key", "Nonce-Encoded-API-Key"));
 			} catch (final Throwable t) {
 				OUT.println("Error getting nonce:");
 				t.printStackTrace(OUT);
