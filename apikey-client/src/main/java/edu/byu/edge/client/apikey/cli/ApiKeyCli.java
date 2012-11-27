@@ -42,19 +42,20 @@ public final class ApiKeyCli {
 				final List<SharedSecret> keys = getKeys();
 				OUT.println();
 				OUT.println("Welcome to the command-line interface for the BYU API Key client.");
-				OUT.println("Please select an ApiKey to use.");
+				OUT.println("Please select an ApiKey to use. You may enter the line number or the person-id.");
 				OUT.println();
 				OUT.println(" 0: Quit");
-				final Map<Integer, SharedSecret> map = new LinkedHashMap<Integer, SharedSecret>(keys.size() + 1, .9999f);
+				final Map<String, SharedSecret> map = new LinkedHashMap<String, SharedSecret>(2 * keys.size() + 1, .9999f);
 				int i = 1;
 				for (final SharedSecret k : keys) {
-					OUT.println(String.format("%2d: %s (%s)", i, k.getName(), k.getExpirationDate()));
-					map.put(i, k);
+					OUT.println(String.format("%2d: %s - %s (%s)", i, k.getPersonId(), k.getName(), k.getExpirationDate()));
+					map.put(String.valueOf(i), k);
+					map.put(k.getPersonId(), k);
 					i++;
 				}
 				OUT.println();
-				final int val = readInt();
-				if (val == 0) break;
+				final String val = readString();
+				if ("".equals(val) || "0".equals(val)) break;
 				if (!map.containsKey(val)) {
 					OUT.println("Invalid selection. Exiting.");
 					break;
