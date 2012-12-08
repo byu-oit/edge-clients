@@ -11,5 +11,6 @@
 		<module>edge-pom</module>
 		<module>ws-auth-filters</module>
 		<module>edge-swing</module>
+		<module>jdbc-gen</module>
 	</modules>
 </project>
