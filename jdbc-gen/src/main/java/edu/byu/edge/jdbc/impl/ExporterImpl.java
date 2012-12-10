@@ -36,31 +36,38 @@ public class ExporterImpl implements Exporter {
 	@Override
 	public void export(final List<Table> tables, final String baseFolder, final String pkgName) {
 		OUT.println("Exporting tables to " + baseFolder + "...");
+
 		final File bd = new File(baseFolder);
 		if (bd.exists() && ! bd.isDirectory()) throw new IllegalArgumentException(baseFolder + " is not a valid folder");
 		if (! bd.exists() && ! bd.mkdirs()) throw new IllegalArgumentException("Unable to create base folder: " + baseFolder);
+
 		final File outPath = new File(bd, pkgName.replaceAll("\\.", "/"));
 		if (outPath.exists() && ! outPath.isDirectory()) throw new IllegalArgumentException(outPath + " is not a valid folder");
 		if (!outPath.exists() && !outPath.mkdirs()) throw new IllegalArgumentException("Unable to create folder: " + outPath);
+
+		final File mapper = new File(outPath, "mapper");
+		if (mapper.exists() && !mapper.isDirectory()) throw new IllegalArgumentException("Row mapper package is not a directory.");
+		if (!mapper.exists() && !mapper.mkdirs()) throw new IllegalArgumentException("Unable to create row mapper folder: " + mapper);
+
 		for (final Table t : tables) {
 			try {
-				exportTable(outPath, pkgName, t);
+				exportTable(outPath, mapper, pkgName, t);
 			} catch (final Exception e) {
 				OUT.println("Error generating class for " + t.getTableName());
 			}
 		}
 	}
 
-	private void exportTable(final File outPath, final String pkgName, final Table t) throws IOException {
-		final String className = createClassName(t.getTableName());
+	private void exportTable(final File outPath, final File mapper, final String pkgName, final Table tbl) throws IOException {
+		final String className = createClassName(tbl.getTableName());
 
-		OUT.println("Exporting " + t.getTableName() + " to " + className);
+		OUT.println("Exporting " + tbl.getTableName() + " to " + className);
 
 		final Set<String> imps = new LinkedHashSet<String>(5, .9999f);
 		final List<String[]> props = new LinkedList<String[]>();
 		final List<List<String[]>> constructors = new LinkedList<List<String[]>>();
 
-		final List<Column> columns = t.getColumns();
+		final List<Column> columns = tbl.getColumns();
 		Collections.sort(columns, ColumnComparator.INSTANCE);
 		for (final Column c : columns) {
 			final String colType = determineColumnType(c);
@@ -68,7 +75,14 @@ public class ExporterImpl implements Exporter {
 			final String[] inf = IMPORT_MAP.get(colType);
 			if (inf[0] != null) imps.add(inf[0]);
 			final String cn = determineColumnName(c.getColumnName());
-			props.add(new String[]{inf[1], cn.substring(0, 1).toLowerCase() + cn.substring(1), cn});
+			final String[] arr = new String[6];
+			arr[0] = inf[1];
+			arr[1] = cn.substring(0, 1).toLowerCase() + cn.substring(1);
+			arr[2] = cn;
+			arr[3] = RESULT_SET_MAP.get(arr[0]);
+			arr[4] = c.getNullable() && SET_NULL_MAP.containsKey(arr[0]) ? SET_NULL_MAP.get(arr[0]) : null;
+			arr[5] = c.getColumnName();
+			props.add(arr);
 		}
 
 		final HashMap<String, Object> map = new HashMap<String, Object>(8, .9999f);
@@ -76,14 +90,22 @@ public class ExporterImpl implements Exporter {
 		map.put("imports", imps);
 		map.put("props", props);
 		map.put("className", className);
+		map.put("rowpackage", pkgName + (pkgName != null && ! pkgName.equals("") ? ".mapper" : "mapper"));
 
-		final File fout = new File(outPath, className + ".java");
+		final File fouta = new File(outPath, className + ".java");
+		final Template tempa = configuration.getTemplate("jdbcDomain.ftl");
+
+		writeTemplateToFile(fouta, tempa, map);
+
+		final File foutb = new File(mapper, className + "Mapper.java");
+		final Template tempb = configuration.getTemplate("rowMapper.ftl");
+
+		writeTemplateToFile(foutb, tempb, map);
+	}
+
+	private void writeTemplateToFile(final File fout, final Template temp, final Map<String, Object> map) throws IOException {
 		fout.createNewFile();
-
-		final Template temp = configuration.getTemplate("jdbcDomain.ftl");
-
 		final FileWriter out = new FileWriter(fout);
-
 		try {
 			temp.process(map, out);
 		} catch (final TemplateException e) {
@@ -138,10 +160,11 @@ public class ExporterImpl implements Exporter {
 			sb.append(p.substring(0, 1).toUpperCase());
 			sb.append(p.substring(1).toLowerCase());
 		}
+		if (sb.charAt(sb.length() - 1) == 's') sb.deleteCharAt(sb.length() - 1);
 		return sb.toString();
 	}
 
-	private static final String DB_IDENT_SEP = "[_\\.\\/]+";
+	private static final String DB_IDENT_SEP = "[_\\.\\/&]+";
 
 	private static final String[] STRING = {"java.lang.String"};
 	private static final String[] TBOOL = {"boolean"};
@@ -156,6 +179,8 @@ public class ExporterImpl implements Exporter {
 	private static final Map<String, String[]> TYPE_MAPPING = createTypeMapping();
 	private static final Map<String, String> NULL_MAP = createNullMap();
 	private static final Map<String, String[]> IMPORT_MAP = createImportMap();
+	private static final Map<String, String> RESULT_SET_MAP = createResultSetMap();
+	private static final Map<String, String> SET_NULL_MAP = createSetNullValueMap();
 
 	private static Map<String, String[]> createTypeMapping() {
 		final Map<String, String[]> map = new HashMap<String, String[]>(36, .9999f);
@@ -224,6 +249,40 @@ public class ExporterImpl implements Exporter {
 		map.put("java.lang.String", new String[]{null, "String"});
 		map.put("java.util.Date", new String[]{"java.util.Date", "Date"});
 		map.put("java.math.BigDecimal", new String[]{"java.math.BigDecimal", "BigDecimal"});
+
+		return Collections.unmodifiableMap(map);
+	}
+
+	private static Map<String, String> createResultSetMap() {
+		final Map<String, String> map = new HashMap<String, String>(13, .9999f);
+
+		map.put("int", "getInt");
+		map.put("long", "getLong");
+		map.put("boolean", "getBoolean");
+		map.put("double", "getDouble");
+		map.put("Integer", "getInt");
+		map.put("Long", "getLong");
+		map.put("Boolean", "getBoolean");
+		map.put("Double", "getDouble");
+		map.put("String", "getString");
+		map.put("Date", "getTimestamp");
+		map.put("BigDecimal", "getBigDecimal");
+		map.put("byte[]", "getBytes");
+
+		return Collections.unmodifiableMap(map);
+	}
+
+	private static Map<String, String> createSetNullValueMap() {
+		final Map<String, String> map = new HashMap<String, String>(8, .9999f);
+
+		map.put("Integer", "null");
+		map.put("Long", "null");
+		map.put("Boolean", "null");
+		map.put("Double", "null");
+		map.put("String", "\"\"");
+		map.put("Date", "null");
+		map.put("BigDecimal", "null");
+		map.put("byte[]", "new byte[0]");
 
 		return Collections.unmodifiableMap(map);
 	}

@@ -17,7 +17,7 @@ public final class ColumnComparator implements Comparator<Column> {
 	private ColumnComparator() {
 	}
 
-	private static final Pattern PK_PATTERN = Pattern.compile("^.*?P{1}[KR]{1}[I]?.*?$");
+	private static final Pattern PK_PATTERN = Pattern.compile("^.*?P{1}[KR]{1}[I]?.*?$", Pattern.CASE_INSENSITIVE);
 //	private static final Pattern PK_PATTERN = Pattern.compile("^.*?P{1}(RI)|(K).*?$");
 
 	@Override
