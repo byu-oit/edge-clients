@@ -164,7 +164,7 @@ public class ExporterImpl implements Exporter {
 		return sb.toString();
 	}
 
-	private static final String DB_IDENT_SEP = "[_\\.\\/&]+";
+	private static final String DB_IDENT_SEP = "[_\\.\\/&\\s]+";
 
 	private static final String[] STRING = {"java.lang.String"};
 	private static final String[] TBOOL = {"boolean"};
