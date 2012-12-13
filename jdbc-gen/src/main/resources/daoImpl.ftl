@@ -18,7 +18,7 @@ import java.util.List;
   *
   */
 @Repository("${classRefName}Dao")
-public class ${className}DaoImpl implements ${className}Dao {
+public class ${className}DaoImpl extends BaseDaoImpl implements ${className}Dao {
 
 	protected final NamedParameterJdbcTemplate jdbc;
 	protected final RowMapper<${className}> mapper;
