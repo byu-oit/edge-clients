@@ -58,9 +58,13 @@ public class JdbcGen {
 		OUT.println();
 		OUT.println("Please enter output directory.");
 		final String path = getInput();
-		OUT.println("Please enter java package name.");
+		OUT.println("Please enter base java package name.");
 		final String pkgraw = getInput();
 		final String pkg = pkgraw.replaceAll("[\\\\\\/]", ".");
+		if (pkg.equals("")) {
+			OUT.println("You must enter a package. The default package is not allowed.");
+			return;
+		}
 		e.export(tables, path, pkg);
 		OUT.println();
 	}

@@ -12,5 +12,6 @@
 		<module>ws-auth-filters</module>
 		<module>edge-swing</module>
 		<module>jdbc-gen</module>
+		<module>jdbc-da</module>
 	</modules>
 </project>

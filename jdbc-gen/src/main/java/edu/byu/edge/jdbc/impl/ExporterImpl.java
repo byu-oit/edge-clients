@@ -37,28 +37,23 @@ public class ExporterImpl implements Exporter {
 	public void export(final List<Table> tables, final String baseFolder, final String pkgName) {
 		OUT.println("Exporting tables to " + baseFolder + "...");
 
-		final File bd = new File(baseFolder);
-		if (bd.exists() && ! bd.isDirectory()) throw new IllegalArgumentException(baseFolder + " is not a valid folder");
-		if (! bd.exists() && ! bd.mkdirs()) throw new IllegalArgumentException("Unable to create base folder: " + baseFolder);
-
-		final File outPath = new File(bd, pkgName.replaceAll("\\.", "/"));
-		if (outPath.exists() && ! outPath.isDirectory()) throw new IllegalArgumentException(outPath + " is not a valid folder");
-		if (!outPath.exists() && !outPath.mkdirs()) throw new IllegalArgumentException("Unable to create folder: " + outPath);
-
-		final File mapper = new File(outPath, "mapper");
-		if (mapper.exists() && !mapper.isDirectory()) throw new IllegalArgumentException("Row mapper package is not a directory.");
-		if (!mapper.exists() && !mapper.mkdirs()) throw new IllegalArgumentException("Unable to create row mapper folder: " + mapper);
+		final File root = createFolder(null, baseFolder);
+		final File base = createFolder(root, pkgName.replaceAll("\\.", "/"));
+		final File domain = createFolder(base, "domain");
+		final File da = createFolder(base, "da");
+		final File mapper = createFolder(da, "mapper");
+		final File daimpl = createFolder(da, "jdbc");
 
 		for (final Table t : tables) {
 			try {
-				exportTable(outPath, mapper, pkgName, t);
+				exportTable(new File[]{base, domain, da, daimpl, mapper}, pkgName, t);
 			} catch (final Exception e) {
 				OUT.println("Error generating class for " + t.getTableName());
 			}
 		}
 	}
 
-	private void exportTable(final File outPath, final File mapper, final String pkgName, final Table tbl) throws IOException {
+	private void exportTable(final File[] paths, final String pkgName, final Table tbl) throws IOException {
 		final String className = createClassName(tbl.getTableName());
 
 		OUT.println("Exporting " + tbl.getTableName() + " to " + className);
@@ -90,17 +85,18 @@ public class ExporterImpl implements Exporter {
 		map.put("imports", imps);
 		map.put("props", props);
 		map.put("className", className);
-		map.put("rowpackage", pkgName + (pkgName != null && ! pkgName.equals("") ? ".mapper" : "mapper"));
+		map.put("classRefName", className.substring(0, 1).toLowerCase() + className.substring(1));
 
-		final File fouta = new File(outPath, className + ".java");
-		final Template tempa = configuration.getTemplate("jdbcDomain.ftl");
+		doExport(paths[1], className + ".java", "jdbcDomain.ftl", map);
+		doExport(paths[4], className + "Mapper.java", "rowMapper.ftl", map);
+		doExport(paths[2], className + "Dao.java", "daoInterface.ftl", map);
+		doExport(paths[3], className + "DaoImpl.java", "daoImpl.ftl", map);
+	}
 
-		writeTemplateToFile(fouta, tempa, map);
-
-		final File foutb = new File(mapper, className + "Mapper.java");
-		final Template tempb = configuration.getTemplate("rowMapper.ftl");
-
-		writeTemplateToFile(foutb, tempb, map);
+	private void doExport(final File path, final String fileName, final String templateName, final Map<String, Object> map) throws IOException {
+		final File fout = new File(path, fileName);
+		final Template temp = configuration.getTemplate(templateName);
+		writeTemplateToFile(fout, temp, map);
 	}
 
 	private void writeTemplateToFile(final File fout, final Template temp, final Map<String, Object> map) throws IOException {
@@ -162,6 +158,13 @@ public class ExporterImpl implements Exporter {
 		}
 		if (sb.charAt(sb.length() - 1) == 's') sb.deleteCharAt(sb.length() - 1);
 		return sb.toString();
+	}
+
+	private static File createFolder(final File base, final String fldr) {
+		final File dir = base != null ? new File(base, fldr) : new File(fldr);
+		if (dir.exists() && ! dir.isDirectory()) throw new IllegalArgumentException(dir + " is not a valid folder");
+		if (! dir.exists() && ! dir.mkdirs()) throw new IllegalArgumentException("Unable to create base folder: " + dir);
+		return dir;
 	}
 
 	private static final String DB_IDENT_SEP = "[_\\.\\/&\\s]+";
