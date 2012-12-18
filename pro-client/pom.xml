@@ -3,14 +3,14 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>edu.byu.edge.wsClient</groupId>
 	<artifactId>pro-client</artifactId>
-	<version>1.0.1</version>
+	<version>${parent.version}</version>
 	<name>edge pro ws client</name>
 	<packaging>jar</packaging>
 	
 	<parent>
 		<groupId>edu.byu.edge.wsClient</groupId>
 		<artifactId>parent-pom</artifactId>
-		<version>1.0.0</version>
+		<version>1.0.3</version>
 		<relativePath>../parent/pom.xml</relativePath>
 	</parent>
 

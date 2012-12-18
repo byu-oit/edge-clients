@@ -1,28 +1,25 @@
 package edu.byu.edge.client.controldates;
 
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Date;
-import java.util.List;
-
-import javax.ws.rs.Path;
-import javax.ws.rs.core.MediaType;
-
-import org.apache.log4j.Logger;
-import org.springframework.cache.annotation.Cacheable;
-
 import com.google.common.base.Preconditions;
 import com.sun.jersey.api.client.ClientHandlerException;
 import com.sun.jersey.api.client.UniformInterfaceException;
 import com.sun.jersey.api.client.WebResource;
-
 import edu.byu.common.domain.YearTerm;
 import edu.byu.commons.exception.ByuException;
 import edu.byu.edge.client.controldates.domain.ControlDateType;
 import edu.byu.edge.client.controldates.domain.ControlDatesWSServiceType;
 import edu.byu.edge.client.controldates.domain.DateRowType;
 import edu.byu.edge.client.controldates.domain.ResponseType;
+import org.apache.log4j.Logger;
+import org.springframework.cache.annotation.Cacheable;
+
+import javax.ws.rs.Path;
+import javax.ws.rs.core.MediaType;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Date;
+import java.util.List;
 
 /**
  * Client interface to the control dates web service. Note: The service's xsd
@@ -77,11 +74,11 @@ public class ControlDatesClientImpl extends BaseClient implements ControlDatesCl
 		Preconditions.checkArgument(controlDateTypes != null && controlDateTypes.length > 0 && controlDateTypes.length < 10
 				&& !isAllNulls(Arrays.asList(controlDateTypes)),
 				"At least 1 and no more than 10 Control Date Types are required.");
-		String path = "yearterm/" + yearTerm + "/";
+		String path = "yearterm/" + yearTerm.getYearTerm() + "/";
 		for (ControlDateType controlDateType : controlDateTypes) {
 			if (controlDateType == null)
 				continue;
-			path += controlDateType + ",";
+			path += controlDateType.toString() + ",";
 		}
 		path = path.substring(0, path.lastIndexOf(","));
 		ControlDatesWSServiceType cdws = executeCall(path);
