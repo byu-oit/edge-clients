@@ -1,25 +1,29 @@
 package edu.byu.edge.client.controldates;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Date;
+import java.util.List;
+
+import javax.ws.rs.Path;
+import javax.ws.rs.core.MediaType;
+
+import org.apache.log4j.Logger;
+import org.springframework.cache.annotation.Cacheable;
+
 import com.google.common.base.Preconditions;
 import com.sun.jersey.api.client.ClientHandlerException;
 import com.sun.jersey.api.client.UniformInterfaceException;
 import com.sun.jersey.api.client.WebResource;
+
 import edu.byu.common.domain.YearTerm;
 import edu.byu.commons.exception.ByuException;
 import edu.byu.edge.client.controldates.domain.ControlDateType;
 import edu.byu.edge.client.controldates.domain.ControlDatesWSServiceType;
 import edu.byu.edge.client.controldates.domain.DateRowType;
 import edu.byu.edge.client.controldates.domain.ResponseType;
-import org.apache.log4j.Logger;
-import org.springframework.cache.annotation.Cacheable;
-
-import javax.ws.rs.Path;
-import javax.ws.rs.core.MediaType;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Date;
-import java.util.List;
 
 /**
  * Client interface to the control dates web service. Note: The service's xsd
@@ -78,7 +82,7 @@ public class ControlDatesClientImpl extends BaseClient implements ControlDatesCl
 		for (ControlDateType controlDateType : controlDateTypes) {
 			if (controlDateType == null)
 				continue;
-			path += controlDateType.toString() + ",";
+			path += controlDateType.getControlDateType() + ",";
 		}
 		path = path.substring(0, path.lastIndexOf(","));
 		ControlDatesWSServiceType cdws = executeCall(path);
@@ -96,6 +100,12 @@ public class ControlDatesClientImpl extends BaseClient implements ControlDatesCl
 			return byDate.get(0);
 		}
 		return null;
+	}
+
+	@Override
+	public Date parseResponseDateString(String responseDateString) throws ParseException {
+		SimpleDateFormat formatter = new SimpleDateFormat("yyyyMMdd HH:mm:ss");
+		return formatter.parse(responseDateString);
 	}
 
 	@Override

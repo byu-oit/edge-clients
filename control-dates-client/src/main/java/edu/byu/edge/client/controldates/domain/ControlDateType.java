@@ -54,7 +54,16 @@ public enum ControlDateType {
 
 	private String controlDateType;
 
-	ControlDateType(String controleDateType) {
+	ControlDateType(String controlDateType) {
 		this.controlDateType = controlDateType;
+	}
+
+	/**
+	 * See {@link ControlDateType#controlDateType}
+	 * 
+	 * @return the controlDateType
+	 */
+	public String getControlDateType() {
+		return controlDateType;
 	}
 }

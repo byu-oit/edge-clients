@@ -166,7 +166,7 @@ public class ControlDatesClientImplTestCase {
 
 		// Test getting a date type that doesn't exist. In that case the service
 		// returns a result but all the values are empty
-		result = controlDatesClient.getByYearTermAndType(someYearTerm, ControlDateType.ID_CARD_EXP_BLACKOUT);
+		result = controlDatesClient.getByYearTermAndType(someYearTerm, ControlDateType.BYU_IDAHO_SEMESTER_DATES);
 		assertTrue(result != null && Strings.isNullOrEmpty(result.getDateType()));
 	}
 

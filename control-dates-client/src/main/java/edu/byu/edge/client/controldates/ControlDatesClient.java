@@ -1,5 +1,6 @@
 package edu.byu.edge.client.controldates;
 
+import java.text.ParseException;
 import java.util.Date;
 import java.util.List;
 
@@ -71,5 +72,15 @@ public interface ControlDatesClient {
 	 *         details. If no control date can be found null will be returned.
 	 */
 	DateRowType getByDateAndType(Date asOfDate, ControlDateType controlDateType);
+
+	/**
+	 * A Utility method to convert the String dates the service returns into a
+	 * java Date object.
+	 * 
+	 * @param responseDateString
+	 * @return
+	 * @throws ParseException
+	 */
+	Date parseResponseDateString(String responseDateString) throws ParseException;
 
 }
