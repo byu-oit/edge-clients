@@ -8,6 +8,8 @@
 
 package edu.byu.edge.client.controldates.domain;
 
+import java.io.Serializable;
+
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
@@ -45,9 +47,11 @@ import javax.xml.bind.annotation.XmlType;
     "endDate",
     "description"
 })
-public class DateRowType {
+public class DateRowType implements Serializable{
 
-    @XmlElement(name = "date_type", required = true)
+	private static final long serialVersionUID = -1301451422719310865L;
+
+	@XmlElement(name = "date_type", required = true)
     protected String dateType;
     @XmlElement(name = "year_term", required = true)
     protected String yearTerm;
@@ -177,5 +181,74 @@ public class DateRowType {
     public void setDescription(String value) {
         this.description = value;
     }
+    
+    /* (non-Javadoc)
+   	 * @see java.lang.Object#hashCode()
+   	 */
+   	@Override
+   	public int hashCode() {
+   		final int prime = 31;
+   		int result = 1;
+   		result = prime * result + ((dateType == null) ? 0 : dateType.hashCode());
+   		result = prime * result + ((description == null) ? 0 : description.hashCode());
+   		result = prime * result + ((endDate == null) ? 0 : endDate.hashCode());
+   		result = prime * result + ((startDate == null) ? 0 : startDate.hashCode());
+   		result = prime * result + ((yearTerm == null) ? 0 : yearTerm.hashCode());
+   		return result;
+   	}
+
+   	/* (non-Javadoc)
+   	 * @see java.lang.Object#equals(java.lang.Object)
+   	 */
+   	@Override
+   	public boolean equals(Object obj) {
+   		if (this == obj) {
+   			return true;
+   		}
+   		if (obj == null) {
+   			return false;
+   		}
+   		if (!(obj instanceof DateRowType)) {
+   			return false;
+   		}
+   		DateRowType other = (DateRowType) obj;
+   		if (dateType == null) {
+   			if (other.dateType != null) {
+   				return false;
+   			}
+   		} else if (!dateType.equals(other.dateType)) {
+   			return false;
+   		}
+   		if (description == null) {
+   			if (other.description != null) {
+   				return false;
+   			}
+   		} else if (!description.equals(other.description)) {
+   			return false;
+   		}
+   		if (endDate == null) {
+   			if (other.endDate != null) {
+   				return false;
+   			}
+   		} else if (!endDate.equals(other.endDate)) {
+   			return false;
+   		}
+   		if (startDate == null) {
+   			if (other.startDate != null) {
+   				return false;
+   			}
+   		} else if (!startDate.equals(other.startDate)) {
+   			return false;
+   		}
+   		if (yearTerm == null) {
+   			if (other.yearTerm != null) {
+   				return false;
+   			}
+   		} else if (!yearTerm.equals(other.yearTerm)) {
+   			return false;
+   		}
+   		return true;
+   	}
+
 
 }
