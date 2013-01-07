@@ -43,7 +43,7 @@ public class ControlDatesClientImpl extends BaseClient implements ControlDatesCl
 		super(productionBaseUrl, timeoutMs);
 	}
 
-	@Cacheable(key = "#type", value = "controlDatesClientCache")
+	@Cacheable(value = "controlDatesClientCache")
 	@Path("/all")
 	@Override
 	public List<DateRowType> getAll(ControlDateType type) {
@@ -57,6 +57,7 @@ public class ControlDatesClientImpl extends BaseClient implements ControlDatesCl
 		return new ArrayList<DateRowType>();
 	}
 
+	@Cacheable(value = "controlDatesClientCache")
 	@Override
 	public List<DateRowType> getRange(YearTerm startYearTerm, YearTerm endYearTerm, ControlDateType controlDateType) {
 		Preconditions.checkArgument(startYearTerm != null, "Invalid (null) Start YearTerm.");
@@ -72,6 +73,7 @@ public class ControlDatesClientImpl extends BaseClient implements ControlDatesCl
 		return new ArrayList<DateRowType>();
 	}
 
+	@Cacheable("controlDatesClientCache")
 	@Override
 	public List<DateRowType> getByYearTermAndTypes(YearTerm yearTerm, ControlDateType... controlDateTypes) {
 		Preconditions.checkArgument(yearTerm != null, "Invalid (null) YearTerm.");
@@ -93,6 +95,7 @@ public class ControlDatesClientImpl extends BaseClient implements ControlDatesCl
 		return new ArrayList<DateRowType>();
 	}
 
+	@Cacheable("controlDatesClientCache")
 	@Override
 	public DateRowType getByYearTermAndType(YearTerm yearTerm, ControlDateType controlDateType) {
 		List<DateRowType> byDate = getByYearTermAndTypes(yearTerm, controlDateType);
@@ -102,12 +105,14 @@ public class ControlDatesClientImpl extends BaseClient implements ControlDatesCl
 		return null;
 	}
 
+	@Cacheable("controlDatesClientCache")
 	@Override
 	public Date parseResponseDateString(String responseDateString) throws ParseException {
 		SimpleDateFormat formatter = new SimpleDateFormat("yyyyMMdd HH:mm:ss");
 		return formatter.parse(responseDateString);
 	}
 
+	@Cacheable("controlDatesClientCache")
 	@Override
 	public List<DateRowType> getByDateAndTypes(Date asOfDate, ControlDateType... controlDateTypes) {
 		Preconditions.checkArgument(asOfDate != null, "Invalid (null) asOfDate Date.");
@@ -138,6 +143,7 @@ public class ControlDatesClientImpl extends BaseClient implements ControlDatesCl
 		return new ArrayList<DateRowType>();
 	}
 
+	@Cacheable("controlDatesClientCache")
 	@Override
 	public DateRowType getByDateAndType(Date asOfDate, ControlDateType controlDateType) {
 		List<DateRowType> byDate = getByDateAndTypes(asOfDate, controlDateType);
