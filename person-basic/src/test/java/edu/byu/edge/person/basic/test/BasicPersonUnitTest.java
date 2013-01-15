@@ -60,6 +60,10 @@ public class BasicPersonUnitTest {
 		callListOfPersons(personIds, 10);
 		personIds.add("333202782");
 		callListOfPersons(personIds, 11);
+		personIds.add("548255012");
+		callListOfPersons(personIds, 12);
+		personIds.add("870252152");
+		callListOfPersons(personIds, 13);
 	}
 
 	@Test
