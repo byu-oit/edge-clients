@@ -1,0 +1,33 @@
+Love Pink Active {
+    kind=Light
+    colorUltraLight=#FFFFFF
+    colorExtraLight=#FEEBE2
+    colorLight=#FCC5C0
+    colorMid=#FA9FB5
+    colorDark=#F768A1
+    colorUltraDark=#DD3497
+    colorForeground=#7A0177
+}
+
+Love Pink Default {
+    kind=Light
+    colorUltraLight=#FEEBE2
+    colorExtraLight=#FCC5C0
+    colorLight=#FA9FB5
+    colorMid=#F768A1
+    colorDark=#DD3497
+    colorUltraDark=#AE017E
+    colorForeground=#7A0177
+}
+
+Love Pink Watermark {
+    kind=Light
+    colorUltraLight=#FEEBE2
+    colorExtraLight=#FCC5C0
+    colorLight=#FA9FB5
+    colorMid=#F768A1
+    colorDark=#DD3497
+    colorUltraDark=#AE017E
+    colorForeground=#7A0177
+}
+

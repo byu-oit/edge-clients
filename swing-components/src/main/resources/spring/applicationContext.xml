@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:p="http://www.springframework.org/schema/p"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans 
+                           http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+
+    <!-- lookup delegates -->
+    <bean id="netIdLookupDelegate" class="edu.byu.swing.dialogs.impl.IdentifierLookupDelegate"
+          p:personIdentifier="netId" autowire="constructor"/>
+    <bean id="ssnLookupDelegate" class="edu.byu.swing.dialogs.impl.IdentifierLookupDelegate"
+          p:personIdentifier="ssn" autowire="constructor"/>
+    <bean id="byuIdLookupDelegate" class="edu.byu.swing.dialogs.impl.IdentifierLookupDelegate"
+          p:personIdentifier="byuId" autowire="constructor"/>
+    <bean class="edu.byu.swing.dialogs.impl.NameLookupDelegate" autowire="constructor"/>
+
+    <bean id="defaultPersonLookupRendererBean" class="edu.byu.swing.renderers.DefaultPersonRendererBean" 
+        p:rendererBeanName="defaultPersonLookupRenderer" />
+    <bean id="defaultPersonConverterRendererBean" class="edu.byu.swing.renderers.DefaultPersonRendererBean" 
+        p:rendererBeanName="defaultPersonConverterRenderer" />
+
+    <bean id="personNameRenderer" class="edu.byu.swing.renderers.PersonNameRenderer"
+          lazy-init="true" autowire="constructor"/>
+    <bean id="personNameAndIdRenderer" class="edu.byu.swing.renderers.PersonNameAndIdRenderer"
+          lazy-init="true" autowire="constructor"/>
+	<bean id="personByuIdRenderer" class="edu.byu.swing.renderers.PersonByuIdRenderer"
+		  lazy-init="true" autowire="constructor"/>
+    <bean id="personLookup" class="edu.byu.swing.dialogs.impl.PersonLookupImpl"
+          lazy-init="true" autowire="constructor"
+          p:personLookupDialog-ref="personLookupDialog"/>
+    <bean id="personLookupDialog" class="edu.byu.swing.dialogs.impl.PersonLookupDialogImpl"
+          lazy-init="true" autowire="constructor"/>
+
+    <bean id="personLookupPanel" class="edu.byu.swing.components.PersonLookupPanel" lazy-init="true" scope="prototype">
+        <property name="personClient" ref="personServiceClient"/>
+        <property name="personLookup" ref="personLookup"/>
+    </bean>
+    <bean id="smallPersonLookupPanel" class="edu.byu.swing.components.SmallPersonLookupPanel" lazy-init="true"
+          scope="prototype">
+        <property name="personClient" ref="personServiceClient"/>
+        <property name="personLookup" ref="personLookup"/>
+    </bean>
+    <bean id="personCellRenderer" class="edu.byu.swing.components.table.PersonCellRenderer" lazy-init="true"
+          scope="prototype">
+        <constructor-arg index="0" ref="personServiceClient"/>
+    </bean>
+    <bean id="personConverter" class="edu.byu.swing.binding.PersonConverter" lazy-init="true">
+        <constructor-arg index="0" ref="defaultPersonConverterRendererBean" />
+    </bean>
+	<bean id="personByuIdConverter" class="edu.byu.swing.binding.PersonConverter" lazy-init="true">
+		<constructor-arg index="0" ref="personByuIdRenderer" />
+	</bean>
+
+    <bean id="beanHelper" class="edu.byu.swing.utilities.BeanHelper" lazy-init="false" />
+</beans>
+
+
+
+
