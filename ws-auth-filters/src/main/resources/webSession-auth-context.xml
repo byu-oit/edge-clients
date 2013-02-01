@@ -16,9 +16,12 @@
 		http://www.springframework.org/schema/mvc      http://www.springframework.org/schema/mvc/spring-mvc-3.1.xsd
 		http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security-3.1.xsd
 		">
-	<bean id="principalAuthenticationProvider"
-		  class="edu.byu.security.hmac.ws.authentication.PrincipalAuthenticationProvider"
+	
+	<bean id="webSessionAuthenticationProvider" class="edu.byu.security.webSession.ws.authentication.WebSessionProvider"
 		  p:idService-ref="identityDetailsService" />
-	<bean id="principalCredentialExtractor"
-		  class="edu.byu.security.hmac.ws.authentication.principal.rest.PrincipalCredentialExtractor" />
+	<bean id="webSessionCredentialExtractor"
+		  class="edu.byu.security.webSession.ws.authentication.WebSessionExtractor" c:webSessionLookup-ref="webSessionLookup"/>
+
+	<bean id="webSessionLookup" class="edu.byu.security.webSession.ws.authentication.jdbc.WebSessionLookupImpl"
+		  c:casTemplate-ref="casTemplate" />
 </beans>
