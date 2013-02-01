@@ -1,6 +1,5 @@
 package edu.byu.edge.person.basic.impl;
 
-import edu.byu.edge.person.basic.Address;
 import edu.byu.edge.person.basic.Email;
 import edu.byu.edge.person.basic.EmailAddressLookup;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,19 +18,19 @@ import java.sql.SQLException;
  */
 public class EmailAddressLookupImpl implements EmailAddressLookup {
 
-	private final JdbcTemplate cesTemplate;
+	private final JdbcTemplate jdbcTemplate;
 	public static final String PERSON_ID = "person_id";
 	public static final String EMAIL_ADDRESS = "email_address";
 
 	@Autowired
-	public EmailAddressLookupImpl(JdbcTemplate cesTemplate) {
-		this.cesTemplate = cesTemplate;
+	public EmailAddressLookupImpl(JdbcTemplate jdbcTemplate) {
+		this.jdbcTemplate = jdbcTemplate;
 	}
 
 	@Override
 	public Email getByPersonId(String personId) {
 		try {
-			return cesTemplate.queryForObject(EMAIL_LOOKUP, new EmailRowMapper(), personId);
+			return jdbcTemplate.queryForObject(EMAIL_LOOKUP, new EmailRowMapper(), personId);
 		} catch (EmptyResultDataAccessException e) {
 			return new Email();
 		}

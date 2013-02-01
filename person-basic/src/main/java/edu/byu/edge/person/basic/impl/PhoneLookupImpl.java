@@ -20,7 +20,7 @@ import java.util.List;
  */
 public class PhoneLookupImpl implements PhoneLookup {
 
-	private final JdbcTemplate cesTemplate;
+	private final JdbcTemplate jdbcTemplate;
 	public static final String PERSON_ID_COL = "person_id";
 	public static final String PHONE_TYPE_COL = "phone_type";
 	public static final String PHONE_NUMBER_COL = "phone_number";
@@ -32,13 +32,13 @@ public class PhoneLookupImpl implements PhoneLookup {
 	public static final String PRIMARY_F_COL = "primary_f";
 
 	@Autowired
-	public PhoneLookupImpl(JdbcTemplate cesTemplate) {
-		this.cesTemplate = cesTemplate;
+	public PhoneLookupImpl(JdbcTemplate jdbcTemplate) {
+		this.jdbcTemplate = jdbcTemplate;
 	}
 
 	@Override
 	public List<PhoneInformation> getPhoneInformationByPersonId(String personId) {
-		return cesTemplate.query(PHONE_LOOKUP_SQL, new PhoneRowMapper(), personId);
+		return jdbcTemplate.query(PHONE_LOOKUP_SQL, new PhoneRowMapper(), personId);
 	}
 
 	@Override
@@ -47,7 +47,7 @@ public class PhoneLookupImpl implements PhoneLookup {
 		objects[0] = personId;
 		objects[1] = phoneType.toString();
 		try{
-			return cesTemplate.queryForObject(PHONE_LOOKUP_TYPE_SQL, new PhoneRowMapper(), objects);
+			return jdbcTemplate.queryForObject(PHONE_LOOKUP_TYPE_SQL, new PhoneRowMapper(), objects);
 		} catch (EmptyResultDataAccessException e){
 			return new PhoneInformation();
 		}

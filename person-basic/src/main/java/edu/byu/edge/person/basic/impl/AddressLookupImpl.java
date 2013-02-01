@@ -20,7 +20,7 @@ import java.util.List;
  */
 public class AddressLookupImpl implements AddressLookup {
 
-	private final JdbcTemplate cesTemplate;
+	private final JdbcTemplate jdbcTemplate;
 	public static final String PERSON_ID_COL = "person_id";
 	public static final String ADDRESS_TYPE_COL = "address_type";
 	public static final String LINE_1 = "address_line_1";
@@ -36,13 +36,13 @@ public class AddressLookupImpl implements AddressLookup {
 	public static final String CAMPUS_ADDRESS_COL = "campus_address_f";
 
 	@Autowired
-	public AddressLookupImpl(JdbcTemplate cesTemplate) {
-		this.cesTemplate = cesTemplate;
+	public AddressLookupImpl(JdbcTemplate jdbcTemplate) {
+		this.jdbcTemplate = jdbcTemplate;
 	}
 
 	@Override
 	public List<Address> getAddressByPersonId(String personId) {
-		return cesTemplate.query(ADDRESS_LOOKUP, new AddressRowMapper(), personId);
+		return jdbcTemplate.query(ADDRESS_LOOKUP, new AddressRowMapper(), personId);
 	}
 
 	@Override
@@ -51,7 +51,7 @@ public class AddressLookupImpl implements AddressLookup {
 		objects[0] = personId;
 		objects[1] = addressType.toString();
 		try{
-			return cesTemplate.queryForObject(ADDRESS_TYPE_LOOKUP, new AddressRowMapper(), objects);
+			return jdbcTemplate.queryForObject(ADDRESS_TYPE_LOOKUP, new AddressRowMapper(), objects);
 		} catch (EmptyResultDataAccessException e){
 			return new Address();
 		}
