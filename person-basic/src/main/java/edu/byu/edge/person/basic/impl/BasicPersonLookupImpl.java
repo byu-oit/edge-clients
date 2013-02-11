@@ -29,6 +29,7 @@ public class BasicPersonLookupImpl implements BasicPersonLookup {
 	private static final String BIRTH_DATE_COL = "birth_date";
 	private static final String GENDER = "gender";
 	private static final String ORGANIZATION_F = "organization_f";
+	private static final String RELIGION_CODE = "religion_code";
 
 	@Autowired
 	public BasicPersonLookupImpl(JdbcTemplate jdbcTemplate) {
@@ -89,7 +90,8 @@ public class BasicPersonLookupImpl implements BasicPersonLookup {
 					rs.getString(BYU_ID_COL),
 					rs.getDate(BIRTH_DATE_COL),
 					rs.getString(GENDER),
-					rs.getString(ORGANIZATION_F));
+					rs.getString(ORGANIZATION_F),
+					rs.getString(RELIGION_CODE));
 		}
 	}
 
@@ -102,7 +104,8 @@ public class BasicPersonLookupImpl implements BasicPersonLookup {
 			"p.byu_id as " + BYU_ID_COL + ", " +
 			"p.date_of_birth as " + BIRTH_DATE_COL + ", " +
 			"p.gender as " + GENDER + "," +
-			"p.organization_f as " + ORGANIZATION_F + " " +
+			"p.organization_f as " + ORGANIZATION_F + ", " +
+			"p.religion_code as " + RELIGION_CODE + " " +
 			"from pro.person p " +
 			"where p.person_id=?";
 
@@ -115,7 +118,8 @@ public class BasicPersonLookupImpl implements BasicPersonLookup {
 			"p.byu_id as " + BYU_ID_COL + ", " +
 			"p.date_of_birth as " + BIRTH_DATE_COL + ", " +
 			"p.gender as " + GENDER + "," +
-			"p.organization_f as " + ORGANIZATION_F + " " +
+			"p.organization_f as " + ORGANIZATION_F + ", " +
+			"p.religion_code as " + RELIGION_CODE + " " +
 			"from pro.person p " +
 			"where p.net_id=?";
 
@@ -128,7 +132,8 @@ public class BasicPersonLookupImpl implements BasicPersonLookup {
 			"p.byu_id as " + BYU_ID_COL + ", " +
 			"p.date_of_birth as " + BIRTH_DATE_COL + ", " +
 			"p.gender as " + GENDER + "," +
-			"p.organization_f as " + ORGANIZATION_F + " " +
+			"p.organization_f as " + ORGANIZATION_F + ", " +
+			"p.religion_code as " + RELIGION_CODE + " " +
 			"from pro.person p " +
 			"where p.person_id in (?, ?, ?, ?, ?)";
 }
