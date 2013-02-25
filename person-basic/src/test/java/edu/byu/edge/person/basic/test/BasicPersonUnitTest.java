@@ -72,6 +72,12 @@ public class BasicPersonUnitTest {
 		LOG.info(basicPerson.getBirthDate());
 	}
 
+	@Test
+	public void testByuId() throws Exception {
+		BasicPerson basicPerson = basicPersonLookup.getPersonByByuId("951038980");
+		LOG.info(basicPerson.getBirthDate());
+	}
+
 	private void callListOfPersons(List<String> personIds, int expectedSize){
 		List<BasicPerson> basicPersons = basicPersonLookup.getPersonsByListPersonIds(personIds);
 		assertEquals(String.valueOf(personIds.size()) + " isn't the size", basicPersons.size(), expectedSize);

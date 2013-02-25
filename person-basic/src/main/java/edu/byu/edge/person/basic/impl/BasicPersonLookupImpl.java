@@ -65,6 +65,11 @@ public class BasicPersonLookupImpl implements BasicPersonLookup {
 		return cesTemplate.queryForObject(BASIC_NET_ID_LOOKUP_SQL, new BasicPersonRowMapper(), netId);
 	}
 
+	@Override
+	public BasicPerson getPersonByByuId(String byuId) {
+		return cesTemplate.queryForObject(BASIC_BYU_ID_LOOKUP_SQL, new BasicPersonRowMapper(), byuId);
+	}
+
 	private List<BasicPerson> getFivePersonQuery(List<String> personIds) {
 		final Object[] objects = new Object[5];
 		int size = personIds.size();
@@ -108,6 +113,20 @@ public class BasicPersonLookupImpl implements BasicPersonLookup {
 			"p.religion_code as " + RELIGION_CODE + " " +
 			"from pro.person p " +
 			"where p.person_id=?";
+
+	private static final String BASIC_BYU_ID_LOOKUP_SQL = "select " +
+			"p.person_id as " + PERSON_ID_COL + ", " +
+			"p.net_id as " + NET_ID_COL + ", " +
+			"p.rest_of_name as " + REST_OF_NAME_COL + ", " +
+			"p.preferred_first_name as " + PREFERRED_NAME_COL + ", " +
+			"p.surname as " + SURNAME_COL + ", " +
+			"p.byu_id as " + BYU_ID_COL + ", " +
+			"p.date_of_birth as " + BIRTH_DATE_COL + ", " +
+			"p.gender as " + GENDER + "," +
+			"p.organization_f as " + ORGANIZATION_F + ", " +
+			"p.religion_code as " + RELIGION_CODE + " " +
+			"from pro.person p " +
+			"where p.byu_id=?";
 
 	private static final String BASIC_NET_ID_LOOKUP_SQL = "select " +
 			"p.person_id as " + PERSON_ID_COL + ", " +
