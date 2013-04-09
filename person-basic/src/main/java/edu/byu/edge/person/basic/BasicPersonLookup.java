@@ -44,4 +44,6 @@ public interface BasicPersonLookup {
 	 * @return result
 	 */
 	BasicPerson getPersonByByuId(final String byuId);
+
+	BasicPerson getPersonBySsn(String ssn);
 }

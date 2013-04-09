@@ -30,6 +30,7 @@ public class BasicPersonLookupImpl implements BasicPersonLookup {
 	private static final String GENDER = "gender";
 	private static final String ORGANIZATION_F = "organization_f";
 	private static final String RELIGION_CODE = "religion_code";
+	public static final String SSN = "ssn";
 
 	@Autowired
 	public BasicPersonLookupImpl(JdbcTemplate jdbcTemplate) {
@@ -70,6 +71,11 @@ public class BasicPersonLookupImpl implements BasicPersonLookup {
 		return cesTemplate.queryForObject(BASIC_BYU_ID_LOOKUP_SQL, new BasicPersonRowMapper(), byuId);
 	}
 
+	@Override
+	public BasicPerson getPersonBySsn(final String ssn) {
+		return cesTemplate.queryForObject(BASIC_SSN_LOOKUP_SQL, new BasicPersonRowMapper(), ssn);
+	}
+
 	private List<BasicPerson> getFivePersonQuery(List<String> personIds) {
 		final Object[] objects = new Object[5];
 		int size = personIds.size();
@@ -96,7 +102,8 @@ public class BasicPersonLookupImpl implements BasicPersonLookup {
 					rs.getDate(BIRTH_DATE_COL),
 					rs.getString(GENDER),
 					rs.getString(ORGANIZATION_F),
-					rs.getString(RELIGION_CODE));
+					rs.getString(RELIGION_CODE),
+					rs.getString(SSN));
 		}
 	}
 
@@ -110,7 +117,8 @@ public class BasicPersonLookupImpl implements BasicPersonLookup {
 			"p.date_of_birth as " + BIRTH_DATE_COL + ", " +
 			"p.gender as " + GENDER + "," +
 			"p.organization_f as " + ORGANIZATION_F + ", " +
-			"p.religion_code as " + RELIGION_CODE + " " +
+			"p.religion_code as " + RELIGION_CODE + ", " +
+			"p.ssn as " + SSN + " " +
 			"from pro.person p " +
 			"where p.person_id=?";
 
@@ -124,7 +132,8 @@ public class BasicPersonLookupImpl implements BasicPersonLookup {
 			"p.date_of_birth as " + BIRTH_DATE_COL + ", " +
 			"p.gender as " + GENDER + "," +
 			"p.organization_f as " + ORGANIZATION_F + ", " +
-			"p.religion_code as " + RELIGION_CODE + " " +
+			"p.religion_code as " + RELIGION_CODE + ", " +
+			"p.ssn as " + SSN + " " +
 			"from pro.person p " +
 			"where p.byu_id=?";
 
@@ -138,9 +147,25 @@ public class BasicPersonLookupImpl implements BasicPersonLookup {
 			"p.date_of_birth as " + BIRTH_DATE_COL + ", " +
 			"p.gender as " + GENDER + "," +
 			"p.organization_f as " + ORGANIZATION_F + ", " +
-			"p.religion_code as " + RELIGION_CODE + " " +
+			"p.religion_code as " + RELIGION_CODE + ", " +
+			"p.ssn as " + SSN + " " +
 			"from pro.person p " +
 			"where p.net_id=?";
+
+	private static final String BASIC_SSN_LOOKUP_SQL = "select " +
+			"p.person_id as " + PERSON_ID_COL + ", " +
+			"p.net_id as " + NET_ID_COL + ", " +
+			"p.rest_of_name as " + REST_OF_NAME_COL + ", " +
+			"p.preferred_first_name as " + PREFERRED_NAME_COL + ", " +
+			"p.surname as " + SURNAME_COL + ", " +
+			"p.byu_id as " + BYU_ID_COL + ", " +
+			"p.date_of_birth as " + BIRTH_DATE_COL + ", " +
+			"p.gender as " + GENDER + "," +
+			"p.organization_f as " + ORGANIZATION_F + ", " +
+			"p.religion_code as " + RELIGION_CODE + ", " +
+			"p.ssn as " + SSN + " " +
+			"from pro.person p " +
+			"where p.ssn=?";
 
 	private static final String MULTIPLE_LOOKUP_SQL = "select " +
 			"p.person_id as " + PERSON_ID_COL + ", " +
@@ -152,7 +177,8 @@ public class BasicPersonLookupImpl implements BasicPersonLookup {
 			"p.date_of_birth as " + BIRTH_DATE_COL + ", " +
 			"p.gender as " + GENDER + "," +
 			"p.organization_f as " + ORGANIZATION_F + ", " +
-			"p.religion_code as " + RELIGION_CODE + " " +
+			"p.religion_code as " + RELIGION_CODE + ", " +
+			"p.ssn as " + SSN + " " +
 			"from pro.person p " +
 			"where p.person_id in (?, ?, ?, ?, ?)";
 }

@@ -62,6 +62,11 @@ public class BasicPerson {
 
 	/**
 	 *
+	 */
+	private final String ssn;
+
+	/**
+	 *
 	 * @param personId PersonId
 	 * @param netId NetId
 	 * @param restOfName RestOfName
@@ -70,8 +75,9 @@ public class BasicPerson {
 	 * @param byuId ByuId
 	 * @param birthDate BirthDate
 	 * @param gender Gender
+	 * @param ssn SSN
 	 */
-	public BasicPerson(String personId, String netId, String restOfName, String preferredFirstName, String surname, String byuId, Date birthDate, String gender, String organization, String religionCode) {
+	public BasicPerson(String personId, String netId, String restOfName, String preferredFirstName, String surname, String byuId, Date birthDate, String gender, String organization, String religionCode, String ssn) {
 		this.netId = netId;
 		this.restOfName = restOfName;
 		this.preferredFirstName = preferredFirstName;
@@ -82,6 +88,7 @@ public class BasicPerson {
 		this.gender = gender;
 		this.organization = (!(organization == null || organization.trim().isEmpty() || organization.trim().equalsIgnoreCase("N")));
 		this.religionCode = religionCode;
+		this.ssn = ssn;
 	}
 
 	public String getPreferredFirstName() {
@@ -126,5 +133,9 @@ public class BasicPerson {
 
 	public String getReligionCode() {
 		return religionCode;
+	}
+
+	public String getSsn() {
+		return ssn;
 	}
 }
