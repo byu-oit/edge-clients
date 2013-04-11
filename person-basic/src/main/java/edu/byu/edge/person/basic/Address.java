@@ -97,17 +97,7 @@ public class Address {
 	 */
 	public Address(String personId, String addressType, String line1, String line2, String line3, String line4, String countryCode, String city, String stateCode, String postalCode, String contactStatus, String unlisted, String campusAddressF) {
 		this.personId = personId;
-		if(addressType.equals("PRM")){
-			this.addressType = AddressType.PRM;
-		} else if (addressType.equals("MAL")){
-			this.addressType = AddressType.MAL;
-		} else if (addressType.equals("RES")){
-			this.addressType = AddressType.RES;
-		} else if (addressType.equals("WRK")){
-			this.addressType = AddressType.WRK;
-		} else {
-			this.addressType = AddressType.OTH;
-		}
+		setAddressType(addressType);
 		this.line1 = line1;
 		this.line2 = line2;
 		this.line3 = line3;
@@ -149,8 +139,18 @@ public class Address {
 	 *
 	 * @param addressType AddressType
 	 */
-	public void setAddressType(AddressType addressType) {
-		this.addressType = addressType;
+	public void setAddressType(String addressType) {
+		if(addressType.equals("PRM")){
+			this.addressType = AddressType.PRM;
+		} else if (addressType.equals("MAL")){
+			this.addressType = AddressType.MAL;
+		} else if (addressType.equals("RES")){
+			this.addressType = AddressType.RES;
+		} else if (addressType.equals("WRK")){
+			this.addressType = AddressType.WRK;
+		} else {
+			this.addressType = AddressType.OTH;
+		}
 	}
 
 	/**
