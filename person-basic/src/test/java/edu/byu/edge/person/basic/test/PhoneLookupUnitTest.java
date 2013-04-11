@@ -1,8 +1,8 @@
 package edu.byu.edge.person.basic.test;
 
-import edu.byu.edge.person.basic.PhoneInformation;
 import edu.byu.edge.person.basic.PhoneLookup;
-import edu.byu.edge.person.basic.PhoneType;
+import edu.byu.edge.person.basic.domain.PhoneInformation;
+import edu.byu.edge.person.basic.domain.PhoneType;
 import org.apache.log4j.Logger;
 import org.junit.Test;
 import org.junit.runner.RunWith;

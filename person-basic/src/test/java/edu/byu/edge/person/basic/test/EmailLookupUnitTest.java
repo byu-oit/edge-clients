@@ -1,7 +1,7 @@
 package edu.byu.edge.person.basic.test;
 
-import edu.byu.edge.person.basic.Email;
 import edu.byu.edge.person.basic.EmailAddressLookup;
+import edu.byu.edge.person.basic.domain.Email;
 import org.apache.log4j.Logger;
 import org.junit.Test;
 import org.junit.runner.RunWith;

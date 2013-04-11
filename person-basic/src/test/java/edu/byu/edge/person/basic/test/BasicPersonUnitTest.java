@@ -1,7 +1,7 @@
 package edu.byu.edge.person.basic.test;
 
-import edu.byu.edge.person.basic.BasicPerson;
 import edu.byu.edge.person.basic.BasicPersonLookup;
+import edu.byu.edge.person.basic.domain.BasicPerson;
 import org.apache.log4j.Logger;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -12,7 +12,8 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import java.util.LinkedList;
 import java.util.List;
-import static org.junit.Assert.*;
+
+import static org.junit.Assert.assertEquals;
 /**
  * Created by IntelliJ IDEA.
  * User: thirschi
