@@ -15,6 +15,6 @@
 		<module>pro-codes-client</module>
 		<module>person-basic</module>
 		<module>control-dates-client</module>
-	</modules>
+    <module>learning-suite-client</module>
+  </modules>
 </project>
-
