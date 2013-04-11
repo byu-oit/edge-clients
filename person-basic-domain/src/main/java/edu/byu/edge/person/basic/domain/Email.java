@@ -1,4 +1,4 @@
-package edu.byu.edge.person.basic;
+package edu.byu.edge.person.basic.domain;
 
 /**
  * Created by IntelliJ IDEA.

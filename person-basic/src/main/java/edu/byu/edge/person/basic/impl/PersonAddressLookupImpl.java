@@ -1,9 +1,9 @@
 package edu.byu.edge.person.basic.impl;
 
-import edu.byu.edge.person.basic.Address;
-import edu.byu.edge.person.basic.BasicPerson;
-import edu.byu.edge.person.basic.PersonAddress;
 import edu.byu.edge.person.basic.PersonAddressLookup;
+import edu.byu.edge.person.basic.domain.Address;
+import edu.byu.edge.person.basic.domain.BasicPerson;
+import edu.byu.edge.person.basic.domain.PersonAddress;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;

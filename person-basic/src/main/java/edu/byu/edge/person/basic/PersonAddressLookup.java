@@ -1,5 +1,7 @@
 package edu.byu.edge.person.basic;
 
+import edu.byu.edge.person.basic.domain.PersonAddress;
+
 import java.util.List;
 
 /**

@@ -1,5 +1,7 @@
 package edu.byu.edge.person.basic;
 
+import edu.byu.edge.person.basic.domain.Email;
+
 /**
  * Created by IntelliJ IDEA.
  * User: thirschi

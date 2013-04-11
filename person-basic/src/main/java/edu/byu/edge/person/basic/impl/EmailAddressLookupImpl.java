@@ -1,7 +1,7 @@
 package edu.byu.edge.person.basic.impl;
 
-import edu.byu.edge.person.basic.Email;
 import edu.byu.edge.person.basic.EmailAddressLookup;
+import edu.byu.edge.person.basic.domain.Email;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;

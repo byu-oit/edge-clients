@@ -1,7 +1,7 @@
 package edu.byu.edge.person.basic.impl;
 
-import edu.byu.edge.person.basic.BasicPerson;
 import edu.byu.edge.person.basic.BasicPersonLookup;
+import edu.byu.edge.person.basic.domain.BasicPerson;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;

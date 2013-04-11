@@ -13,8 +13,9 @@
 		<module>apikey-client</module>
 		<module>pro-client</module>
 		<module>pro-codes-client</module>
+		<module>person-basic-domain</module>
 		<module>person-basic</module>
 		<module>control-dates-client</module>
-    <module>learning-suite-client</module>
+		<module>learning-suite-client</module>
   </modules>
 </project>

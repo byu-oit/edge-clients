@@ -1,5 +1,8 @@
 package edu.byu.edge.person.basic;
 
+import edu.byu.edge.person.basic.domain.PhoneInformation;
+import edu.byu.edge.person.basic.domain.PhoneType;
+
 import java.util.List;
 
 /**

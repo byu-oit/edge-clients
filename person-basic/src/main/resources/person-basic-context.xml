@@ -32,4 +32,10 @@
 		  c:jdbcTemplate-ref="basicTemplate"
 		  />
 
+	<bean id="codeCountryLookup" class="edu.byu.edge.person.basic.impl.CodeCountryLookupImpl"
+		  c:jdbcTemplate-ref="basicTemplate" />
+
+	<bean id="codeStateLookup" class="edu.byu.edge.person.basic.impl.CodeStateLookupImpl"
+		  c:jdbcTemplate-ref="basicTemplate" />
+
 </beans>
