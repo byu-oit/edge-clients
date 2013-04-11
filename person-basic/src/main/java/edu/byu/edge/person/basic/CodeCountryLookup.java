@@ -13,4 +13,6 @@ import java.util.List;
 public interface CodeCountryLookup {
 
 	List<CodeCountry> getAllCodeCountryCodes();
+
+	CodeCountry getCountryByCodeId(String countryCode);
 }

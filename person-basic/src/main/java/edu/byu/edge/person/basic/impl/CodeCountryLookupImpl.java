@@ -30,6 +30,11 @@ public class CodeCountryLookupImpl implements CodeCountryLookup {
 		return jdbcTemplate.query(CODE_COUNTRY_SQL, new CodeCountryMapper());
 	}
 
+	@Override
+	public CodeCountry getCountryByCodeId(String countryCode) {
+		return jdbcTemplate.queryForObject(CODE_ID_SQL, new CodeCountryMapper(), countryCode);
+	}
+
 	private class CodeCountryMapper implements RowMapper<CodeCountry> {
 
 		@Override
@@ -46,4 +51,5 @@ public class CodeCountryLookupImpl implements CodeCountryLookup {
 	}
 
 	public static final String CODE_COUNTRY_SQL = "select * from pro.code_country order by country";
+	public static final String CODE_ID_SQL = "select * from pro.code_country where country_code = ? order by country";
 }
