@@ -12,7 +12,7 @@
 	<parent>
 		<groupId>edu.byu.edge.wsClient</groupId>
 		<artifactId>parent-pom</artifactId>
-		<version>1.0.6</version>
+		<version>1.0.7</version>
 		<relativePath>../parent/pom.xml</relativePath>
 	</parent>
 
