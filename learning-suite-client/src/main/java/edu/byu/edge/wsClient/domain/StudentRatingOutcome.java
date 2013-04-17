@@ -1,4 +1,4 @@
-package edu.byu.edge.client.domain;
+package edu.byu.edge.wsClient.domain;
 
 public class StudentRatingOutcome {
 

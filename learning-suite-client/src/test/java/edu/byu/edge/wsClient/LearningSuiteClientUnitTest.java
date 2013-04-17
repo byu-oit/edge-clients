@@ -1,9 +1,9 @@
-package edu.byu.edge.client.test;
+package edu.byu.edge.wsClient;
 
 import static org.junit.Assert.assertEquals;
-import edu.byu.edge.client.domain.StudentRatingOutcome;
-import edu.byu.edge.wsClient.client.LearningSuiteClient;
-import edu.byu.edge.wsClient.client.impl.LearningSuiteClientImpl;
+import edu.byu.edge.wsClient.LearningSuiteClient;
+import edu.byu.edge.wsClient.domain.StudentRatingOutcome;
+import edu.byu.edge.wsClient.impl.LearningSuiteClientImpl;
 
 import org.junit.Before;
 import org.junit.Test;

@@ -1,4 +1,4 @@
-package edu.byu.edge.client.impl;
+package edu.byu.edge.wsClient.impl;
 
 import com.sun.jersey.api.client.Client;
 import com.sun.jersey.api.client.UniformInterfaceException;
@@ -13,10 +13,12 @@ import edu.byu.commons.exception.NotFoundException;
 import org.apache.log4j.Logger;
 
 import java.net.URI;
+import java.net.URISyntaxException;
 
 public abstract class BaseClient {
 
 	private static final Logger LOG = Logger.getLogger(BaseClient.class);
+	private static final String DEFAULT_BASE_URL = "https://lsapi-dev.byu.edu/learningoutcomes";
 	protected final URI baseUrl;
 	protected final Client client;
 	protected final WebResource webResource;
@@ -27,6 +29,14 @@ public abstract class BaseClient {
 		config.getFeatures().put(JSONConfiguration.FEATURE_POJO_MAPPING, Boolean.TRUE);
 		this.client = initClient(config);
 		this.client.setReadTimeout(readTimeout);
+		this.webResource = this.client.resource(baseUrl);
+	}
+
+	public BaseClient() throws URISyntaxException {
+		this.baseUrl = new URI(DEFAULT_BASE_URL);
+		final ClientConfig config = new DefaultClientConfig();
+		config.getFeatures().put(JSONConfiguration.FEATURE_POJO_MAPPING, Boolean.TRUE);
+		this.client = initClient(config);
 		this.webResource = this.client.resource(baseUrl);
 	}
 

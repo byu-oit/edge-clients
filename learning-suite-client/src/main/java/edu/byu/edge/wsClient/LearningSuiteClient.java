@@ -1,6 +1,6 @@
-package edu.byu.edge.wsClient.client;
+package edu.byu.edge.wsClient;
 
-import edu.byu.edge.client.domain.StudentRatingOutcome;
+import edu.byu.edge.wsClient.domain.StudentRatingOutcome;
 
 import java.util.List;
 
