@@ -1,22 +1,23 @@
 <?xml version="1.0"?>
 <project
-	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd"
-	xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+		xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd"
+		xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
 	<modelVersion>4.0.0</modelVersion>
+
 	<parent>
-		<groupId>edu.byu.edge.wsClient</groupId>
-		<artifactId>parent-pom</artifactId>
-		<version>1.0.7</version>
-		<relativePath>../parent/pom.xml</relativePath>
+		<groupId>edu.byu.edge.framework</groupId>
+		<artifactId>edge-pom</artifactId>
+		<version>1.1</version>
+		<relativePath></relativePath>
 	</parent>
+
 	<groupId>edu.byu.edge.client.controldates</groupId>
 	<artifactId>control-dates-client</artifactId>
-	<version>${parent.version}</version>
+	<version>1.1.0</version>
 	<name>control-dates-client</name>
+
 	<url>http://soaregistry.byu.edu/rest/services/uddi:ac92e918-25db-11e1-8974-dfb5fae145a3/wsdl</url>
-	<properties>
-		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-	</properties>
+
 	<dependencies>
 		<dependency>
 			<groupId>com.sun.jersey</groupId>
@@ -75,6 +76,18 @@
 			<scope>compile</scope>
 		</dependency>
 	</dependencies>
+
+	<dependencyManagement>
+		<dependencies>
+			<dependency>
+				<groupId>edu.byu.common</groupId>
+				<artifactId>common-domain</artifactId>
+				<version>1.7.1</version>
+				<scope>compile</scope>
+			</dependency>
+		</dependencies>
+	</dependencyManagement>
+
 	<build>
 		<plugins>
 			<!-- Not sure why, but the tests won't run without this -->

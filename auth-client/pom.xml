@@ -3,15 +3,15 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>edu.byu.edge.wsClient</groupId>
 	<artifactId>auth-client</artifactId>
-	<version>${parent.version}</version>
+	<version>1.1.0</version>
 	<name>edge authentication service client</name>
 	<packaging>jar</packaging>
 	
 	<parent>
-		<groupId>edu.byu.edge.wsClient</groupId>
-		<artifactId>parent-pom</artifactId>
-		<version>1.0.7</version>
-		<relativePath>../parent/pom.xml</relativePath>
+		<groupId>edu.byu.edge.framework</groupId>
+		<artifactId>edge-pom</artifactId>
+		<version>1.1</version>
+		<relativePath></relativePath>
 	</parent>
 	
 	<dependencies>

@@ -1,24 +1,23 @@
 <?xml version="1.0"?>
 <project
-	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd"
-	xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+		xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd"
+		xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>edu.byu.edge.wsClient</groupId>
 	<artifactId>learning-suite-client</artifactId>
-	<version>${parent.version}</version>
+	<version>1.0.2</version>
 	<name>learning-suite-client</name>
 	<packaging>jar</packaging>
 
 	<parent>
-		<groupId>edu.byu.edge.wsClient</groupId>
-		<artifactId>parent-pom</artifactId>
-		<version>1.0.7</version>
-		<relativePath>../parent/pom.xml</relativePath>
+		<groupId>edu.byu.edge.framework</groupId>
+		<artifactId>edge-pom</artifactId>
+		<version>1.1</version>
+		<relativePath></relativePath>
 	</parent>
+
 	<url>https://lsapi-dev.byu.edu/learningoutcomes/student-ratings-outcome/curriculumID/01489/titleCode/002/instructorPersonID/955275532</url>
-	<properties>
-		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-	</properties>
+
 	<dependencies>
 		<dependency>
 			<groupId>com.sun.jersey</groupId>
@@ -74,4 +73,16 @@
 			<artifactId>spring-core</artifactId>
 		</dependency>
 	</dependencies>
+
+	<dependencyManagement>
+		<dependencies>
+			<dependency>
+				<groupId>edu.byu.common</groupId>
+				<artifactId>common-domain</artifactId>
+				<version>1.7.1</version>
+				<scope>compile</scope>
+			</dependency>
+		</dependencies>
+	</dependencyManagement>
+
 </project>

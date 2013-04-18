@@ -3,6 +3,7 @@ package edu.byu.edge.client.test;
 import edu.byu.edge.client.pro.StandingClient;
 import edu.byu.edge.client.pro.domain.standing.RecStdAcadStandingServiceType;
 import org.apache.log4j.Logger;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.BeanFactory;
@@ -33,6 +34,7 @@ public class StandingUnitTest extends BaseTest {
 	private StandingClient client;
 
 	@Test
+	@Ignore
 	public void testClient() {
 		setActor("wct5", "903201972", "Wyatt C Taylor", "739696648", "wct5@byu.edu");
 		assertNotNull("Need client", client);
