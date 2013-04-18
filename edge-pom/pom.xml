@@ -5,7 +5,7 @@
 	<artifactId>edge-pom</artifactId>
 	<packaging>pom</packaging>
 	<name>edge framework POM</name>
-	<version>1.0.0</version>
+	<version>1.1</version>
 
 	<parent>
 		<groupId>edu.byu</groupId>
@@ -30,6 +30,7 @@
 		<framework.decorator.version>1.5.1.2</framework.decorator.version>
 		<framework.security.version>1.2.0.0-RC4</framework.security.version>
 		<framework.web.version>1.5.1.2</framework.web.version>
+		<guava.version>13.0</guava.version>
 		<hashUtil.version>1.0.0</hashUtil.version>
 		<hibernate.version>3.6.10.Final</hibernate.version>
 		<hsqldb.version>2.2.8</hsqldb.version>
@@ -62,6 +63,18 @@
 				<artifactId>scala-library</artifactId>
 				<version>${scala.version}</version>
 			</dependency>
+			<dependency>
+				<groupId>org.aspectj</groupId>
+ 				<artifactId>aspectjweaver</artifactId>
+ 				<version>${aspectj.version}</version>
+ 				<scope>runtime</scope>
+ 			</dependency>
+ 			<dependency>
+ 				<groupId>org.aspectj</groupId>
+ 				<artifactId>aspectjrt</artifactId>
+ 				<version>${aspectj.version}</version>
+ 				<scope>runtime</scope>
+ 			</dependency>
 			<dependency>
 				<groupId>org.springframework</groupId>
 				<artifactId>spring-core</artifactId>
@@ -615,6 +628,12 @@
 				<version>${hashUtil.version}</version>
 				<scope>compile</scope>
 			</dependency>
+			<dependency>
+ 				<groupId>com.google.guava</groupId>
+ 				<artifactId>guava</artifactId>
+ 				<version>${guava.version}</version>
+ 				<scope>compile</scope>
+ 			</dependency>
 		</dependencies>
 	</dependencyManagement>
 
