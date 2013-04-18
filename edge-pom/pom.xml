@@ -11,10 +11,12 @@
 		<groupId>edu.byu</groupId>
 		<artifactId>byu-framework-pom</artifactId>
 		<version>1.0.3</version>
-		<relativePath>${settings.localRepository}/edu/byu/byu-framework-pom/1.0.3/byu-framework-pom-1.0.3.pom</relativePath>
+		<relativePath></relativePath>
 	</parent>
 
 	<properties>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 		<apache.http.version>4.2</apache.http.version>
 		<aspectj.version>1.6.12</aspectj.version>
 		<byuSecureDriver.version>2.0.0</byuSecureDriver.version>
