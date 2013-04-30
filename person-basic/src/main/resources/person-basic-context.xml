@@ -38,4 +38,7 @@
 	<bean id="codeStateLookup" class="edu.byu.edge.person.basic.impl.CodeStateLookupImpl"
 		  c:jdbcTemplate-ref="basicTemplate" />
 
+	<bean id="groupLookup" class="edu.byu.edge.person.basic.impl.GroupLookupImpl"
+		  c:jdbcTemplate-ref="basicTemplate"/>
+
 </beans>
