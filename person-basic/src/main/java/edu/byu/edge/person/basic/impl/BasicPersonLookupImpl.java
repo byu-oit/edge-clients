@@ -2,6 +2,7 @@ package edu.byu.edge.person.basic.impl;
 
 import edu.byu.edge.person.basic.BasicPersonLookup;
 import edu.byu.edge.person.basic.domain.BasicPerson;
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
@@ -18,6 +19,8 @@ import java.util.List;
  * Time: 3:43 PM
  */
 public class BasicPersonLookupImpl implements BasicPersonLookup {
+
+	protected final static Logger LOG = Logger.getLogger(BasicPersonLookupImpl.class);
 
 	private final JdbcTemplate cesTemplate;
 	private static final String PERSON_ID_COL = "person_id";
@@ -59,6 +62,33 @@ public class BasicPersonLookupImpl implements BasicPersonLookup {
 			returningList.addAll(getFivePersonQuery(persons));
 		}
 		return returningList;
+	}
+
+	@Override
+	public List<BasicPerson> searchBy(String searchParam){
+		List<BasicPerson> returningList = new LinkedList<BasicPerson>();
+		if(Character.isDigit(searchParam.charAt(0))) {
+			return cesTemplate.query(SEARCH_BYU_ID_LOOKUP_SQL, new BasicPersonRowMapper(), addPercentToString(searchParam));
+		} else if (searchParam.startsWith("=")) {//Take out the =
+			return cesTemplate.query(SEARCH_FOR_PERSON_ID, new BasicPersonRowMapper(), addPercentToString(searchParam.substring(1)));
+		} else if (searchParam.matches(".*\\d.*")) {//Looking for netId
+			return cesTemplate.query(SEARCH_NET_ID_LOOKUP_SQL, new BasicPersonRowMapper(), addPercentToString(searchParam));
+		} else if (searchParam.contains(",")) {
+			return cesTemplate.query(SEARCH_SORT_NAME_LOOKUP_SQL, new BasicPersonRowMapper(), addPercentToString(searchParam));
+		} else {
+			String[] tokens = searchParam.split(" ");
+			if(tokens.length == 1){
+				return cesTemplate.query(SEARCH_SORT_NAME_OR_NET_ID_LOOKUP_SQL, new BasicPersonRowMapper(), addPercentToString(tokens[0]), addPercentToString(tokens[0]), addPercentToString(tokens[0]), addPercentToString(tokens[0]));
+			} else if (tokens.length == 2){
+				return cesTemplate.query(SEARCH_SORT_NAME_OR_NET_ID_LOOKUP_SQL, new BasicPersonRowMapper(), "", "", addPercentToString(tokens[0]), addPercentToString(tokens[1]));
+			} else if (tokens.length == 3) {
+				returningList.addAll(cesTemplate.query(SEARCH_SORT_NAME_OR_NET_ID_LOOKUP_SQL, new BasicPersonRowMapper(), "", "", addPercentToString(tokens[0]), addPercentToString(tokens[1] + " " + tokens[2])));//Search for last name
+				returningList.addAll(cesTemplate.query(SEARCH_SORT_NAME_OR_NET_ID_LOOKUP_SQL, new BasicPersonRowMapper(), "", "", addPercentToString(tokens[0] + " " + tokens[1]), addPercentToString(tokens[2])));//Search for middle name
+				return returningList;
+			} else {
+				return cesTemplate.query(SEARCH_SORT_NAME_OR_NET_ID_LOOKUP_SQL, new BasicPersonRowMapper(), "", "", addPercentToString(tokens[0]), addPercentToString(tokens[1]));
+			}
+		}
 	}
 
 	@Override
@@ -107,6 +137,10 @@ public class BasicPersonLookupImpl implements BasicPersonLookup {
 		}
 	}
 
+	private String addPercentToString(String searchParm){
+		return "%" + searchParm + "%";
+	}
+
 	private static final String BASIC_LOOKUP_SQL = "select " +
 			"p.person_id as " + PERSON_ID_COL + ", " +
 			"p.net_id as " + NET_ID_COL + ", " +
@@ -121,6 +155,21 @@ public class BasicPersonLookupImpl implements BasicPersonLookup {
 			"p.ssn as " + SSN + " " +
 			"from pro.person p " +
 			"where p.person_id=?";
+
+	private static final String SEARCH_FOR_PERSON_ID = "select " +
+			"p.person_id as " + PERSON_ID_COL + ", " +
+			"p.net_id as " + NET_ID_COL + ", " +
+			"p.rest_of_name as " + REST_OF_NAME_COL + ", " +
+			"p.preferred_first_name as " + PREFERRED_NAME_COL + ", " +
+			"p.surname as " + SURNAME_COL + ", " +
+			"p.byu_id as " + BYU_ID_COL + ", " +
+			"p.date_of_birth as " + BIRTH_DATE_COL + ", " +
+			"p.gender as " + GENDER + "," +
+			"p.organization_f as " + ORGANIZATION_F + ", " +
+			"p.religion_code as " + RELIGION_CODE + ", " +
+			"p.ssn as " + SSN + " " +
+			"from pro.person p " +
+			"where p.person_id like ?";
 
 	private static final String BASIC_BYU_ID_LOOKUP_SQL = "select " +
 			"p.person_id as " + PERSON_ID_COL + ", " +
@@ -137,6 +186,21 @@ public class BasicPersonLookupImpl implements BasicPersonLookup {
 			"from pro.person p " +
 			"where p.byu_id=?";
 
+	private static final String SEARCH_BYU_ID_LOOKUP_SQL = "select " +
+			"p.person_id as " + PERSON_ID_COL + ", " +
+			"p.net_id as " + NET_ID_COL + ", " +
+			"p.rest_of_name as " + REST_OF_NAME_COL + ", " +
+			"p.preferred_first_name as " + PREFERRED_NAME_COL + ", " +
+			"p.surname as " + SURNAME_COL + ", " +
+			"p.byu_id as " + BYU_ID_COL + ", " +
+			"p.date_of_birth as " + BIRTH_DATE_COL + ", " +
+			"p.gender as " + GENDER + "," +
+			"p.organization_f as " + ORGANIZATION_F + ", " +
+			"p.religion_code as " + RELIGION_CODE + ", " +
+			"p.ssn as " + SSN + " " +
+			"from pro.person p " +
+			"where p.byu_id like ?";
+
 	private static final String BASIC_NET_ID_LOOKUP_SQL = "select " +
 			"p.person_id as " + PERSON_ID_COL + ", " +
 			"p.net_id as " + NET_ID_COL + ", " +
@@ -151,6 +215,51 @@ public class BasicPersonLookupImpl implements BasicPersonLookup {
 			"p.ssn as " + SSN + " " +
 			"from pro.person p " +
 			"where p.net_id=?";
+
+	private static final String SEARCH_NET_ID_LOOKUP_SQL = "select " +
+			"p.person_id as " + PERSON_ID_COL + ", " +
+			"p.net_id as " + NET_ID_COL + ", " +
+			"p.rest_of_name as " + REST_OF_NAME_COL + ", " +
+			"p.preferred_first_name as " + PREFERRED_NAME_COL + ", " +
+			"p.surname as " + SURNAME_COL + ", " +
+			"p.byu_id as " + BYU_ID_COL + ", " +
+			"p.date_of_birth as " + BIRTH_DATE_COL + ", " +
+			"p.gender as " + GENDER + "," +
+			"p.organization_f as " + ORGANIZATION_F + ", " +
+			"p.religion_code as " + RELIGION_CODE + ", " +
+			"p.ssn as " + SSN + " " +
+			"from pro.person p " +
+			"where p.net_id like ?";
+
+	private static final String SEARCH_SORT_NAME_LOOKUP_SQL = "select " +
+			"p.person_id as " + PERSON_ID_COL + ", " +
+			"p.net_id as " + NET_ID_COL + ", " +
+			"p.rest_of_name as " + REST_OF_NAME_COL + ", " +
+			"p.preferred_first_name as " + PREFERRED_NAME_COL + ", " +
+			"p.surname as " + SURNAME_COL + ", " +
+			"p.byu_id as " + BYU_ID_COL + ", " +
+			"p.date_of_birth as " + BIRTH_DATE_COL + ", " +
+			"p.gender as " + GENDER + "," +
+			"p.organization_f as " + ORGANIZATION_F + ", " +
+			"p.religion_code as " + RELIGION_CODE + ", " +
+			"p.ssn as " + SSN + " " +
+			"from pro.person p " +
+			"where p.sort_name like ?";
+
+	private static final String SEARCH_SORT_NAME_OR_NET_ID_LOOKUP_SQL = "select " +
+			"p.person_id as " + PERSON_ID_COL + ", " +
+			"p.net_id as " + NET_ID_COL + ", " +
+			"p.rest_of_name as " + REST_OF_NAME_COL + ", " +
+			"p.preferred_first_name as " + PREFERRED_NAME_COL + ", " +
+			"p.surname as " + SURNAME_COL + ", " +
+			"p.byu_id as " + BYU_ID_COL + ", " +
+			"p.date_of_birth as " + BIRTH_DATE_COL + ", " +
+			"p.gender as " + GENDER + "," +
+			"p.organization_f as " + ORGANIZATION_F + ", " +
+			"p.religion_code as " + RELIGION_CODE + ", " +
+			"p.ssn as " + SSN + " " +
+			"from pro.person p " +
+			"where (p.sort_name like ? or net_id like ? or (p.rest_of_name like ? and surname like ?))";
 
 	private static final String BASIC_SSN_LOOKUP_SQL = "select " +
 			"p.person_id as " + PERSON_ID_COL + ", " +

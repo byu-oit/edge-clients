@@ -14,6 +14,8 @@ import java.util.LinkedList;
 import java.util.List;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
+
 /**
  * Created by IntelliJ IDEA.
  * User: thirschi
@@ -77,6 +79,42 @@ public class BasicPersonUnitTest {
 	public void testByuId() throws Exception {
 		BasicPerson basicPerson = basicPersonLookup.getPersonByByuId("951038980");
 		LOG.info(basicPerson.getBirthDate());
+	}
+
+	@Test
+	public void testBYUIdSearch() throws Exception {
+		final List<BasicPerson> basicPersons = basicPersonLookup.searchBy("5103898");
+		assertTrue(basicPersons.size() > 0);
+	}
+
+	@Test
+	public void testPersonIdSearch() throws Exception {
+		final List<BasicPerson> basicPersons = basicPersonLookup.searchBy("=4926298");
+		assertTrue(basicPersons.size() > 0);
+	}
+
+	@Test
+	public void testNetIdSearch() throws Exception {
+		final List<BasicPerson> basicPersons = basicPersonLookup.searchBy("wct5");
+		assertTrue(basicPersons.size() > 0);
+	}
+
+	@Test
+	public void testSortNameSearch() throws Exception {
+		final List<BasicPerson> basicPersons = basicPersonLookup.searchBy("Hirschi, Tim");
+		assertTrue(basicPersons.size() > 0);
+	}
+
+	@Test
+	public void testNameOrNetIdSearch() throws Exception {
+		List<BasicPerson> basicPersons = basicPersonLookup.searchBy("Ti Hirsch");
+		assertTrue(basicPersons.size() > 0);
+		basicPersons = basicPersonLookup.searchBy("thirschi");
+		assertTrue(basicPersons.size() > 0);
+		basicPersons = basicPersonLookup.searchBy("Sarah Van Dyke");
+		assertTrue(basicPersons.size() > 0);
+		basicPersons = basicPersonLookup.searchBy("Jerome Remington Hirschi");
+		assertTrue(basicPersons.size() > 0);
 	}
 
 	private void callListOfPersons(List<String> personIds, int expectedSize){

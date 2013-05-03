@@ -48,4 +48,6 @@ public interface BasicPersonLookup {
 	BasicPerson getPersonByByuId(final String byuId);
 
 	BasicPerson getPersonBySsn(String ssn);
+
+	List<BasicPerson> searchBy(String searchParam);
 }
