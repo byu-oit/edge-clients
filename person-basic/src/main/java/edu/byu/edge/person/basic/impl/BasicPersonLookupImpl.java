@@ -259,7 +259,8 @@ public class BasicPersonLookupImpl implements BasicPersonLookup {
 			"p.religion_code as " + RELIGION_CODE + ", " +
 			"p.ssn as " + SSN + " " +
 			"from pro.person p " +
-			"where (upper(p.sort_name) like upper(?) or upper(net_id) like upper(?) or (upper(p.rest_of_name) like upper(?) and upper(surname) like upper(?)))";
+			"where (upper(p.sort_name) like upper(?) or upper(net_id) like upper(?) or (upper(p.rest_of_name) like upper(?) and upper(surname) like upper(?))) " +
+			"and net_id != ' '";
 
 	private static final String BASIC_SSN_LOOKUP_SQL = "select " +
 			"p.person_id as " + PERSON_ID_COL + ", " +
