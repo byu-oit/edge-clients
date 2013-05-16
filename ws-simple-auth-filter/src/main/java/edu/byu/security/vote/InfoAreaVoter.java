@@ -45,9 +45,10 @@ public final class InfoAreaVoter implements ExtendedVoter {
 	}
 
 	@Override
-	public int vote(final Authentication authentication, final Object object, final Collection<ConfigAttribute> configAttributes) {
+	public int vote(final Authentication authentication, final Object object, final Collection configAttributes) {
 		int result = AccessDecisionVoter.ACCESS_ABSTAIN;
-		for (ConfigAttribute configAttribute : configAttributes) {
+		final Collection<ConfigAttribute> calist = configAttributes;
+		for (ConfigAttribute configAttribute : calist) {
 			if (this.supports(configAttribute)) {
 				result = AccessDecisionVoter.ACCESS_DENIED;
 				try {

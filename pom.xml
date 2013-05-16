@@ -15,5 +15,7 @@
 		<module>swing-components</module>
 		<module>jdbc-gen</module>
 		<module>jdbc-da</module>
+		<module>dummy-rest</module>
+		<module>dummy-web</module>
 	</modules>
 </project>
