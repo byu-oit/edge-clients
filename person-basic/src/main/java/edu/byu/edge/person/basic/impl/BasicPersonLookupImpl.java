@@ -68,6 +68,7 @@ public class BasicPersonLookupImpl implements BasicPersonLookup {
 	public List<BasicPerson> searchBy(String searchParam){
 		List<BasicPerson> returningList = new LinkedList<BasicPerson>();
 		if(Character.isDigit(searchParam.charAt(0))) {
+			searchParam = searchParam.replace("-", "");
 			return cesTemplate.query(SEARCH_BYU_ID_LOOKUP_SQL, new BasicPersonRowMapper(), addPercentToString(searchParam));
 		} else if (searchParam.startsWith("=")) {//Take out the =
 			return cesTemplate.query(SEARCH_FOR_PERSON_ID, new BasicPersonRowMapper(), addPercentToString(searchParam.substring(1)));
@@ -260,7 +261,8 @@ public class BasicPersonLookupImpl implements BasicPersonLookup {
 			"p.ssn as " + SSN + " " +
 			"from pro.person p " +
 			"where (upper(p.sort_name) like upper(?) or upper(net_id) like upper(?) or (upper(p.rest_of_name) like upper(?) and upper(surname) like upper(?))) " +
-			"and net_id != ' '";
+			"and net_id != ' ' " +
+			"order by net_id ";
 
 	private static final String BASIC_SSN_LOOKUP_SQL = "select " +
 			"p.person_id as " + PERSON_ID_COL + ", " +
