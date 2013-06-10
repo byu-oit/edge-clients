@@ -230,7 +230,9 @@ public class BasicPersonLookupImpl implements BasicPersonLookup {
 			"p.religion_code as " + RELIGION_CODE + ", " +
 			"p.ssn as " + SSN + " " +
 			"from pro.person p " +
-			"where p.net_id like ?";
+			"where upper(p.net_id) like upper(?) " +
+			"and net_id != ' ' " +
+			"order by p.net_id";
 
 	private static final String SEARCH_SORT_NAME_LOOKUP_SQL = "select " +
 			"p.person_id as " + PERSON_ID_COL + ", " +
@@ -245,7 +247,9 @@ public class BasicPersonLookupImpl implements BasicPersonLookup {
 			"p.religion_code as " + RELIGION_CODE + ", " +
 			"p.ssn as " + SSN + " " +
 			"from pro.person p " +
-			"where p.sort_name like ?";
+			"where upper(p.sort_name) like upper(?) " +
+			"and net_id != ' ' " +
+			"order by p.net_id";
 
 	private static final String SEARCH_SORT_NAME_OR_NET_ID_LOOKUP_SQL = "select " +
 			"p.person_id as " + PERSON_ID_COL + ", " +
