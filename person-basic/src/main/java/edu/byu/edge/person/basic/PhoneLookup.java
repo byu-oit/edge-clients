@@ -22,9 +22,10 @@ public interface PhoneLookup {
 
 	/**
 	 *
+	 *
 	 * @param personId PersonId
 	 * @param phoneType PhoneType
 	 * @return result
 	 */
-	PhoneInformation getPhoneInformationByPersonIdAndType(final String personId, final PhoneType phoneType);
+	List<PhoneInformation> getPhoneInformationByPersonIdAndType(final String personId, final PhoneType phoneType);
 }

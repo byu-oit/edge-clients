@@ -64,6 +64,20 @@ public class BasicPerson {
 	 *
 	 */
 	private final String ssn;
+	
+	public BasicPerson() {
+		this.netId = null;
+		this.restOfName = null;
+		this.preferredFirstName = null;
+		this.surname = null;
+		this.personId = null;
+		this.byuId = null;
+		this.birthDate = null;
+		this.gender = null;
+		this.organization = null;
+		this.religionCode = null;
+		this.ssn = null;
+	}
 
 	/**
 	 *

@@ -10,6 +10,7 @@ import org.springframework.jdbc.core.RowMapper;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -42,14 +43,14 @@ public class PhoneLookupImpl implements PhoneLookup {
 	}
 
 	@Override
-	public PhoneInformation getPhoneInformationByPersonIdAndType(String personId, PhoneType phoneType) {
+	public List<PhoneInformation> getPhoneInformationByPersonIdAndType(String personId, PhoneType phoneType) {
 		final Object[] objects = new Object[2];
 		objects[0] = personId;
 		objects[1] = phoneType.toString();
 		try{
-			return jdbcTemplate.queryForObject(PHONE_LOOKUP_TYPE_SQL, new PhoneRowMapper(), objects);
+			return jdbcTemplate.query(PHONE_LOOKUP_TYPE_SQL, new PhoneRowMapper(), objects);
 		} catch (EmptyResultDataAccessException e){
-			return new PhoneInformation();
+			return Collections.EMPTY_LIST;
 		}
 	}
 

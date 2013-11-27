@@ -34,10 +34,18 @@ public class PhoneLookupUnitTest {
 
 	@Test
 	public void testPhoneLookup() throws Exception {
-		List<PhoneInformation> phoneInformation = phoneLookup.getPhoneInformationByPersonId("249262982");
+		final List<PhoneInformation> phoneInformation = phoneLookup.getPhoneInformationByPersonId("249262982");
 		LOG.info(phoneInformation.size());
 		LOG.info(phoneInformation.get(0).getPhoneType());
-		PhoneInformation phone = phoneLookup.getPhoneInformationByPersonIdAndType("249262982", PhoneType.MAL);
-		LOG.info(phone.getPhoneNumber());
+		List<PhoneInformation> phone = phoneLookup.getPhoneInformationByPersonIdAndType("249262982", PhoneType.MAL);
+		logInformation(phone);
+		phone = phoneLookup.getPhoneInformationByPersonIdAndType("903201972", PhoneType.MAL);
+		logInformation(phone);
+	}
+
+	private void logInformation(List<PhoneInformation> phone) {
+		for (final PhoneInformation pi : phone) {
+			LOG.info(pi.getPhoneNumber());
+		}
 	}
 }
