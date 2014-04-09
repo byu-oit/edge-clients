@@ -1,16 +1,25 @@
 package edu.byu.edge.person.basic.impl;
 
-import edu.byu.edge.person.basic.BasicPersonLookup;
-import edu.byu.edge.person.basic.domain.BasicPerson;
-import org.apache.log4j.Logger;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.jdbc.core.RowMapper;
-
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
+
+import org.apache.log4j.Logger;
+import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.RowMapper;
+import org.springframework.jdbc.core.namedparam.NamedParameterJdbcOperations;
+import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
+
+import edu.byu.edge.jdbc.ListResultSetExtractor;
+import edu.byu.edge.jdbc.ObjectResultSetExtractor;
+import edu.byu.edge.person.basic.BasicPersonLookup;
+import edu.byu.edge.person.basic.domain.BasicPerson;
+import edu.byu.util.QueryUtils;
+import edu.byu.util.SelectableQueryExecutor;
 
 /**
  * Created by IntelliJ IDEA.
@@ -20,9 +29,14 @@ import java.util.List;
  */
 public class BasicPersonLookupImpl implements BasicPersonLookup {
 
+	private static final BasicPersonRowMapper BASIC_PERSON_ROW_MAPPER = new BasicPersonRowMapper();
+	private static final ObjectResultSetExtractor<BasicPerson> BASIC_PERSON_EXTRACTOR = new ObjectResultSetExtractor<BasicPerson>(BASIC_PERSON_ROW_MAPPER);
+	private static final ListResultSetExtractor<BasicPerson> BASIC_PERSONS_EXTRACTOR = new ListResultSetExtractor<BasicPerson>(BASIC_PERSON_ROW_MAPPER);
+	private final SelectableQueryExecutor<String, BasicPerson> personsByPersonIdsQueryExecutor;
+
 	protected final static Logger LOG = Logger.getLogger(BasicPersonLookupImpl.class);
 
-	private final JdbcTemplate cesTemplate;
+	private final NamedParameterJdbcOperations cesTemplate;
 	private static final String PERSON_ID_COL = "person_id";
 	private static final String NET_ID_COL = "net_id";
 	private static final String PREFERRED_NAME_COL = "preferred_name";
@@ -35,91 +49,103 @@ public class BasicPersonLookupImpl implements BasicPersonLookup {
 	private static final String RELIGION_CODE = "religion_code";
 	public static final String SSN = "ssn";
 
-	@Autowired
 	public BasicPersonLookupImpl(JdbcTemplate jdbcTemplate) {
+		this(new NamedParameterJdbcTemplate(jdbcTemplate));
+	}
+
+	public BasicPersonLookupImpl(NamedParameterJdbcOperations jdbcTemplate) {
 		this.cesTemplate = jdbcTemplate;
+		this.personsByPersonIdsQueryExecutor =  new PersonsByPersonIdsQueryExecutor(cesTemplate);
 	}
 
 	@Override
 	public BasicPerson getPersonByPersonId(final String personId) {
-		return cesTemplate.queryForObject(BASIC_LOOKUP_SQL, new BasicPersonRowMapper(), personId);
+		Map<String, String> paramMap = new HashMap<String, String>();
+		paramMap.put("personId", personId);
+		return cesTemplate.query(BASIC_LOOKUP_SQL, paramMap, BASIC_PERSON_EXTRACTOR);
 	}
-
+	
 	@Override
 	public List<BasicPerson> getPersonsByListPersonIds(final List<String> personIds) {
-		List<BasicPerson> returningList = new LinkedList<BasicPerson>();
-		List<String> persons = new LinkedList<String>();
-		int begin = 0;
-		for (int end = 0; personIds.size() != end; end++, begin++) {
-			persons.add(personIds.get(end));
-			if (begin == 4) {
-				returningList.addAll(getFivePersonQuery(persons));
-				begin = -1;
-				persons.clear();
-			}
-		}
-		if (begin != 0) {
-			returningList.addAll(getFivePersonQuery(persons));
-		}
-		return returningList;
+		return QueryUtils.doQueryWithParameterList(personIds, personsByPersonIdsQueryExecutor);
 	}
 
 	@Override
 	public List<BasicPerson> searchBy(String searchParam){
 		List<BasicPerson> returningList = new LinkedList<BasicPerson>();
+		Map<String, String> paramMap = new HashMap<String, String>();
 		if(Character.isDigit(searchParam.charAt(0))) {
 			searchParam = searchParam.replace("-", "");
-			return cesTemplate.query(SEARCH_BYU_ID_LOOKUP_SQL, new BasicPersonRowMapper(), addPercentToString(searchParam));
+			paramMap.put("byuIdSearch", addPercentToString(searchParam));
+			return cesTemplate.query(SEARCH_BYU_ID_LOOKUP_SQL, paramMap, BASIC_PERSONS_EXTRACTOR);
 		} else if (searchParam.startsWith("=")) {//Take out the =
-			return cesTemplate.query(SEARCH_FOR_PERSON_ID, new BasicPersonRowMapper(), addPercentToString(searchParam.substring(1)));
+			paramMap.put("personIdSearch", addPercentToString(searchParam.substring(1)));
+			return cesTemplate.query(SEARCH_FOR_PERSON_ID, paramMap, BASIC_PERSONS_EXTRACTOR);
 		} else if (searchParam.matches(".*\\d.*")) {//Looking for netId
-			return cesTemplate.query(SEARCH_NET_ID_LOOKUP_SQL, new BasicPersonRowMapper(), addPercentToString(searchParam));
+			paramMap.put("netIdSearch", addPercentToString(searchParam));
+			return cesTemplate.query(SEARCH_NET_ID_LOOKUP_SQL, paramMap, BASIC_PERSONS_EXTRACTOR);
 		} else if (searchParam.contains(",")) {
-			return cesTemplate.query(SEARCH_SORT_NAME_LOOKUP_SQL, new BasicPersonRowMapper(), addPercentToString(searchParam));
+			paramMap.put("sortNameSearch", addPercentToString(searchParam));
+			return cesTemplate.query(SEARCH_SORT_NAME_LOOKUP_SQL, paramMap, BASIC_PERSONS_EXTRACTOR);
 		} else {
 			String[] tokens = searchParam.split(" ");
 			if(tokens.length == 1){
-				return cesTemplate.query(SEARCH_SORT_NAME_OR_NET_ID_LOOKUP_SQL, new BasicPersonRowMapper(), addPercentToString(tokens[0]), addPercentToString(tokens[0]), addPercentToString(tokens[0]), addPercentToString(tokens[0]));
+				paramMap.put("sortNameSearch", addPercentToString(tokens[0]));
+				paramMap.put("netIdSearch", addPercentToString(tokens[0]));
+				paramMap.put("restOfNameSearch", addPercentToString(tokens[0]));
+				paramMap.put("surNameSearch", addPercentToString(tokens[0]));
+				return cesTemplate.query(SEARCH_SORT_NAME_OR_NET_ID_LOOKUP_SQL, paramMap, BASIC_PERSONS_EXTRACTOR);
 			} else if (tokens.length == 2){
-				return cesTemplate.query(SEARCH_SORT_NAME_OR_NET_ID_LOOKUP_SQL, new BasicPersonRowMapper(), "", "", addPercentToString(tokens[0]), addPercentToString(tokens[1]));
+				paramMap.put("sortNameSearch", "");
+				paramMap.put("netIdSearch", "");
+				paramMap.put("restOfNameSearch", addPercentToString(tokens[0]));
+				paramMap.put("surNameSearch", addPercentToString(tokens[1]));
+				return cesTemplate.query(SEARCH_SORT_NAME_OR_NET_ID_LOOKUP_SQL, paramMap, BASIC_PERSONS_EXTRACTOR);
 			} else if (tokens.length == 3) {
-				returningList.addAll(cesTemplate.query(SEARCH_SORT_NAME_OR_NET_ID_LOOKUP_SQL, new BasicPersonRowMapper(), "", "", addPercentToString(tokens[0]), addPercentToString(tokens[1] + " " + tokens[2])));//Search for last name
-				returningList.addAll(cesTemplate.query(SEARCH_SORT_NAME_OR_NET_ID_LOOKUP_SQL, new BasicPersonRowMapper(), "", "", addPercentToString(tokens[0] + " " + tokens[1]), addPercentToString(tokens[2])));//Search for middle name
+				//Search for last name
+				paramMap.put("sortNameSearch", "");
+				paramMap.put("netIdSearch", "");
+				paramMap.put("restOfNameSearch", addPercentToString(tokens[0]));
+				paramMap.put("surNameSearch", addPercentToString(tokens[1] + " " + tokens[2]));
+				returningList.addAll(cesTemplate.query(SEARCH_SORT_NAME_OR_NET_ID_LOOKUP_SQL, paramMap, BASIC_PERSONS_EXTRACTOR));
+				
+				//Search for middle name
+				paramMap.put("restOfNameSearch", addPercentToString(tokens[0] + " " + tokens[1]));
+				paramMap.put("surNameSearch", addPercentToString(tokens[2]));
+				returningList.addAll(cesTemplate.query(SEARCH_SORT_NAME_OR_NET_ID_LOOKUP_SQL, paramMap, BASIC_PERSONS_EXTRACTOR));
 				return returningList;
 			} else {
-				return cesTemplate.query(SEARCH_SORT_NAME_OR_NET_ID_LOOKUP_SQL, new BasicPersonRowMapper(), "", "", addPercentToString(tokens[0]), addPercentToString(tokens[1]));
+				paramMap.put("sortNameSearch", "");
+				paramMap.put("netIdSearch", "");
+				paramMap.put("restOfNameSearch", addPercentToString(tokens[0]));
+				paramMap.put("surNameSearch", addPercentToString(tokens[1]));
+				return cesTemplate.query(SEARCH_SORT_NAME_OR_NET_ID_LOOKUP_SQL, paramMap, BASIC_PERSONS_EXTRACTOR);
 			}
 		}
 	}
 
 	@Override
 	public BasicPerson getPersonByNetId(final String netId) {
-		return cesTemplate.queryForObject(BASIC_NET_ID_LOOKUP_SQL, new BasicPersonRowMapper(), netId);
+		Map<String, String> paramMap = new HashMap<String, String>();
+		paramMap.put("netId", netId);
+		return cesTemplate.query(BASIC_NET_ID_LOOKUP_SQL, paramMap, BASIC_PERSON_EXTRACTOR);
 	}
 
 	@Override
 	public BasicPerson getPersonByByuId(String byuId) {
-		return cesTemplate.queryForObject(BASIC_BYU_ID_LOOKUP_SQL, new BasicPersonRowMapper(), byuId);
+		Map<String, String> paramMap = new HashMap<String, String>();
+		paramMap.put("byuId", byuId);
+		return cesTemplate.query(BASIC_BYU_ID_LOOKUP_SQL, paramMap, BASIC_PERSON_EXTRACTOR);
 	}
 
 	@Override
 	public BasicPerson getPersonBySsn(final String ssn) {
-		return cesTemplate.queryForObject(BASIC_SSN_LOOKUP_SQL, new BasicPersonRowMapper(), ssn);
+		Map<String, String> paramMap = new HashMap<String, String>();
+		paramMap.put("ssn", ssn);
+		return cesTemplate.query(BASIC_SSN_LOOKUP_SQL, paramMap, BASIC_PERSON_EXTRACTOR);
 	}
 
-	private List<BasicPerson> getFivePersonQuery(List<String> personIds) {
-		final Object[] objects = new Object[5];
-		int size = personIds.size();
-		for (int i = 0; i <= 4; i++) {
-			if (size != 0) {
-				size--;
-			}
-			objects[i] = personIds.get(size);
-		}
-		return cesTemplate.query(MULTIPLE_LOOKUP_SQL, new BasicPersonRowMapper(), objects);
-	}
-
-	private class BasicPersonRowMapper implements RowMapper<BasicPerson> {
+	public static class BasicPersonRowMapper implements RowMapper<BasicPerson> {
 
 		@Override
 		public BasicPerson mapRow(ResultSet rs, int rowNum) throws SQLException {
@@ -135,6 +161,26 @@ public class BasicPersonLookupImpl implements BasicPersonLookup {
 					rs.getString(ORGANIZATION_F),
 					rs.getString(RELIGION_CODE),
 					rs.getString(SSN));
+		}
+	}
+	
+	private static class PersonsByPersonIdsQueryExecutor implements SelectableQueryExecutor<String, BasicPerson> {
+		
+		public PersonsByPersonIdsQueryExecutor(NamedParameterJdbcOperations jdbcTemplate) {
+			super();
+			this.jdbcTemplate = jdbcTemplate;
+		}
+
+		private NamedParameterJdbcOperations jdbcTemplate;
+		
+		@Override
+		public List<BasicPerson> doQuery(final List<String> personIds) {
+			if(personIds == null || personIds.isEmpty()) {
+				return new ArrayList<BasicPerson>();
+			}
+			Map<String, List<String>> paramMap = new HashMap<String, List<String>>();
+			paramMap.put("personIds", personIds);
+			return jdbcTemplate.query(MULTIPLE_LOOKUP_SQL, paramMap, new ListResultSetExtractor<BasicPerson>(BASIC_PERSON_ROW_MAPPER));
 		}
 	}
 
@@ -155,7 +201,7 @@ public class BasicPersonLookupImpl implements BasicPersonLookup {
 			"p.religion_code as " + RELIGION_CODE + ", " +
 			"p.ssn as " + SSN + " " +
 			"from pro.person p " +
-			"where p.person_id=?";
+			"where p.person_id = :personId";
 
 	private static final String SEARCH_FOR_PERSON_ID = "select " +
 			"p.person_id as " + PERSON_ID_COL + ", " +
@@ -170,7 +216,7 @@ public class BasicPersonLookupImpl implements BasicPersonLookup {
 			"p.religion_code as " + RELIGION_CODE + ", " +
 			"p.ssn as " + SSN + " " +
 			"from pro.person p " +
-			"where p.person_id like ?";
+			"where p.person_id like :personIdSearch";
 
 	private static final String BASIC_BYU_ID_LOOKUP_SQL = "select " +
 			"p.person_id as " + PERSON_ID_COL + ", " +
@@ -185,7 +231,7 @@ public class BasicPersonLookupImpl implements BasicPersonLookup {
 			"p.religion_code as " + RELIGION_CODE + ", " +
 			"p.ssn as " + SSN + " " +
 			"from pro.person p " +
-			"where p.byu_id=?";
+			"where p.byu_id=:byuId";
 
 	private static final String SEARCH_BYU_ID_LOOKUP_SQL = "select " +
 			"p.person_id as " + PERSON_ID_COL + ", " +
@@ -200,7 +246,7 @@ public class BasicPersonLookupImpl implements BasicPersonLookup {
 			"p.religion_code as " + RELIGION_CODE + ", " +
 			"p.ssn as " + SSN + " " +
 			"from pro.person p " +
-			"where p.byu_id like ?";
+			"where p.byu_id like :byuIdSearch";
 
 	private static final String BASIC_NET_ID_LOOKUP_SQL = "select " +
 			"p.person_id as " + PERSON_ID_COL + ", " +
@@ -215,7 +261,7 @@ public class BasicPersonLookupImpl implements BasicPersonLookup {
 			"p.religion_code as " + RELIGION_CODE + ", " +
 			"p.ssn as " + SSN + " " +
 			"from pro.person p " +
-			"where p.net_id=?";
+			"where p.net_id=:netId";
 
 	private static final String SEARCH_NET_ID_LOOKUP_SQL = "select " +
 			"p.person_id as " + PERSON_ID_COL + ", " +
@@ -230,7 +276,7 @@ public class BasicPersonLookupImpl implements BasicPersonLookup {
 			"p.religion_code as " + RELIGION_CODE + ", " +
 			"p.ssn as " + SSN + " " +
 			"from pro.person p " +
-			"where upper(p.net_id) like upper(?) " +
+			"where upper(p.net_id) like upper(:netIdSearch) " +
 			"and net_id != ' ' " +
 			"order by p.net_id";
 
@@ -247,7 +293,7 @@ public class BasicPersonLookupImpl implements BasicPersonLookup {
 			"p.religion_code as " + RELIGION_CODE + ", " +
 			"p.ssn as " + SSN + " " +
 			"from pro.person p " +
-			"where upper(p.sort_name) like upper(?) " +
+			"where upper(p.sort_name) like upper(:sortNameSearch) " +
 			"and net_id != ' ' " +
 			"order by p.net_id";
 
@@ -264,7 +310,7 @@ public class BasicPersonLookupImpl implements BasicPersonLookup {
 			"p.religion_code as " + RELIGION_CODE + ", " +
 			"p.ssn as " + SSN + " " +
 			"from pro.person p " +
-			"where (upper(p.sort_name) like upper(?) or upper(net_id) like upper(?) or (upper(p.rest_of_name) like upper(?) and upper(surname) like upper(?))) " +
+			"where (upper(p.sort_name) like upper(:sortNameSearch) or upper(net_id) like upper(:netIdSearch) or (upper(p.rest_of_name) like upper(:restOfNameSearch) and upper(surname) like upper(:surNameSearch))) " +
 			"and net_id != ' ' " +
 			"order by net_id ";
 
@@ -281,7 +327,7 @@ public class BasicPersonLookupImpl implements BasicPersonLookup {
 			"p.religion_code as " + RELIGION_CODE + ", " +
 			"p.ssn as " + SSN + " " +
 			"from pro.person p " +
-			"where p.ssn=?";
+			"where p.ssn=:ssn";
 
 	private static final String MULTIPLE_LOOKUP_SQL = "select " +
 			"p.person_id as " + PERSON_ID_COL + ", " +
@@ -296,5 +342,5 @@ public class BasicPersonLookupImpl implements BasicPersonLookup {
 			"p.religion_code as " + RELIGION_CODE + ", " +
 			"p.ssn as " + SSN + " " +
 			"from pro.person p " +
-			"where p.person_id in (?, ?, ?, ?, ?)";
+			"where p.person_id in (:personIds)";
 }
