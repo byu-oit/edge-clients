@@ -1,13 +1,18 @@
 package edu.byu.edge.person.basic.impl;
 
-import edu.byu.edge.person.basic.GroupLookup;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 import org.apache.log4j.Logger;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.namedparam.NamedParameterJdbcOperations;
+import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 
-import java.util.List;
+import edu.byu.edge.jdbc.common.IntegerExtractor;
+import edu.byu.edge.jdbc.common.StringListExtractor;
+import edu.byu.edge.person.basic.GroupLookup;
 
 /**
  * Created by IntelliJ IDEA.
@@ -19,30 +24,36 @@ public class GroupLookupImpl implements GroupLookup{
 
 	private static final Logger LOG = Logger.getLogger(GroupLookupImpl.class);
 
-	private final JdbcTemplate jdbcTemplate;
+	private final NamedParameterJdbcOperations jdbcTemplate;
 
-	@Autowired
-	public GroupLookupImpl(
-			JdbcTemplate jdbcTemplate
-	) {
+	public GroupLookupImpl(JdbcTemplate jdbcTemplate) {
+		this(new NamedParameterJdbcTemplate(jdbcTemplate));
+	}
+	
+	public GroupLookupImpl(NamedParameterJdbcOperations jdbcTemplate) {
 		this.jdbcTemplate = jdbcTemplate;
 	}
-
+	
 	@Cacheable(value = "cesGroClientCache")
 	@Override
 	public List<String> getAllGroupIds() {
-		return jdbcTemplate.queryForList("select GROUP_ID from GRO.GROUPS order by GROUP_ID", String.class);
+		return jdbcTemplate.query("select GROUP_ID from GRO.GROUPS order by GROUP_ID", new HashMap<String, String>(), StringListExtractor.EXTRACTOR);
 	}
 
 	@Cacheable(key = "#personId", value = "cesGroClientCache")
 	@Override
 	public List<String> getGroupsForPerson(final String personId) {
-		return jdbcTemplate.queryForList("select GROUP_ID from GRO.PERSON_GROUP where PERSON_ID = ? order by GROUP_ID", String.class, personId);
+		Map<String, String> paramMap = new HashMap<String, String>();
+		paramMap.put("personId", personId);
+		return jdbcTemplate.query("select GROUP_ID from GRO.PERSON_GROUP where PERSON_ID = :personId order by GROUP_ID", paramMap, StringListExtractor.EXTRACTOR);
 	}
 
 	@Cacheable(value = "cesGroClientCache")
 	@Override
 	public boolean isMember(final String personId, final String groupId) {
-		return  0 < jdbcTemplate.queryForInt("select count(*) from GRO.PERSON_GROUP where PERSON_ID = ? and GROUP_ID = ?", personId, groupId);
+		Map<String, String> paramMap = new HashMap<String, String>();
+		paramMap.put("personId", personId);
+		paramMap.put("groupId", groupId);
+		return 0 < jdbcTemplate.query("select count(*) from GRO.PERSON_GROUP where PERSON_ID = :personId and GROUP_ID = :groupId", paramMap, IntegerExtractor.EXTRACTOR);
 	}
 }

@@ -1,13 +1,16 @@
 package edu.byu.edge.person.basic.impl;
 
+import edu.byu.edge.jdbc.ListResultSetExtractor;
 import edu.byu.edge.person.basic.PersonAddressLookup;
 import edu.byu.edge.person.basic.domain.Address;
 import edu.byu.edge.person.basic.domain.BasicPerson;
 import edu.byu.edge.person.basic.domain.PersonAddress;
+
 import org.apache.log4j.Logger;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
+import org.springframework.jdbc.core.namedparam.NamedParameterJdbcOperations;
+import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -24,9 +27,12 @@ import java.util.Map;
 public class PersonAddressLookupImpl implements PersonAddressLookup {
 
 	private static final Logger LOG = Logger.getLogger(PersonAddressLookupImpl.class);
-	private final JdbcTemplate jdbcTemplate;
+	private final NamedParameterJdbcOperations jdbcTemplate;
+	
+	private static final PersonAddressHelperRowMapper PERSON_ADDRESS_ROW_MAPPER = new PersonAddressHelperRowMapper();
+	private static final ListResultSetExtractor<PersonAddress> PERSON_ADDRESSES_EXTRACTOR = new ListResultSetExtractor<PersonAddress>(PERSON_ADDRESS_ROW_MAPPER);
 
-	private static final String PERSON_SELECT = "p.PERSON_ID, p.BYU_ID, p.NET_ID, p.SSN, p.SORT_NAME, p.GENDER, p.MARITAL_STATUS";
+	private static final String PERSON_SELECT = "p.PERSON_ID, p.BYU_ID, p.NET_ID, p.SSN, p.SORT_NAME, p.REST_OF_NAME, p.GENDER, p.MARITAL_STATUS";
 	private static final String ADDRESS_SELECT = "a.ADDRESS_TYPE, a.ADDRESS_LINE_1, a.ADDRESS_LINE_2, a.ADDRESS_LINE_3, a.ADDRESS_LINE_4, a.CITY, a.STATE_CODE, a.POSTAL_CODE, a.COUNTRY_CODE";
 	private static final String SEARCH_SELECT = "select " + PERSON_SELECT + ", " + ADDRESS_SELECT;
 
@@ -57,8 +63,11 @@ public class PersonAddressLookupImpl implements PersonAddressLookup {
 	private static final String WHERE = " where p.PERSON_ID in (";
 	private static final String ORDER_BY = " order by upper(p.SORT_NAME)";
 
-	@Autowired
 	public PersonAddressLookupImpl(JdbcTemplate jdbcTemplate) {
+		this(new NamedParameterJdbcTemplate(jdbcTemplate));
+	}
+
+	public PersonAddressLookupImpl(NamedParameterJdbcOperations jdbcTemplate) {
 		this.jdbcTemplate = jdbcTemplate;
 	}
 
@@ -106,7 +115,7 @@ public class PersonAddressLookupImpl implements PersonAddressLookup {
 		isFirst = checkAndAppendAddress(query, isFirst, zip, "POSTAL_CODE", "zip");
 		query.append(" order by upper(p.SORT_NAME)");
 		final String sql = query.toString();
-		return jdbcTemplate.query(sql, new PersonAddressHelperRowMapper(), params);
+		return jdbcTemplate.query(sql, params, PERSON_ADDRESSES_EXTRACTOR);
 	}
 
 	@Override
@@ -139,7 +148,7 @@ public class PersonAddressLookupImpl implements PersonAddressLookup {
 
 		final String sql = query.toString();
 		LOG.debug(sql);
-		return jdbcTemplate.query(sql, new PersonAddressHelperRowMapper(), params);
+		return jdbcTemplate.query(sql, params, PERSON_ADDRESSES_EXTRACTOR);
 	}
 
 	private static final class PersonAddressHelperRowMapper implements RowMapper<PersonAddress> {

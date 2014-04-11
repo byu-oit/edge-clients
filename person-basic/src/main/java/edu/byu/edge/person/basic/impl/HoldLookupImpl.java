@@ -1,8 +1,15 @@
 package edu.byu.edge.person.basic.impl;
 
-import edu.byu.edge.person.basic.HoldLookup;
-import org.springframework.beans.factory.annotation.Autowired;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Map;
+
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.namedparam.NamedParameterJdbcOperations;
+import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
+
+import edu.byu.edge.jdbc.common.IntegerExtractor;
+import edu.byu.edge.person.basic.HoldLookup;
 
 /**
  * Created by IntelliJ IDEA.
@@ -12,28 +19,23 @@ import org.springframework.jdbc.core.JdbcTemplate;
  */
 public class HoldLookupImpl implements HoldLookup {
 
-	private final JdbcTemplate cesTemplate;
+	private final NamedParameterJdbcOperations jdbcTemplate;
+	private static final String fLAG_HOLD_SQL = "select count(*) from stdreg.std_flags_holds where person_id = :personId AND flag_name = :flagName AND flag_value in (:flags) AND date_removed is null and expired_date > sysdate";
 
-	@Autowired
 	public HoldLookupImpl(JdbcTemplate jdbcTemplate){
-		this.cesTemplate = jdbcTemplate;
+		this(new NamedParameterJdbcTemplate(jdbcTemplate));
+	}
+	
+	public HoldLookupImpl(NamedParameterJdbcOperations jdbcTemplate){
+		this.jdbcTemplate = jdbcTemplate;
 	}
 
 	@Override
 	public boolean hasHold(String personId, String flagName, String... flagValue) {
-		String WHERE_SQL = "in( ";
-		int x=0;
-		final Object[] objects = new Object[2 + flagValue.length];
-		objects[x++] = personId;
-		objects[x++] = flagName;
-		for(String s : flagValue){
-			objects[x++] = s;
-			if(x > 3){
-				WHERE_SQL += ",";
-			}
-			WHERE_SQL += "?";
-		}
-		String FLAG_HOLD_SQL = "select count(*) from stdreg.std_flags_holds where person_id = ? AND flag_name = ? AND flag_value " + WHERE_SQL + ") AND date_removed is null and expired_date > sysdate";
-		return cesTemplate.queryForInt(FLAG_HOLD_SQL, objects) > 0;
+		Map<String, Object> paramMap = new HashMap<String, Object>();
+		paramMap.put("personId", personId);
+		paramMap.put("flagName", flagName);
+		paramMap.put("flags", Arrays.asList(flagValue));
+		return jdbcTemplate.query(fLAG_HOLD_SQL, paramMap, IntegerExtractor.EXTRACTOR) > 0;
 	}
 }

@@ -1,14 +1,20 @@
 package edu.byu.edge.person.basic.impl;
 
-import edu.byu.edge.person.basic.CodeCountryLookup;
-import edu.byu.edge.person.basic.domain.CodeCountry;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.jdbc.core.RowMapper;
-
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+
+import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.RowMapper;
+import org.springframework.jdbc.core.namedparam.NamedParameterJdbcOperations;
+import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
+
+import edu.byu.edge.jdbc.ListResultSetExtractor;
+import edu.byu.edge.jdbc.ObjectResultSetExtractor;
+import edu.byu.edge.person.basic.CodeCountryLookup;
+import edu.byu.edge.person.basic.domain.CodeCountry;
 
 /**
  * Created by IntelliJ IDEA.
@@ -18,24 +24,34 @@ import java.util.List;
  */
 public class CodeCountryLookupImpl implements CodeCountryLookup {
 
-	private final JdbcTemplate jdbcTemplate;
+	private final NamedParameterJdbcOperations jdbcTemplate;
+	private static final CodeCountryMapper CODE_COUNTRY_ROW_MAPPER = new CodeCountryMapper();
+	private static final ObjectResultSetExtractor<CodeCountry> CODE_COUNTRY_EXTRACTOR = new ObjectResultSetExtractor<CodeCountry>(CODE_COUNTRY_ROW_MAPPER);
+	private static final ListResultSetExtractor<CodeCountry> CODE_COUNTRIES_EXTRACTOR = new ListResultSetExtractor<CodeCountry>(CODE_COUNTRY_ROW_MAPPER);
 
-	@Autowired
 	public CodeCountryLookupImpl(JdbcTemplate jdbcTemplate) {
+		this(new NamedParameterJdbcTemplate(jdbcTemplate));
+	}
+	
+	public CodeCountryLookupImpl(NamedParameterJdbcOperations jdbcTemplate) {
 		this.jdbcTemplate = jdbcTemplate;
 	}
 
 	@Override
 	public List<CodeCountry> getAllCodeCountryCodes() {
-		return jdbcTemplate.query(CODE_COUNTRY_SQL, new CodeCountryMapper());
+		Map<String, String> paramMap = new HashMap<String, String>();
+		return jdbcTemplate.query(CODE_COUNTRY_SQL, paramMap, CODE_COUNTRIES_EXTRACTOR);
 	}
 
 	@Override
 	public CodeCountry getCountryByCodeId(String countryCode) {
-		return jdbcTemplate.queryForObject(CODE_ID_SQL, new CodeCountryMapper(), countryCode);
+		
+		Map<String, String> paramMap = new HashMap<String, String>();
+		paramMap.put("countryCode", countryCode);
+		return jdbcTemplate.query(CODE_ID_SQL, paramMap, CODE_COUNTRY_EXTRACTOR);
 	}
 
-	private class CodeCountryMapper implements RowMapper<CodeCountry> {
+	private static class CodeCountryMapper implements RowMapper<CodeCountry> {
 
 		@Override
 		public CodeCountry mapRow(ResultSet rs, int rowNumb) throws SQLException {
@@ -51,5 +67,5 @@ public class CodeCountryLookupImpl implements CodeCountryLookup {
 	}
 
 	public static final String CODE_COUNTRY_SQL = "select * from pro.code_country order by country";
-	public static final String CODE_ID_SQL = "select * from pro.code_country where country_code = ? order by country";
+	public static final String CODE_ID_SQL = "select * from pro.code_country where country_code = :countryCode order by country";
 }
