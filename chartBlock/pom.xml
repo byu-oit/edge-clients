@@ -5,9 +5,10 @@
 	<modelVersion>4.0.0</modelVersion>
 
 	<parent>
-	<groupId>edu.byu.edge.framework</groupId>
-	<artifactId>edge-pom</artifactId>
+		<groupId>edu.byu.edge.framework</groupId>
+		<artifactId>edge-pom</artifactId>
 	    <version>1.4</version>
+		<relativePath></relativePath>
 	</parent>
 
 	<groupId>edu.byu.commons-util</groupId>
@@ -25,31 +26,12 @@
 			<groupId>edu.byu.commons-util</groupId>
 			<artifactId>common-exception</artifactId>
 			<version>1.0.0-SNAPSHOT</version>
-			<scope>compile</scope>
+			<scope>runtime</scope>
 		</dependency>
 		<dependency>
 			<groupId>edu.byu.security</groupId>
 			<artifactId>security-jersey-support</artifactId>
 			<scope>runtime</scope>
-		</dependency>
-		<dependency>
-			<groupId>edu.byu.security</groupId>
-			<artifactId>security-ws-actor</artifactId>
-			<scope>runtime</scope>
-		</dependency>
-		<dependency>
-			<groupId>edu.byu.security</groupId>
-			<artifactId>security-core</artifactId>
-			<scope>runtime</scope>
-		</dependency>
-		<dependency>
-			<groupId>edu.byu.ws</groupId>
-			<artifactId>authentication-core-da</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>edu.byu.security</groupId>
-			<artifactId>security-hmac-client</artifactId>
-			<scope>compile</scope>
 		</dependency>
 		<dependency>
 			<groupId>log4j</groupId>
@@ -58,34 +40,26 @@
 		<dependency>
 			<groupId>com.sun.jersey</groupId>
 			<artifactId>jersey-client</artifactId>
-			<version>1.12</version>
 			<scope>compile</scope>
 		</dependency>
 		<dependency>
 			<groupId>com.sun.jersey</groupId>
 			<artifactId>jersey-core</artifactId>
-			<version>1.12</version>
-			<scope>compile</scope>
-		</dependency>
-		<dependency>
-			<groupId>javax.ws.rs</groupId>
-			<artifactId>jsr311-api</artifactId>
+			<scope>runtime</scope>
 		</dependency>
 		<dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-context</artifactId>
+			<scope>runtime</scope>
 		</dependency>
 		<dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-core</artifactId>
+			<scope>runtime</scope>
 		</dependency>
 		<dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-beans</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>net.sf.ehcache</groupId>
-			<artifactId>ehcache-core</artifactId>
 		</dependency>
 		<dependency>
 			<groupId>junit</groupId>
@@ -108,7 +82,6 @@
 		<dependency>
 			<groupId>commons-codec</groupId>
 			<artifactId>commons-codec</artifactId>
-			<version>1.4</version>
 			<scope>test</scope>
 		</dependency>
 		<dependency>

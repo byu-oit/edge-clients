@@ -1,8 +1,8 @@
 package edu.byu.chartblock.impl;
 
+import com.sun.jersey.api.client.filter.ClientFilter;
 import edu.byu.chartblock.AccountCodeValidation;
 import edu.byu.chartblock.ValidateChartBlockResult;
-import edu.byu.security.hmac.jersey.SharedSecretNonceEncodingFilter;
 import org.apache.log4j.Logger;
 
 import java.util.HashMap;
@@ -40,7 +40,7 @@ public class AccountCodeValidationImpl extends BaseClient implements AccountCode
 	 * @param filter      the nonce encoding filter
 	 * @param readTimeout the default read timeout for the service
 	 */
-	protected AccountCodeValidationImpl(String baseUrl, SharedSecretNonceEncodingFilter filter, int readTimeout) {
+	protected AccountCodeValidationImpl(final String baseUrl, final ClientFilter filter, final int readTimeout) {
 		super(baseUrl, filter, readTimeout);
 		super.setSoapAction("ValidateChartblock.v1");
 	}
