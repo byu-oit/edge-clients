@@ -25,7 +25,7 @@
 		<dependency>
 			<groupId>edu.byu.commons-util</groupId>
 			<artifactId>common-exception</artifactId>
-			<version>1.0.0-SNAPSHOT</version>
+			<version>1.0.0</version>
 			<scope>runtime</scope>
 		</dependency>
 		<dependency>
