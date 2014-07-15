@@ -16,5 +16,6 @@
 		<module>person-basic</module>
 		<module>control-dates-client</module>
 		<module>learning-suite-client</module>
+		<module>chartBlock</module>
 	</modules>
 </project>
