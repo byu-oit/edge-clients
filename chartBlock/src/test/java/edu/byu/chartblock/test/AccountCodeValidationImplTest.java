@@ -37,7 +37,7 @@ public class AccountCodeValidationImplTest extends BaseTest {
 	@Test
 	public void testAccountCodeValidation() throws Exception {
 		assertNotNull("need client", accountCodeValidation);
-		final ValidateChartBlockResult account = accountCodeValidation.getAccount("11360000-6010-00000");
+		final ValidateChartBlockResult account = accountCodeValidation.getAccount("11405500-6000-40391");
 		assertTrue(account.isSuccessful());
 		final Map<String, String> map = account.getFields();
 		final List<String> keys = new ArrayList<String>(map.keySet());
