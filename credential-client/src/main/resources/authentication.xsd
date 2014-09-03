@@ -1,0 +1,266 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
+           targetNamespace="http://ws.byu.edu/namespaces/security/authentication/v1.0" version="1.0"
+           attributeFormDefault="unqualified"
+           xmlns="http://ws.byu.edu/namespaces/security/authentication/v1.0"
+           elementFormDefault="qualified">
+	<xs:element name="credential" type="credential"/>
+	<xs:element name="identity" type="identity"/>
+	<xs:element name="nonce" type="nonce"/>
+	<xs:element name="wsSession" type="wsSession"/>
+	<xs:annotation>
+		<xs:documentation>
+			<![CDATA[
+					The following types are those that are used by the Web Service Authentication Service and
+					represent domain that is responsible for authenticating to other web services.
+					]]>
+		</xs:documentation>
+	</xs:annotation>
+	<xs:complexType name="credential" final="#all" block="#all">
+		<xs:annotation>
+			<xs:documentation>
+				<![CDATA[
+						The credential is used when doing web service authentication. The wsId is passed along with a
+						signature that was obtained using the shared secret.  Upon successful validation of the HMAC
+						based authentication the identity associated with this credential is known.
+						]]>
+			</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="personId" type="xs:string" minOccurs="1">
+				<xs:annotation>
+					<xs:documentation>
+						<![CDATA[
+								The personId ties the credential back to an identity.
+								]]>
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="wsId" type="xs:string" minOccurs="1">
+				<xs:annotation>
+					<xs:documentation>
+						<![CDATA[
+								This is the public id of the credential and is passed in authentication requests to identify
+								the identity that owns this credential and the associated shared secret.
+								]]>
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="sharedSecret" type="xs:string" minOccurs="1">
+				<xs:annotation>
+					<xs:documentation>
+						<![CDATA[
+								The shared secret that is used when performing HMAC based authentication.
+								]]>
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="expirationDate" type="xs:dateTime" minOccurs="1">
+				<xs:annotation>
+					<xs:documentation>
+						<![CDATA[
+								Expiration date of this credential.
+								]]>
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="identity" final="#all" block="#all">
+		<xs:annotation>
+			<xs:documentation>
+				<![CDATA[
+						An identity represents an principal that can participate in authentication and authorization with BYU.
+						]]>
+			</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="personId" type="xs:string" minOccurs="1">
+				<xs:annotation>
+					<xs:documentation>
+						<![CDATA[
+								The personId of the identity.  This is the primary id of all identities.
+						]]>
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="byuId" type="xs:string" minOccurs="1">
+				<xs:annotation>
+					<xs:documentation>
+						<![CDATA[
+								The byuId of the identity.
+						]]>
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="netId" type="xs:string" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>
+						<![CDATA[
+								The netId of the identity.
+						]]>
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="sortName" type="xs:string" minOccurs="1">
+				<xs:annotation>
+					<xs:documentation>
+						<![CDATA[
+								This is the name used to sort the identity when found in lists.
+						]]>
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="preferredFirstName" type="xs:string" minOccurs="1">
+				<xs:annotation>
+					<xs:documentation>
+						<![CDATA[
+								The preferred first name for this identity.
+						]]>
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="surname" type="xs:string" minOccurs="1">
+				<xs:annotation>
+					<xs:documentation>
+						<![CDATA[
+								The surname of this identity.
+						]]>
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="fullName" type="xs:string" minOccurs="1">
+				<xs:annotation>
+					<xs:documentation>
+						<![CDATA[
+								The full name of this identity.
+						]]>
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="gender" type="xs:string" minOccurs="1">
+				<xs:annotation>
+					<xs:documentation>
+						<![CDATA[
+								Represents the gender of this identity.
+						]]>
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="restricted" type="xs:boolean" minOccurs="1">
+				<xs:annotation>
+					<xs:documentation>
+						<![CDATA[
+								This flags this identity as being restricted.  Only those authorized to see this identity will
+								be allowed to receive it.
+						]]>
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="deceased" type="xs:boolean" minOccurs="1">
+				<xs:annotation>
+					<xs:documentation>
+						<![CDATA[
+								This flags the person associated with this identity as being deceased.
+						]]>
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="organization" type="xs:boolean" minOccurs="1">
+				<xs:annotation>
+					<xs:documentation>
+						<![CDATA[
+								This flags the identity as an organization.
+						]]>
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="nonce" final="#all" block="#all">
+		<xs:annotation>
+			<xs:documentation>
+				<![CDATA[
+						The nonce is used when performing HMAC based authentication to a web service. The nonceKey is passed
+						to the service as part of the authentication along with the signed nonceValue.  The nonceValue is signed
+						using a shared secret.  The nonce can be obtained using the Web Service Authentication Service.
+						]]>
+			</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="nonceKey" type="xs:unsignedLong" minOccurs="1">
+				<xs:annotation>
+					<xs:documentation>
+						<![CDATA[
+								This identifies the nonce value that will be signed as part of nonce based authentication.
+						]]>
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="nonceValue" type="xs:string" minOccurs="1">
+				<xs:annotation>
+					<xs:documentation>
+						<![CDATA[
+								This is the value that will be signed with a shared secret when using nonce based authentication.
+						]]>
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="wsSession" final="#all" block="#all">
+		<xs:annotation>
+			<xs:documentation>
+				<![CDATA[
+						The wsSession represents a Web Service Authentication Session. This class is configured using JAXB
+						 to marshal XML into representing a Web Service Authentication Session. This session is created using
+						  the Web Service Authentication Service. A session is established by submitting a valid net-id and
+						  password. Upon creation a temporary API-Key is issued for the user with the corresponding shared
+						  secret value. To enforce the temporary nature of this session, each session has a time out.
+						  Sessions can be renewed and destroyed using the previously mentioned service.
+						]]>
+			</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="personId" type="xs:string" minOccurs="1">
+				<xs:annotation>
+					<xs:documentation>
+						<![CDATA[
+								The personId identifies the identity that is associated with this wsSession.
+								]]>
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="apiKey" type="xs:string" minOccurs="1">
+				<xs:annotation>
+					<xs:documentation>
+						<![CDATA[
+						The apiKey is used to identify the user when making web service calls.
+						The apiKey is associated with a user, a shared secret, and an expiration date.  When an
+						authenticated web service call is make the apiKey is passed to the service and is used
+						 to retrieve the appropriate shared secret so that the authentication can be validated.
+								]]>
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="sharedSecret" type="xs:string" minOccurs="1">
+				<xs:annotation>
+					<xs:documentation>
+						<![CDATA[
+						The sharedSecret is used to authenticate web service calls using HMAC based security.
+								]]>
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="expireDate" type="xs:dateTime" minOccurs="1">
+				<xs:annotation>
+					<xs:documentation>
+						<![CDATA[
+						The expireDate is the date and time this wsSession will expire if not renewed.
+								]]>
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+</xs:schema>

@@ -17,5 +17,6 @@
 		<module>control-dates-client</module>
 		<module>learning-suite-client</module>
 		<module>chartBlock</module>
+		<module>credential-client</module>
 	</modules>
 </project>
