@@ -24,9 +24,9 @@ import java.util.concurrent.atomic.AtomicReference;
  * @author Wyatt Taylor (wyatt_taylor@byu.edu)
  * @since 08/29/2014
  */
-public class WsSessionClientImpl extends CredentialClientImpl implements WsSessionClient, InitializingBean {
+public class WsSessionClientImpl extends CredentialClientImpl implements WsSessionClient {
 
-	public static final String HEADER_TYPE = "";
+	public static final String HEADER_TYPE = "Nonce-Encoded-WsSession-Key";
 
 	private static final AtomicInteger COUNTER = new AtomicInteger(0);
 
@@ -43,9 +43,12 @@ public class WsSessionClientImpl extends CredentialClientImpl implements WsSessi
 	private final AtomicBoolean isRenewing = new AtomicBoolean(false);
 	private final Object lockObj = new Object();
 
+	/**
+	 * @param connectTimeout the time to allow for connections in milliseconds
+	 * @param readTimeout the time to wait for response in milliseconds
+	 */
 	public WsSessionClientImpl(final int connectTimeout, final int readTimeout) {
 		super(connectTimeout, readTimeout);
-		this.wsBaseRes = baseRes.path("ws/session");
 	}
 
 	public void setSessionDuration(final int sessionDuration) {
@@ -61,12 +64,17 @@ public class WsSessionClientImpl extends CredentialClientImpl implements WsSessi
 	}
 
 	@Override
-	public void afterPropertiesSet() throws Exception {
+	protected void preClientConfig() {
 		Assert.notNull(resolver, "A valid PasswordCredentialResolver is required");
 		if (sessionDuration < 1) sessionDuration = 1;
 		if (sessionDuration > 480) sessionDuration = 480;
 		Assert.notNull(resolver.getUsername(), "Resolver failed to return a valid username.");
 		Assert.notNull(resolver.getPassword(), "Resolver failed to return a password.");
+	}
+
+	@Override
+	protected void postClientConfig() {
+		this.wsBaseRes = baseRes.path("ws/session");
 		login();
 		if (autoRenew) {
 			renewer = new RenewThread(this);
@@ -97,7 +105,7 @@ public class WsSessionClientImpl extends CredentialClientImpl implements WsSessi
 	public void logout() {
 		try {
 			final Nonce nonce = obtainNonce();
-			baseRes.path(nonce.getApiKey()).header(HDR_NAME, super._doObtainAuthorizationString(nonce)).delete();
+			wsBaseRes.path(nonce.getApiKey()).header(HDR_NAME, super._doObtainAuthorizationString(nonce)).delete();
 		} catch (final Throwable ignore) {
 		}
 	}
@@ -118,10 +126,11 @@ public class WsSessionClientImpl extends CredentialClientImpl implements WsSessi
 			isRenewing.set(true);
 			final Nonce nonce = _doObtainNonce(session.get());
 			final String hdrVal = super._doObtainAuthorizationString(nonce);
-			final Map<String, Object> params = new HashMap<String, Object>();
-			params.put("timeout", sessionDuration);
-			final WsSession newws = baseRes.path(nonce.getApiKey()).header(HDR_NAME, hdrVal).entity(params, AF_URLENC_TYPE).accept(ACCEPT_MEDIA_TYPES)
-					.post(WsSession.class);
+			final MultivaluedMapImpl map = new MultivaluedMapImpl();
+			map.putSingle("timeout", sessionDuration);
+			final WsSession newws = wsBaseRes.path(nonce.getApiKey()).header(HDR_NAME, hdrVal).entity(map, AF_URLENC_TYPE).accept(ACCEPT_MEDIA_TYPES).post(
+					WsSession.class
+			);
 			session.set(newws);
 		} finally {
 			isRenewing.set(false);
@@ -129,7 +138,7 @@ public class WsSessionClientImpl extends CredentialClientImpl implements WsSessi
 	}
 
 	private Nonce _doObtainNonce(final WsSession ws) {
-		final Nonce n = baseRes.path(ws.getApiKey()).accept(ACCEPT_MEDIA_TYPES).post(Nonce.class);
+		final Nonce n = nonceRes.path(ws.getApiKey()).accept(ACCEPT_MEDIA_TYPES).post(Nonce.class);
 		n.setApiKey(ws.getApiKey());
 		n.setSharedSecret(ws.getSharedSecret());
 		return n;

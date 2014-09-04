@@ -13,7 +13,8 @@ import org.junit.runners.Suite;
 @RunWith(Suite.class)
 @Suite.SuiteClasses({
 		ByteArrayTest.class,
-		ResolverTest.class
+		ResolverTest.class,
+		ClientTest.class
 })
 public class CredentialClientUnitTest {
 }

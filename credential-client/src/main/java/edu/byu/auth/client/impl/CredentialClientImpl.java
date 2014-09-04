@@ -4,10 +4,12 @@ import com.sun.jersey.api.client.Client;
 import com.sun.jersey.api.client.WebResource;
 import com.sun.jersey.api.client.config.ClientConfig;
 import com.sun.jersey.api.client.config.DefaultClientConfig;
+import com.sun.jersey.api.client.filter.ClientFilter;
 import edu.byu.auth.client.CredentialClient;
 import edu.byu.auth.domain.AuthJaxbContextResolver;
 import edu.byu.auth.domain.Nonce;
 import edu.byu.hash.Base64;
+import org.springframework.beans.factory.InitializingBean;
 
 import javax.crypto.spec.SecretKeySpec;
 import javax.ws.rs.core.MediaType;
@@ -22,7 +24,7 @@ import java.security.NoSuchAlgorithmException;
  * @author Wyatt Taylor (wyatt_taylor@byu.edu)
  * @since 08/29/2014
  */
-public abstract class CredentialClientImpl implements CredentialClient {
+public abstract class CredentialClientImpl implements CredentialClient, InitializingBean {
 
 	protected static final String WS_BASE_URL = "https://ws.byu.edu/authentication/services/rest/v1";
 	protected static final String NONCE_PATH = "/hmac/nonce";
@@ -31,31 +33,45 @@ public abstract class CredentialClientImpl implements CredentialClient {
 	protected static final MediaType AF_URLENC_TYPE = MediaType.APPLICATION_FORM_URLENCODED_TYPE;
 
 	protected Client client;
+//	protected ClientFilter[] filters;
 	protected WebResource baseRes;
 	protected WebResource nonceRes;
 
+	/**
+	 * @param connectTimeout the time to allow for connections in milliseconds
+	 * @param readTimeout the time to wait for response in milliseconds
+	 */
 	protected CredentialClientImpl(final int connectTimeout, final int readTimeout) {
 		final DefaultClientConfig config = new DefaultClientConfig();
 		config.getClasses().add(AuthJaxbContextResolver.class);
 		this.client = initClient(config);
 		this.client.setConnectTimeout(connectTimeout);
 		this.client.setReadTimeout(readTimeout);
-		this.baseRes = this.client.resource(WS_BASE_URL);
-		this.nonceRes = this.baseRes.path(NONCE_PATH);
 	}
+
+//	public void setFilters(final ClientFilter... filters) {
+//		this.filters = filters;
+//	}
 
 	protected Client initClient(final ClientConfig config) {
 		return Client.create(config);
 	}
 
-	protected Nonce doObtainNonce(final String sessionKey) {
-		return nonceRes.path(sessionKey).accept(ACCEPT_MEDIA_TYPES).post(Nonce.class);
+	@Override
+	public final void afterPropertiesSet() throws Exception {
+		preClientConfig();
+//		if (filters != null && filters.length > 0) {
+//			for (final ClientFilter f : filters) {
+//				this.client.addFilter(f);
+//			}
+//		}
+		this.baseRes = this.client.resource(WS_BASE_URL);
+		this.nonceRes = this.baseRes.path(NONCE_PATH);
+		postClientConfig();
 	}
 
-	protected Nonce doObtainNonce(final String sessionKey, final String actorId) {
-		return nonceRes.path(sessionKey).path(actorId).accept(ACCEPT_MEDIA_TYPES).post(Nonce.class);
-	}
-
+	protected abstract void preClientConfig();
+	protected abstract void postClientConfig();
 	protected abstract String getHeaderType();
 
 	protected String calcHmac(final Nonce nonce) {

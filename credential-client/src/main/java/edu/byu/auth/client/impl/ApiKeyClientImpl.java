@@ -19,7 +19,7 @@ import java.util.GregorianCalendar;
  * @author Wyatt Taylor (wyatt_taylor@byu.edu)
  * @since 08/29/2014
  */
-public class ApiKeyClientImpl extends CredentialClientImpl implements ApiKeyClient, InitializingBean {
+public class ApiKeyClientImpl extends CredentialClientImpl implements ApiKeyClient {
 
 	public static final String HEADER_TYPE = "Nonce-Encoded-API-Key";
 
@@ -27,6 +27,10 @@ public class ApiKeyClientImpl extends CredentialClientImpl implements ApiKeyClie
 	private Credential apikey;
 	private WebResource apikeyRes;
 
+	/**
+	 * @param connectTimeout the time to allow for connections in milliseconds
+	 * @param readTimeout the time to wait for response in milliseconds
+	 */
 	public ApiKeyClientImpl(final int connectTimeout, final int readTimeout) {
 		super(connectTimeout, readTimeout);
 	}
@@ -35,12 +39,17 @@ public class ApiKeyClientImpl extends CredentialClientImpl implements ApiKeyClie
 		this.resolver = resolver;
 	}
 
+
 	@Override
-	public void afterPropertiesSet() throws Exception {
+	protected void preClientConfig() {
 		Assert.notNull(resolver, "A valid SharedSecretCredentialResolver is required.");
 		apikey = resolver.getApiKeyCredential();
 		Assert.notNull(apikey, "The resolver did not resolve any credentials.");
 		Assert.isTrue(apikey.getExpirationDate().after(new GregorianCalendar()), "The resolved credential is already expired.");
+	}
+
+	@Override
+	protected void postClientConfig() {
 		apikeyRes = super.nonceRes.path(apikey.getWsId());
 	}
 
@@ -69,6 +78,19 @@ public class ApiKeyClientImpl extends CredentialClientImpl implements ApiKeyClie
 		} catch (final UniformInterfaceException e) {
 			if (e.getResponse().getStatus() == ClientResponse.Status.BAD_GATEWAY.getStatusCode()) {
 				return _doObtainNonceWithActor(actorId);
+			} else {
+				throw e;
+			}
+		}
+	}
+
+	@Override
+	public Nonce obtainNonceWithActor(final String actorId, final String idType) {
+		try {
+			return _doObtainNonceWithActor(actorId + "/" + idType);
+		} catch (final UniformInterfaceException e) {
+			if (e.getResponse().getStatus() == ClientResponse.Status.BAD_GATEWAY.getStatusCode()) {
+				return _doObtainNonceWithActor(actorId + "/" + idType);
 			} else {
 				throw e;
 			}
