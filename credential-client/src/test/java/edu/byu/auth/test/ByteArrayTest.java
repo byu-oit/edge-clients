@@ -18,9 +18,9 @@ import java.util.List;
  * @since 09/03/2014
  */
 @RunWith(JUnit4.class)
-public class ByteArrayUnitTest {
+public class ByteArrayTest {
 
-	private static final Logger LOG = LogManager.getLogger(ByteArrayUnitTest.class);
+	private static final Logger LOG = LogManager.getLogger(ByteArrayTest.class);
 
 	private static final int PREP_COUNT = 10000;
 	private static final int TEST_COUNT = 1000000;

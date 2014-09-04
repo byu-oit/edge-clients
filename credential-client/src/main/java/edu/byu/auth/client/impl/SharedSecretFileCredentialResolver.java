@@ -41,7 +41,7 @@ public class SharedSecretFileCredentialResolver extends AbstractFileCredentialRe
 		int i = 0;
 		final Calendar cal = new GregorianCalendar();
 		cal.set(Calendar.YEAR, i < s.length ? Integer.parseInt(s[i++]) : 0);
-		cal.set(Calendar.MONTH, i < s.length ? Integer.parseInt(s[i++]) : 0);
+		cal.set(Calendar.MONTH, i < s.length ? Integer.parseInt(s[i++]) - 1 : 0);//subtract one to deal with calendar offset (jan = 1 for us but jan = 0 for java)
 		cal.set(Calendar.DAY_OF_MONTH, i < s.length ? Integer.parseInt(s[i++]) : 0);
 		cal.set(Calendar.HOUR_OF_DAY, i < s.length ? Integer.parseInt(s[i++]) : 0);
 		cal.set(Calendar.MINUTE, i < s.length ? Integer.parseInt(s[i++]) : 0);

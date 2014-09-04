@@ -73,8 +73,8 @@ public abstract class AbstractFileCredentialResolver implements InitializingBean
 	}
 
 	/*
-	private static final int BITES_OF_PEPPER = 16;
-	private static final int[] PEPPER_PLANT = new int[] {0xfedcba98, 0x76543210, 0x8d88ea75, 0xfeedbac2};
+	private static final int BITES_OF_PEPPER = 32;
+	private static final int[] PEPPER_PLANT = new int[] {0xfedcba98, 0x76543210, 0x8d88ea75, 0xfeedbac2, 0x77777777, 0x900df00d, 0x7ee7f00f, 0x7a5e69f0};
 	private final byte[] pepper = createPepper();
 
 	private byte[] createPepper() {
