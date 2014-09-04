@@ -7,7 +7,6 @@ import edu.byu.auth.client.ApiKeyClient;
 import edu.byu.auth.client.SharedSecretCredentialResolver;
 import edu.byu.auth.domain.Credential;
 import edu.byu.auth.domain.Nonce;
-import org.springframework.beans.factory.InitializingBean;
 import org.springframework.util.Assert;
 
 import java.util.GregorianCalendar;

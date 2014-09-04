@@ -8,11 +8,8 @@ import edu.byu.auth.client.PasswordCredentialResolver;
 import edu.byu.auth.client.WsSessionClient;
 import edu.byu.auth.domain.Nonce;
 import edu.byu.auth.domain.WsSession;
-import org.springframework.beans.factory.InitializingBean;
 import org.springframework.util.Assert;
 
-import java.util.HashMap;
-import java.util.Map;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.atomic.AtomicReference;

@@ -4,7 +4,6 @@ import com.sun.jersey.api.client.Client;
 import com.sun.jersey.api.client.WebResource;
 import com.sun.jersey.api.client.config.ClientConfig;
 import com.sun.jersey.api.client.config.DefaultClientConfig;
-import com.sun.jersey.api.client.filter.ClientFilter;
 import edu.byu.auth.client.CredentialClient;
 import edu.byu.auth.domain.AuthJaxbContextResolver;
 import edu.byu.auth.domain.Nonce;
