@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration status="warn" strict="true" name="XMLConfigTest" packages="org.apache.logging.log4j.test">
+
+	<Properties>
+		<Property name="filename">/tmp/authclient-test.log</Property>
+	</Properties>
+
+	<Appenders>
+		<Appender type="Console" name="STDOUT">
+			<Layout type="PatternLayout" pattern="%d{ISO8601} %p %c{1.} [%t] %m%n" />
+		</Appender>
+		<!--<Appender type="File" name="File" fileName="${filename}">-->
+		<!--<Layout type="PatternLayout">-->
+		<!--<Pattern>%d{ISO8601} %p %c{1.} [%t] %m%n</Pattern>-->
+		<!--</Layout>-->
+		<!--</Appender>-->
+	</Appenders>
+
+	<Loggers>
+		<Logger level="warn"  additivity="true" name="com" />
+		<Logger level="warn"  additivity="true" name="net" />
+		<Logger level="warn"  additivity="true" name="org" />
+		<Logger level="info"  additivity="true" name="org.springframework" />
+		<Logger level="warn"  additivity="true" name="edu" />
+		<Logger level="info"  additivity="true" name="edu.byu" />
+		<Logger level="debug" additivity="true" name="edu.byu.auth" />
+
+		<Logger level="debug" additivity="false" name="sample">
+			<!--<AppenderRef ref="File"/>-->
+		</Logger>
+
+		<Root level="trace">
+			<AppenderRef ref="STDOUT"/>
+			<!--<AppenderRef ref="File"/>-->
+		</Root>
+	</Loggers>
+
+</Configuration>
