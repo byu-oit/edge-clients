@@ -71,25 +71,12 @@ public class ApiKeyClientImpl extends CredentialClientImpl implements ApiKeyClie
 	}
 
 	@Override
-	public Nonce obtainNonceWithActor(final String actorId) {
+	public Nonce obtainNonce(final String actorId) {
 		try {
 			return _doObtainNonceWithActor(actorId);
 		} catch (final UniformInterfaceException e) {
 			if (e.getResponse().getStatus() == ClientResponse.Status.BAD_GATEWAY.getStatusCode()) {
 				return _doObtainNonceWithActor(actorId);
-			} else {
-				throw e;
-			}
-		}
-	}
-
-	@Override
-	public Nonce obtainNonceWithActor(final String actorId, final String idType) {
-		try {
-			return _doObtainNonceWithActor(actorId + "/" + idType);
-		} catch (final UniformInterfaceException e) {
-			if (e.getResponse().getStatus() == ClientResponse.Status.BAD_GATEWAY.getStatusCode()) {
-				return _doObtainNonceWithActor(actorId + "/" + idType);
 			} else {
 				throw e;
 			}

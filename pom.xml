@@ -18,5 +18,6 @@
 		<module>learning-suite-client</module>
 		<module>chartBlock</module>
 		<module>credential-client</module>
+		<module>filters</module>
 	</modules>
 </project>
