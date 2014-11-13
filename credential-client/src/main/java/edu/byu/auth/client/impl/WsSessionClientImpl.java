@@ -99,6 +99,20 @@ public class WsSessionClientImpl extends CredentialClientImpl implements WsSessi
 	}
 
 	@Override
+	public Nonce obtainNonce(final String actor) {
+		final WsSession ws = getSession();
+		try {
+			return _doObtainNonce(ws, actor);
+		} catch (final UniformInterfaceException e) {
+			if (e.getResponse().getStatus() == ClientResponse.Status.BAD_GATEWAY.getStatusCode()) {
+				return _doObtainNonce(ws);
+			} else {
+				throw e;
+			}
+		}
+	}
+
+	@Override
 	public void logout() {
 		try {
 			final Nonce nonce = obtainNonce();
@@ -136,6 +150,13 @@ public class WsSessionClientImpl extends CredentialClientImpl implements WsSessi
 
 	private Nonce _doObtainNonce(final WsSession ws) {
 		final Nonce n = nonceRes.path(ws.getApiKey()).accept(ACCEPT_MEDIA_TYPES).post(Nonce.class);
+		n.setApiKey(ws.getApiKey());
+		n.setSharedSecret(ws.getSharedSecret());
+		return n;
+	}
+
+	private Nonce _doObtainNonce(final WsSession ws, final String actorId) {
+		final Nonce n = nonceRes.path(ws.getApiKey()).path(actorId).accept(ACCEPT_MEDIA_TYPES).post(Nonce.class);
 		n.setApiKey(ws.getApiKey());
 		n.setSharedSecret(ws.getSharedSecret());
 		return n;

@@ -97,4 +97,19 @@ public abstract class CredentialClientImpl implements CredentialClient, Initiali
 	public String obtainAuthorizationHeaderString() {
 		return _doObtainAuthorizationString(obtainNonce());
 	}
+
+	@Override
+	public String obtainAuthorizationHeaderString(final String actor) {
+		return _doObtainAuthorizationString(obtainNonce(actor));
+	}
+
+	@Override
+	public String obtainAuthorizationHeaderString(final String actor, final String idType) {
+		return _doObtainAuthorizationString(obtainNonce(actor, idType));
+	}
+
+	@Override
+	public Nonce obtainNonce(final String actorId, final String idType) {
+		return obtainNonce(actorId + "/" + idType);
+	}
 }
