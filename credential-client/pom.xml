@@ -46,7 +46,7 @@
 		<dependency>
 			<groupId>com.google.guava</groupId>
 			<artifactId>guava</artifactId>
-			<scope>test</scope>
+			<scope>compile</scope>
 		</dependency>
 		<dependency>
 			<groupId>com.sun.jersey</groupId>
@@ -124,5 +124,32 @@
 			<scope>compile</scope>
 		</dependency>
 	</dependencies>
+
+	<build>
+		<plugins>
+			<plugin>
+				<artifactId>maven-shade-plugin</artifactId>
+				<version>2.3</version>
+				<configuration>
+					<artifactSet>
+						<excludes>
+							<!--<exclude>org.springframework</exclude>-->
+							<exclude>aopalliance</exclude>
+						</excludes>
+					</artifactSet>
+					<shadedArtifactAttached>true</shadedArtifactAttached>
+					<shadedClassifierName>full</shadedClassifierName>
+				</configuration>
+				<executions>
+					<execution>
+						<phase>package</phase>
+						<goals>
+							<goal>shade</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+		</plugins>
+	</build>
 
 </project>

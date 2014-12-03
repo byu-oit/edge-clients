@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration status="warn" strict="true" name="XMLConfigTest" packages="org.apache.logging.log4j.test">
+
+	<Properties>
+		<!--<Property name="filename">/tmp/notifyme-server.log</Property>-->
+	</Properties>
+
+	<Appenders>
+		<Appender type="Console" name="STDOUT">
+			<Layout type="PatternLayout" pattern="%m%n" />
+		</Appender>
+		<!--<Appender type="File" name="File" fileName="${filename}">-->
+		<!--<Layout type="PatternLayout">-->
+		<!--<Pattern>%d{ISO8601} %p %c{1.} [%t] %m%n</Pattern>-->
+		<!--</Layout>-->
+		<!--</Appender>-->
+	</Appenders>
+
+	<Loggers>
+		<Logger level="off"  additivity="true" name="com" />
+		<Logger level="off"  additivity="true" name="com.sun.jersey.api.client.filter.LoggingFilter" />
+		<Logger level="off"  additivity="true" name="net" />
+		<Logger level="off"  additivity="true" name="org" />
+		<Logger level="off"  additivity="true" name="org.apache.http.wire" />
+		<Logger level="off"  additivity="true" name="org.springframework" />
+		<!--<Logger level="debug"  additivity="true" name="org.springframework.beans" />-->
+		<!--<Logger level="debug"  additivity="true" name="org.springframework.context" />-->
+		<Logger level="off"  additivity="true" name="edu" />
+		<Logger level="off"  additivity="true" name="edu.byu" />
+		<Logger level="off" additivity="true" name="edu.byu.notifyme" />
+
+		<!--<Logger level="debug" additivity="false" name="sample">-->
+		<!--&lt;!&ndash;<AppenderRef ref="File"/>&ndash;&gt;-->
+		<!--</Logger>-->
+
+		<Root level="off">
+			<AppenderRef ref="STDOUT"/>
+			<!--<AppenderRef ref="File"/>-->
+		</Root>
+	</Loggers>
+
+</Configuration>
