@@ -17,6 +17,12 @@
 
 	<dependencies>
 		<dependency>
+			<groupId>edu.byu.edge.wsClient</groupId>
+			<artifactId>credential-client</artifactId>
+			<version>1.0.0</version>
+			<scope>compile</scope>
+		</dependency>
+		<dependency>
 			<groupId>com.sun.xml.bind</groupId>
 			<artifactId>jaxb-impl</artifactId>
 			<scope>runtime</scope>
