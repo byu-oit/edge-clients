@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<ns3:invoices xmlns:ns2="http://schemas.byu.edu/payment/system" xmlns:ns3="http://schemas.byu.edu/payment/invoice"
+		count="2" total="2">
+	<invoice>
+		<owner>600281622</owner>
+		<paymentSourceAllowed>ALL</paymentSourceAllowed>
+		<lineItems count="1" total="1">
+			<lineItem>
+				<lineItemId>P1-10572</lineItemId>
+				<description>P1-10572</description>
+				<amount>10</amount>
+				<creditCardFee>0</creditCardFee>
+				<dueDate>2014-10-27-06:00</dueDate>
+			</lineItem>
+		</lineItems>
+		<invoiceId>1254809</invoiceId>
+		<clientSystem>
+			<id>parking-citations</id>
+			<transactionId>600281622.16-10-201415:08:58</transactionId>
+			<name>Parking Citation Payment</name>
+		</clientSystem>
+		<status>PAID</status>
+		<payment>
+			<transactionId>4667178</transactionId>
+			<paidWith>
+				<creditCard>
+					<nickname xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true" />
+					<nameOnCard>Taylor Thomas</nameOnCard>
+					<billingAddress>
+						<usAddress>
+							<addressLine1>538 West 1120 North</addressLine1>
+							<city>Orem</city>
+							<state>UT</state>
+							<zip>84057</zip>
+						</usAddress>
+					</billingAddress>
+					<expirationDate year="2019" month="SEP" />
+					<useInProfile>false</useInProfile>
+					<creditCardId>78816d2c-1d16-4a60-a898-e7d90aa03620</creditCardId>
+					<owner>600281622</owner>
+					<mungedCardNumber>************4000</mungedCardNumber>
+					<cardNumberLastFour>4000</cardNumberLastFour>
+					<creditCardType>AMERICAN_EXPRESS</creditCardType>
+					<disabled>false</disabled>
+				</creditCard>
+			</paidWith>
+			<errors count="0" total="0" />
+			<dateStartedPayment>2014-10-16T15:08:59.548-06:00</dateStartedPayment>
+			<dateFinishedPayment>2014-10-16T15:09:43.263-06:00</dateFinishedPayment>
+			<dateAgreedToTerms>2014-10-16T15:09:41.192-06:00</dateAgreedToTerms>
+			<paidBy>600281622</paidBy>
+		</payment>
+		<reconciliation>
+			<dateReconciled>2015-02-18T10:13:59.510-07:00</dateReconciled>
+		</reconciliation>
+		<urls>
+			<returnUrl xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true" />
+			<notificationUrl xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true" />
+		</urls>
+		<scheduledPaymentId xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true" />
+	</invoice>
+	<invoice>
+		<owner>600281622</owner>
+		<paymentSourceAllowed>ALL</paymentSourceAllowed>
+		<lineItems count="1" total="1">
+			<lineItem>
+				<lineItemId>49-11834</lineItemId>
+				<description>49-11834</description>
+				<amount>55</amount>
+				<creditCardFee>0</creditCardFee>
+				<dueDate>2015-02-11-07:00</dueDate>
+			</lineItem>
+		</lineItems>
+		<invoiceId>1457501</invoiceId>
+		<clientSystem>
+			<id>parking-citations</id>
+			<transactionId>49-11834.20150206130840</transactionId>
+			<name>Parking Citation Payment</name>
+		</clientSystem>
+		<status>PAID</status>
+		<payment>
+			<transactionId>4911233</transactionId>
+			<paidWith>
+				<creditCard>
+					<nickname xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true" />
+					<nameOnCard>Taylor Thomas</nameOnCard>
+					<billingAddress>
+						<usAddress>
+							<addressLine1>538 West 1120 North</addressLine1>
+							<city>Orem</city>
+							<state>UT</state>
+							<zip>84057</zip>
+						</usAddress>
+					</billingAddress>
+					<expirationDate year="2019" month="SEP" />
+					<useInProfile>false</useInProfile>
+					<creditCardId>4977916b-ffe8-488a-b3f8-25ec9b523148</creditCardId>
+					<owner>600281622</owner>
+					<mungedCardNumber>************4000</mungedCardNumber>
+					<cardNumberLastFour>4000</cardNumberLastFour>
+					<creditCardType>AMERICAN_EXPRESS</creditCardType>
+					<disabled>false</disabled>
+				</creditCard>
+			</paidWith>
+			<errors count="0" total="0" />
+			<dateStartedPayment>2015-02-06T13:08:41.023-07:00</dateStartedPayment>
+			<dateFinishedPayment>2015-02-06T13:09:31.561-07:00</dateFinishedPayment>
+			<dateAgreedToTerms>2015-02-06T13:09:28.830-07:00</dateAgreedToTerms>
+			<paidBy>600281622</paidBy>
+		</payment>
+		<reconciliation>
+			<dateReconciled>2015-02-18T10:13:59.511-07:00</dateReconciled>
+		</reconciliation>
+		<urls>
+			<returnUrl xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true" />
+			<notificationUrl xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true" />
+		</urls>
+		<scheduledPaymentId xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true" />
+	</invoice>
+</ns3:invoices>
