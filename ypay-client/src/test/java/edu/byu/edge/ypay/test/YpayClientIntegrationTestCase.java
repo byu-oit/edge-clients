@@ -79,7 +79,7 @@ public class YpayClientIntegrationTestCase {
 		line1.setLineItemId("TEST_ID2");
 		line1.setDescription("TEST");
 		line1.setAmount(new BigDecimal(2));
-		line1.setDueDate(new XMLGregorianCalendarImpl(new GregorianCalendar(2014, Calendar.DECEMBER, 31)));
+		line1.setDueDate(new GregorianCalendar(2014, Calendar.DECEMBER, 31));
 		lineItemList.add(line1);
 		String invoiceId = client.createInvoice(String.valueOf(System.currentTimeMillis()), "806267732", lineItemList);
 		assertNotNull(invoiceId);
