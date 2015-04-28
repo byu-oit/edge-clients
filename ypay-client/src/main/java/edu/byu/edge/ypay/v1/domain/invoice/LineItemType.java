@@ -1,12 +1,16 @@
 
 package edu.byu.edge.ypay.v1.domain.invoice;
 
+import edu.byu.edge.ypay.v1.domain.CalendarConverter;
+
 import java.math.BigDecimal;
+import java.util.Calendar;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlSchemaType;
 import javax.xml.bind.annotation.XmlType;
+import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 import javax.xml.datatype.XMLGregorianCalendar;
 
 
@@ -63,7 +67,8 @@ public class LineItemType {
     protected BigDecimal creditCardFee;
     @XmlElement(required = true)
     @XmlSchemaType(name = "date")
-    protected XMLGregorianCalendar dueDate;
+    @XmlJavaTypeAdapter(CalendarConverter.class)
+    protected Calendar dueDate;
 
     /**
      * Gets the value of the lineItemId property.
@@ -190,10 +195,10 @@ public class LineItemType {
      * 
      * @return
      *     possible object is
-     *     {@link XMLGregorianCalendar }
+     *     {@link Calendar }
      *     
      */
-    public XMLGregorianCalendar getDueDate() {
+    public Calendar getDueDate() {
         return dueDate;
     }
 
@@ -202,10 +207,10 @@ public class LineItemType {
      * 
      * @param value
      *     allowed object is
-     *     {@link XMLGregorianCalendar }
+     *     {@link Calendar }
      *     
      */
-    public void setDueDate(XMLGregorianCalendar value) {
+    public void setDueDate(Calendar value) {
         this.dueDate = value;
     }
 
