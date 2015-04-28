@@ -1,6 +1,5 @@
 package edu.byu.edge.ypay.test;
 
-import com.sun.org.apache.xerces.internal.jaxp.datatype.XMLGregorianCalendarImpl;
 import edu.byu.auth.client.CredentialClient;
 import edu.byu.auth.client.impl.ApiKeyClientImpl;
 import edu.byu.auth.client.impl.SharedSecretFileCredentialResolver;

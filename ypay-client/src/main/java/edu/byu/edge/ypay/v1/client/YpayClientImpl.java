@@ -2,7 +2,6 @@ package edu.byu.edge.ypay.v1.client;
 
 import edu.byu.auth.client.CredentialClient;
 import edu.byu.edge.ypay.v1.domain.invoice.*;
-import org.apache.commons.io.IOUtils;
 
 import javax.xml.bind.*;
 import java.io.*;
