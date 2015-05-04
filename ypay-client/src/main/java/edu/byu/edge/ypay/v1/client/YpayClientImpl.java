@@ -21,7 +21,7 @@ public class YpayClientImpl implements YpayClient {
 
 	private static final String SEARCH_STRING = "%sinvoices/search?clientSystemId=%s&paidByIds=%s&start=0&results=64&paymentStartDate=%s&paymentEndDate=%s";
 	private static final String CREATE_INVOICE_STRING = "%s%s/invoices";
-	private static final String DELETE_INVOICE_STRING = CREATE_INVOICE_STRING + "/%s";
+	private static final String FIND_INVOICE_STRING = CREATE_INVOICE_STRING + "/%s";
 
 	protected final String baseUrl;
 	protected final String clientSystemId;
@@ -94,7 +94,7 @@ public class YpayClientImpl implements YpayClient {
 	}
 
 	@Override
-	public String createInvoice(String clientTransactionId, String returnUrl, String notificationUrl, String owner, List<LineItemType> lineItemList) {
+	public long createInvoice(String clientTransactionId, String returnUrl, String notificationUrl, String owner, List<LineItemType> lineItemList) {
 		//Check for valid values
 		if(clientTransactionId == null || clientTransactionId.isEmpty()) {
 			throw new IllegalArgumentException("Invalid client transaction ID");
@@ -146,24 +146,40 @@ public class YpayClientImpl implements YpayClient {
 		} catch (JAXBException e) {
 			e.printStackTrace();
 		}
+		return -1L;
+	}
+
+	@Override
+	public InvoiceType findInvoice(long invoiceId) {
+		try {
+			final URL url = new URL(String.format(FIND_INVOICE_STRING, baseUrl, clientSystemId, invoiceId));
+			final HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+			connection.setRequestMethod("GET");
+			connection.setRequestProperty("Accept", "application/xml,text/xml");
+			connection.setRequestProperty("Authorization", credentialClient.obtainAuthorizationHeaderString());
+			connection.setRequestProperty("Content-Type", "application/xml");
+
+			return ((JAXBElement<InvoiceType>) unmarshallerThreadLocal.get().unmarshal(connection.getInputStream())).getValue();
+		} catch (MalformedURLException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		} catch (JAXBException e) {
+			e.printStackTrace();
+		}
 		return null;
 	}
 
 	@Override
-	public boolean deleteInvoice(String invoiceId) {
-		if(invoiceId == null || invoiceId.isEmpty()) {
-			throw new IllegalArgumentException("Invalid client trasaction ID");
-		}
-
+	public boolean deleteInvoice(long invoiceId) {
 		try {
-			final URL url = new URL(String.format(DELETE_INVOICE_STRING, baseUrl, clientSystemId, invoiceId));
+			final URL url = new URL(String.format(FIND_INVOICE_STRING, baseUrl, clientSystemId, invoiceId));
 			final HttpURLConnection connection = (HttpURLConnection) url.openConnection();
 			connection.setRequestMethod("DELETE");
 			connection.setRequestProperty("Accept", "application/xml,text/xml");
 			connection.setRequestProperty("Authorization", credentialClient.obtainAuthorizationHeaderString());
 			connection.setRequestProperty("Content-Type", "application/xml");
 			connection.getInputStream();
-			System.out.println(connection.getResponseCode());
 			return true;
 		} catch (MalformedURLException e) {
 			e.printStackTrace();
@@ -173,14 +189,14 @@ public class YpayClientImpl implements YpayClient {
 		return false;
 	}
 
-	protected String getInvoiceId(String response) {
+	protected long getInvoiceId(String response) {
 		final String URL = String.format(CREATE_INVOICE_STRING, baseUrl, clientSystemId);
 		final int urlStartIndex = response.indexOf(URL) + URL.length() + 1;
 		final int urlEndIndex = response.indexOf("\n", urlStartIndex);
-		if(urlEndIndex == -1) {
-			return response.substring(urlStartIndex).trim();
+		if (urlEndIndex == -1) {
+			return Long.valueOf(response.substring(urlStartIndex).trim());
 		} else {
-			return response.substring(urlStartIndex, urlEndIndex).trim();
+			return Long.valueOf(response.substring(urlStartIndex, urlEndIndex).trim());
 		}
 	}
 

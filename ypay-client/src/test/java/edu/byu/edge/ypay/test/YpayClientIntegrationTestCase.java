@@ -4,9 +4,7 @@ import edu.byu.auth.client.CredentialClient;
 import edu.byu.auth.client.impl.ApiKeyClientImpl;
 import edu.byu.auth.client.impl.SharedSecretFileCredentialResolver;
 import edu.byu.edge.ypay.v1.client.YpayClientImpl;
-import edu.byu.edge.ypay.v1.domain.invoice.InvoiceListType;
-import edu.byu.edge.ypay.v1.domain.invoice.LineItemType;
-import edu.byu.edge.ypay.v1.domain.invoice.ObjectFactory;
+import edu.byu.edge.ypay.v1.domain.invoice.*;
 import org.apache.log4j.Logger;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -68,7 +66,7 @@ public class YpayClientIntegrationTestCase {
 				"53\n" +
 				"https://ypay-stg.byu.edu/payments/service/rest/v1/parking-citation/invoices/230900";
 		assertNotNull(response);
-		assertTrue(client.getInvoiceId(response).equals("230900"));
+		assertTrue(client.getInvoiceId(response) == 230900L);
 	}
 
 	@Test
@@ -80,9 +78,25 @@ public class YpayClientIntegrationTestCase {
 		line1.setAmount(new BigDecimal(2));
 		line1.setDueDate(new GregorianCalendar(2014, Calendar.DECEMBER, 31));
 		lineItemList.add(line1);
-		String invoiceId = client.createInvoice(String.valueOf(System.currentTimeMillis()), "", "", "806267732", lineItemList);
+		long invoiceId = client.createInvoice(String.valueOf(System.currentTimeMillis()), "", "", "806267732", lineItemList);
 		assertNotNull(invoiceId);
 		assertTrue(client.deleteInvoice(invoiceId));
+	}
+
+	@Test
+	public void testFindInvoiceStatus() throws InterruptedException {
+		List<LineItemType> lineItemList = new ArrayList<LineItemType>();
+		LineItemType line1 = new LineItemType();
+		line1.setLineItemId("TEST_ID2");
+		line1.setDescription("TEST");
+		line1.setAmount(new BigDecimal(2));
+		line1.setDueDate(new GregorianCalendar(2014, Calendar.DECEMBER, 31));
+		lineItemList.add(line1);
+		long invoiceId = client.createInvoice(String.valueOf(System.currentTimeMillis()), "", "", "806267732", lineItemList);
+		InvoiceType invoice = client.findInvoice(invoiceId);
+		assertNotNull(invoice);
+		assertNotNull(invoice.getStatus());
+		assertTrue(invoice.getStatus() == InvoiceStatusType.CREATED);
 	}
 
 	private static class MyYpayClient extends YpayClientImpl {
@@ -111,17 +125,22 @@ public class YpayClientIntegrationTestCase {
 		}
 
 		@Override
-		public String createInvoice(String clientTransactionId, String returnUrl, String notificationUrl, String owner, List<LineItemType> lineItemList) {
+		public long createInvoice(String clientTransactionId, String returnUrl, String notificationUrl, String owner, List<LineItemType> lineItemList) {
 			return super.createInvoice(clientTransactionId, returnUrl, notificationUrl, owner, lineItemList);
 		}
 
 		@Override
-		public boolean deleteInvoice(String invoiceId) {
+		public InvoiceType findInvoice(long invoiceId) {
+			return super.findInvoice(invoiceId);
+		}
+
+		@Override
+		public boolean deleteInvoice(long invoiceId) {
 			return super.deleteInvoice(invoiceId);
 		}
 
 		@Override
-		protected String getInvoiceId(String response) {
+		protected long getInvoiceId(String response) {
 			return super.getInvoiceId(response);
 		}
 
