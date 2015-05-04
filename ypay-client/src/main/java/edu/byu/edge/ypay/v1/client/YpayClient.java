@@ -13,15 +13,6 @@ public interface YpayClient {
 	public InvoiceListType findInvoicesForPersonOnDay(String personId, Date day);
 
 	/**
-	 * Creates an invoice using empty returnUrl and notificationUrl
-	 * @param clientTransactionId Unique ID used in table
-	 * @param owner Foreign key to the person table
-	 * @param lineItemList Must contain at least one LineItemType
-	 * @return Invoice ID that was created
-	 */
-	public String createInvoice(String clientTransactionId, String owner, List<LineItemType> lineItemList);
-
-	/**
 	 * Creates an invoice
 	 * @param clientTransactionId Unique ID used in table
 	 * @param returnUrl

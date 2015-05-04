@@ -94,11 +94,6 @@ public class YpayClientImpl implements YpayClient {
 	}
 
 	@Override
-	public String createInvoice(String clientTransactionId, String owner, List<LineItemType> lineItemList) {
-		return createInvoice(clientTransactionId, "", "", owner, lineItemList);
-	}
-
-	@Override
 	public String createInvoice(String clientTransactionId, String returnUrl, String notificationUrl, String owner, List<LineItemType> lineItemList) {
 		//Check for valid values
 		if(clientTransactionId == null || clientTransactionId.isEmpty()) {
