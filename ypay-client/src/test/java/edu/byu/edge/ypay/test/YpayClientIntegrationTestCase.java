@@ -80,7 +80,7 @@ public class YpayClientIntegrationTestCase {
 		line1.setAmount(new BigDecimal(2));
 		line1.setDueDate(new GregorianCalendar(2014, Calendar.DECEMBER, 31));
 		lineItemList.add(line1);
-		String invoiceId = client.createInvoice(String.valueOf(System.currentTimeMillis()), "806267732", lineItemList);
+		String invoiceId = client.createInvoice(String.valueOf(System.currentTimeMillis()), "", "", "806267732", lineItemList);
 		assertNotNull(invoiceId);
 		assertTrue(client.deleteInvoice(invoiceId));
 	}
@@ -108,11 +108,6 @@ public class YpayClientIntegrationTestCase {
 		@Override
 		public InvoiceListType findInvoicesForPersonOnDay(String personId, Date day) {
 			return super.findInvoicesForPersonOnDay(personId, day);
-		}
-
-		@Override
-		public String createInvoice(String clientTransactionId, String owner, List<LineItemType> lineItemList) {
-			return super.createInvoice(clientTransactionId, owner, lineItemList);
 		}
 
 		@Override
