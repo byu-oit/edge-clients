@@ -2,6 +2,7 @@ package edu.byu.edge.ypay.v1.client;
 
 import edu.byu.auth.client.CredentialClient;
 import edu.byu.edge.ypay.v1.domain.invoice.*;
+import org.apache.log4j.Logger;
 
 import javax.xml.bind.*;
 import java.io.*;
@@ -18,6 +19,7 @@ import java.util.Map;
  * Created by wct5 on 2/18/15.
  */
 public class YpayClientImpl implements YpayClient {
+	private static final Logger LOG = Logger.getLogger(YpayClientImpl.class);
 
 	private static final String SEARCH_STRING = "%sinvoices/search?clientSystemId=%s&paidByIds=%s&start=0&results=64&paymentStartDate=%s&paymentEndDate=%s";
 	private static final String CREATE_INVOICE_STRING = "%s%s/invoices";
@@ -120,9 +122,11 @@ public class YpayClientImpl implements YpayClient {
 
 		try {
 			final URL url = new URL(String.format(CREATE_INVOICE_STRING, baseUrl, clientSystemId));
-			final URLConnection connection = url.openConnection();
+			final HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+			connection.setRequestMethod("GET");
 			connection.setRequestProperty("Accept", "application/xml,text/xml");
-			connection.setRequestProperty("Authorization", credentialClient.obtainAuthorizationHeaderString());
+			final String value = credentialClient.obtainAuthorizationHeaderString();
+			connection.setRequestProperty("Authorization", value);
 			connection.setRequestProperty("Content-Type", "application/xml");
 			connection.setDoOutput(true);
 
@@ -130,7 +134,7 @@ public class YpayClientImpl implements YpayClient {
 
 			final Map<String, List<String>> headerFields = connection.getHeaderFields();
 			if(!headerFields.containsKey("Location")) {
-				throw new IOException("Response missing 'Location' header");
+				throw new IOException("Response missing 'Location' header. Code: " + connection.getResponseCode());
 			}
 			List<String> locations = headerFields.get("Location");
 			if(locations.size() != 1) {
@@ -140,11 +144,11 @@ public class YpayClientImpl implements YpayClient {
 			return getInvoiceId(locations.get(0));
 
 		} catch (MalformedURLException e) {
-			e.printStackTrace();
+			LOG.error("Error creating YPayInvoice", e);
 		} catch (IOException e) {
-			e.printStackTrace();
+			LOG.error("Error creating YPayInvoice", e);
 		} catch (JAXBException e) {
-			e.printStackTrace();
+			LOG.error("Error creating YPayInvoice", e);
 		}
 		return -1L;
 	}
