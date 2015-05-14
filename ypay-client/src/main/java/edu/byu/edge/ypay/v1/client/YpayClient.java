@@ -15,6 +15,11 @@ public interface YpayClient {
 	public InvoiceListType findInvoicesForPersonOnDay(String personId, Date day);
 
 	/**
+	 * Changes the web service to stage
+	 */
+	public void setToStageUrl();
+
+	/**
 	 * Creates an invoice
 	 * @param clientTransactionId Unique ID used in table
 	 * @param returnUrl

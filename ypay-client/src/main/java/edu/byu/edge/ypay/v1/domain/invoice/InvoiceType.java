@@ -225,4 +225,20 @@ public class InvoiceType
         this.scheduledPaymentId = value;
     }
 
+    /**
+     * Return whether the status of this invoice indicates problems
+     * @return result
+     */
+    public boolean hasIssueStatus() {
+        switch(this.status) {
+            case CREATED:
+            case PROCESSING:
+            case SUBMITTED:
+            case PAID:
+                return false;
+            default:
+                return true;
+        }
+    }
+
 }

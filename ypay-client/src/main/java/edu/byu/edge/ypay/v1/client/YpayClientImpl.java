@@ -24,8 +24,10 @@ public class YpayClientImpl implements YpayClient {
 	private static final String SEARCH_STRING = "%sinvoices/search?clientSystemId=%s&paidByIds=%s&start=0&results=64&paymentStartDate=%s&paymentEndDate=%s";
 	private static final String CREATE_INVOICE_STRING = "%s%s/invoices";
 	private static final String FIND_INVOICE_STRING = CREATE_INVOICE_STRING + "/%s";
+	private static final String YPAY_PROD_URL = "https://ypay.byu.edu/payments/service/rest/v1/";
+	private static final String YPAY_STAGE_URL = "https://ypay-stg.byu.edu/payments/service/rest/v1/";
 
-	protected final String baseUrl;
+	protected String baseUrl;
 	protected final String clientSystemId;
 	protected final CredentialClient credentialClient;
 	protected JAXBContext invoiceContext;
@@ -33,7 +35,7 @@ public class YpayClientImpl implements YpayClient {
 	protected ThreadLocal<Marshaller> marshallerThreadLocal;
 
 	public YpayClientImpl(final String clientSystemId, final CredentialClient credentialClient) {
-		this("https://ypay.byu.edu/payments/service/rest/v1/", clientSystemId, credentialClient);
+		this(YPAY_PROD_URL, clientSystemId, credentialClient);
 	}
 
 	public YpayClientImpl(final String baseUrl, final String clientSystemId, final CredentialClient credentialClient) {
@@ -49,6 +51,10 @@ public class YpayClientImpl implements YpayClient {
 	public void initialize() throws Exception {
 		unmarshallerThreadLocal = new InvoiceUnmarshallerThreadLocal(invoiceContext);
 		marshallerThreadLocal = new InvoiceMarshallerThreadLocal(invoiceContext);
+	}
+
+	public void setToStageUrl() {
+		this.baseUrl = YPAY_STAGE_URL;
 	}
 
 	public InvoiceListType findInvoicesForPersonOnDay(final String personId, final Date day) {
@@ -97,6 +103,8 @@ public class YpayClientImpl implements YpayClient {
 
 	@Override
 	public long createInvoice(String clientTransactionId, String returnUrl, String notificationUrl, String owner, List<LineItemType> lineItemList) {
+		LOG.info("	YpayClient: Creating Invoice");
+
 		//Check for valid values
 		if(clientTransactionId == null || clientTransactionId.isEmpty()) {
 			throw new IllegalArgumentException("Invalid client transaction ID");
@@ -120,17 +128,23 @@ public class YpayClientImpl implements YpayClient {
 		lineItems.getLineItem().addAll(lineItemList);
 		invoiceRequestType.setLineItems(lineItems);
 
+		LOG.info("		InvoiceRequest: " + invoiceRequestType);
+
 		try {
+			LOG.info("		Hitting URL: " + String.format(CREATE_INVOICE_STRING, baseUrl, clientSystemId));
 			final URL url = new URL(String.format(CREATE_INVOICE_STRING, baseUrl, clientSystemId));
 			final HttpURLConnection connection = (HttpURLConnection) url.openConnection();
 			connection.setRequestMethod("GET");
 			connection.setRequestProperty("Accept", "application/xml,text/xml");
 			final String value = credentialClient.obtainAuthorizationHeaderString();
+			LOG.info("		Authentication String: " + value);
 			connection.setRequestProperty("Authorization", value);
 			connection.setRequestProperty("Content-Type", "application/xml");
 			connection.setDoOutput(true);
 
-			marshallerThreadLocal.get().marshal(invoiceRequestType, connection.getOutputStream());
+			final OutputStream outputStream = connection.getOutputStream();
+			LOG.info("		Got the outputStream");
+			marshallerThreadLocal.get().marshal(invoiceRequestType, outputStream);
 
 			final Map<String, List<String>> headerFields = connection.getHeaderFields();
 			if(!headerFields.containsKey("Location")) {
@@ -155,6 +169,8 @@ public class YpayClientImpl implements YpayClient {
 
 	@Override
 	public InvoiceType findInvoice(long invoiceId) {
+		LOG.info("	YpayClient: Finding Invoice");
+
 		try {
 			final URL url = new URL(String.format(FIND_INVOICE_STRING, baseUrl, clientSystemId, invoiceId));
 			final HttpURLConnection connection = (HttpURLConnection) url.openConnection();
