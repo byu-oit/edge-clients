@@ -103,8 +103,6 @@ public class YpayClientImpl implements YpayClient {
 
 	@Override
 	public long createInvoice(String clientTransactionId, String returnUrl, String notificationUrl, String owner, List<LineItemType> lineItemList) {
-		LOG.info("	YpayClient: Creating Invoice");
-
 		//Check for valid values
 		if(clientTransactionId == null || clientTransactionId.isEmpty()) {
 			throw new IllegalArgumentException("Invalid client transaction ID");
@@ -128,22 +126,16 @@ public class YpayClientImpl implements YpayClient {
 		lineItems.getLineItem().addAll(lineItemList);
 		invoiceRequestType.setLineItems(lineItems);
 
-		LOG.info("		InvoiceRequest: " + invoiceRequestType);
-
 		try {
-			LOG.info("		Hitting URL: " + String.format(CREATE_INVOICE_STRING, baseUrl, clientSystemId));
 			final URL url = new URL(String.format(CREATE_INVOICE_STRING, baseUrl, clientSystemId));
 			final HttpURLConnection connection = (HttpURLConnection) url.openConnection();
 			connection.setRequestMethod("GET");
 			connection.setRequestProperty("Accept", "application/xml,text/xml");
-			final String value = credentialClient.obtainAuthorizationHeaderString();
-			LOG.info("		Authentication String: " + value);
-			connection.setRequestProperty("Authorization", value);
+			connection.setRequestProperty("Authorization", credentialClient.obtainAuthorizationHeaderString());
 			connection.setRequestProperty("Content-Type", "application/xml");
 			connection.setDoOutput(true);
 
 			final OutputStream outputStream = connection.getOutputStream();
-			LOG.info("		Got the outputStream");
 			marshallerThreadLocal.get().marshal(invoiceRequestType, outputStream);
 
 			final Map<String, List<String>> headerFields = connection.getHeaderFields();
@@ -169,8 +161,6 @@ public class YpayClientImpl implements YpayClient {
 
 	@Override
 	public InvoiceType findInvoice(long invoiceId) {
-		LOG.info("	YpayClient: Finding Invoice");
-
 		try {
 			final URL url = new URL(String.format(FIND_INVOICE_STRING, baseUrl, clientSystemId, invoiceId));
 			final HttpURLConnection connection = (HttpURLConnection) url.openConnection();
