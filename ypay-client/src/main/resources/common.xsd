@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema version="1.0" targetNamespace="http://schemas.byu.edu/payment/common"
+		xmlns:xs="http://www.w3.org/2001/XMLSchema">
+	<xs:complexType name="ListBaseType">
+		<xs:annotation>
+			<xs:documentation>
+				<![CDATA[<p>Java class for ListBaseType complex type.
+<p>The following schema fragment specifies the expected content contained within this class.
+<pre>
+&lt;complexType name="ListBaseType">
+&lt;complexContent>
+&lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
+&lt;attribute name="start" type="{http://www.w3.org/2001/XMLSchema}int" />
+&lt;attribute name="count" type="{http://www.w3.org/2001/XMLSchema}int" />
+&lt;attribute name="total" type="{http://www.w3.org/2001/XMLSchema}int" />
+&lt;/restriction>
+&lt;/complexContent>
+&lt;/complexType>
+</pre>]]>
+			</xs:documentation>
+		</xs:annotation>
+		<xs:attribute name="start" type="xs:int" />
+		<xs:attribute name="count" type="xs:int" />
+		<xs:attribute name="total" type="xs:int" />
+	</xs:complexType>
+
+	<xs:simpleType name="personId">
+		<xs:restriction base="xs:string" />
+	</xs:simpleType>
+
+	<xs:simpleType name="uuid">
+		<xs:restriction base="xs:string" />
+	</xs:simpleType>
+</xs:schema>
