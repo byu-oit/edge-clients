@@ -1,0 +1,523 @@
+<xs:schema version="2.0" targetNamespace="http://schemas.byu.edu/payment/invoice"
+		xmlns:xs="http://www.w3.org/2001/XMLSchema"
+		xmlns:common="http://schemas.byu.edu/payment/common"
+		xmlns:payment="http://schemas.byu.edu/payment/payments"
+		xmlns:tns="http://schemas.byu.edu/payment/invoice">
+	<xs:import namespace="http://schemas.byu.edu/payment/common" schemaLocation="common.xsd" />
+	<xs:import namespace="http://schemas.byu.edu/payment/payments" schemaLocation="payments.xsd" />
+	<xs:complexType name="InvoiceBaseType">
+		<xs:sequence>
+			<xs:element name="owner" type="common:personId">
+				<xs:annotation>
+					<xs:documentation>
+						The owner that this invoice is associated with.
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="paymentSourceAllowed" type="tns:PaymentSourceAllowedType">
+				<xs:annotation>
+					<xs:documentation>
+						Enum showing available payment options-Bank Accounts, Credit Cards, or ALL
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="lineItems" type="tns:LineItemListType" minOccurs="1" maxOccurs="1" />
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="InvoiceRequestType">
+		<xs:annotation>
+			<xs:documentation>
+				Use to create an invoice id. At least one line item is needed, but
+				can have as many as are wanted.
+			</xs:documentation>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="tns:InvoiceBaseType">
+				<xs:sequence>
+					<xs:element name="returnUrl" type="xs:anyURI" nillable="true">
+						<xs:annotation>
+							<xs:documentation>
+								The callback URL that the checkout
+								system should use to redirect the
+								user back to the source system.
+							</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="notificationUrl" type="xs:anyURI" nillable="true">
+						<xs:annotation>
+							<xs:documentation>
+								The callback URL that the checkout
+								system should use to notify the
+								source system of updates to an
+								invoice's status. Whenever the
+								status of an invoice is updated, the
+								checkout system will make a post
+								request to the specified URL, which
+								will contain a the form-encoded
+								content "invoiceId={id}", where {id}
+								is the id of the invoice which has
+								changed. This parameter is
+								optional. If it is not specified,
+								the source system will be
+								responsible for checking the status
+								of a transaction.
+							</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+
+					<xs:element name="clientSystemTransactionId" type="xs:string" nillable="false">
+						<xs:annotation>
+							<xs:documentation>
+								A unique ID of the transaction in
+								the calling system. This id can be
+								used to find the invoice in the
+								future.
+							</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+
+	<xs:complexType name="LineItemListType">
+		<xs:complexContent>
+			<xs:extension base="common:ListBaseType">
+				<xs:sequence>
+					<xs:element name="lineItem" type="tns:LineItemType" minOccurs="1" maxOccurs="unbounded" />
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+
+	<xs:complexType name="InvoiceType">
+		<xs:annotation>
+			<xs:documentation>
+				Use to create an invoice id. At least one line item is needed, but
+				can have as many as are wanted.
+			</xs:documentation>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="tns:InvoiceBaseType">
+				<xs:sequence>
+					<xs:element name="invoiceId" type="xs:long" nillable="false" />
+					<xs:element name="clientSystem" type="tns:ClientSystemLinkType" nillable="false" />
+					<xs:element name="status" type="tns:InvoiceStatusType" nillable="false" />
+					<xs:element name="payment" type="tns:PaymentInfoType" nillable="true" />
+					<xs:element name="reconciliation" type="tns:ReconciliationType" nillable="true" />
+					<xs:element name="urls" type="tns:UrlsType" nillable="true" />
+					<xs:element name="scheduledPaymentId" type="xs:string" nillable="true" />
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+
+	<xs:complexType name="ClientSystemLinkType">
+		<xs:sequence>
+			<xs:element name="id" type="xs:string" />
+			<xs:element name="transactionId" type="xs:string" />
+			<xs:element name="name" type="xs:string" />
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="UrlsType">
+		<xs:sequence>
+			<xs:element name="returnUrl" type="xs:anyURI" nillable="true" />
+			<xs:element name="notificationUrl" type="xs:anyURI" nillable="true" />
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="ReconciliationType">
+		<xs:sequence>
+			<xs:element name="dateReconciled" type="xs:dateTime" />
+			<xs:element name="reconciledIn" type="tns:BatchFileType" />
+			<xs:element name="returnedIn" type="tns:BatchFileType" />
+			<xs:element name="returnReconciledInFile" type="tns:BatchFileType" />
+			<xs:element name="returnTransactionId" type="xs:string" />
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:simpleType name="BatchFileTypeType">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="END_OF_DAY" />
+			<xs:enumeration value="RETURNS" />
+		</xs:restriction>
+	</xs:simpleType>
+
+	<xs:complexType name="BatchFileType">
+		<xs:sequence>
+			<xs:element name="fileId" type="xs:string" />
+			<xs:element name="fileDate" type="xs:dateTime" />
+			<xs:element name="processingStarted" type="xs:dateTime" />
+			<xs:element name="processingFinished" type="xs:dateTime" />
+			<xs:element name="fileType" type="tns:BatchFileTypeType" />
+			<xs:element name="processedBy" type="xs:string" />
+			<xs:element name="successfulFinish" type="xs:boolean" />
+			<xs:element name="fileName" type="xs:string" />
+			<xs:element name="attributes" type="tns:BatchFileTypeAttribute" minOccurs="0" maxOccurs="unbounded" />
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="BatchFileTypeAttribute">
+		<xs:sequence>
+			<xs:element name="key" type="xs:string" />
+			<xs:element name="value" type="xs:string" />
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="ReconciliationSummaryType">
+		<xs:sequence>
+			<xs:element name="dateReconciled" type="xs:dateTime" />
+			<xs:element name="reconciledIn" type="tns:BatchFileSummary" />
+			<xs:element name="returnedIn" type="tns:BatchFileSummary" />
+			<xs:element name="returnReconciledInFile" type="tns:BatchFileSummary" />
+			<xs:element name="returnTransactionId" type="xs:string" />
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="BatchFileSummary">
+		<xs:sequence>
+			<xs:element name="fileId" type="common:uuid" />
+			<xs:element name="fileName" type="xs:string" />
+			<xs:element name="fileDate" type="xs:date" />
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="InvoiceListType">
+		<xs:complexContent>
+			<xs:extension base="common:ListBaseType">
+				<xs:sequence>
+					<xs:element name="invoice" type="tns:InvoiceType" minOccurs="0" maxOccurs="unbounded" />
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+
+	<xs:complexType name="PaidWithType">
+		<xs:choice>
+			<xs:element name="bankAccount" type="payment:BankAccountType" />
+			<xs:element name="creditCard" type="payment:CreditCardType" />
+		</xs:choice>
+	</xs:complexType>
+
+	<xs:complexType name="PaymentInfoType">
+		<xs:sequence>
+			<xs:element name="transactionId" type="xs:string" nillable="false" />
+			<xs:element name="paidWith" type="tns:PaidWithType" nillable="false" />
+			<xs:element name="errors" type="tns:PaymentErrorListType" nillable="false" />
+			<xs:element name="dateStartedPayment" type="xs:dateTime">
+				<xs:annotation>
+					<xs:documentation>
+						The date the invoice was began processing.
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="dateFinishedPayment" type="xs:dateTime">
+				<xs:annotation>
+					<xs:documentation>
+						The date the invoice was resolved...Paid, Rejected,
+						etc. For credit card payments this is the same as
+						the began processing date.
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="dateAgreedToTerms" type="xs:dateTime" />
+			<xs:element name="paidBy" type="common:personId" />
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="LineItemType">
+		<xs:annotation>
+			<xs:documentation>
+				Defines a given line item. The lineItemId is a source system
+				identifier- whatever the source system needs to be able to identify
+				the line item.
+			</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="lineItemId" type="common:uuid" nillable="false">
+				<xs:annotation>
+					<xs:documentation>
+						The identifier used to associated this line item
+						with the internal representation of the source
+						system. Can be whatever the source system wants.
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="description" type="xs:string" nillable="false">
+				<xs:annotation>
+					<xs:documentation>
+						The human readable description of the line item.
+						This is what the user will see in the checkout
+						system.
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="category" type="xs:string">
+				<xs:annotation>
+					<xs:documentation>
+						The category for this line item (such as 'Housing and Dining' or 'Student Health Plan').
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="amount" type="xs:decimal" nillable="false">
+				<xs:annotation>
+					<xs:documentation>
+						The amount to be charged for this line item.
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="creditCardFee" type="xs:decimal">
+				<xs:annotation>
+					<xs:documentation>
+						The credit card fee to be charged on this line item
+						if using a credit card. Currently, any invoice that
+						has credit card fees cannot be charged using VISA.
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="dueDate" type="xs:date" nillable="false">
+				<xs:annotation>
+					<xs:documentation>
+						The date the line item is due.
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="PaymentSourceIdType">
+		<xs:annotation>
+			<xs:documentation>
+				Holds the value of the payment Id used on the invoice as well as the
+				payment type.
+			</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="PaymentIdUsed" type="common:uuid">
+				<xs:annotation>
+					<xs:documentation>
+						Holds the payment id used on the invoice.
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="PaymentSourceUsed" type="tns:PaymentSourceUsedType" />
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="PaymentErrorType">
+		<xs:annotation>
+			<xs:documentation>
+				A PaymentError Object which is created when a payment fails.
+			</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="paymentErrorId" type="common:uuid" nillable="false" />
+			<xs:element name="dateFinished" type="xs:dateTime" nillable="false" />
+			<xs:element name="errorCode" type="xs:int" nillable="false" />
+			<xs:element name="errorMessage" type="xs:string" nillable="false" />
+			<xs:element name="invoiceId" type="xs:long" nillable="false" />
+			<xs:element name="paymentSourceId" type="tns:PaymentSourceIdType" nillable="true" />
+			<xs:element name="paidWith" type="tns:PaidWithType" nillable="true" />
+			<xs:element name="creditCardError" type="xs:boolean" nillable="false" />
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="invoiceReceiptType">
+		<xs:annotation>
+			<xs:documentation>
+				Wraps the receipt text for an invoice.
+			</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="receiptText" type="xs:string" />
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="PaymentErrorListType">
+		<xs:annotation>
+			<xs:documentation>
+				Gives errors for the invoice.
+			</xs:documentation>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="common:ListBaseType">
+				<xs:sequence>
+					<xs:element name="error" type="tns:PaymentErrorType" minOccurs="0" maxOccurs="unbounded" />
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+
+	<xs:simpleType name="PaymentSourceUsedType">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="BANK_ACCOUNT">
+				<xs:annotation>
+					<xs:documentation>
+						Bank Account was used to pay for invoice.
+					</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="CREDIT_CARD">
+				<xs:annotation>
+					<xs:documentation>
+						A Credit Card was used to pay for the invoice.
+					</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+		</xs:restriction>
+	</xs:simpleType>
+
+	<xs:simpleType name="PaymentSourceAllowedType">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="ALL">
+				<xs:annotation>
+					<xs:documentation>
+						Only Credit Cards can be used to pay for this invoice.
+					</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="BANK_ACCOUNT">
+				<xs:annotation>
+					<xs:documentation>
+						Only Bank Accounts can be used to pay for this invoice.
+					</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="CREDIT_CARD">
+				<xs:annotation>
+					<xs:documentation>
+						Any payment type (credit card or bank account) can be used to pay for this invoice.
+					</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+		</xs:restriction>
+	</xs:simpleType>
+
+	<xs:simpleType name="InvoiceStatusType">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="CREATED">
+				<xs:annotation>
+					<xs:documentation>
+						The invoice has been created, but not accessed.
+					</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="PROCESSING">
+				<xs:annotation>
+					<xs:documentation>
+						The invoice has been accessed, but has not been processed yet.
+					</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="PAID">
+				<xs:annotation>
+					<xs:documentation>
+						The invoice has been paid.
+					</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="CANCELLED">
+				<xs:annotation>
+					<xs:documentation>
+						The user cancelled payment processing.
+					</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="REJECTED">
+				<xs:annotation>
+					<xs:documentation>
+						The payment was rejected by CASHNet.
+					</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="REVERSED">
+				<xs:annotation>
+					<xs:documentation>
+						The payment was successfully completed, but then reversed.
+					</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="RETURNED">
+				<xs:annotation>
+					<xs:documentation>
+						The payment was successfully submitted to CASHNet, but then rejected/returned by the bank.
+					</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="NEEDS_ADMIN">
+				<xs:annotation>
+					<xs:documentation>
+						The payment requires manual resolution by an administrator
+					</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="SUBMITTED">
+				<xs:annotation>
+					<xs:documentation>
+						The payment has been submitted, but a response has not yet been received.
+					</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+		</xs:restriction>
+	</xs:simpleType>
+
+	<xs:simpleType name="SortColumnType">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="invoice-id" />
+			<xs:enumeration value="system-name" />
+			<xs:enumeration value="system-id" />
+			<xs:enumeration value="status" />
+			<xs:enumeration value="items-total" />
+			<xs:enumeration value="items-fees" />
+			<xs:enumeration value="payment-transaction" />
+			<xs:enumeration value="payment-started" />
+			<xs:enumeration value="payment-finished" />
+			<xs:enumeration value="payment-agreement-date" />
+			<xs:enumeration value="reconciliation-date" />
+			<xs:enumeration value="reconciliation-file" />
+			<xs:enumeration value="return-date" />
+			<xs:enumeration value="return-file" />
+			<xs:enumeration value="return-reconciled-date" />
+			<xs:enumeration value="return-reconciled-file" />
+			<xs:enumeration value="return-transaction" />
+			<xs:enumeration value="payment-source-allowed" />
+		</xs:restriction>
+	</xs:simpleType>
+
+	<xs:simpleType name="SortOrderType">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="ascending" />
+			<xs:enumeration value="descending" />
+		</xs:restriction>
+	</xs:simpleType>
+
+	<xs:complexType name="InvoiceCheckoutType">
+		<xs:sequence>
+			<xs:element name="owner" type="common:personId" />
+			<xs:element name="returnUrl" type="xs:anyURI" />
+			<xs:element name="clientSystemId" type="xs:string" />
+			<xs:element name="clientSystemName" type="xs:string" />
+			<xs:element name="lineItems" type="tns:LineItemListType" />
+			<xs:element name="paymentSourceAllowed" type="tns:PaymentSourceAllowedType" />
+			<xs:element name="creditCardTerms" type="tns:TermsAndConditions" />
+			<xs:element name="bankAccountTerms" type="tns:TermsAndConditions" />
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="TermsAndConditions">
+		<xs:sequence>
+			<xs:element name="terms" type="xs:string" />
+			<xs:element name="agreement" type="xs:string" />
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:element name="invoice" type="tns:InvoiceType" />
+	<xs:element name="invoiceReceipt" type="tns:invoiceReceiptType" />
+	<xs:element name="invoices" type="tns:InvoiceListType" />
+	<xs:element name="invoiceRequest" type="tns:InvoiceRequestType" />
+	<xs:element name="invoiceCheckout" type="tns:InvoiceCheckoutType" />
+	<xs:element name="paymentErrors" type="tns:PaymentErrorListType" />
+	<xs:element name="paymentError" type="tns:PaymentErrorType" />
+</xs:schema>

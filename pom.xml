@@ -19,5 +19,6 @@
 		<module>chartBlock</module>
 		<module>credential-client</module>
 		<module>filters</module>
+		<module>ypay-client</module>
 	</modules>
 </project>

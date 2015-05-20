@@ -1,0 +1,227 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema version="1.0" targetNamespace="http://schemas.byu.edu/payment/system" xmlns:ns3="http://schemas.byu.edu/payment/system"
+		xmlns:ns0="http://schemas.byu.edu/payment/common" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+	<xs:import namespace="http://schemas.byu.edu/payment/common" schemaLocation="common.xsd" />
+	<xs:element name="newProfile" type="ns3:ProcessorProfileRequestType" />
+	<xs:element name="message" type="ns3:SystemMessageType" />
+	<xs:element name="profiles" type="ns3:ProcessorProfileListType" />
+	<xs:element name="profile" type="ns3:ProcessorProfileType" />
+	<xs:element name="messages" type="ns3:SystemMessageListType" />
+
+	<xs:complexType name="CashnetInfoType">
+		<xs:annotation>
+			<xs:documentation>
+				<![CDATA[<p>Java class for CashnetInfoType complex type.
+<p>The following schema fragment specifies the expected content contained within this class.
+<pre>
+&lt;complexType name="CashnetInfoType">
+&lt;complexContent>
+&lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
+&lt;sequence>
+&lt;element name="operator" type="{http://www.w3.org/2001/XMLSchema}string"/>
+&lt;element name="password" type="{http://www.w3.org/2001/XMLSchema}string"/>
+&lt;element name="station" type="{http://www.w3.org/2001/XMLSchema}string"/>
+&lt;element name="merchant" type="{http://www.w3.org/2001/XMLSchema}string"/>
+&lt;element name="customerCode" type="{http://www.w3.org/2001/XMLSchema}string"/>
+&lt;element name="itemCode" type="{http://www.w3.org/2001/XMLSchema}string"/>
+&lt;element name="virtualDirectory" type="{http://www.w3.org/2001/XMLSchema}string"/>
+&lt;/sequence>
+&lt;/restriction>
+&lt;/complexContent>
+&lt;/complexType>
+</pre>]]>
+			</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="operator" type="xs:string" minOccurs="1" />
+			<xs:element name="password" type="xs:string" minOccurs="1" />
+			<xs:element name="station" type="xs:string" minOccurs="1" />
+			<xs:element name="merchant" type="xs:string" minOccurs="1" />
+			<xs:element name="customerCode" type="xs:string" minOccurs="1" />
+			<xs:element name="itemCode" type="xs:string" minOccurs="1" />
+			<xs:element name="virtualDirectory" type="xs:string" minOccurs="1" />
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:simpleType name="LevelType">
+		<xs:annotation>
+			<xs:documentation>
+				<![CDATA[<p>Java class for LevelType.
+<p>The following schema fragment specifies the expected content contained within this class.
+<p>
+<pre>
+&lt;simpleType name="LevelType">
+&lt;restriction base="{http://www.w3.org/2001/XMLSchema}string">
+&lt;enumeration value="WARNING"/>
+&lt;enumeration value="ERROR"/>
+&lt;enumeration value="ALERT"/>
+&lt;/restriction>
+&lt;/simpleType>
+</pre>]]>
+			</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="WARNING" />
+			<xs:enumeration value="ERROR" />
+			<xs:enumeration value="ALERT" />
+		</xs:restriction>
+	</xs:simpleType>
+
+	<xs:complexType name="ProcessorProfileListType">
+		<xs:annotation>
+			<xs:documentation>
+				<![CDATA[<p>Java class for ProcessorProfileListType complex type.
+<p>The following schema fragment specifies the expected content contained within this class.
+<pre>
+&lt;complexType name="ProcessorProfileListType">
+&lt;complexContent>
+&lt;extension base="{http://schemas.byu.edu/payment/common}ListBaseType">
+&lt;sequence>
+&lt;element ref="{http://schemas.byu.edu/payment/system}profile" maxOccurs="unbounded" minOccurs="0"/>
+&lt;/sequence>
+&lt;/extension>
+&lt;/complexContent>
+&lt;/complexType>
+</pre>]]>
+			</xs:documentation>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="ns0:ListBaseType">
+				<xs:sequence>
+					<xs:element name="profile" type="ns3:ProcessorProfileType" minOccurs="0" maxOccurs="unbounded" />
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+
+	<xs:complexType name="ProcessorProfileRequestType">
+		<xs:annotation>
+			<xs:documentation>
+				<![CDATA[<p>Java class for ProcessorProfileRequestType complex type.
+<p>The following schema fragment specifies the expected content contained within this class.
+<pre>
+&lt;complexType name="ProcessorProfileRequestType">
+&lt;complexContent>
+&lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
+&lt;sequence>
+&lt;element name="name" type="{http://www.w3.org/2001/XMLSchema}string"/>
+&lt;element name="doesAVS" type="{http://www.w3.org/2001/XMLSchema}boolean"/>
+&lt;element name="doesCVV" type="{http://www.w3.org/2001/XMLSchema}boolean"/>
+&lt;element name="whenToUse" type="{http://www.w3.org/2001/XMLSchema}string"/>
+&lt;element name="cashnetInfo" type="{http://schemas.byu.edu/payment/system}CashnetInfoType"/>
+&lt;/sequence>
+&lt;/restriction>
+&lt;/complexContent>
+&lt;/complexType>
+</pre>]]>
+			</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="name" type="xs:string" minOccurs="1" />
+			<xs:element name="doesAVS" type="xs:boolean" minOccurs="1" />
+			<xs:element name="doesCVV" type="xs:boolean" minOccurs="1" />
+			<xs:element name="whenToUse" type="xs:string" minOccurs="1" />
+			<xs:element name="cashnetInfo" type="ns3:CashnetInfoType" minOccurs="1" />
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="ProcessorProfileType">
+		<xs:annotation>
+			<xs:documentation>
+				<![CDATA[<p>Java class for ProcessorProfileType complex type.
+<p>The following schema fragment specifies the expected content contained within this class.
+<pre>
+&lt;complexType name="ProcessorProfileType">
+&lt;complexContent>
+&lt;extension base="{http://schemas.byu.edu/payment/system}ProcessorProfileRequestType">
+&lt;sequence>
+&lt;element name="id" type="{http://www.w3.org/2001/XMLSchema}string"/>
+&lt;element name="clientSystemId" type="{http://www.w3.org/2001/XMLSchema}string"/>
+&lt;/sequence>
+&lt;/extension>
+&lt;/complexContent>
+&lt;/complexType>
+</pre>]]>
+			</xs:documentation>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="ns3:ProcessorProfileRequestType">
+				<xs:sequence>
+					<xs:element name="id" type="xs:string" minOccurs="1" />
+					<xs:element name="clientSystemId" type="xs:string" minOccurs="1" />
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+
+	<xs:complexType name="SystemMessageListType">
+		<xs:annotation>
+			<xs:documentation>
+				<![CDATA[<p>Java class for SystemMessageListType complex type.
+<p>The following schema fragment specifies the expected content contained within this class.
+<pre>
+&lt;complexType name="SystemMessageListType">
+&lt;complexContent>
+&lt;extension base="{http://schemas.byu.edu/payment/common}ListBaseType">
+&lt;sequence>
+&lt;element name="message" type="{http://schemas.byu.edu/payment/system}SystemMessageType" maxOccurs="unbounded" minOccurs="0"/>
+&lt;/sequence>
+&lt;/extension>
+&lt;/complexContent>
+&lt;/complexType>
+</pre>]]>
+			</xs:documentation>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="ns0:ListBaseType">
+				<xs:sequence>
+					<xs:element name="message" type="ns3:SystemMessageType" minOccurs="0" maxOccurs="unbounded" />
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+
+	<xs:complexType name="SystemMessageType">
+		<xs:annotation>
+			<xs:documentation>
+				<![CDATA[Created during a system event.
+<p>Java class for SystemMessageType complex type.
+<p>The following schema fragment specifies the expected content contained within this class.
+<pre>
+&lt;complexType name="SystemMessageType">
+&lt;complexContent>
+&lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
+&lt;sequence>
+&lt;element name="systemMessageId" type="{http://www.w3.org/2001/XMLSchema}string"/>
+&lt;element name="timeOfMessage" type="{http://www.w3.org/2001/XMLSchema}date"/>
+&lt;element name="server" type="{http://www.w3.org/2001/XMLSchema}string"/>
+&lt;element name="category" type="{http://www.w3.org/2001/XMLSchema}string"/>
+&lt;element name="message" type="{http://www.w3.org/2001/XMLSchema}string"/>
+&lt;element name="currentUser" type="{http://www.w3.org/2001/XMLSchema}string"/>
+&lt;element name="currentActor" type="{http://www.w3.org/2001/XMLSchema}string"/>
+&lt;element name="dateCleared" type="{http://www.w3.org/2001/XMLSchema}date"/>
+&lt;element name="clearedBy" type="{http://www.w3.org/2001/XMLSchema}string"/>
+&lt;element name="trace" type="{http://www.w3.org/2001/XMLSchema}string"/>
+&lt;element name="level" type="{http://schemas.byu.edu/payment/system}LevelType"/>
+&lt;/sequence>
+&lt;/restriction>
+&lt;/complexContent>
+&lt;/complexType>
+</pre>]]>
+			</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="systemMessageId" type="xs:string" minOccurs="1" />
+			<xs:element name="timeOfMessage" type="xs:string" minOccurs="1" />
+			<xs:element name="server" type="xs:string" minOccurs="1" />
+			<xs:element name="category" type="xs:string" minOccurs="1" />
+			<xs:element name="message" type="xs:string" minOccurs="1" />
+			<xs:element name="currentUser" type="xs:string" minOccurs="1" />
+			<xs:element name="currentActor" type="xs:string" minOccurs="1" />
+			<xs:element name="dateCleared" type="xs:string" minOccurs="1" />
+			<xs:element name="clearedBy" type="xs:string" minOccurs="1" />
+			<xs:element name="trace" type="xs:string" minOccurs="1" />
+			<xs:element name="level" type="ns3:LevelType" minOccurs="1" />
+		</xs:sequence>
+	</xs:complexType>
+</xs:schema>

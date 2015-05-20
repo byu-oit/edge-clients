@@ -1,0 +1,191 @@
+<xs:schema version="2.0" targetNamespace="http://schemas.byu.edu/payment/payments"
+		xmlns:xs="http://www.w3.org/2001/XMLSchema"
+		xmlns:profile="http://schemas.byu.edu/payment/profile"
+		xmlns:common="http://schemas.byu.edu/payment/common"
+		xmlns:tns="http://schemas.byu.edu/payment/payments">
+
+	<xs:import namespace="http://schemas.byu.edu/payment/profile" schemaLocation="profile.xsd" />
+	<xs:import namespace="http://schemas.byu.edu/payment/common" schemaLocation="common.xsd" />
+
+	<xs:complexType name="BankAccountBaseType">
+		<xs:annotation>
+			<xs:documentation>
+				A Bank Account Base Type.
+			</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="nickname" type="xs:string" />
+			<xs:element name="accountType" type="tns:BankAccountTypeType" nillable="false" />
+			<xs:element name="useInProfile" type="xs:boolean" />
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="BankAccountRequestType">
+		<xs:annotation>
+			<xs:documentation>
+				A Bank Account Request Type.
+			</xs:documentation>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="tns:BankAccountBaseType">
+				<xs:sequence>
+					<xs:element name="routingNumber" type="xs:string" nillable="false" />
+					<xs:element name="accountNumber" type="xs:string" nillable="false" />
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+
+	<xs:complexType name="BankAccountType">
+		<xs:annotation>
+			<xs:documentation>
+				A Bank Account
+			</xs:documentation>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="tns:BankAccountBaseType">
+				<xs:sequence>
+					<xs:element name="bankAccountId" type="xs:string" nillable="false" />
+					<xs:element name="owner" type="common:personId" nillable="true" />
+					<xs:element name="bank" type="xs:string" nillable="false" />
+					<xs:element name="mungedAccountNumber" type="xs:string" nillable="false" />
+					<xs:element name="accountNumberLastFour" type="xs:string" nillable="false" />
+					<xs:element name="disabled" type="xs:boolean" nillable="false" />
+					<xs:element name="reasonDisabled" type="xs:string" nillable="false" />
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+
+	<xs:simpleType name="BankAccountTypeType">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="CHECKING" />
+			<xs:enumeration value="SAVINGS" />
+		</xs:restriction>
+	</xs:simpleType>
+
+	<xs:complexType name="CreditCardBaseType">
+		<xs:annotation>
+			<xs:documentation>
+				A Credit Card Base Type.
+			</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="nickname" type="xs:string" nillable="true" />
+			<xs:element name="nameOnCard" type="xs:string" nillable="false" />
+			<xs:element name="billingAddress" type="profile:InternationalOrUSAddressType" nillable="false" />
+			<xs:element name="expirationDate" type="tns:ExpirationDateType" nillable="false" />
+			<xs:element name="useInProfile" type="xs:boolean" />
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="CreditCardRequestType">
+		<xs:annotation>
+			<xs:documentation>
+				A Credit Card Request Type.
+			</xs:documentation>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="tns:CreditCardBaseType">
+				<xs:sequence>
+					<xs:element name="creditCardNumber" type="xs:string" nillable="false" />
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+
+	<xs:complexType name="CreditCardType">
+		<xs:annotation>
+			<xs:documentation>
+				A Credit Card.
+			</xs:documentation>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="tns:CreditCardBaseType">
+				<xs:sequence>
+					<xs:element name="creditCardId" type="xs:string" nillable="true" />
+					<xs:element name="owner" type="common:personId" nillable="true" />
+					<xs:element name="mungedCardNumber" type="xs:string" nillable="false" />
+					<xs:element name="cardNumberLastFour" type="xs:string" nillable="false" />
+					<xs:element name="creditCardType" type="tns:CreditCardTypeType" nillable="false" />
+					<xs:element name="disabled" type="xs:boolean" nillable="false" />
+					<xs:element name="reasonDisabled" type="xs:string" nillable="false" />
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+
+	<xs:simpleType name="CreditCardTypeType">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="VISA" />
+			<xs:enumeration value="DISCOVER" />
+			<xs:enumeration value="MASTER_CARD" />
+			<xs:enumeration value="AMERICAN_EXPRESS" />
+			<xs:enumeration value="UNKNOWN_CARD" />
+		</xs:restriction>
+	</xs:simpleType>
+
+	<xs:complexType name="ExpirationDateType">
+		<xs:attribute name="year" type="xs:int" use="required" />
+		<xs:attribute name="month" type="tns:MonthType" use="required" />
+	</xs:complexType>
+
+	<xs:simpleType name="MonthType">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="JAN" />
+			<xs:enumeration value="FEB" />
+			<xs:enumeration value="MAR" />
+			<xs:enumeration value="APR" />
+			<xs:enumeration value="MAY" />
+			<xs:enumeration value="JUN" />
+			<xs:enumeration value="JUL" />
+			<xs:enumeration value="AUG" />
+			<xs:enumeration value="SEP" />
+			<xs:enumeration value="OCT" />
+			<xs:enumeration value="NOV" />
+			<xs:enumeration value="DEC" />
+		</xs:restriction>
+	</xs:simpleType>
+
+	<xs:complexType name="BankAccountTypeList">
+		<xs:complexContent>
+			<xs:extension base="common:ListBaseType">
+				<xs:sequence>
+					<xs:element name="bankAccount" type="tns:BankAccountType" minOccurs="0" maxOccurs="unbounded" />
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+
+	<xs:complexType name="CreditCardTypeList">
+		<xs:complexContent>
+			<xs:extension base="common:ListBaseType">
+				<xs:sequence>
+					<xs:element name="creditCard" type="tns:CreditCardType" minOccurs="0" maxOccurs="unbounded" />
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+
+	<xs:complexType name="PaymentRequestType">
+		<xs:sequence>
+			<xs:element name="personId" type="xs:string" nillable="false" />
+			<xs:choice maxOccurs="1" minOccurs="1">
+				<xs:element name="bankAccountId" type="xs:string" nillable="false" />
+				<xs:element name="creditCardId" type="xs:string" nillable="false" />
+			</xs:choice>
+			<xs:element name="userAgreedToTerms" type="xs:dateTime" nillable="false" />
+			<xs:element name="uuid" type="xs:string" />
+			<xs:element name="encrpytedCVVCode" type="xs:base64Binary" />
+		</xs:sequence>
+	</xs:complexType>
+
+
+	<xs:element name="bankAccount" type="tns:BankAccountType" />
+	<xs:element name="bankAccountRequest" type="tns:BankAccountRequestType" />
+	<xs:element name="bankAccounts" type="tns:BankAccountTypeList" />
+	<xs:element name="creditCardRequest" type="tns:CreditCardRequestType" />
+	<xs:element name="creditCard" type="tns:CreditCardType" />
+	<xs:element name="creditCards" type="tns:CreditCardTypeList" />
+	<xs:element name="paymentRequest" type="tns:PaymentRequestType" />
+</xs:schema>
