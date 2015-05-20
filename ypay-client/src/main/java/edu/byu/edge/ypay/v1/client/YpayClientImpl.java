@@ -2,6 +2,7 @@ package edu.byu.edge.ypay.v1.client;
 
 import edu.byu.auth.client.CredentialClient;
 import edu.byu.edge.ypay.v1.domain.invoice.*;
+import edu.byu.spring.ByuAppStage;
 import org.apache.log4j.Logger;
 
 import javax.xml.bind.*;
@@ -11,6 +12,8 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLConnection;
 import java.util.Calendar;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -21,7 +24,8 @@ import java.util.Map;
 public class YpayClientImpl implements YpayClient {
 	private static final Logger LOG = Logger.getLogger(YpayClientImpl.class);
 
-	private static final String SEARCH_STRING = "%sinvoices/search?clientSystemId=%s&paidByIds=%s&start=0&results=64&paymentStartDate=%s&paymentEndDate=%s";
+	private static final String FIND_ON_DAY_URL_MASK = "%sinvoices/search?clientSystemId=%s&paidByIds=%s&start=0&results=64&paymentStartDate=%s&paymentEndDate=%s";
+	private static final String FIND_BY_CLIENT_TX_ID_URL_MASK = "%sinvoices/search?clientSystemId=%s&start=0&results=64&clientSystemTransactionId=%s";
 	private static final String CREATE_INVOICE_STRING = "%s%s/invoices";
 	private static final String FIND_INVOICE_STRING = CREATE_INVOICE_STRING + "/%s";
 	private static final String YPAY_PROD_URL = "https://ypay.byu.edu/payments/service/rest/v1/";
@@ -36,6 +40,10 @@ public class YpayClientImpl implements YpayClient {
 
 	public YpayClientImpl(final String clientSystemId, final CredentialClient credentialClient) {
 		this(YPAY_PROD_URL, clientSystemId, credentialClient);
+	}
+
+	public YpayClientImpl(final ByuAppStage appStage,  final String clientSystemId, final CredentialClient credentialClient) {
+		this(appStage != null && appStage.isInProd() ? YPAY_PROD_URL : YPAY_STAGE_URL, clientSystemId, credentialClient);
 	}
 
 	public YpayClientImpl(final String baseUrl, final String clientSystemId, final CredentialClient credentialClient) {
@@ -64,7 +72,7 @@ public class YpayClientImpl implements YpayClient {
 		File tempFile = null;
 		try {
 			final String[] days = getDayBeforeAndDayAfter(day);
-			final URL url = new URL(String.format(SEARCH_STRING, baseUrl, clientSystemId, personId, days[0], days[1]));
+			final URL url = new URL(String.format(FIND_ON_DAY_URL_MASK, baseUrl, clientSystemId, personId, days[0], days[1]));
 			final URLConnection connection = url.openConnection();
 			connection.setRequestProperty("Accept", "application/xml,text/xml");
 			connection.setRequestProperty("Authorization", credentialClient.obtainAuthorizationHeaderString());
@@ -171,11 +179,46 @@ public class YpayClientImpl implements YpayClient {
 
 			return ((JAXBElement<InvoiceType>) unmarshallerThreadLocal.get().unmarshal(connection.getInputStream())).getValue();
 		} catch (MalformedURLException e) {
-			e.printStackTrace();
+			LOG.error("Error in ypay client", e);
 		} catch (IOException e) {
-			e.printStackTrace();
+			LOG.error("Error in ypay client", e);
 		} catch (JAXBException e) {
-			e.printStackTrace();
+			LOG.error("Error in ypay client", e);
+		}
+		return null;
+	}
+
+	@Override
+	public InvoiceType findInvoiceByClientTransactionId(final String clientTxId) {
+		try {
+			final URL url = new URL(String.format(FIND_BY_CLIENT_TX_ID_URL_MASK, baseUrl, clientSystemId, clientTxId));
+			final HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+			connection.setRequestMethod("GET");
+			connection.setRequestProperty("Accept", "application/xml,text/xml");
+			connection.setRequestProperty("Authorization", credentialClient.obtainAuthorizationHeaderString());
+			connection.setRequestProperty("Content-Type", "application/xml");
+
+			final InvoiceListType invoiceListType = ((JAXBElement<InvoiceListType>) unmarshallerThreadLocal.get().unmarshal(connection.getInputStream()))
+					.getValue();
+			if (invoiceListType == null || invoiceListType.getInvoice() == null || invoiceListType.getInvoice().isEmpty()) return null;
+			final List<InvoiceType> invoiceTypeList = invoiceListType.getInvoice();
+			if (invoiceTypeList.size() != 1) {
+				LOG.warn("Multiple invoices found when searching by client transaction id. " + invoiceTypeList.size());
+				Collections.sort(invoiceTypeList, new Comparator<InvoiceType>() {
+					@Override
+					public int compare(final InvoiceType o1, final InvoiceType o2) {
+						return (int) (o2.getInvoiceId() - o1.getInvoiceId());
+					}
+				});
+			} else {
+				return invoiceTypeList.get(0);
+			}
+		} catch (MalformedURLException e) {
+			LOG.error("Error in ypay client", e);
+		} catch (IOException e) {
+			LOG.error("Error in ypay client", e);
+		} catch (JAXBException e) {
+			LOG.error("Error in ypay client", e);
 		}
 		return null;
 	}
@@ -192,9 +235,9 @@ public class YpayClientImpl implements YpayClient {
 			connection.getInputStream();
 			return true;
 		} catch (MalformedURLException e) {
-			e.printStackTrace();
+			LOG.error("Error in ypay client", e);
 		} catch (IOException e) {
-			e.printStackTrace();
+			LOG.error("Error in ypay client", e);
 		}
 		return false;
 	}
