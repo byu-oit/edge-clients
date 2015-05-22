@@ -88,4 +88,13 @@ public interface ControlDatesClient {
 	 */
 	Date parseResponseDateString(String responseDateString) throws ParseException;
 
+	/**
+	 * Calculates which term would be paid for based on a specified date
+	 *
+	 * @param onDate Date for which the payment is being requested
+	 * @param winterStartDate
+	 * @param fallStartDate
+	 * @return Resulting year term
+	 */
+	String getYearTermWithAdjustedFallWinterStartDates(Date onDate, Date winterStartDate, Date fallStartDate);
 }
