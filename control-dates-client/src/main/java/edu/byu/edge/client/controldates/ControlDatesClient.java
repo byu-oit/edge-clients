@@ -19,6 +19,11 @@ import edu.byu.edge.client.controldates.domain.DateRowType;
  */
 public interface ControlDatesClient {
 
+	String WINTER_TERM_SUFFIX = "1";
+	String SPRING_TERM_SUFFIX = "3";
+	String SUMMER_TERM_SUFFIX = "4";
+	String FALL_TERM_SUFFIX = "5";
+
 	/**
 	 * @param type
 	 * @return All possible control dates of the given type.
