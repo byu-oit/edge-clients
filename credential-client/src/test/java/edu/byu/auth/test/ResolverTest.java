@@ -10,7 +10,6 @@ import edu.byu.hash.Base64;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.junit.Assert;
-import org.junit.BeforeClass;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
@@ -33,8 +32,7 @@ public class ResolverTest {
 
 	private static final Logger LOG = LogManager.getLogger(ResolverTest.class);
 
-	@BeforeClass
-	public static void prepFiles() throws Exception {
+	private void prepFiles(final boolean encrypted) throws Exception {
 		keyfile = File.createTempFile("credential-test-", ".key");
 		ssfile = File.createTempFile("credential-test-api-", ".properties");
 		upfile = File.createTempFile("credential-test-up-", ".properties");
@@ -47,16 +45,21 @@ public class ResolverTest {
 		ssprops.setProperty(SharedSecretFileCredentialResolver.WSID_KEY, wsid);
 		ssprops.setProperty(SharedSecretFileCredentialResolver.EXPIRE_DATE_KEY, expDateStr);
 		ssprops.setProperty(SharedSecretFileCredentialResolver.PERSON_ID_KEY, personId);
-		ssprops.setProperty(SharedSecretFileCredentialResolver.SHARED_SECRET_KEY, Base64.encode(Crypto.encrypt(keybytes, sharedSecret.getBytes()), false));
+		ssprops.setProperty(SharedSecretFileCredentialResolver.SHARED_SECRET_KEY, getValue(encrypted, sharedSecret));
 		ssprops.store(new FileWriter(ssfile, false), "");
 		final Properties upprops = new Properties();
 		upprops.setProperty(PasswordFileCredentialResolver.USERNAME_KEY, username);
-		upprops.setProperty(PasswordFileCredentialResolver.PASSWORD_KEY, Base64.encode(Crypto.encrypt(keybytes, password.getBytes()), false));
+		upprops.setProperty(PasswordFileCredentialResolver.PASSWORD_KEY, getValue(encrypted, password));
 		upprops.store(new FileWriter(upfile, false), "");
+	}
+
+	private String getValue(final boolean encrypted, final String secret) {
+		return encrypted ? Base64.encode(Crypto.encrypt(keybytes, secret.getBytes()), false) : secret;
 	}
 
 	@Test
 	public void testSharedSecretResolver() throws Exception {
+		prepFiles(true);
 		final SharedSecretFileCredentialResolver r = new SharedSecretFileCredentialResolver();
 		r.setKeyFile(keyfile);
 		r.setCredentialFile(ssfile);
@@ -71,9 +74,38 @@ public class ResolverTest {
 
 	@Test
 	public void testPasswordResolver() throws Exception {
+		prepFiles(true);
 		final PasswordFileCredentialResolver r = new PasswordFileCredentialResolver();
 		r.setKeyFile(keyfile);
 		r.setCredentialFile(upfile);
+		r.afterPropertiesSet();
+		Assert.assertEquals(r.getUsername(), username);
+		Assert.assertEquals(r.getPassword(), password);
+	}
+
+	@Test
+	public void testSharedSecretResolverUnEnc() throws Exception {
+		prepFiles(false);
+		final SharedSecretFileCredentialResolver r = new SharedSecretFileCredentialResolver();
+		r.setKeyFile(keyfile);
+		r.setCredentialFile(ssfile);
+		r.setSkipEncryption(true);
+		r.afterPropertiesSet();
+		final Credential c = r.getApiKeyCredential();
+		Assert.assertNotNull(c);
+		Assert.assertEquals(c.getWsId(), wsid);
+		Assert.assertEquals(c.getPersonId(), personId);
+		Assert.assertEquals(c.getSharedSecret(), sharedSecret);
+		Assert.assertEquals(c.getExpirationDate(), expDate);
+	}
+
+	@Test
+	public void testPasswordResolverUnEnc() throws Exception {
+		prepFiles(false);
+		final PasswordFileCredentialResolver r = new PasswordFileCredentialResolver();
+		r.setKeyFile(keyfile);
+		r.setCredentialFile(upfile);
+		r.setSkipEncryption(true);
 		r.afterPropertiesSet();
 		Assert.assertEquals(r.getUsername(), username);
 		Assert.assertEquals(r.getPassword(), password);
