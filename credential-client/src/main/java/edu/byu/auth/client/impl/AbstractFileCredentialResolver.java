@@ -23,6 +23,7 @@ public abstract class AbstractFileCredentialResolver implements InitializingBean
 
 	protected File credentialFile;
 	protected File keyFile;
+	protected boolean skipEncryption = false;
 	protected Map<String, String> props;
 	private byte[] enckey;
 
@@ -37,18 +38,22 @@ public abstract class AbstractFileCredentialResolver implements InitializingBean
 		this.keyFile = keyFile;
 	}
 
+	public void setSkipEncryption(final boolean skipEncryption) {
+		this.skipEncryption = skipEncryption;
+	}
+
 	protected abstract void myAfterPropertiesSet();
 
 	@Override
 	public final void afterPropertiesSet() throws Exception {
 		Assert.isTrue(validateFile(credentialFile), "A valid credential file is required.");
-		readKeyFile();
+		if (!skipEncryption) readKeyFile();
 		readCredFile();
 		myAfterPropertiesSet();
 	}
 
 	protected String decrypt(final String enc) {
-		return Crypto.bytesToString(Crypto.decrypt(enckey, Base64.decodeToBytes(enc)));
+		return skipEncryption ? enc : Crypto.bytesToString(Crypto.decrypt(enckey, Base64.decodeToBytes(enc)));
 	}
 
 	private boolean validateFile(final File f) {
@@ -72,20 +77,4 @@ public abstract class AbstractFileCredentialResolver implements InitializingBean
 		}
 	}
 
-	/*
-	private static final int BITES_OF_PEPPER = 32;
-	private static final int[] PEPPER_PLANT = new int[] {0xfedcba98, 0x76543210, 0x8d88ea75, 0xfeedbac2, 0x77777777, 0x900df00d, 0x7ee7f00f, 0x7a5e69f0};
-	private final byte[] pepper = createPepper();
-
-	private byte[] createPepper() {
-		final byte[] b = new byte[BITES_OF_PEPPER];
-		for (int i = 0; i < PEPPER_PLANT.length; i++) {
-			b[4 * i + 3] = (byte) (PEPPER_PLANT[i]  & 0xff);
-			b[4 * i + 2] = (byte) ((PEPPER_PLANT[i] >> 8)  & 0xff);
-			b[4 * i + 1] = (byte) ((PEPPER_PLANT[i] >> 16)  & 0xff);
-			b[4 * i + 0] = (byte) ((PEPPER_PLANT[i] >> 24)  & 0xff);
-		}
-		return b;
-	}
-	/* */
 }
