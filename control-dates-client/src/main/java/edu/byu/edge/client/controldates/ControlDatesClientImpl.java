@@ -40,6 +40,10 @@ public class ControlDatesClientImpl extends BaseClient implements ControlDatesCl
 		super(productionBaseUrl, timeoutMs);
 	}
 
+	public ControlDatesClientImpl(int timeout) {
+		super(productionBaseUrl, timeout);
+	}
+
 	@Cacheable(value = "controlDatesClientCache")
 	@Path("/all")
 	@Override
