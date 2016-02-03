@@ -2,10 +2,7 @@ package edu.byu.edge.client.controldates;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 import javax.ws.rs.Path;
 import javax.ws.rs.core.MediaType;
@@ -151,6 +148,26 @@ public class ControlDatesClientImpl extends BaseClient implements ControlDatesCl
 			return byDate.get(0);
 		}
 		return null;
+	}
+
+	@Override
+	public String getYearTermWithAdjustedFallWinterStartDates(Date onDate, Date winterStartDate, Date fallStartDate) {
+		final DateRowType dateRowType = getByDateAndType(onDate, ControlDateType.CURRICULUM);
+		final String currentYearTerm = dateRowType.getYearTerm();
+		final int currentYear = Integer.parseInt(currentYearTerm.substring(0, 4));
+
+		if (currentYearTerm.endsWith(ControlDatesClient.FALL_TERM_SUFFIX)) {
+
+			if (!winterStartDate.after(onDate)) {
+				return String.valueOf(currentYear + 1) + ControlDatesClient.WINTER_TERM_SUFFIX;
+			}
+		} else if (currentYearTerm.endsWith(ControlDatesClient.SUMMER_TERM_SUFFIX) || currentYearTerm.endsWith(ControlDatesClient.SPRING_TERM_SUFFIX)) {
+
+			if (!fallStartDate.after(onDate)) {
+				return String.valueOf(currentYear) + ControlDatesClient.FALL_TERM_SUFFIX;
+			}
+		}
+		return currentYearTerm;
 	}
 
 	private ControlDatesWSServiceType executeCall(String path) {
