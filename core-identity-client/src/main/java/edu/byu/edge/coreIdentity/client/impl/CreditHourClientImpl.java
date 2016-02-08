@@ -25,7 +25,7 @@ public class CreditHourClientImpl implements CreditHourClient {
 	}
 
 	@Override
-	public double getCreditHoursByPersonId(String personId, String yearTerm) {
+	public double getCreditHoursByPersonIdAndYearTerm(String personId, String yearTerm) {
 		try {
 			final URL url = new URL("https://ws.byu.edu/rest/v1/identity/person/membersOf/PARKING_LIMIT_OVERRIDE/" + personId);
 			final HttpURLConnection connection = (HttpURLConnection) url.openConnection();

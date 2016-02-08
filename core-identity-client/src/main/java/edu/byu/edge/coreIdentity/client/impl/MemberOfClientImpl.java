@@ -28,7 +28,7 @@ public class MemberOfClientImpl implements MemberOfClient {
 	@Override
 	public boolean isPersonMemberOfGroup(String personId, String group) {
 		try {
-			final URL url = new URL("https://ws.byu.edu/rest/v1/identity/person/membersOf/PARKING_LIMIT_OVERRIDE/" + personId);
+			final URL url = new URL("https://ws.byu.edu/rest/v1/identity/person/membersOf/" + group + "/" + personId);
 			final HttpURLConnection connection = (HttpURLConnection) url.openConnection();
 			connection.setRequestMethod("GET");
 			connection.setRequestProperty("Accept", "application/xml,text/xml");
