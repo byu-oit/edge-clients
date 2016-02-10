@@ -5,6 +5,8 @@ import com.google.common.io.CharStreams;
 import edu.byu.auth.client.ApiKeyClient;
 import edu.byu.edge.coreIdentity.client.MemberOfClient;
 import org.apache.log4j.Logger;
+import org.springframework.beans.factory.InitializingBean;
+import org.springframework.util.Assert;
 
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -16,13 +18,21 @@ import java.util.List;
 /**
  * Created by eric on 2/3/16.
  */
-public class MemberOfClientImpl implements MemberOfClient {
+public class MemberOfClientImpl implements MemberOfClient, InitializingBean {
 	private static final Logger LOG = Logger.getLogger(MemberOfClientImpl.class);
 
+	private String baseUrl;
 	private ApiKeyClient apiKeyClient;
 
-	public MemberOfClientImpl(ApiKeyClient apiKeyClient) {
+	public MemberOfClientImpl(String baseUrl, ApiKeyClient apiKeyClient) {
+		this.baseUrl = _cleanUrl(baseUrl);
 		this.apiKeyClient = apiKeyClient;
+	}
+
+	@Override
+	public void afterPropertiesSet() throws Exception {
+		Assert.hasText(baseUrl);
+		Assert.notNull(apiKeyClient);
 	}
 
 	@Override
@@ -45,5 +55,10 @@ public class MemberOfClientImpl implements MemberOfClient {
 			LOG.error("Error in identity client", e);
 		}
 		return false;
+	}
+
+	private static String _cleanUrl(final String base) {
+		if (base.endsWith("/")) return base;
+		else return base + "/";
 	}
 }
