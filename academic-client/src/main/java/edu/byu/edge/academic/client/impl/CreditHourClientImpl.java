@@ -51,12 +51,12 @@ public class CreditHourClientImpl implements CreditHourClient, InitializingBean 
 	@Override
 	public double getCreditHoursByPersonIdAndYearTerm(String personId, String yearTerm) throws ServiceException {
 		try {
-			final URL url = new URL(baseUrl + personId);
+			final URL url = new URL(baseUrl + personId + "/" + yearTerm);
 			final HttpURLConnection connection = (HttpURLConnection) url.openConnection();
 			connection.setRequestMethod("GET");
-			connection.setRequestProperty("Accept", "application/xml,text/xml");
+			connection.setRequestProperty("Accept", "application/json");
 			connection.setRequestProperty("Authorization", apiKeyClient.obtainAuthorizationHeaderString());
-			connection.setRequestProperty("Content-Type", "application/xml");
+//			connection.setRequestProperty("Content-Type", "application/xml");
 
 			final String result = CharStreams.toString(new InputStreamReader(connection.getInputStream(), Charsets.UTF_8));
 			final List<String> list = new LinkedList<String>();
@@ -76,7 +76,7 @@ public class CreditHourClientImpl implements CreditHourClient, InitializingBean 
 		}
 	}
 
-	private static final Pattern CRED_HRS = Pattern.compile("\"credit_hours\":\\s*\"([0-9\\.]+)\"");
+	private static final Pattern CRED_HRS = Pattern.compile("\"credit_hours\"[^:]*:\\s*\"([0-9\\.]+)\"");
 
 	private static String _cleanUrl(final String base) {
 		if (base.endsWith("/")) return base;
