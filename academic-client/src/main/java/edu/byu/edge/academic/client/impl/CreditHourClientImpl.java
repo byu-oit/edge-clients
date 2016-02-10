@@ -16,6 +16,7 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.Collection;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.regex.Matcher;
@@ -26,13 +27,6 @@ import java.util.regex.Pattern;
  */
 public class CreditHourClientImpl implements CreditHourClient, InitializingBean {
 	private static final Logger LOG = Logger.getLogger(CreditHourClientImpl.class);
-
-	private static final Function<String, Double> STR_TO_DBL_FUNC = new Function<String, Double>() {
-		@Override
-		public Double apply(final String input) {
-			return Double.parseDouble(input);
-		}
-	};
 
 	private String baseUrl;
 	private ApiKeyClient apiKeyClient;
@@ -64,9 +58,7 @@ public class CreditHourClientImpl implements CreditHourClient, InitializingBean 
 			while (matcher.find()) {
 				list.add(matcher.group(1));
 			}
-			final Accum accum = new Accum();
-			Lists.transform(Lists.transform(list, STR_TO_DBL_FUNC), accum);
-			return accum.getTotal();
+			return getTotal(Lists.transform(list, STR_TO_DBL_FUNC));
 		} catch (MalformedURLException e) {
 			LOG.error("Error in identity client", e);
 			throw new ServiceException("Error determining credit hours.", e);
@@ -76,23 +68,26 @@ public class CreditHourClientImpl implements CreditHourClient, InitializingBean 
 		}
 	}
 
+	private static double getTotal(final Collection<Double> coll) {
+		double total = 0.0;
+		for (final Double d : coll) {
+			total += d;
+		}
+		return total;
+	}
+
 	private static final Pattern CRED_HRS = Pattern.compile("\"credit_hours\"[^:]*:\\s*\"([0-9\\.]+)\"");
+
+	private static final Function<String, Double> STR_TO_DBL_FUNC = new Function<String, Double>() {
+		@Override
+		public Double apply(final String input) {
+			return Double.parseDouble(input);
+		}
+	};
 
 	private static String _cleanUrl(final String base) {
 		if (base.endsWith("/")) return base;
 		else return base + '/';
 	}
 
-	private static class Accum implements Function<Double, Double> {
-		private double total = 0.0;
-		@Override
-		public Double apply(final Double input) {
-			total += input;
-			return total;
-		}
-
-		public double getTotal() {
-			return total;
-		}
-	}
 }
