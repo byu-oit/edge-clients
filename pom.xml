@@ -21,5 +21,6 @@
 		<module>filters</module>
 		<module>ypay-client</module>
 		<module>core-identity-client</module>
+		<module>academic-client</module>
 	</modules>
 </project>
