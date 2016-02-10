@@ -29,18 +29,19 @@ public class CoreIdentityClientImpl implements CoreIdentityClient {
 
 	private static final HttpHost apiHost = new HttpHost("api.byu.edu", 443, "https");
 	private static final HttpHost wsHost = new HttpHost("ws.byu.edu", 443, "https");
-	private static final String PERSON_URL = "https://ws.byu.edu/authentication/services/rest/v1/identity/person";
 	private static final ObjectMapper MAPPER = new ObjectMapper();
 
+	private String baseUrl;
 	private ApiKeyClient apiKeyClient;
 
-	public CoreIdentityClientImpl(ApiKeyClient apiKeyClient){
+	public CoreIdentityClientImpl(String baseUrl, ApiKeyClient apiKeyClient){
+		this.baseUrl = baseUrl;
 		this.apiKeyClient = apiKeyClient;
 	}
 
 	@Override
 	public CoreIdentity getCoreIdentityByPersonId(String personId) {
-		final String jsonResult = _doHttpGet(PERSON_URL + "/personId/" + personId);
+		final String jsonResult = _doHttpGet(baseUrl + "personId/" + personId);
 		try {
 			return MAPPER.readValue(jsonResult, CoreIdentity.class);
 		} catch (IOException e) {
@@ -51,7 +52,7 @@ public class CoreIdentityClientImpl implements CoreIdentityClient {
 
 	@Override
 	public CoreIdentity getCoreIdentityByByuId(String byuId) {
-		final String jsonResult = _doHttpGet(PERSON_URL + "/byuId/" + byuId);
+		final String jsonResult = _doHttpGet(baseUrl + "byuId/" + byuId);
 		try {
 			return MAPPER.readValue(jsonResult, CoreIdentity.class);
 		} catch (IOException e) {
@@ -62,7 +63,7 @@ public class CoreIdentityClientImpl implements CoreIdentityClient {
 
 	@Override
 	public CoreIdentity getCoreIdentityByNetId(String netId) {
-		final String jsonResult = _doHttpGet(PERSON_URL + "/netId/" + netId);
+		final String jsonResult = _doHttpGet(baseUrl + "netId/" + netId);
 		try {
 			return MAPPER.readValue(jsonResult, CoreIdentity.class);
 		} catch (IOException e) {
