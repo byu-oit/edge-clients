@@ -45,9 +45,7 @@ public class CreditHourClientImpl implements CreditHourClient, InitializingBean 
 			connection.setRequestProperty("Content-Type", "application/xml");
 
 			String result = CharStreams.toString(new InputStreamReader(connection.getInputStream(), Charsets.UTF_8));
-			LOG.debug(result);
-//			return result.contains("\"rows\": 1");
-
+			
 		} catch (MalformedURLException e) {
 			LOG.error("Error in identity client", e);
 		} catch (IOException e) {
