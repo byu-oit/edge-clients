@@ -1,10 +1,12 @@
-package edu.byu.edge.coreIdentity.client.impl;
+package edu.byu.edge.academic.client.impl;
 
 import com.google.common.base.Charsets;
 import com.google.common.io.CharStreams;
 import edu.byu.auth.client.ApiKeyClient;
-import edu.byu.edge.coreIdentity.client.CreditHourClient;
+import edu.byu.edge.academic.client.CreditHourClient;
 import org.apache.log4j.Logger;
+import org.springframework.beans.factory.InitializingBean;
+import org.springframework.util.Assert;
 
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -15,19 +17,27 @@ import java.net.URL;
 /**
  * Created by eric on 2/4/16.
  */
-public class CreditHourClientImpl implements CreditHourClient {
+public class CreditHourClientImpl implements CreditHourClient, InitializingBean {
 	private static final Logger LOG = Logger.getLogger(CreditHourClientImpl.class);
 
+	private String baseUrl;
 	private ApiKeyClient apiKeyClient;
 
-	public CreditHourClientImpl(ApiKeyClient apiKeyClient) {
+	public CreditHourClientImpl(final String url, ApiKeyClient apiKeyClient) {
+		this.baseUrl = _cleanUrl(url);
 		this.apiKeyClient = apiKeyClient;
+	}
+
+	@Override
+	public void afterPropertiesSet() throws Exception {
+		Assert.hasText(baseUrl);
+		Assert.notNull(apiKeyClient);
 	}
 
 	@Override
 	public double getCreditHoursByPersonIdAndYearTerm(String personId, String yearTerm) {
 		try {
-			final URL url = new URL("https://ws.byu.edu/rest/v1/identity/person/membersOf/PARKING_LIMIT_OVERRIDE/" + personId);
+			final URL url = new URL(baseUrl + personId);
 			final HttpURLConnection connection = (HttpURLConnection) url.openConnection();
 			connection.setRequestMethod("GET");
 			connection.setRequestProperty("Accept", "application/xml,text/xml");
@@ -46,4 +56,10 @@ public class CreditHourClientImpl implements CreditHourClient {
 //		return false;
 		return 1;
 	}
+
+	private static String _cleanUrl(final String base) {
+		if (base.endsWith("/")) return base;
+		else return base + '/';
+	}
+
 }

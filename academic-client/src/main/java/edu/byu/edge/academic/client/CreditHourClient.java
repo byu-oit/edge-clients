@@ -1,4 +1,4 @@
-package edu.byu.edge.coreIdentity.client;
+package edu.byu.edge.academic.client;
 
 /**
  * Created by eric on 2/4/16.
