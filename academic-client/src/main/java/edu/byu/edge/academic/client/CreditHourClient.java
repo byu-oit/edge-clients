@@ -9,6 +9,7 @@ public interface CreditHourClient {
 	 * @param personId ID of the student
 	 * @param yearTerm Year term in question
 	 * @return Decimal amount of credit hours being taken. If no credit hours are found, 0 will be returned.
+	 * @throws edu.byu.edge.academic.client.ServiceException If an error occurs.
 	 */
-	public double getCreditHoursByPersonIdAndYearTerm(String personId, String yearTerm);
+	public double getCreditHoursByPersonIdAndYearTerm(String personId, String yearTerm) throws ServiceException;
 }
