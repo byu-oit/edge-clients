@@ -10,5 +10,5 @@ public interface MemberOfClient {
 	 * @param group Group's ID
 	 * @return True if they are, False if they aren't
 	 */
-	public boolean isPersonMemberOfGroup(String personId, String group);
+	public boolean isPersonMemberOfGroup(String personId, String group) throws IdentityServiceException;
 }

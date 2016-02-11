@@ -3,6 +3,7 @@ package edu.byu.edge.coreIdentity.client.impl;
 import com.google.common.base.Charsets;
 import com.google.common.io.CharStreams;
 import edu.byu.auth.client.ApiKeyClient;
+import edu.byu.edge.coreIdentity.client.IdentityServiceException;
 import edu.byu.edge.coreIdentity.client.MemberOfClient;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.InitializingBean;
@@ -36,7 +37,7 @@ public class MemberOfClientImpl implements MemberOfClient, InitializingBean {
 	}
 
 	@Override
-	public boolean isPersonMemberOfGroup(String personId, String group) {
+	public boolean isPersonMemberOfGroup(String personId, String group) throws IdentityServiceException {
 		try {
 			final URL url = new URL("https://ws.byu.edu/rest/v1/identity/person/membersOf/" + group + "/" + personId);
 			final HttpURLConnection connection = (HttpURLConnection) url.openConnection();
@@ -46,15 +47,15 @@ public class MemberOfClientImpl implements MemberOfClient, InitializingBean {
 			connection.setRequestProperty("Content-Type", "application/xml");
 
 			String result = CharStreams.toString(new InputStreamReader(connection.getInputStream(), Charsets.UTF_8));
-			LOG.debug(result);
 			return result.contains("\"rows\": 1");
 
 		} catch (MalformedURLException e) {
 			LOG.error("Error in identity client", e);
+			throw new IdentityServiceException("Error determining user groups", e);
 		} catch (IOException e) {
 			LOG.error("Error in identity client", e);
+			throw new IdentityServiceException("Error determining user groups", e);
 		}
-		return false;
 	}
 
 	private static String _cleanUrl(final String base) {
