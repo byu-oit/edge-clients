@@ -24,6 +24,7 @@ public abstract class AbstractFileCredentialResolver implements InitializingBean
 	protected File credentialFile;
 	protected File keyFile;
 	protected boolean skipEncryption = false;
+	protected boolean required = true;
 	protected Map<String, String> props;
 	private byte[] enckey;
 
@@ -42,14 +43,22 @@ public abstract class AbstractFileCredentialResolver implements InitializingBean
 		this.skipEncryption = skipEncryption;
 	}
 
+	public void setRequired(final boolean required) {
+		this.required = required;
+	}
+
 	protected abstract void myAfterPropertiesSet();
 
 	@Override
 	public final void afterPropertiesSet() throws Exception {
-		Assert.isTrue(validateFile(credentialFile), "A valid credential file is required.");
-		if (!skipEncryption) readKeyFile();
-		readCredFile();
-		myAfterPropertiesSet();
+		try {
+			Assert.isTrue(validateFile(credentialFile), "A valid credential file is required.");
+			if (!skipEncryption) readKeyFile();
+			readCredFile();
+			myAfterPropertiesSet();
+		} catch (final Exception e) {
+			if (required) throw e;
+		}
 	}
 
 	protected String decrypt(final String enc) {
