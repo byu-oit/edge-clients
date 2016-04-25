@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+		 xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+		 xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+
+	<groupId>edu.byu.mpn-client</groupId>
+	<artifactId>mpn-client</artifactId>
+	<version>1.0-SNAPSHOT</version>
+	<properties>
+		<log4j2.version>2.5</log4j2.version>
+	</properties>
+
+	<parent>
+		<groupId>edu.byu.edge.framework</groupId>
+		<artifactId>edge-pom</artifactId>
+		<version>1.5</version>
+		<relativePath></relativePath>
+	</parent>
+
+	<dependencies>
+		<dependency>
+			<groupId>edu.byu.byu-mpn</groupId>
+			<artifactId>domain</artifactId>
+			<version>1.0-SNAPSHOT</version>
+		</dependency>
+		<dependency>
+			<groupId>edu.byu.edge.framework</groupId>
+			<artifactId>spring-property-helper</artifactId>
+			<version>1.0.0</version>
+			<scope>runtime</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.logging.log4j</groupId>
+			<artifactId>log4j-api</artifactId>
+			<version>${log4j2.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.logging.log4j</groupId>
+			<artifactId>log4j-1.2-api</artifactId>
+			<version>${log4j2.version}</version>
+			<scope>runtime</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-beans</artifactId>
+			<version>3.2.16.RELEASE</version>
+		</dependency>
+		
+	</dependencies>
+</project>
