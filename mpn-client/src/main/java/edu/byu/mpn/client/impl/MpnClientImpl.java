@@ -13,6 +13,7 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.ProtocolException;
 import java.net.URL;
+import java.util.List;
 
 /**
  * Created by cwoodfie on 4/25/16.
@@ -34,27 +35,24 @@ public class MpnClientImpl implements MpnClient {
 	}
 
 	@Override
-	public boolean pushNotification(Device device, Notification notification) throws IOException {
-		LOG.info("mpnClient worked");
+	public boolean pushAppleNotifications(List<Device> devices, Notification notification) throws IOException {
+		LOG.info("pushAppleNotifications");
 		return true;
-//		if (device.getDevicePlatform().equals("Android")) {
-//			try {
-//				final URL url = new URL(googleApiUrl);
-//				final HttpURLConnection connection = (HttpURLConnection) url.openConnection();
-//				connection.setRequestMethod("POST");
-//				connection.setRequestProperty("Accept", "application/json");
-//				connection.setRequestProperty("Authorization", "key=" + googleApiKey);
-//				connection.setRequestProperty("Content-Type", "application/json");
-//
-//				return true;
-//			} catch (IOException e) {
-//				LOG.error("Error connecting to Google Services", e);
-//				throw e;
-//			}
-//		} else if (device.getDevicePlatform().equals("Apple")) {
-//			return true;
-//		} else {
-//			return false;
+	}
+
+	@Override
+	public boolean pushAndroidNotifications(List<String> registrationIds, Notification notification) throws IOException {
+		LOG.info("pushAndroidNotifications");
+		return true;
+//		try {
+//			final URL url = new URL(googleApiUrl);
+//			final HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+//			connection.setRequestMethod("POST");
+//			connection.setRequestProperty("Accept", "application/json");
+//			connection.setRequestProperty("Authorization", "key=" + googleApiKey);
+//			connection.setRequestProperty("Content-Type", "application/json");
+//		} catch (IOException e) {
+//			LOG.error("Error connecting to Google Services", e);
 //		}
 	}
 }
