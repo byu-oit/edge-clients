@@ -1,7 +1,8 @@
 package edu.byu.mpn.client.interfaces;
 
+import edu.byu.mpn.domain.AndroidNotificationWrapper;
+import edu.byu.mpn.domain.AppleNotification;
 import edu.byu.mpn.domain.Device;
-import edu.byu.mpn.domain.Notification;
 
 import java.io.IOException;
 import java.util.List;
@@ -18,14 +19,13 @@ public interface MpnClient {
 	 * @param notification Notification to send
 	 * @throws IOException Throws exception if something doesn't work
 	 */
-	boolean pushAppleNotifications(List<Device> devices, Notification notification) throws IOException;
+	boolean pushAppleNotifications(List<Device> devices, AppleNotification notification) throws IOException;
 
 	/**
 	 * Send notification to Android devices through Google
 	 *
-	 * @param registrationIds List of registrationIds of the Android devices to be notified
-	 * @param notification    Notification to send
+	 * @param notification    Notification to send and device ids to send it to
 	 * @throws IOException Throws exception if something doesn't work
 	 */
-	boolean pushAndroidNotifications(List<String> registrationIds, Notification notification) throws IOException;
+	boolean pushAndroidNotifications(AndroidNotificationWrapper notification) throws IOException;
 }
