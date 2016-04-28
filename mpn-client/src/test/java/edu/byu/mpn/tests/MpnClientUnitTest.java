@@ -13,6 +13,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
 /**
@@ -27,10 +28,10 @@ public class MpnClientUnitTest {
 	@Test
 	public void testPushAndroidNotifications() throws IOException {
 		ArrayList<String> registrationIds = new ArrayList<String>();
-		registrationIds.add("");
-		registrationIds.add("");
-		mpnClient.pushAndroidNotifications(new AndroidNotificationWrapper(new AndroidNotification("Notification Title", "Notification Message"), registrationIds));
-		mpnClient.pushAppleNotifications(new ArrayList<Device>(), new AppleNotification());
+		registrationIds.add("${testId}");
+		GoogleResponse googleResponse = mpnClient.pushAndroidNotifications(new AndroidNotificationWrapper(new AndroidNotification("Notification Title", "Notification Message"), registrationIds));
+		assertEquals(1, googleResponse.getSuccess());
+		mpnClient.pushAppleNotifications(new ArrayList<Device>(), new AppleNotificationWrapper());
 		assertTrue(true);
 	}
 }
