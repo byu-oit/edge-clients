@@ -3,6 +3,8 @@ package edu.byu.mpn.client.impl;
 import com.google.gson.FieldNamingPolicy;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.notnoop.apns.APNS;
+import com.notnoop.apns.ApnsService;
 import edu.byu.mpn.client.interfaces.MpnClient;
 import edu.byu.mpn.domain.*;
 import org.apache.commons.io.IOUtils;
@@ -16,7 +18,9 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by cwoodfie on 4/25/16.
@@ -26,6 +30,8 @@ public class MpnClientImpl implements MpnClient {
 
 	private String googleApiUrl;
 	private String googleApiKey;
+	private String apnsCertLocation;
+	private String apnsCertPassword;
 
 	@Autowired
 	public void setGoogleApiUrl(String googleApiUrl) {
@@ -37,9 +43,35 @@ public class MpnClientImpl implements MpnClient {
 		this.googleApiKey = googleApiKey;
 	}
 
+	@Autowired
+	public void setApnsCertLocation(String apnsCertLocation) {
+		this.apnsCertLocation = apnsCertLocation;
+	}
+
+	@Autowired
+	public void setApnsCertPassword(String apnsCertPassword) {
+		this.apnsCertPassword = apnsCertPassword;
+	}
+
 	@Override
-	public boolean pushAppleNotifications(List<Device> devices, AppleNotificationWrapper notification) {
+	public boolean pushAppleNotifications(AppleNotificationWrapper notification) {
 		LOG.info("pushAppleNotifications");
+
+		// TODO: 4/28/16 implement this
+
+		ApnsService service = APNS.newService().withCert(apnsCertLocation, apnsCertPassword).withSandboxDestination().build();
+		String payload = APNS.newPayload()
+				.alertTitle(notification.getAps().getTitle())
+				.alertBody(notification.getAps().getBody())
+				.sound(notification.getAps().getSound()).build();
+
+		List<String> tokens = notification.getTokens();
+		for (String token : tokens) {
+			service.push(token, payload);
+		}
+
+		Map<String, Date> inactiveDevices = service.getInactiveDevices();
+
 		return true;
 	}
 
@@ -62,7 +94,7 @@ public class MpnClientImpl implements MpnClient {
 			outputStream.write(gson.toJson(notification).getBytes());
 			outputStream.close();
 
-			BufferedInputStream input = new BufferedInputStream(connection.getInputStream());
+			InputStream input = new BufferedInputStream(connection.getInputStream());
 			return gson.fromJson(IOUtils.toString(input, "UTF-8"), GoogleResponse.class);
 		} catch (IOException e) {
 			LOG.error("Error connecting to Google Services", e);
