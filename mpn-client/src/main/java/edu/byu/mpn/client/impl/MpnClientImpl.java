@@ -1,10 +1,12 @@
 package edu.byu.mpn.client.impl;
 
+import com.amazonaws.regions.Region;
+import com.amazonaws.regions.Regions;
+import com.amazonaws.services.sns.AmazonSNSClient;
+import com.amazonaws.services.sns.model.*;
 import com.google.gson.FieldNamingPolicy;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import com.notnoop.apns.APNS;
-import com.notnoop.apns.ApnsService;
 import edu.byu.mpn.client.interfaces.MpnClient;
 import edu.byu.mpn.domain.*;
 import org.apache.commons.io.IOUtils;
@@ -18,9 +20,7 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.util.Date;
 import java.util.List;
-import java.util.Map;
 
 /**
  * Created by cwoodfie on 4/25/16.
@@ -30,8 +30,8 @@ public class MpnClientImpl implements MpnClient {
 
 	private String googleApiUrl;
 	private String googleApiKey;
-	private String apnsCertLocation;
-	private String apnsCertPassword;
+	private String platformApplicationArn;
+	private AmazonSNSClient snsClient;
 
 	@Autowired
 	public void setGoogleApiUrl(String googleApiUrl) {
@@ -44,35 +44,24 @@ public class MpnClientImpl implements MpnClient {
 	}
 
 	@Autowired
-	public void setApnsCertLocation(String apnsCertLocation) {
-		this.apnsCertLocation = apnsCertLocation;
+	public void setPlatformApplicationArn(String platformApplicationArn) {
+		this.platformApplicationArn = platformApplicationArn;
 	}
 
 	@Autowired
-	public void setApnsCertPassword(String apnsCertPassword) {
-		this.apnsCertPassword = apnsCertPassword;
+	public void setSnsClient(AmazonSNSClient snsClient) {
+		this.snsClient = snsClient;
+		snsClient.setRegion(Region.getRegion(Regions.US_WEST_2));
 	}
 
 	@Override
-	public boolean pushAppleNotifications(AppleNotificationWrapper notification) {
-		LOG.info("pushAppleNotifications");
+	public void pushAppleNotifications(AppleNotificationWrapper notification) {
+		LOG.info("pushAppleNotificationsToTopic");
 
-		// TODO: 4/28/16 implement this
-
-		ApnsService service = APNS.newService().withCert(apnsCertLocation, apnsCertPassword).withSandboxDestination().build();
-		String payload = APNS.newPayload()
-				.alertTitle(notification.getAps().getTitle())
-				.alertBody(notification.getAps().getBody())
-				.sound(notification.getAps().getSound()).build();
-
-		List<String> tokens = notification.getTokens();
-		for (String token : tokens) {
-			service.push(token, payload);
+		List<String> targetArns = notification.getTargetArns();
+		for (String targetArn : targetArns) {
+			publishNotification(notification.getAps().getBody(), targetArn);
 		}
-
-		Map<String, Date> inactiveDevices = service.getInactiveDevices();
-
-		return true;
 	}
 
 	@Override
@@ -95,10 +84,40 @@ public class MpnClientImpl implements MpnClient {
 			outputStream.close();
 
 			InputStream input = new BufferedInputStream(connection.getInputStream());
-			return gson.fromJson(IOUtils.toString(input, "UTF-8"), GoogleResponse.class);
+			GoogleResponse googleResponse = gson.fromJson(IOUtils.toString(input, "UTF-8"), GoogleResponse.class);
+			LOG.info(googleResponse);
+			return googleResponse;
 		} catch (IOException e) {
 			LOG.error("Error connecting to Google Services", e);
 			return null;
 		}
+	}
+
+	public CreatePlatformEndpointResult createPlatformEndpoint(String token) {
+		CreatePlatformEndpointRequest request = new CreatePlatformEndpointRequest().withPlatformApplicationArn(platformApplicationArn).withToken(token);
+
+		return snsClient.createPlatformEndpoint(request);
+	}
+
+	public void updatePlatformEndpoint(Device device) {
+		SetEndpointAttributesRequest request = new SetEndpointAttributesRequest().withEndpointArn(device.getEndpointArn());
+		request.addAttributesEntry("Token", device.getToken());
+		request.addAttributesEntry("Enabled", "true");
+		snsClient.setEndpointAttributes(request);
+	}
+
+	public SubscribeResult subscribeDevice(String endpoint, String topicArn) {
+		SubscribeRequest request = new SubscribeRequest().withTopicArn(topicArn).withEndpoint(endpoint).withProtocol("application");
+		return snsClient.subscribe(request);
+	}
+
+	public void unsubscribeDevice(String endpoint) {
+		UnsubscribeRequest request = new UnsubscribeRequest().withSubscriptionArn(endpoint);
+		snsClient.unsubscribe(request);
+	}
+
+	public PublishResult publishNotification(String message, String targetArn) {
+		PublishRequest request = new PublishRequest().withMessage(message).withTargetArn(targetArn);
+		return snsClient.publish(request);
 	}
 }

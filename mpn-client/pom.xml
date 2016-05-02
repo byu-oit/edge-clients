@@ -31,14 +31,19 @@
 			<scope>runtime</scope>
 		</dependency>
 		<dependency>
+			<groupId>com.amazonaws</groupId>
+			<artifactId>aws-java-sdk-sns</artifactId>
+			<version>1.10.43</version>
+		</dependency>
+		<dependency>
+			<groupId>com.amazonaws</groupId>
+			<artifactId>aws-java-sdk-core</artifactId>
+			<version>1.10.43</version>
+		</dependency>
+		<dependency>
 			<groupId>com.google.code.gson</groupId>
 			<artifactId>gson</artifactId>
 			<version>2.6.2</version>
-		</dependency>
-		<dependency>
-			<groupId>com.notnoop.apns</groupId>
-			<artifactId>apns</artifactId>
-			<version>1.0.0.Beta3</version>
 		</dependency>
 		<dependency>
 			<groupId>com.sun.jersey</groupId>
@@ -79,4 +84,6 @@
 			<scope>test</scope>
 		</dependency>
 	</dependencies>
+
+
 </project>
