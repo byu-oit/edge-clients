@@ -30,7 +30,6 @@ public class MpnClientImpl implements MpnClient {
 
 	private String googleApiUrl;
 	private String googleApiKey;
-	private String platformApplicationArn;
 	private AmazonSNSClient snsClient;
 
 	@Autowired
@@ -41,11 +40,6 @@ public class MpnClientImpl implements MpnClient {
 	@Autowired
 	public void setGoogleApiKey(String googleApiKey) {
 		this.googleApiKey = googleApiKey;
-	}
-
-	@Autowired
-	public void setPlatformApplicationArn(String platformApplicationArn) {
-		this.platformApplicationArn = platformApplicationArn;
 	}
 
 	@Autowired
@@ -93,9 +87,8 @@ public class MpnClientImpl implements MpnClient {
 		}
 	}
 
-	public CreatePlatformEndpointResult createPlatformEndpoint(String token) {
+	public CreatePlatformEndpointResult createPlatformEndpoint(String token, String platformApplicationArn) {
 		CreatePlatformEndpointRequest request = new CreatePlatformEndpointRequest().withPlatformApplicationArn(platformApplicationArn).withToken(token);
-
 		return snsClient.createPlatformEndpoint(request);
 	}
 

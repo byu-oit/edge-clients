@@ -14,7 +14,6 @@ public interface MpnClient {
 	 * Sends notification to iPhones through APN apis
 	 *
 	 * @param notification Notification to send, along with list of devices to send it to. If list is empty, notification is sent to all registered devices
-	 * @return True if successful, false if not
 	 */
 	void pushAppleNotifications(AppleNotificationWrapper notification);
 
@@ -30,9 +29,17 @@ public interface MpnClient {
 	 * Creates endpoint with Amazon WS Simple Notification Service
 	 *
 	 * @param token Token of BYU app on Apple device
+	 * @param platformApplicationArn The arn of the application (on AWS) to create an endpoint for
 	 * @return Returns the EndpointARN to be able to publish messages to this endpoint
 	 */
-	CreatePlatformEndpointResult createPlatformEndpoint(String token);
+	CreatePlatformEndpointResult createPlatformEndpoint(String token, String platformApplicationArn);
+
+	/**
+	 * Updates an endpoint if token was changed or re-registered
+	 *
+	 * @param device The device that has been updated
+	 */
+	void updatePlatformEndpoint(Device device);
 
 	/**
 	 * Subscribe a device to the emergency notification topic
@@ -50,7 +57,8 @@ public interface MpnClient {
 
 	/**
 	 * Send a notification to a device or a topic
-	 *  @param message  The message you want to send in the notification
+	 *
+	 * @param message  The message you want to send in the notification
 	 * @param endpoint The endpoint you want to send it to, either a topic endpoint or a device endpoint
 	 */
 	PublishResult publishNotification(String message, String endpoint);

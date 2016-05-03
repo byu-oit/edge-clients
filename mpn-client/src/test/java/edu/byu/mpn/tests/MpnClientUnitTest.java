@@ -48,19 +48,22 @@ public class MpnClientUnitTest {
 	@Ignore
 	@Test
 	public void testCreatePlatformEndpoint() {
-		mpnClient.createPlatformEndpoint("");
+		mpnClient.createPlatformEndpoint("", "");
 	}
 
+	@Ignore
 	@Test
 	public void testPublishNotification() {
 		mpnClient.publishNotification("Hi Nathan", "");
 	}
 
+	@Ignore
 	@Test
 	public void testSubscribeDevice() {
 		mpnClient.subscribeDevice("", "");
 	}
 
+	@Ignore
 	@Test
 	public void testUnsubscribeDevice() {
 		mpnClient.unsubscribeDevice("");
