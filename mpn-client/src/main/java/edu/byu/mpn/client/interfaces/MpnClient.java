@@ -3,7 +3,8 @@ package edu.byu.mpn.client.interfaces;
 import com.amazonaws.services.sns.model.CreatePlatformEndpointResult;
 import com.amazonaws.services.sns.model.PublishResult;
 import com.amazonaws.services.sns.model.SubscribeResult;
-import edu.byu.mpn.domain.*;
+import edu.byu.mpn.domain.Device;
+import edu.byu.mpn.helpers.*;
 
 /**
  * Created by cwoodfie on 4/25/16.

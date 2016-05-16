@@ -8,7 +8,10 @@ import com.google.gson.FieldNamingPolicy;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import edu.byu.mpn.client.interfaces.MpnClient;
-import edu.byu.mpn.domain.*;
+import edu.byu.mpn.domain.Device;
+import edu.byu.mpn.helpers.AndroidNotificationWrapper;
+import edu.byu.mpn.helpers.AppleNotificationWrapper;
+import edu.byu.mpn.helpers.GoogleResponse;
 import org.apache.commons.io.IOUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -50,7 +53,7 @@ public class MpnClientImpl implements MpnClient {
 
 	@Override
 	public void pushAppleNotifications(AppleNotificationWrapper notification) {
-		LOG.info("pushAppleNotificationsToTopic");
+		LOG.info("pushAppleNotifications");
 
 		List<String> targetArns = notification.getTargetArns();
 		for (String targetArn : targetArns) {
