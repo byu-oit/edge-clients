@@ -1,7 +1,6 @@
 package edu.byu.mpn.client.interfaces;
 
 import com.amazonaws.services.sns.model.CreatePlatformEndpointResult;
-import com.amazonaws.services.sns.model.GetEndpointAttributesResult;
 import com.amazonaws.services.sns.model.PublishResult;
 import com.amazonaws.services.sns.model.SubscribeResult;
 import edu.byu.mpn.domain.Device;
@@ -16,8 +15,9 @@ public interface MpnClient {
 	 * Sends notification to iPhones through APN apis
 	 *
 	 * @param notification Notification to send, along with list of devices to send it to. If list is empty, notification is sent to all registered devices
+	 * @return An object containing the number of failures and successes. Null if notification was sent to a topic
 	 */
-	void pushAppleNotifications(AppleNotificationWrapper notification);
+	AmazonResponse pushAppleNotifications(AppleNotificationWrapper notification);
 
 	/**
 	 * Send notification to Android devices through Google
@@ -30,11 +30,12 @@ public interface MpnClient {
 	/**
 	 * Creates endpoint with Amazon WS Simple Notification Service
 	 *
-	 * @param device The device to create an endpoint for
+	 * @param device                 The device to create an endpoint for
 	 * @param platformApplicationArn The arn of the application (on AWS) to create an endpoint for
 	 * @return Returns the EndpointARN to be able to publish messages to this endpoint
+	 * @throws Exception if the token of the device is invalid
 	 */
-	CreatePlatformEndpointResult createPlatformEndpoint(Device device, String platformApplicationArn);
+	CreatePlatformEndpointResult createPlatformEndpoint(Device device, String platformApplicationArn) throws Exception;
 
 	/**
 	 * Checks if a device endpoint is currently enabled to receive notifications

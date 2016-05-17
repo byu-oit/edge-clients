@@ -9,6 +9,7 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import edu.byu.mpn.client.interfaces.MpnClient;
 import edu.byu.mpn.domain.Device;
+import edu.byu.mpn.helpers.AmazonResponse;
 import edu.byu.mpn.helpers.AndroidNotificationWrapper;
 import edu.byu.mpn.helpers.AppleNotificationWrapper;
 import edu.byu.mpn.helpers.GoogleResponse;
@@ -23,7 +24,9 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by cwoodfie on 4/25/16.
@@ -51,13 +54,22 @@ public class MpnClientImpl implements MpnClient {
 		snsClient.setRegion(Region.getRegion(Regions.US_WEST_2));
 	}
 
-	public void pushAppleNotifications(AppleNotificationWrapper notification) {
+	public AmazonResponse pushAppleNotifications(AppleNotificationWrapper notification) {
 		LOG.info("pushAppleNotifications");
+
+		int success = 0;
+		int failure = 0;
 
 		List<String> targetArns = notification.getTargetArns();
 		for (String targetArn : targetArns) {
 			LOG.info(publishNotification(notification.getAps().getBody(), targetArn));
+			if (isEndpointEnabled(targetArn)) { // TODO: 5/17/16 Check to make sure it's not a topicArn before doing this if statement 
+				success++;
+			} else {
+				failure++;
+			}
 		}
+		return new AmazonResponse(success, failure);
 	}
 
 	public GoogleResponse pushAndroidNotifications(AndroidNotificationWrapper notification) {
@@ -88,7 +100,7 @@ public class MpnClientImpl implements MpnClient {
 		}
 	}
 
-	public CreatePlatformEndpointResult createPlatformEndpoint(Device device, String platformApplicationArn) {
+	public CreatePlatformEndpointResult createPlatformEndpoint(Device device, String platformApplicationArn) throws Exception {
 		return snsClient.createPlatformEndpoint(new CreatePlatformEndpointRequest().withToken(device.getToken())
 		                                                                           .withPlatformApplicationArn(platformApplicationArn)
 		                                                                           .withCustomUserData(getUserData(device)));
@@ -103,7 +115,9 @@ public class MpnClientImpl implements MpnClient {
 	}
 
 	public boolean isEndpointEnabled(String endpointArn) {
-		String enabled = snsClient.getEndpointAttributes(new GetEndpointAttributesRequest().withEndpointArn(endpointArn)).getAttributes().get("Enabled");
+		String enabled = snsClient.getEndpointAttributes(new GetEndpointAttributesRequest().withEndpointArn(endpointArn))
+		                          .getAttributes()
+		                          .get("Enabled");
 		return "true".equals(enabled);
 	}
 
