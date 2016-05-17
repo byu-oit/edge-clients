@@ -1,6 +1,7 @@
 package edu.byu.mpn.client.interfaces;
 
 import com.amazonaws.services.sns.model.CreatePlatformEndpointResult;
+import com.amazonaws.services.sns.model.GetEndpointAttributesResult;
 import com.amazonaws.services.sns.model.PublishResult;
 import com.amazonaws.services.sns.model.SubscribeResult;
 import edu.byu.mpn.domain.Device;
@@ -29,11 +30,19 @@ public interface MpnClient {
 	/**
 	 * Creates endpoint with Amazon WS Simple Notification Service
 	 *
-	 * @param token Token of BYU app on Apple device
+	 * @param device The device to create an endpoint for
 	 * @param platformApplicationArn The arn of the application (on AWS) to create an endpoint for
 	 * @return Returns the EndpointARN to be able to publish messages to this endpoint
 	 */
-	CreatePlatformEndpointResult createPlatformEndpoint(String token, String platformApplicationArn);
+	CreatePlatformEndpointResult createPlatformEndpoint(Device device, String platformApplicationArn);
+
+	/**
+	 * Checks if a device endpoint is currently enabled to receive notifications
+	 *
+	 * @param endpointArn The endpointArn of the device to check
+	 * @return True if the endpoint is enabled, false if it is not
+	 */
+	boolean isEndpointEnabled(String endpointArn);
 
 	/**
 	 * Updates an endpoint if token was changed or re-registered

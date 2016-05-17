@@ -51,17 +51,15 @@ public class MpnClientImpl implements MpnClient {
 		snsClient.setRegion(Region.getRegion(Regions.US_WEST_2));
 	}
 
-	@Override
 	public void pushAppleNotifications(AppleNotificationWrapper notification) {
 		LOG.info("pushAppleNotifications");
 
 		List<String> targetArns = notification.getTargetArns();
 		for (String targetArn : targetArns) {
-			publishNotification(notification.getAps().getBody(), targetArn);
+			LOG.info(publishNotification(notification.getAps().getBody(), targetArn));
 		}
 	}
 
-	@Override
 	public GoogleResponse pushAndroidNotifications(AndroidNotificationWrapper notification) {
 		LOG.info("pushAndroidNotifications");
 
@@ -90,30 +88,42 @@ public class MpnClientImpl implements MpnClient {
 		}
 	}
 
-	public CreatePlatformEndpointResult createPlatformEndpoint(String token, String platformApplicationArn) {
-		CreatePlatformEndpointRequest request = new CreatePlatformEndpointRequest().withPlatformApplicationArn(platformApplicationArn).withToken(token);
-		return snsClient.createPlatformEndpoint(request);
+	public CreatePlatformEndpointResult createPlatformEndpoint(Device device, String platformApplicationArn) {
+		return snsClient.createPlatformEndpoint(new CreatePlatformEndpointRequest().withToken(device.getToken())
+		                                                                           .withPlatformApplicationArn(platformApplicationArn)
+		                                                                           .withCustomUserData(getUserData(device)));
 	}
 
 	public void updatePlatformEndpoint(Device device) {
 		SetEndpointAttributesRequest request = new SetEndpointAttributesRequest().withEndpointArn(device.getEndpointArn());
 		request.addAttributesEntry("Token", device.getToken());
 		request.addAttributesEntry("Enabled", "true");
+		request.addAttributesEntry("User Data", getUserData(device));
 		snsClient.setEndpointAttributes(request);
 	}
 
+	public boolean isEndpointEnabled(String endpointArn) {
+		String enabled = snsClient.getEndpointAttributes(new GetEndpointAttributesRequest().withEndpointArn(endpointArn)).getAttributes().get("Enabled");
+		return "true".equals(enabled);
+	}
+
 	public SubscribeResult subscribeDevice(String endpoint, String topicArn) {
-		SubscribeRequest request = new SubscribeRequest().withTopicArn(topicArn).withEndpoint(endpoint).withProtocol("application");
-		return snsClient.subscribe(request);
+		return snsClient.subscribe(new SubscribeRequest().withTopicArn(topicArn).withEndpoint(endpoint).withProtocol("application"));
 	}
 
 	public void unsubscribeDevice(String endpoint) {
-		UnsubscribeRequest request = new UnsubscribeRequest().withSubscriptionArn(endpoint);
-		snsClient.unsubscribe(request);
+		snsClient.unsubscribe(new UnsubscribeRequest().withSubscriptionArn(endpoint));
 	}
 
 	public PublishResult publishNotification(String message, String targetArn) {
-		PublishRequest request = new PublishRequest().withMessage(message).withTargetArn(targetArn);
-		return snsClient.publish(request);
+		return snsClient.publish(new PublishRequest().withMessage(message).withTargetArn(targetArn));
+	}
+
+	private String getUserData(Device device) {
+		if (device.getPersonId() != null && !device.getPersonId().isEmpty()) {
+			return String.format("%s - %s", device.getPersonId(), device.getDeviceName());
+		} else {
+			return null;
+		}
 	}
 }

@@ -1,13 +1,7 @@
 package edu.byu.mpn.tests;
 
-import com.amazonaws.auth.AWSCredentials;
-import com.amazonaws.auth.BasicAWSCredentials;
-import com.amazonaws.regions.Region;
-import com.amazonaws.regions.Regions;
-import com.amazonaws.services.sns.AmazonSNSClient;
 import edu.byu.mpn.client.impl.MpnClientImpl;
-import edu.byu.mpn.client.interfaces.MpnClient;
-import edu.byu.mpn.domain.*;
+import edu.byu.mpn.domain.Device;
 import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
@@ -48,7 +42,7 @@ public class MpnClientUnitTest {
 	@Ignore
 	@Test
 	public void testCreatePlatformEndpoint() {
-		mpnClient.createPlatformEndpoint("", "");
+		mpnClient.createPlatformEndpoint(new Device(), "");
 	}
 
 	@Ignore
