@@ -17,7 +17,7 @@ public interface MpnClient {
 	 * @param notification Notification to send, along with list of devices to send it to. If list is empty, notification is sent to all registered devices
 	 * @return An object containing the number of failures and successes. Null if notification was sent to a topic
 	 */
-	AmazonResponse pushAppleNotifications(AppleNotificationWrapper notification);
+	void pushAppleNotifications(AppleNotificationWrapper notification);
 
 	/**
 	 * Send notification to Android devices through Google
@@ -38,7 +38,8 @@ public interface MpnClient {
 	CreatePlatformEndpointResult createPlatformEndpoint(Device device, String platformApplicationArn) throws Exception;
 
 	/**
-	 * Checks if a device endpoint is currently enabled to receive notifications
+	 * Checks if a device endpoint is currently enabled to receive notifications. If a topicArn is passed into the function it will throw an exception.
+	 * Don't pass in topicArns.
 	 *
 	 * @param endpointArn The endpointArn of the device to check
 	 * @return True if the endpoint is enabled, false if it is not
