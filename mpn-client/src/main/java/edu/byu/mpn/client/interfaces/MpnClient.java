@@ -6,6 +6,8 @@ import com.amazonaws.services.sns.model.SubscribeResult;
 import edu.byu.mpn.domain.Device;
 import edu.byu.mpn.helpers.*;
 
+import java.util.List;
+
 /**
  * Created by cwoodfie on 4/25/16.
  */
@@ -14,10 +16,10 @@ public interface MpnClient {
 	/**
 	 * Sends notification to iPhones through APN apis
 	 *
-	 * @param notification Notification to send, along with list of devices to send it to. If list is empty, notification is sent to all registered devices
-	 * @return An object containing the number of failures and successes. Null if notification was sent to a topic
+	 * @param notification Notification to send, along with list of devices (endpointArns) to send it to, or a list containing just the topicArn to send it to
+	 * @return A list containing endpointArns that have been disabled, if any
 	 */
-	void pushAppleNotifications(AppleNotificationWrapper notification);
+	List<String> pushAppleNotifications(AppleNotificationWrapper notification);
 
 	/**
 	 * Send notification to Android devices through Google

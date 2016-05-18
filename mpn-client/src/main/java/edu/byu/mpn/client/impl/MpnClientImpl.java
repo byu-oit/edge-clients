@@ -23,6 +23,7 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -51,13 +52,21 @@ public class MpnClientImpl implements MpnClient {
 		snsClient.setRegion(Region.getRegion(Regions.US_WEST_2));
 	}
 
-	public void pushAppleNotifications(AppleNotificationWrapper notification) {
+	public List<String> pushAppleNotifications(AppleNotificationWrapper notification) {
 		LOG.info("pushAppleNotifications");
 
 		List<String> targetArns = notification.getTargetArns();
+		List<String> disabledEndpointArns = new ArrayList<String>();
+
 		for (String targetArn : targetArns) {
-			publishNotification(notification.getAps().getBody(), targetArn);
+			try {
+				publishNotification(notification.getAps().getBody(), targetArn);
+			} catch (EndpointDisabledException e) {
+				disabledEndpointArns.add(targetArn);
+			}
 		}
+
+		return disabledEndpointArns;
 	}
 
 	public GoogleResponse pushAndroidNotifications(AndroidNotificationWrapper notification) {
