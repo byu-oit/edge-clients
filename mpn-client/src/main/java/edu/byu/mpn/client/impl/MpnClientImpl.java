@@ -25,6 +25,7 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by cwoodfie on 4/25/16.
@@ -97,18 +98,17 @@ public class MpnClientImpl implements MpnClient {
 		}
 	}
 
-	public CreatePlatformEndpointResult createPlatformEndpoint(Device device, String platformApplicationArn) throws Exception {
+	public CreatePlatformEndpointResult createPlatformEndpoint(Device device, String platformApplicationArn) throws InvalidParameterException {
 		return snsClient.createPlatformEndpoint(new CreatePlatformEndpointRequest().withToken(device.getToken())
-		                                                                           .withPlatformApplicationArn(platformApplicationArn)
-		                                                                           .withCustomUserData(getUserData(device)));
+		                                                                           .withPlatformApplicationArn(platformApplicationArn));
 	}
 
-	public void updatePlatformEndpoint(Device device) {
-		SetEndpointAttributesRequest request = new SetEndpointAttributesRequest().withEndpointArn(device.getEndpointArn());
-		request.addAttributesEntry("Token", device.getToken());
-		request.addAttributesEntry("Enabled", "true");
-		request.addAttributesEntry("User Data", getUserData(device));
-		snsClient.setEndpointAttributes(request);
+	public void updatePlatformEndpoint(Device device) throws InvalidParameterException {
+		GetEndpointAttributesResult endpointAttributes = snsClient.getEndpointAttributes(new GetEndpointAttributesRequest().withEndpointArn(device.getEndpointArn()));
+		Map<String, String> attributes = endpointAttributes.getAttributes();
+		attributes.put("Token", device.getToken());
+		attributes.put("Enabled", "true");
+		snsClient.setEndpointAttributes(new SetEndpointAttributesRequest().withEndpointArn(device.getEndpointArn()).withAttributes(attributes));
 	}
 
 	public boolean isEndpointEnabled(String endpointArn) {
@@ -118,12 +118,20 @@ public class MpnClientImpl implements MpnClient {
 		return "true".equals(enabled);
 	}
 
-	public SubscribeResult subscribeDevice(String endpoint, String topicArn) {
-		return snsClient.subscribe(new SubscribeRequest().withTopicArn(topicArn).withEndpoint(endpoint).withProtocol("application"));
+	public SubscribeResult subscribeDevice(Device device, String topicArn) {
+		GetEndpointAttributesResult endpointAttributes = snsClient.getEndpointAttributes(new GetEndpointAttributesRequest().withEndpointArn(device.getEndpointArn()));
+		Map<String, String> attributes = endpointAttributes.getAttributes();
+		attributes.put("User Data", getUserData(device));
+		snsClient.setEndpointAttributes(new SetEndpointAttributesRequest().withEndpointArn(device.getEndpointArn()).withAttributes(attributes));
+		return snsClient.subscribe(new SubscribeRequest().withTopicArn(topicArn).withEndpoint(device.getEndpointArn()).withProtocol("application"));
 	}
 
-	public void unsubscribeDevice(String endpoint) {
-		snsClient.unsubscribe(new UnsubscribeRequest().withSubscriptionArn(endpoint));
+	public void unsubscribeDevice(Device device) {
+		GetEndpointAttributesResult endpointAttributes = snsClient.getEndpointAttributes(new GetEndpointAttributesRequest().withEndpointArn(device.getEndpointArn()));
+		Map<String, String> attributes = endpointAttributes.getAttributes();
+		attributes.put("User Data", "");
+		snsClient.setEndpointAttributes(new SetEndpointAttributesRequest().withEndpointArn(device.getEndpointArn()).withAttributes(attributes));
+		snsClient.unsubscribe(new UnsubscribeRequest().withSubscriptionArn(device.getSubscriptionArn()));
 	}
 
 	public PublishResult publishNotification(String message, String targetArn) {
@@ -131,10 +139,6 @@ public class MpnClientImpl implements MpnClient {
 	}
 
 	private String getUserData(Device device) {
-		if (device.getPersonId() != null && !device.getPersonId().isEmpty()) {
-			return String.format("%s - %s", device.getPersonId(), device.getDeviceName());
-		} else {
-			return null;
-		}
+		return String.format("%s - %s", device.getPersonId(), device.getDeviceName());
 	}
 }

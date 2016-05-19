@@ -1,6 +1,7 @@
 package edu.byu.mpn.client.interfaces;
 
 import com.amazonaws.services.sns.model.CreatePlatformEndpointResult;
+import com.amazonaws.services.sns.model.InvalidParameterException;
 import com.amazonaws.services.sns.model.PublishResult;
 import com.amazonaws.services.sns.model.SubscribeResult;
 import edu.byu.mpn.domain.Device;
@@ -30,14 +31,14 @@ public interface MpnClient {
 	GoogleResponse pushAndroidNotifications(AndroidNotificationWrapper notification);
 
 	/**
-	 * Creates endpoint with Amazon WS Simple Notification Service
+	 * Creates endpoint with Amazon WS Simple Notification Service.
 	 *
 	 * @param device                 The device to create an endpoint for
 	 * @param platformApplicationArn The arn of the application (on AWS) to create an endpoint for
 	 * @return Returns the EndpointARN to be able to publish messages to this endpoint
-	 * @throws Exception if the token of the device is invalid
+	 * @throws InvalidParameterException if the token of the device is invalid
 	 */
-	CreatePlatformEndpointResult createPlatformEndpoint(Device device, String platformApplicationArn) throws Exception;
+	CreatePlatformEndpointResult createPlatformEndpoint(Device device, String platformApplicationArn) throws InvalidParameterException;
 
 	/**
 	 * Checks if a device endpoint is currently enabled to receive notifications. If a topicArn is passed into the function it will throw an exception.
@@ -49,25 +50,27 @@ public interface MpnClient {
 	boolean isEndpointEnabled(String endpointArn);
 
 	/**
-	 * Updates an endpoint if token was changed or re-registered
+	 * Updates an endpoint if token was changed. Sets Token to device.getToken() and Enabled to true
 	 *
 	 * @param device The device that has been updated
+	 * @throws InvalidParameterException if the token of the device is invalid
 	 */
-	void updatePlatformEndpoint(Device device);
+	void updatePlatformEndpoint(Device device) throws InvalidParameterException;
 
 	/**
-	 * Subscribe a device to the emergency notification topic
+	 * Subscribe a device to a topic, and set the user data of the endpoint to contain the deviceName and the personId of the device
 	 *
-	 * @param endpoint The endpoint of the device that is being subscribed
+	 * @param device   The device to subscribe
+	 * @param topicArn The topic to subscribe it to
 	 */
-	SubscribeResult subscribeDevice(String endpoint, String topicArn);
+	SubscribeResult subscribeDevice(Device device, String topicArn);
 
 	/**
-	 * Unsubscribes a device
+	 * Unsubscribes a device (using the subscriptionArn stored in the device), and removes any user data associated with the device endpoint
 	 *
-	 * @param subscription The subscription arn that should be cancelled
+	 * @param device The device that should be unsubscribed
 	 */
-	void unsubscribeDevice(String subscription);
+	void unsubscribeDevice(Device device);
 
 	/**
 	 * Send a notification to a device or a topic
