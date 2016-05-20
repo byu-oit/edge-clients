@@ -112,16 +112,14 @@ public class MpnClientImpl implements MpnClient {
 	}
 
 	public boolean isEndpointEnabled(String endpointArn) {
-		String enabled = snsClient.getEndpointAttributes(new GetEndpointAttributesRequest().withEndpointArn(endpointArn))
-		                          .getAttributes()
-		                          .get("Enabled");
+		String enabled = snsClient.getEndpointAttributes(new GetEndpointAttributesRequest().withEndpointArn(endpointArn)).getAttributes().get("Enabled");
 		return "true".equals(enabled);
 	}
 
 	public SubscribeResult subscribeDevice(Device device, String topicArn) {
 		GetEndpointAttributesResult endpointAttributes = snsClient.getEndpointAttributes(new GetEndpointAttributesRequest().withEndpointArn(device.getEndpointArn()));
 		Map<String, String> attributes = endpointAttributes.getAttributes();
-		attributes.put("User Data", getUserData(device));
+		attributes.put("CustomUserData", getUserData(device));
 		snsClient.setEndpointAttributes(new SetEndpointAttributesRequest().withEndpointArn(device.getEndpointArn()).withAttributes(attributes));
 		return snsClient.subscribe(new SubscribeRequest().withTopicArn(topicArn).withEndpoint(device.getEndpointArn()).withProtocol("application"));
 	}
@@ -129,7 +127,7 @@ public class MpnClientImpl implements MpnClient {
 	public void unsubscribeDevice(Device device) {
 		GetEndpointAttributesResult endpointAttributes = snsClient.getEndpointAttributes(new GetEndpointAttributesRequest().withEndpointArn(device.getEndpointArn()));
 		Map<String, String> attributes = endpointAttributes.getAttributes();
-		attributes.put("User Data", "");
+		attributes.put("CustomUserData", "");
 		snsClient.setEndpointAttributes(new SetEndpointAttributesRequest().withEndpointArn(device.getEndpointArn()).withAttributes(attributes));
 		snsClient.unsubscribe(new UnsubscribeRequest().withSubscriptionArn(device.getSubscriptionArn()));
 	}
