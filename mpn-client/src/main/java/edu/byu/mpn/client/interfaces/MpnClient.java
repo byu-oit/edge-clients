@@ -24,7 +24,7 @@ public interface MpnClient {
 	 * Sends notification to a list of iPhones through AWS SNS
 	 *
 	 * @param notification Notification to send, along with list of devices (endpointArns) to send it to
-	 * @return A list containing endpointArns that have been disabled, if any
+	 * @return False if any of the endpoints passed in were disabled, true if all were enabled at the time of sending the notification
 	 */
 	boolean pushAppleNotifications(AppleNotificationWrapper notification);
 
