@@ -61,7 +61,7 @@ public class MpnClientImpl implements MpnClient {
 
 		for (String targetArn : targetArns) {
 			try {
-				publishNotification(notification.getAps().getBody(), targetArn);
+				publishNotification(notification.getAps().getMessage(), targetArn);
 			} catch (EndpointDisabledException e) {
 				disabledEndpointArns.add(targetArn);
 			}
