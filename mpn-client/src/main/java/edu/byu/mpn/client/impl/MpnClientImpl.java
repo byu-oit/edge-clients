@@ -11,6 +11,7 @@ import edu.byu.mpn.client.interfaces.MpnClient;
 import edu.byu.mpn.domain.Device;
 import edu.byu.mpn.helpers.AndroidNotificationWrapper;
 import edu.byu.mpn.helpers.AppleNotificationWrapper;
+import edu.byu.mpn.helpers.GenericNotification;
 import edu.byu.mpn.helpers.GoogleResponse;
 import org.apache.commons.io.IOUtils;
 import org.apache.logging.log4j.LogManager;
@@ -23,7 +24,6 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -53,21 +53,29 @@ public class MpnClientImpl implements MpnClient {
 		snsClient.setRegion(Region.getRegion(Regions.US_WEST_2));
 	}
 
-	public List<String> pushAppleNotifications(AppleNotificationWrapper notification) {
+	public void pushNotificationToTopic(GenericNotification notification, String topicArn) {
+		LOG.info("pushNotificationToTopic");
+
+		publishNotification(notification.getMessage(), topicArn);
+	}
+
+	public boolean pushAppleNotifications(AppleNotificationWrapper notification) {
 		LOG.info("pushAppleNotifications");
 
 		List<String> targetArns = notification.getTargetArns();
-		List<String> disabledEndpointArns = new ArrayList<String>();
+		boolean result = true;
 
 		for (String targetArn : targetArns) {
-			try {
-				publishNotification(notification.getAps().getMessage(), targetArn);
-			} catch (EndpointDisabledException e) {
-				disabledEndpointArns.add(targetArn);
+			if (isEndpointEnabled(targetArn)) {
+				try {
+					publishNotification(notification.getAps().getMessage(), targetArn);
+				} catch (EndpointDisabledException e) {
+					LOG.error(e.getMessage());
+					result = false;
+				}
 			}
 		}
-
-		return disabledEndpointArns;
+		return result;
 	}
 
 	public GoogleResponse pushAndroidNotifications(AndroidNotificationWrapper notification) {
@@ -99,8 +107,7 @@ public class MpnClientImpl implements MpnClient {
 	}
 
 	public CreatePlatformEndpointResult createPlatformEndpoint(Device device, String platformApplicationArn) throws InvalidParameterException {
-		return snsClient.createPlatformEndpoint(new CreatePlatformEndpointRequest().withToken(device.getToken())
-		                                                                           .withPlatformApplicationArn(platformApplicationArn));
+		return snsClient.createPlatformEndpoint(new CreatePlatformEndpointRequest().withToken(device.getToken()).withPlatformApplicationArn(platformApplicationArn));
 	}
 
 	public void updatePlatformEndpoint(Device device) throws InvalidParameterException {
