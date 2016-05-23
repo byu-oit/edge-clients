@@ -63,12 +63,8 @@ public class MpnClientImpl implements MpnClient {
 
 		for (String targetArn : targetArns) {
 			if (isEndpointEnabled(targetArn)) {
-				try {
-					publishNotification(notification.getAps().getMessage(), targetArn);
-				} catch (EndpointDisabledException e) {
-					LOG.error(e.getMessage());
-					result = false;
-				}
+//				This function throws an exception if the endpoint is disabled, so we added the if instead of doing a try/catch
+				publishNotification(notification.getAps().getMessage(), targetArn);
 			} else {
 				result = false;
 			}
