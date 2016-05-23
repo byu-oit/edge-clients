@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+		 xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+		 xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+
+	<groupId>edu.byu.mpn-client</groupId>
+	<artifactId>mpn-client</artifactId>
+	<version>1.0-SNAPSHOT</version>
+	<parent>
+		<groupId>edu.byu.edge.framework</groupId>
+		<artifactId>edge-pom</artifactId>
+		<version>1.5</version>
+		<relativePath></relativePath>
+	</parent>
+
+	<properties>
+		<apache-commons-io.version>1.3.2</apache-commons-io.version>
+		<aws-java-sdk.version>1.10.43</aws-java-sdk.version>
+		<byu-mpn.version>1.0-SNAPSHOT</byu-mpn.version>
+		<gson.version>2.6.2</gson.version>
+		<jersey.version>1.19.1</jersey.version>
+		<log4j2.version>2.5</log4j2.version>
+		<spring.version>3.2.16.RELEASE</spring.version>
+		<spring-property-helper.version>1.0.0</spring-property-helper.version>
+	</properties>
+
+	<dependencies>
+		<dependency>
+			<groupId>edu.byu.byu-mpn</groupId>
+			<artifactId>domain</artifactId>
+			<version>${byu-mpn.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>edu.byu.edge.framework</groupId>
+			<artifactId>spring-property-helper</artifactId>
+			<version>${spring-property-helper.version}</version>
+			<scope>runtime</scope>
+		</dependency>
+		<dependency>
+			<groupId>com.amazonaws</groupId>
+			<artifactId>aws-java-sdk-sns</artifactId>
+			<version>${aws-java-sdk.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>com.amazonaws</groupId>
+			<artifactId>aws-java-sdk-core</artifactId>
+			<version>${aws-java-sdk.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>com.google.code.gson</groupId>
+			<artifactId>gson</artifactId>
+			<version>${gson.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>com.sun.jersey</groupId>
+			<artifactId>jersey-json</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.commons</groupId>
+			<artifactId>commons-io</artifactId>
+			<version>${apache-commons-io.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.logging.log4j</groupId>
+			<artifactId>log4j-api</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.logging.log4j</groupId>
+			<artifactId>log4j-1.2-api</artifactId>
+			<scope>runtime</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-beans</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-test</artifactId>
+			<scope>test</scope>
+		</dependency>
+	</dependencies>
+
+
+</project>
