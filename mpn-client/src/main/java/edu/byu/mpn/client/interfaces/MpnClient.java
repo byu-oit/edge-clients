@@ -5,7 +5,8 @@ import com.amazonaws.services.sns.model.InvalidParameterException;
 import com.amazonaws.services.sns.model.PublishResult;
 import com.amazonaws.services.sns.model.SubscribeResult;
 import edu.byu.mpn.domain.Device;
-import edu.byu.mpn.helpers.*;
+import edu.byu.mpn.helpers.GenericNotification;
+import edu.byu.mpn.helpers.NotificationWrapper;
 
 /**
  * Created by cwoodfie on 4/25/16.
@@ -26,7 +27,7 @@ public interface MpnClient {
 	 * @param notification Notification to send, along with list of devices (endpointArns) to send it to
 	 * @return False if any of the endpoints passed in were disabled, true if all were enabled at the time of sending the notification
 	 */
-	boolean pushNotifications(AppleNotificationWrapper notification);
+	boolean pushNotifications(NotificationWrapper notification);
 
 	/**
 	 * Creates endpoint with Amazon WS Simple Notification Service.
