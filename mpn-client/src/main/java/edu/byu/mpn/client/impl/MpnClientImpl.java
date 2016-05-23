@@ -54,14 +54,10 @@ public class MpnClientImpl implements MpnClient {
 	}
 
 	public void pushNotificationToTopic(GenericNotification notification, String topicArn) {
-		LOG.info("pushNotificationToTopic");
-
 		publishNotification(notification.getMessage(), topicArn);
 	}
 
 	public boolean pushAppleNotifications(AppleNotificationWrapper notification) {
-		LOG.info("pushAppleNotifications");
-
 		List<String> targetArns = notification.getTargetArns();
 		boolean result = true;
 
@@ -73,14 +69,14 @@ public class MpnClientImpl implements MpnClient {
 					LOG.error(e.getMessage());
 					result = false;
 				}
+			} else {
+				result = false;
 			}
 		}
 		return result;
 	}
 
 	public GoogleResponse pushAndroidNotifications(AndroidNotificationWrapper notification) {
-		LOG.info("pushAndroidNotifications");
-
 		try {
 			final URL url = new URL(googleApiUrl);
 			final HttpURLConnection connection = (HttpURLConnection) url.openConnection();
@@ -97,9 +93,7 @@ public class MpnClientImpl implements MpnClient {
 			outputStream.close();
 
 			InputStream input = new BufferedInputStream(connection.getInputStream());
-			GoogleResponse googleResponse = gson.fromJson(IOUtils.toString(input, "UTF-8"), GoogleResponse.class);
-			LOG.info(googleResponse);
-			return googleResponse;
+			return gson.fromJson(IOUtils.toString(input, "UTF-8"), GoogleResponse.class);
 		} catch (IOException e) {
 			LOG.error("Error connecting to Google Services", e);
 			return null;

@@ -42,7 +42,7 @@ public interface MpnClient {
 	 * @param device                 The device to create an endpoint for
 	 * @param platformApplicationArn The arn of the application (on AWS) to create an endpoint for
 	 * @return Returns the EndpointARN to be able to publish messages to this endpoint
-	 * @throws InvalidParameterException if the token of the device is invalid
+	 * @throws InvalidParameterException if the token of the device is invalid or if it is already associated with a different endpoint
 	 */
 	CreatePlatformEndpointResult createPlatformEndpoint(Device device, String platformApplicationArn) throws InvalidParameterException;
 
@@ -59,7 +59,7 @@ public interface MpnClient {
 	 * Updates an endpoint if token was changed. Sets Token to device.getToken() and Enabled to true
 	 *
 	 * @param device The device that has been updated
-	 * @throws InvalidParameterException if the token of the device is invalid
+	 * @throws InvalidParameterException if the token of the device is invalid or if it is already associated with a different endpoint
 	 */
 	void updatePlatformEndpoint(Device device) throws InvalidParameterException;
 
