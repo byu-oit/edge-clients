@@ -13,7 +13,7 @@ import edu.byu.mpn.helpers.*;
 public interface MpnClient {
 
 	/**
-	 * Sends notification to all registered iPhones through AWS SNS topic
+	 * Sends notification to all registered mobile devices through AWS SNS topic
 	 *
 	 * @param notification The notification to send
 	 * @param topicArn     The topicArn to send it to
@@ -21,20 +21,12 @@ public interface MpnClient {
 	void pushNotificationToTopic(GenericNotification notification, String topicArn);
 
 	/**
-	 * Sends notification to a list of iPhones through AWS SNS
+	 * Sends notification to a list of mobile devices through AWS SNS
 	 *
 	 * @param notification Notification to send, along with list of devices (endpointArns) to send it to
 	 * @return False if any of the endpoints passed in were disabled, true if all were enabled at the time of sending the notification
 	 */
-	boolean pushAppleNotifications(AppleNotificationWrapper notification);
-
-	/**
-	 * Send notification to Android devices through Google
-	 *
-	 * @param notification Notification to send, along with list of devices (registrationIds from devices) to send it to
-	 * @return The response from Google
-	 */
-	GoogleResponse pushAndroidNotifications(AndroidNotificationWrapper notification);
+	boolean pushNotifications(AppleNotificationWrapper notification);
 
 	/**
 	 * Creates endpoint with Amazon WS Simple Notification Service.

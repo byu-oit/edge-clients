@@ -33,19 +33,7 @@ import java.util.Map;
 public class MpnClientImpl implements MpnClient {
 	private static final Logger LOG = LogManager.getLogger(MpnClientImpl.class);
 
-	private String googleApiUrl;
-	private String googleApiKey;
 	private AmazonSNSClient snsClient;
-
-	@Autowired
-	public void setGoogleApiUrl(String googleApiUrl) {
-		this.googleApiUrl = googleApiUrl;
-	}
-
-	@Autowired
-	public void setGoogleApiKey(String googleApiKey) {
-		this.googleApiKey = googleApiKey;
-	}
 
 	@Autowired
 	public void setSnsClient(AmazonSNSClient snsClient) {
@@ -57,7 +45,7 @@ public class MpnClientImpl implements MpnClient {
 		publishNotification(notification.getMessage(), topicArn);
 	}
 
-	public boolean pushAppleNotifications(AppleNotificationWrapper notification) {
+	public boolean pushNotifications(AppleNotificationWrapper notification) {
 		List<String> targetArns = notification.getTargetArns();
 		boolean result = true;
 
@@ -74,30 +62,6 @@ public class MpnClientImpl implements MpnClient {
 			}
 		}
 		return result;
-	}
-
-	public GoogleResponse pushAndroidNotifications(AndroidNotificationWrapper notification) {
-		try {
-			final URL url = new URL(googleApiUrl);
-			final HttpURLConnection connection = (HttpURLConnection) url.openConnection();
-			connection.setRequestMethod("POST");
-			connection.setRequestProperty("Accept", "application/json");
-			connection.setRequestProperty("Authorization", "key=" + googleApiKey);
-			connection.setRequestProperty("Content-Type", "application/json");
-			connection.setDoOutput(true);
-
-			OutputStream outputStream = connection.getOutputStream();
-
-			Gson gson = new GsonBuilder().setFieldNamingPolicy(FieldNamingPolicy.LOWER_CASE_WITH_UNDERSCORES).create();
-			outputStream.write(gson.toJson(notification).getBytes());
-			outputStream.close();
-
-			InputStream input = new BufferedInputStream(connection.getInputStream());
-			return gson.fromJson(IOUtils.toString(input, "UTF-8"), GoogleResponse.class);
-		} catch (IOException e) {
-			LOG.error("Error connecting to Google Services", e);
-			return null;
-		}
 	}
 
 	public CreatePlatformEndpointResult createPlatformEndpoint(Device device, String platformApplicationArn) throws InvalidParameterException {
