@@ -44,7 +44,7 @@ public class ApiKeyClientImpl extends CredentialClientImpl implements ApiKeyClie
 		Assert.notNull(resolver, "A valid SharedSecretCredentialResolver is required.");
 		apikey = resolver.getApiKeyCredential();
 		Assert.notNull(apikey, "The resolver did not resolve any credentials.");
-		Assert.isTrue(apikey.getExpirationDate().after(new GregorianCalendar()), "The resolved credential is already expired.");
+		Assert.isTrue(apikey.getExpirationDate() == null || apikey.getExpirationDate().after(new GregorianCalendar()), "The resolved credential is already expired.");
 	}
 
 	@Override
