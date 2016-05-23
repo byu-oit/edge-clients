@@ -4,26 +4,14 @@ import com.amazonaws.regions.Region;
 import com.amazonaws.regions.Regions;
 import com.amazonaws.services.sns.AmazonSNSClient;
 import com.amazonaws.services.sns.model.*;
-import com.google.gson.FieldNamingPolicy;
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 import edu.byu.mpn.client.interfaces.MpnClient;
 import edu.byu.mpn.domain.Device;
-import edu.byu.mpn.helpers.AndroidNotificationWrapper;
 import edu.byu.mpn.helpers.AppleNotificationWrapper;
 import edu.byu.mpn.helpers.GenericNotification;
-import edu.byu.mpn.helpers.GoogleResponse;
-import org.apache.commons.io.IOUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import java.io.BufferedInputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
-import java.net.HttpURLConnection;
-import java.net.URL;
 import java.util.List;
 import java.util.Map;
 
@@ -45,14 +33,14 @@ public class MpnClientImpl implements MpnClient {
 		publishNotification(notification.getMessage(), topicArn);
 	}
 
-	public boolean pushNotifications(AppleNotificationWrapper notification) {
+	public boolean pushNotifications(NotificationWrapper notification) {
 		List<String> targetArns = notification.getTargetArns();
 		boolean result = true;
 
 		for (String targetArn : targetArns) {
 			if (isEndpointEnabled(targetArn)) {
 				try {
-					publishNotification(notification.getAps().getMessage(), targetArn);
+					publishNotification(notification.getNotification().getMessage(), targetArn);
 				} catch (EndpointDisabledException e) {
 					LOG.error(e.getMessage());
 					result = false;
