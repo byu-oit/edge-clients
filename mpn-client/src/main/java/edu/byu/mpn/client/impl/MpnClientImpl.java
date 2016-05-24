@@ -4,6 +4,7 @@ import com.amazonaws.regions.Region;
 import com.amazonaws.regions.Regions;
 import com.amazonaws.services.sns.AmazonSNSClient;
 import com.amazonaws.services.sns.model.*;
+import com.google.gson.Gson;
 import edu.byu.mpn.client.interfaces.MpnClient;
 import edu.byu.mpn.domain.Device;
 import edu.byu.mpn.helpers.GenericNotification;
@@ -30,17 +31,18 @@ public class MpnClientImpl implements MpnClient {
 	}
 
 	public void pushNotificationToTopic(GenericNotification notification, String topicArn) {
-		publishNotification(notification.getMessage(), topicArn);
+		publishNotification(notification, topicArn);
 	}
 
-	public boolean pushNotifications(NotificationWrapper notification) {
-		List<String> targetArns = notification.getTargetArns();
+	public boolean pushNotifications(NotificationWrapper notificationWrapper) {
+		List<String> targetArns = notificationWrapper.getTargetArns();
+		GenericNotification notification = notificationWrapper.getNotification();
 		boolean result = true;
 
 		for (String targetArn : targetArns) {
 			if (isEndpointEnabled(targetArn)) {
 //				This function throws an exception if the endpoint is disabled, so we added the if instead of doing a try/catch
-				publishNotification(notification.getNotification().getMessage(), targetArn);
+				publishNotification(notification, targetArn);
 			} else {
 				result = false;
 			}
@@ -81,8 +83,8 @@ public class MpnClientImpl implements MpnClient {
 		snsClient.unsubscribe(new UnsubscribeRequest().withSubscriptionArn(device.getSubscriptionArn()));
 	}
 
-	public PublishResult publishNotification(String message, String targetArn) {
-		return snsClient.publish(new PublishRequest().withMessage(message).withTargetArn(targetArn));
+	public PublishResult publishNotification(GenericNotification notification, String targetArn) {
+		return snsClient.publish(new PublishRequest().withMessageStructure("json").withMessage(new Gson().toJson(notification)).withTargetArn(targetArn));
 	}
 
 	private String getUserData(Device device) {

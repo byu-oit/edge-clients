@@ -17,6 +17,7 @@
 	<properties>
 		<aws-java-sdk.version>1.10.43</aws-java-sdk.version>
 		<byu-mpn.version>1.1-SNAPSHOT</byu-mpn.version>
+		<gson.version>2.6.2</gson.version>
 		<jersey.version>1.19.1</jersey.version>
 		<log4j2.version>2.5</log4j2.version>
 		<spring.version>3.2.16.RELEASE</spring.version>
@@ -44,6 +45,11 @@
 			<groupId>com.amazonaws</groupId>
 			<artifactId>aws-java-sdk-core</artifactId>
 			<version>${aws-java-sdk.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>com.google.code.gson</groupId>
+			<artifactId>gson</artifactId>
+			<version>${gson.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>com.sun.jersey</groupId>
