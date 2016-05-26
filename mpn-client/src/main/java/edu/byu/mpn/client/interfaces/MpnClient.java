@@ -5,7 +5,8 @@ import com.amazonaws.services.sns.model.InvalidParameterException;
 import com.amazonaws.services.sns.model.PublishResult;
 import com.amazonaws.services.sns.model.SubscribeResult;
 import edu.byu.mpn.domain.Device;
-import edu.byu.mpn.helpers.*;
+import edu.byu.mpn.helpers.GenericNotification;
+import edu.byu.mpn.helpers.NotificationWrapper;
 
 /**
  * Created by cwoodfie on 4/25/16.
@@ -13,28 +14,20 @@ import edu.byu.mpn.helpers.*;
 public interface MpnClient {
 
 	/**
-	 * Sends notification to all registered iPhones through AWS SNS topic
+	 * Sends notification to all registered mobile devices through AWS SNS topic
 	 *
-	 * @param notification The notification to send
+	 * @param notification The notification to send, including a default message, an iOS specific payload, and an Android specific payload
 	 * @param topicArn     The topicArn to send it to
 	 */
 	void pushNotificationToTopic(GenericNotification notification, String topicArn);
 
 	/**
-	 * Sends notification to a list of iPhones through AWS SNS
+	 * Sends notification to a list of mobile devices through AWS SNS
 	 *
-	 * @param notification Notification to send, along with list of devices (endpointArns) to send it to
+	 * @param notificationWrapper Notification to send, along with list of devices (endpointArns) to send it to
 	 * @return False if any of the endpoints passed in were disabled, true if all were enabled at the time of sending the notification
 	 */
-	boolean pushAppleNotifications(AppleNotificationWrapper notification);
-
-	/**
-	 * Send notification to Android devices through Google
-	 *
-	 * @param notification Notification to send, along with list of devices (registrationIds from devices) to send it to
-	 * @return The response from Google
-	 */
-	GoogleResponse pushAndroidNotifications(AndroidNotificationWrapper notification);
+	boolean pushNotifications(NotificationWrapper notificationWrapper);
 
 	/**
 	 * Creates endpoint with Amazon WS Simple Notification Service.
@@ -81,8 +74,8 @@ public interface MpnClient {
 	/**
 	 * Send a notification to a device or a topic
 	 *
-	 * @param message  The message you want to send in the notification
+	 * @param notification A generic notification including a default message, a iOS specific payload, and an Android specific payload
 	 * @param endpoint The endpoint you want to send it to, either a topic endpoint or a device endpoint
 	 */
-	PublishResult publishNotification(String message, String endpoint);
+	PublishResult publishNotification(GenericNotification notification, String endpoint);
 }
