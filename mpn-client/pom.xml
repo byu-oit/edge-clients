@@ -16,7 +16,7 @@
 
 	<properties>
 		<aws-java-sdk.version>1.10.43</aws-java-sdk.version>
-		<byu-mpn.version>1.1-SNAPSHOT</byu-mpn.version>
+		<byu-mpn-domain.version>1.1-SNAPSHOT</byu-mpn-domain.version>
 		<gson.version>2.6.2</gson.version>
 		<jersey.version>1.19.1</jersey.version>
 		<log4j2.version>2.5</log4j2.version>
@@ -28,7 +28,7 @@
 		<dependency>
 			<groupId>edu.byu.byu-mpn</groupId>
 			<artifactId>domain</artifactId>
-			<version>${byu-mpn.version}</version>
+			<version>${byu-mpn-domain.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>edu.byu.edge.framework</groupId>
