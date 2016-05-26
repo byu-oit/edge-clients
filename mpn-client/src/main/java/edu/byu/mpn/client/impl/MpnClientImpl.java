@@ -8,7 +8,6 @@ import com.google.gson.Gson;
 import edu.byu.mpn.client.interfaces.MpnClient;
 import edu.byu.mpn.domain.Device;
 import edu.byu.mpn.helpers.GenericNotification;
-import edu.byu.mpn.helpers.NotificationWrapper;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,11 +33,8 @@ public class MpnClientImpl implements MpnClient {
 		publishNotification(notification, topicArn);
 	}
 
-	public boolean pushNotifications(NotificationWrapper notificationWrapper) {
-		List<String> targetArns = notificationWrapper.getTargetArns();
-		GenericNotification notification = notificationWrapper.getNotification();
+	public boolean pushNotifications(GenericNotification notification, List<String> targetArns) {
 		boolean result = true;
-
 		for (String targetArn : targetArns) {
 			if (isEndpointEnabled(targetArn)) {
 //				This function throws an exception if the endpoint is disabled, so we added the if instead of doing a try/catch
