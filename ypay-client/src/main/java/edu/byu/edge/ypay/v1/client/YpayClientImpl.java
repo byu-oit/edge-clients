@@ -1,19 +1,20 @@
 package edu.byu.edge.ypay.v1.client;
 
+import com.google.common.base.Charsets;
+import com.google.common.io.CharStreams;
 import edu.byu.auth.client.CredentialClient;
 import edu.byu.edge.ypay.v1.domain.invoice.*;
 import org.apache.log4j.Logger;
 
 import javax.xml.bind.*;
 import java.io.*;
-import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
-import java.net.URL;
-import java.net.URLConnection;
+import java.net.*;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * Created by wct5 on 2/18/15.
@@ -22,6 +23,9 @@ public class YpayClientImpl implements YpayClient {
 	private static final Logger LOG = Logger.getLogger(YpayClientImpl.class);
 
 	private static final String SEARCH_STRING = "%sinvoices/search?clientSystemId=%s&paidByIds=%s&start=0&results=64&paymentStartDate=%s&paymentEndDate=%s";
+	private static final String FIND_ON_DAY_URL_MASK = "%sinvoices/search?clientSystemId=%s&paidByIds=%s&start=0&results=64&paymentStartDate=%s&paymentEndDate=%s";
+	private static final String FIND_BY_CLIENT_TX_ID_URL_MASK = "%sinvoices/search?clientSystemId=%s&start=0&results=64&clientSystemTransactionId=%s";
+	private static final String FIND_BY_CLIENT_SYSTEM_AND_OWNER_ID_URL_MASK = "%sinvoices/search?clientSystemId=%s&ownerIds=%s";
 	private static final String CREATE_INVOICE_STRING = "%s%s/invoices";
 	private static final String FIND_INVOICE_STRING = CREATE_INVOICE_STRING + "/%s";
 	private static final String YPAY_PROD_URL = "https://ypay.byu.edu/payments/service/rest/v1/";
@@ -199,6 +203,40 @@ public class YpayClientImpl implements YpayClient {
 		return false;
 	}
 
+	@Override
+	public int getTotalInvoicesForClientTransactionIdAndPersonId(String clientSystemId, String personId) {
+		try {
+			final URL url = new URL(String.format(FIND_BY_CLIENT_SYSTEM_AND_OWNER_ID_URL_MASK, baseUrl, clientSystemId, personId));
+			final HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+			connection.setRequestMethod("GET");
+			connection.setRequestProperty("Accept", "application/xml,text/xml");
+			connection.setRequestProperty("Authorization", credentialClient.obtainAuthorizationHeaderString());
+
+			String result = CharStreams.toString(new InputStreamReader(connection.getInputStream(), Charsets.UTF_8));
+			return extractCountFromResponse(result);
+		} catch (MalformedURLException e) {
+			e.printStackTrace();
+		} catch (ProtocolException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		return 0;
+	}
+
+	private int extractCountFromResponse(String response) {
+		String regex = "total=\"(\\d+)\"";
+		Pattern pattern = Pattern.compile(regex);
+
+		Matcher matcher = pattern.matcher(response);
+
+		if (matcher.find()) {
+			return Integer.parseInt(matcher.group(1));
+		} else {
+			throw new RuntimeException("No match found in response: " + response);
+		}
+	}
+
 	protected long getInvoiceId(String response) {
 		final String URL = String.format(CREATE_INVOICE_STRING, baseUrl, clientSystemId);
 		final int urlStartIndex = response.indexOf(URL) + URL.length() + 1;
@@ -265,4 +303,5 @@ public class YpayClientImpl implements YpayClient {
 			}
 		}
 	}
+
 }

@@ -43,4 +43,13 @@ public interface YpayClient {
 	 * @return Whether or not the cancellation happened properly
 	 */
 	boolean deleteInvoice(long invoiceId);
+
+	/**
+	 * Find the total number of invoices that a person has for a specified clientTxId
+	 *
+	 * @param clientSystemId Id for the source of the transaction (e.g. parking-citations)
+	 * @param personId Id of the person in question
+	 * @return Count of total invoices
+	 */
+	int getTotalInvoicesForClientTransactionIdAndPersonId(String clientSystemId, String personId);
 }
