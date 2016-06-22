@@ -20,5 +20,8 @@
 		<module>credential-client</module>
 		<module>filters</module>
 		<module>ypay-client</module>
+		<module>core-identity-client</module>
+		<module>academic-client</module>
+		<module>mpn-client</module>
 	</modules>
 </project>

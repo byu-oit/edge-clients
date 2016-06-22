@@ -19,7 +19,7 @@
 		<dependency>
 			<groupId>edu.byu.edge.wsClient</groupId>
 			<artifactId>credential-client</artifactId>
-			<version>1.0.0</version>
+			<version>1.2.0</version>
 			<scope>compile</scope>
 		</dependency>
 		<dependency>

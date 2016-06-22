@@ -1,7 +1,6 @@
 package edu.byu.edge.ypay.v1.client;
 
 import edu.byu.edge.ypay.v1.domain.invoice.InvoiceListType;
-import edu.byu.edge.ypay.v1.domain.invoice.InvoiceStatusType;
 import edu.byu.edge.ypay.v1.domain.invoice.InvoiceType;
 import edu.byu.edge.ypay.v1.domain.invoice.LineItemType;
 
@@ -36,6 +35,13 @@ public interface YpayClient {
 	 * @return Status of the transaction
 	 */
 	public InvoiceType findInvoice(long invoiceId);
+
+	/**
+	 *
+	 * @param clientTxId
+	 * @return
+	 */
+	public InvoiceType findInvoiceByClientTransactionId(String clientTxId);
 
 	/**
 	 * Marks an invoice as cancelled
