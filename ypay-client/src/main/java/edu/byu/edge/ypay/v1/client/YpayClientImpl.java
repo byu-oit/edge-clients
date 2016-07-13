@@ -26,7 +26,7 @@ public class YpayClientImpl implements YpayClient {
 	private static final Logger LOG = Logger.getLogger(YpayClientImpl.class);
 
 	private static final String SEARCH_STRING = "%sinvoices/search?clientSystemId=%s&paidByIds=%s&start=0&results=64&paymentStartDate=%s&paymentEndDate=%s";
-	private static final String FIND_BY_CLIENT_SYSTEM_AND_OWNER_ID_URL_MASK = "%sinvoices/search?clientSystemId=%s&ownerIds=%s";
+	private static final String FIND_BY_CLIENT_SYSTEM_AND_OWNER_ID_URL_MASK = "%sinvoices/search?clientSystemId=%s&ownerIds=%s%results=10000";
 	private static final String FIND_ON_DAY_URL_MASK = "%sinvoices/search?clientSystemId=%s&paidByIds=%s&start=0&results=64&paymentStartDate=%s&paymentEndDate=%s";
 	private static final String FIND_BY_CLIENT_TX_ID_URL_MASK = "%sinvoices/search?clientSystemId=%s&start=0&results=64&clientSystemTransactionId=%s";
 	private static final String CREATE_INVOICE_STRING = "%s%s/invoices";
@@ -246,7 +246,7 @@ public class YpayClientImpl implements YpayClient {
 	}
 
 	@Override
-	public int getTotalInvoicesForClientTransactionIdAndPersonId(String clientSystemId, String personId) {
+	public int[] getTotalInvoicesAndMaxInvoiceIdForClientSystemIdAndPersonId(String clientSystemId, String personId) {
 		try {
 			final URL url = new URL(String.format(FIND_BY_CLIENT_SYSTEM_AND_OWNER_ID_URL_MASK, baseUrl, clientSystemId, personId));
 			final HttpURLConnection connection = (HttpURLConnection) url.openConnection();
@@ -255,7 +255,7 @@ public class YpayClientImpl implements YpayClient {
 			connection.setRequestProperty("Authorization", credentialClient.obtainAuthorizationHeaderString());
 
 			String result = CharStreams.toString(new InputStreamReader(connection.getInputStream(), Charsets.UTF_8));
-			return extractCountFromResponse(result);
+			return extractCountAndLastInvoiceIdFromResponse(result);
 		} catch (MalformedURLException e) {
 			e.printStackTrace();
 		} catch (ProtocolException e) {
@@ -263,20 +263,24 @@ public class YpayClientImpl implements YpayClient {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		return 0;
+		return new int[2];
 	}
 
-	private int extractCountFromResponse(String response) {
-		String regex = "total=\"(\\d+)\"";
+	private int[] extractCountAndLastInvoiceIdFromResponse(String response) {
+		String regex = "<invoiceId>(\\d+)</invoiceId>";
 		Pattern pattern = Pattern.compile(regex);
 
 		Matcher matcher = pattern.matcher(response);
 
-		if (matcher.find()) {
-			return Integer.parseInt(matcher.group(1));
-		} else {
-			throw new RuntimeException("No match found in response: " + response);
+		int count = 0;
+		int maxInvoiceId = -1;
+
+		while (matcher.find()) {
+			count++;
+			maxInvoiceId = Math.max(maxInvoiceId, Integer.parseInt(matcher.group(1)));
 		}
+
+		return new int[] {count, maxInvoiceId};
 	}
 
 	protected long getInvoiceId(String response) {
