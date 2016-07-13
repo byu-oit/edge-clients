@@ -26,7 +26,7 @@ public class YpayClientImpl implements YpayClient {
 	private static final Logger LOG = Logger.getLogger(YpayClientImpl.class);
 
 	private static final String SEARCH_STRING = "%sinvoices/search?clientSystemId=%s&paidByIds=%s&start=0&results=64&paymentStartDate=%s&paymentEndDate=%s";
-	private static final String FIND_BY_CLIENT_SYSTEM_AND_OWNER_ID_URL_MASK = "%sinvoices/search?clientSystemId=%s&ownerIds=%s%results=10000";
+	private static final String FIND_BY_CLIENT_SYSTEM_AND_OWNER_ID_URL_MASK = "%sinvoices/search?clientSystemId=%s&ownerIds=%s&results=10000";
 	private static final String FIND_ON_DAY_URL_MASK = "%sinvoices/search?clientSystemId=%s&paidByIds=%s&start=0&results=64&paymentStartDate=%s&paymentEndDate=%s";
 	private static final String FIND_BY_CLIENT_TX_ID_URL_MASK = "%sinvoices/search?clientSystemId=%s&start=0&results=64&clientSystemTransactionId=%s";
 	private static final String CREATE_INVOICE_STRING = "%s%s/invoices";
