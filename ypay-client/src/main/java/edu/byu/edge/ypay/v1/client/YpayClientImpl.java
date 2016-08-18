@@ -151,11 +151,11 @@ public class YpayClientImpl implements YpayClient {
 
 			final Map<String, List<String>> headerFields = connection.getHeaderFields();
 			if(!headerFields.containsKey("Location")) {
-				throw new IOException("Response missing 'Location' header. Code: " + connection.getResponseCode());
+				throw new YPayException("Response missing 'Location' header. Code: " + connection.getResponseCode());
 			}
 			List<String> locations = headerFields.get("Location");
 			if(locations.size() != 1) {
-				throw new IOException("Response contains multiple 'Location' headers");
+				throw new YPayException("Response contains multiple 'Location' headers");
 			}
 
 			return getInvoiceId(locations.get(0));
