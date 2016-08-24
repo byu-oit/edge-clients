@@ -90,4 +90,32 @@ public class AccountCodeValidationImpl extends BaseClient implements AccountCode
 		vcbr.setFields(map);
 		return vcbr;
 	}
+	/*
+	 final String[] parts = detail.split("\\/");
+	 final ValidateChartBlockResult vcbr = new ValidateChartBlockResult();
+	 final Map<String, String> map = new HashMap<String, String>();
+	 int count = 0;
+	 vcbr.setSuccessful(true);
+	 for (String p : parts) {
+	 count++;
+	 final int c = p.indexOf("<");
+	 if (c < 0) continue;
+	 p = p.replaceFirst("<", "");
+	 String name = p.substring(0, p.indexOf(">"));
+	 if (count > 1) {
+	 name = p.substring(p.indexOf(">") + 1, p.indexOf("<"));
+	 name = name.substring(0, name.indexOf(">"));
+	 }
+	 String value = p.substring(p.indexOf(">") + 1, p.indexOf("<"));
+	 if (value.contains(">")) {
+	 value = value.substring(value.indexOf(">") + 1);
+	 }
+	 map.put(name, value);
+	 }
+	 vcbr.setFields(map);
+	 return vcbr;
+	 }
+	 }
+
+	 */
 }

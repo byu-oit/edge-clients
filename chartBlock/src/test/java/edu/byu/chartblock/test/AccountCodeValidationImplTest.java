@@ -47,4 +47,11 @@ public class AccountCodeValidationImplTest extends BaseTest {
 		}
 		LOG.debug("Done.");
 	}
+
+	@Test
+	public void testAccountCodeValidation() throws Exception {
+		assertNotNull("need client", accountCodeValidation);
+		accountCodeValidation.getAccount("11360000-6010-00000");
+		LOG.debug("Done.");
+	}
 }

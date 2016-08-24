@@ -82,3 +82,88 @@
 	</root>
 
 </log4j:configuration>
+=======
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE log4j:configuration SYSTEM "http://home.byu.edu/jnlpapp/schemas/log4j.dtd">
+<!--
+  | For more configuration infromation and examples see the Jakarta Log4j
+  | owebsite: http://jakarta.apache.org/log4j
+-->
+
+<log4j:configuration xmlns:log4j="http://jakarta.apache.org/log4j/"
+					 debug="false">
+
+	<!-- ============================== -->
+	<!-- Append messages to the console -->
+	<!-- ============================== -->
+
+	<appender name="CONSOLE" class="org.apache.log4j.ConsoleAppender">
+		<param name="Target" value="System.out"/>
+		<param name="Threshold" value="ALL"/>
+
+		<layout class="org.apache.log4j.PatternLayout">
+			<!-- The default pattern: Date Priority [Category] Message\n -->
+			<param name="ConversionPattern"
+				   value="%d{ISO8601} %-5p %-20t [%c{1}] %m%n"/>
+		</layout>
+	</appender>
+
+	<!-- ======================================================== -->
+	<!-- Limit categories: The possible values for                -->
+	<!-- priority are OFF, INFO, WARN, ERROR, FATAL, DEBUG, ALL   -->
+	<!-- ======================================================== -->
+
+	<category name="com">
+		<priority value="WARN"/>
+	</category>
+
+	<category name="httpclient">
+		<priority value="WARN"/>
+	</category>
+
+	<category name="net">
+		<priority value="WARN"/>
+	</category>
+
+	<category name="org">
+		<priority value="WARN"/>
+	</category>
+
+	<category name="org.springframework">
+		<priority value="WARN"/>
+	</category>
+
+	<category name="org.springframework.security">
+		<priority value="WARN"/>
+	</category>
+
+	<category name="org.springframework.security.cas">
+		<priority value="DEBUG"/>
+	</category>
+
+	<category name="org.springframework.web">
+		<priority value="INFO"/>
+	</category>
+
+	<category name="org.hibernate">
+		<priority value="WARN"/>
+	</category>
+
+	<category name="edu.byu">
+		<priority value="DEBUG"/>
+	</category>
+
+	<category name="edu.byu.security">
+		<priority value="DEBUG"/>
+	</category>
+
+	<!-- ======================= -->
+	<!-- Setup the Root category -->
+	<!-- ======================= -->
+
+	<root>
+		<priority value="DEBUG"/>
+		<appender-ref ref="CONSOLE"/>
+	</root>
+
+</log4j:configuration>
