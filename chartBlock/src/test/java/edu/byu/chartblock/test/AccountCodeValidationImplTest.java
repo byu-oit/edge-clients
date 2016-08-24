@@ -35,7 +35,7 @@ public class AccountCodeValidationImplTest extends BaseTest {
 	private AccountCodeValidation accountCodeValidation;
 
 	@Test
-	public void testAccountCodeValidation() throws Exception {
+	public void testAccountCodeValidation1() throws Exception {
 		assertNotNull("need client", accountCodeValidation);
 		final ValidateChartBlockResult account = accountCodeValidation.getAccount("11405500-6000-40391");
 		assertTrue(account.isSuccessful());
@@ -49,7 +49,7 @@ public class AccountCodeValidationImplTest extends BaseTest {
 	}
 
 	@Test
-	public void testAccountCodeValidation() throws Exception {
+	public void testAccountCodeValidation2() throws Exception {
 		assertNotNull("need client", accountCodeValidation);
 		accountCodeValidation.getAccount("11360000-6010-00000");
 		LOG.debug("Done.");
