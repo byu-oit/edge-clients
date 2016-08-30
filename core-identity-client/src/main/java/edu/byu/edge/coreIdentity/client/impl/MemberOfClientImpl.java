@@ -17,19 +17,25 @@ import java.net.URLEncoder;
 public class MemberOfClientImpl implements MemberOfClient {
 	private static final Logger LOG = Logger.getLogger(MemberOfClientImpl.class);
 
-	private static final String BASE_URL = "https://api.byu.edu:443/domains/legacy/identity/access/ismember/v1/";
 	private static final ObjectMapper MAPPER = new ObjectMapper();
 
 	private AccessTokenClient accessTokenClient;
+	private final String baseUrl;
 
 	public MemberOfClientImpl(AccessTokenClient accessTokenClient) {
 		this.accessTokenClient = accessTokenClient;
+		this.baseUrl = "https://api.byu.edu:443/domains/legacy/identity/access/ismember/v1/";
+	}
+
+	public MemberOfClientImpl(AccessTokenClient accessTokenClient, String baseUrl) {
+		this.accessTokenClient = accessTokenClient;
+		this.baseUrl = baseUrl;
 	}
 
 	@Override
 	public boolean isPersonMemberOfGroup(String personId, String group) throws RestHttpException, IOException {
 		LOG.trace("isPersonMemberOfGroup " + personId + " " + group);
-		final String url = BASE_URL + URLEncoder.encode(group, "UTF-8") + "/" + personId;
+		final String url = baseUrl + URLEncoder.encode(group, "UTF-8") + "/" + personId;
 		final String result = new HttpRestBuilder(url)
 				.accept("application/json")
 				.contentType("application/json")

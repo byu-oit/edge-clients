@@ -21,27 +21,33 @@ import java.util.List;
 public class IdentityLookupClientImpl implements IdentityLookupClient {
 	private static final Logger LOG = Logger.getLogger(IdentityLookupClientImpl.class);
 
-	private static final String BASE_URL = "https://api.byu.edu:443/domains/legacy/identity/person/personLookup/v1/";
 	private static final ObjectMapper MAPPER = new ObjectMapper();
 	private static final ArrayList<IdentityLookupSummary> EMPTY_LIST = new ArrayList<IdentityLookupSummary>();
 
 	private AccessTokenClient accessTokenClient;
+	private final String baseUrl;
 
 	public IdentityLookupClientImpl(AccessTokenClient accessTokenClient) {
 		this.accessTokenClient = accessTokenClient;
+		this.baseUrl = "https://api.byu.edu:443/domains/legacy/identity/person/personLookup/v1/";
+	}
+
+	public IdentityLookupClientImpl(AccessTokenClient accessTokenClient, String baseUrl) {
+		this.accessTokenClient = accessTokenClient;
+		this.baseUrl = baseUrl;
 	}
 
 	@Override
 	public List<IdentityLookupSummary> searchBy(String searchParam) throws RestHttpException, IOException {
 		LOG.trace("searchBy " + searchParam);
-		final String url = BASE_URL + URLEncoder.encode(searchParam, "UTF-8");
+		final String url = baseUrl + URLEncoder.encode(searchParam, "UTF-8");
 		return _doGet(url);
 	}
 
 	@Override
 	public List<IdentityLookupSummary> searchByFirstAndLastName(String firstName, String lastName) throws RestHttpException, IOException {
 		LOG.trace("searchByFirstAndLastName " + firstName + " " + lastName);
-		final String url = BASE_URL + URLEncoder.encode(lastName, "UTF-8") + "/" + URLEncoder.encode(firstName, "UTF-8");
+		final String url = baseUrl + URLEncoder.encode(lastName, "UTF-8") + "/" + URLEncoder.encode(firstName, "UTF-8");
 		return _doGet(url);
 	}
 
@@ -59,7 +65,7 @@ public class IdentityLookupClientImpl implements IdentityLookupClient {
 	@Override
 	public List<IdentityLookupSummary> search(SearchFor searchFor, SearchBy searchBy, int pageNumber, String searchParam) throws RestHttpException, IOException {
 		LOG.trace("search for=" + searchFor + " by=" + searchBy + " page=" + pageNumber + " search=" + searchParam);
-		final String url = BASE_URL + searchFor + "/" + searchBy + "/" + pageNumber + "/" + URLEncoder.encode(searchParam, "UTF-8");
+		final String url = baseUrl + searchFor + "/" + searchBy + "/" + pageNumber + "/" + URLEncoder.encode(searchParam, "UTF-8");
 		return _doGet(url);
 	}
 

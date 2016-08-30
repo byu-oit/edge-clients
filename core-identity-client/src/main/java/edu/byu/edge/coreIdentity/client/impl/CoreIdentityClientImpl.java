@@ -17,19 +17,25 @@ import java.io.IOException;
 public class CoreIdentityClientImpl implements CoreIdentityClient {
 	private static final Logger LOG = Logger.getLogger(CoreIdentityClientImpl.class);
 
-	private static final String BASE_URL = "https://api.byu.edu:443/domains/legacy/identity/person/personsummary/v1/";
 	private static final ObjectMapper MAPPER = new ObjectMapper();
 
 	private AccessTokenClient accessTokenClient;
+	private final String baseUrl;
 
 	public CoreIdentityClientImpl(AccessTokenClient accessTokenClient) {
 		this.accessTokenClient = accessTokenClient;
+		this.baseUrl = "https://api.byu.edu:443/domains/legacy/identity/person/personsummary/v1/";
+	}
+
+	public CoreIdentityClientImpl(AccessTokenClient accessTokenClient, String baseUrl) {
+		this.accessTokenClient = accessTokenClient;
+		this.baseUrl = baseUrl;
 	}
 
 	@Override
 	public CoreIdentity getCoreIdentityByPersonId(String personId) throws RestHttpException, IOException {
 		LOG.trace("getCoreIdentityByPersonId " + personId);
-		final String url = BASE_URL + personId;
+		final String url = baseUrl + personId;
 		return _doGet(url);
 	}
 
@@ -41,7 +47,7 @@ public class CoreIdentityClientImpl implements CoreIdentityClient {
 	@Override
 	public CoreIdentity getCoreIdentityByNetId(String netId) throws IOException, RestHttpException {
 		LOG.trace("getCoreIdentityByNetId " + netId);
-		final String url = BASE_URL + netId;
+		final String url = baseUrl + netId;
 		return _doGet(url);
 	}
 
