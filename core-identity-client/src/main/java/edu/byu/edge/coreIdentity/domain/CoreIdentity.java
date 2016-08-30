@@ -18,7 +18,7 @@ public class CoreIdentity {
 	private String emailAddress;
 	private Boolean emailAddressUnlisted;
 	private String gender;
-	private String isRestricted;
+	private Boolean isRestricted;
 
 	public String getPersonId() {
 		return personId;
@@ -116,7 +116,7 @@ public class CoreIdentity {
 		this.emailAddress = emailAddress;
 	}
 
-	public Boolean getEmailAddressUnlisted() {
+	public Boolean isEmailAddressUnlisted() {
 		return emailAddressUnlisted;
 	}
 
@@ -132,11 +132,11 @@ public class CoreIdentity {
 		this.gender = gender;
 	}
 
-	public String getIsRestricted() {
+	public Boolean isRestricted() {
 		return isRestricted;
 	}
 
-	public void setIsRestricted(String isRestricted) {
+	public void setIsRestricted(Boolean isRestricted) {
 		this.isRestricted = isRestricted;
 	}
 
