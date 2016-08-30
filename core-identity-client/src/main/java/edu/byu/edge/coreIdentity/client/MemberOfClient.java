@@ -1,5 +1,7 @@
 package edu.byu.edge.coreIdentity.client;
 
+import edu.byu.edge.coreIdentity.client.exceptions.IdentityServiceException;
+
 /**
  * Created by eric on 2/3/16.
  */

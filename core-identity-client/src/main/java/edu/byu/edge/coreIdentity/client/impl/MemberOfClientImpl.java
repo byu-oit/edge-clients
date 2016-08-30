@@ -3,7 +3,7 @@ package edu.byu.edge.coreIdentity.client.impl;
 import com.google.common.base.Charsets;
 import com.google.common.io.CharStreams;
 import edu.byu.auth.client.ApiKeyClient;
-import edu.byu.edge.coreIdentity.client.IdentityServiceException;
+import edu.byu.edge.coreIdentity.client.exceptions.IdentityServiceException;
 import edu.byu.edge.coreIdentity.client.MemberOfClient;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.InitializingBean;

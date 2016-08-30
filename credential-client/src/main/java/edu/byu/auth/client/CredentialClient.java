@@ -9,7 +9,7 @@ import edu.byu.auth.domain.Nonce;
  * @author Wyatt Taylor (wyatt_taylor@byu.edu)
  * @since 08/29/2014
  */
-public interface CredentialClient {
+public interface CredentialClient extends WebAuthorizationClient {
 
 	public static final String ACTOR_NET_ID = "netId";
 	public static final String ACTOR_BYU_ID = "byuId";
@@ -40,13 +40,6 @@ public interface CredentialClient {
 	 * @return nonce
 	 */
 	public Nonce obtainNonce(String actorId, String idType);
-
-	/**
-	 * This returns the value to put in the authorization header in a request. Calls obtain nonce internally.
-	 *
-	 * @return authorization header value
-	 */
-	public String obtainAuthorizationHeaderString();
 
 	/**
 	 * This returns the value to put in the authorization header in a request. Calls obtain nonce internally.
