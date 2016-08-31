@@ -1,15 +1,17 @@
 package edu.byu.edge.coreIdentity.security;
 
 import edu.byu.edge.coreIdentity.client.CoreIdentityClient;
-import edu.byu.edge.coreIdentity.client.IdentityServiceException;
 import edu.byu.edge.coreIdentity.client.MemberOfClient;
+import edu.byu.edge.coreIdentity.client.exceptions.RestHttpException;
 import edu.byu.edge.coreIdentity.domain.CoreIdentity;
+import org.apache.log4j.Logger;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 
+import java.io.IOException;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -17,6 +19,7 @@ import java.util.List;
  * Created by Scott Hutchings on 7/7/2016.
  */
 public class DefaultCoreIdentityUserDetailsService implements UserDetailsService {
+	private static final Logger LOG = Logger.getLogger(DefaultCoreIdentityUserDetailsService.class);
 
 	private CoreIdentityClient coreIdentityClient;
 	private MemberOfClient memberOfClient;
@@ -35,21 +38,25 @@ public class DefaultCoreIdentityUserDetailsService implements UserDetailsService
 	}
 
 	@Override
-	public UserDetails loadUserByUsername(String s) throws UsernameNotFoundException {
-		final CoreIdentity identity = coreIdentityClient.getCoreIdentityByNetId(s);
-		List<GrantedAuthority> authorities = new LinkedList<GrantedAuthority>();
-		if (memberOfClient != null){
-			for (String group : groupsToCheck) {
-				try {
+	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+		final CoreIdentity identity;
+		try {
+			identity = coreIdentityClient.getCoreIdentityByNetId(username);
+			List<GrantedAuthority> authorities = new LinkedList<GrantedAuthority>();
+			if (memberOfClient != null){
+				for (String group : groupsToCheck) {
 					if (memberOfClient.isPersonMemberOfGroup(identity.getPersonId(), group)){
 						authorities.add(new SimpleGrantedAuthority(group));
 					}
-				} catch (IdentityServiceException e) {
-					e.printStackTrace();
-					throw new UsernameNotFoundException("Error trying to verify if is member of group", e);
 				}
 			}
+			return new CoreIdentityUserDetails(identity, authorities);
+		} catch (IOException e) {
+			LOG.error("!! IOException", e);
+			throw new UsernameNotFoundException("Error trying to load user by username: " + username, e);
+		} catch (RestHttpException e) {
+			LOG.error("!! RestHttpException", e);
+			throw new UsernameNotFoundException("Error trying to load user by username: " + username, e);
 		}
-		return new CoreIdentityUserDetails(identity, authorities);
 	}
 }

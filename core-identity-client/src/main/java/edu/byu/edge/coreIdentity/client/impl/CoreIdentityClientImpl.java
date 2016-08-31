@@ -10,6 +10,8 @@ import edu.byu.edge.coreIdentity.domain.CoreIdentity;
 import org.apache.log4j.Logger;
 
 import java.io.IOException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 
 /**
  * Created by Scott Hutchings on 2/3/2016.
@@ -24,7 +26,7 @@ public class CoreIdentityClientImpl implements CoreIdentityClient {
 
 	public CoreIdentityClientImpl(AccessTokenClient accessTokenClient) {
 		this.accessTokenClient = accessTokenClient;
-		this.baseUrl = "https://api.byu.edu:443/domains/legacy/identity/person/personsummary/v1/";
+		this.baseUrl = "https://api.byu.edu:443/domains/legacy/identity/person/PRO/personsummary/v1/";
 	}
 
 	public CoreIdentityClientImpl(AccessTokenClient accessTokenClient, String baseUrl) {
@@ -64,22 +66,24 @@ public class CoreIdentityClientImpl implements CoreIdentityClient {
 			final JsonNode summaryLine = response.path("summary_line");
 			final JsonNode identifiers = response.path("identifiers");
 			final JsonNode names = response.path("names");
+			final JsonNode personalInformation = response.path("personal_information");
 			coreIdentity.setPersonId(identifiers.path("person_id").asText());
 			coreIdentity.setNetId(identifiers.path("net_id").asText());
 			final String byuIdFormatted = identifiers.path("byu_id").asText();
 			coreIdentity.setByuId(byuIdFormatted.replaceAll("-",""));
 			coreIdentity.setByuIdFormatted(byuIdFormatted);
-			coreIdentity.setName(names.path("preferred_name").asText());
-//			coreIdentity.setFullName("");
-//			coreIdentity.setPreferredFirstName("");
-//			coreIdentity.setRestOfName("");
-//			coreIdentity.setSurname("");
-//			coreIdentity.setPreferredSurname("");
-			coreIdentity.setSortName(summaryLine.path("sort_name").asText());
-			coreIdentity.setEmailAddress(summaryLine.path("email").asText());
-//			coreIdentity.setEmailAddressUnlisted(false);
+			coreIdentity.setPreferredName(names.path("preferred_name").asText());
+			coreIdentity.setCompleteName(names.path("complete_name").asText());
+			final String dateOfBirthStr = personalInformation.path("date_of_birth").asText();
+			try {
+				coreIdentity.setDateOfBirth(new SimpleDateFormat("yyyy-MM-dd").parse(dateOfBirthStr));
+			} catch (ParseException e) {
+				e.printStackTrace();
+			}
 			coreIdentity.setGender(summaryLine.path("gender").asText());
-			coreIdentity.setIsRestricted(summaryLine.path("restricted").asBoolean());
+			coreIdentity.setReligion(personalInformation.path("resligion").asText());
+			coreIdentity.setRestricted(summaryLine.path("restricted").asBoolean());
+
 			return coreIdentity;
 		}
 		return null;
