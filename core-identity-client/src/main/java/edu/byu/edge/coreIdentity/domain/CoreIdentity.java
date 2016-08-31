@@ -160,4 +160,25 @@ public class CoreIdentity {
 				", isRestricted='" + isRestricted + '\'' +
 				'}';
 	}
+
+	@Override
+	public boolean equals(final Object o) {
+		if (this == o) return true;
+		if (!(o instanceof CoreIdentity)) return false;
+
+		CoreIdentity identity = (CoreIdentity) o;
+
+		if (personId != null ? !personId.equals(identity.personId) : identity.personId != null) return false;
+		if (netId != null ? !netId.equals(identity.netId) : identity.netId != null) return false;
+		return byuId != null ? byuId.equals(identity.byuId) : identity.byuId == null;
+
+	}
+
+	@Override
+	public int hashCode() {
+		int result = personId != null ? personId.hashCode() : 0;
+		result = 31 * result + (netId != null ? netId.hashCode() : 0);
+		result = 31 * result + (byuId != null ? byuId.hashCode() : 0);
+		return result;
+	}
 }

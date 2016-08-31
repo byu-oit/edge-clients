@@ -38,7 +38,7 @@ public class MemberOfClientImpl implements MemberOfClient, InitializingBean {
 	@Override
 	public boolean isPersonMemberOfGroup(String personId, String group) throws IdentityServiceException {
 		try {
-			final URL url = new URL("https://ws.byu.edu/rest/v1/identity/person/membersOf/" + group + "/" + personId);
+			final URL url = new URL("https://ws.byu.edu/rest/v1/identity/person/membersOf/" + safeSpaceGroupId(group) + "/" + personId);
 			final HttpURLConnection connection = (HttpURLConnection) url.openConnection();
 			connection.setRequestMethod("GET");
 			connection.setRequestProperty("Accept", "application/xml,text/xml");
@@ -55,6 +55,10 @@ public class MemberOfClientImpl implements MemberOfClient, InitializingBean {
 			LOG.error("Error in identity client", e);
 			throw new IdentityServiceException("Error determining user groups", e);
 		}
+	}
+
+	private static String safeSpaceGroupId(final String groupId) {
+		return groupId == null ? "" : groupId.replaceAll(" ", "%20");
 	}
 
 	private static String _cleanUrl(final String base) {
