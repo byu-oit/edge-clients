@@ -1,124 +1,91 @@
 package edu.byu.edge.coreIdentity.client.impl;
 
+import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import edu.byu.auth.client.ApiKeyClient;
+import edu.byu.auth.client.AccessTokenClient;
 import edu.byu.edge.coreIdentity.client.CoreIdentityClient;
+import edu.byu.edge.coreIdentity.client.exceptions.RestHttpException;
+import edu.byu.edge.coreIdentity.client.rest.HttpRestBuilder;
 import edu.byu.edge.coreIdentity.domain.CoreIdentity;
-import org.apache.http.HttpHost;
-import org.apache.http.client.ClientProtocolException;
-import org.apache.http.client.config.RequestConfig;
-import org.apache.http.client.methods.CloseableHttpResponse;
-import org.apache.http.client.methods.HttpGet;
-import org.apache.http.config.ConnectionConfig;
-import org.apache.http.config.SocketConfig;
-import org.apache.http.conn.routing.HttpRoute;
-import org.apache.http.impl.DefaultConnectionReuseStrategy;
-import org.apache.http.impl.client.CloseableHttpClient;
-import org.apache.http.impl.client.DefaultConnectionKeepAliveStrategy;
-import org.apache.http.impl.client.HttpClients;
-import org.apache.http.impl.conn.PoolingHttpClientConnectionManager;
-import org.apache.http.util.EntityUtils;
+import org.apache.log4j.Logger;
 
 import java.io.IOException;
-import java.util.concurrent.TimeUnit;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 
 /**
  * Created by Scott Hutchings on 2/3/2016.
  */
 public class CoreIdentityClientImpl implements CoreIdentityClient {
+	private static final Logger LOG = Logger.getLogger(CoreIdentityClientImpl.class);
 
-	private static final HttpHost apiHost = new HttpHost("api.byu.edu", 443, "https");
-	private static final HttpHost wsHost = new HttpHost("ws.byu.edu", 443, "https");
 	private static final ObjectMapper MAPPER = new ObjectMapper();
 
-	private String baseUrl;
-	private ApiKeyClient apiKeyClient;
+	private AccessTokenClient accessTokenClient;
+	private final String baseUrl;
 
-	public CoreIdentityClientImpl(String baseUrl, ApiKeyClient apiKeyClient){
+	public CoreIdentityClientImpl(AccessTokenClient accessTokenClient) {
+		this.accessTokenClient = accessTokenClient;
+		this.baseUrl = "https://api.byu.edu:443/domains/legacy/identity/person/PRO/personsummary/v1/";
+	}
+
+	public CoreIdentityClientImpl(AccessTokenClient accessTokenClient, String baseUrl) {
+		this.accessTokenClient = accessTokenClient;
 		this.baseUrl = baseUrl;
-		this.apiKeyClient = apiKeyClient;
 	}
 
 	@Override
-	public CoreIdentity getCoreIdentityByPersonId(String personId) {
-		final String jsonResult = _doHttpGet(baseUrl + "personId/" + personId);
-		try {
-			return MAPPER.readValue(jsonResult, CoreIdentity.class);
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		return null;
+	public CoreIdentity getCoreIdentityByPersonId(String personId) throws RestHttpException, IOException {
+		LOG.trace("getCoreIdentityByPersonId " + personId);
+		final String url = baseUrl + personId;
+		return _doGet(url);
 	}
 
 	@Override
 	public CoreIdentity getCoreIdentityByByuId(String byuId) {
-		final String jsonResult = _doHttpGet(baseUrl + "byuId/" + byuId);
-		try {
-			return MAPPER.readValue(jsonResult, CoreIdentity.class);
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
 		return null;
 	}
 
 	@Override
-	public CoreIdentity getCoreIdentityByNetId(String netId) {
-		final String jsonResult = _doHttpGet(baseUrl + "netId/" + netId);
-		try {
-			return MAPPER.readValue(jsonResult, CoreIdentity.class);
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		return null;
+	public CoreIdentity getCoreIdentityByNetId(String netId) throws IOException, RestHttpException {
+		LOG.trace("getCoreIdentityByNetId " + netId);
+		final String url = baseUrl + netId;
+		return _doGet(url);
 	}
 
-	private String _doHttpGet (String endpoint){
-		CloseableHttpResponse response = null;
-		final CloseableHttpClient client = _configureClient();
-		final HttpGet get = new HttpGet(endpoint);
-		String responseBody = null;
-		get.addHeader("Accept", "application/json");
-		get.addHeader("Authorization", apiKeyClient.obtainAuthorizationHeaderString());
-		try{
-			response = client.execute(wsHost, get);
-			responseBody = EntityUtils.toString(response.getEntity());
-		} catch (ClientProtocolException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
-		} finally {
+	private CoreIdentity _doGet(final String url) throws RestHttpException, IOException {
+		final String result = new HttpRestBuilder(url)
+				.accept("application/json")
+				.contentType("application/json")
+				.authorization(accessTokenClient.obtainAuthorizationHeaderString())
+				.get();
+		final JsonNode root = MAPPER.readTree(result);
+		final JsonNode response = root.findPath("response");
+		if (!response.isMissingNode()){
+			CoreIdentity coreIdentity = new CoreIdentity();
+			final JsonNode summaryLine = response.path("summary_line");
+			final JsonNode identifiers = response.path("identifiers");
+			final JsonNode names = response.path("names");
+			final JsonNode personalInformation = response.path("personal_information");
+			coreIdentity.setPersonId(identifiers.path("person_id").asText());
+			coreIdentity.setNetId(identifiers.path("net_id").asText());
+			final String byuIdFormatted = identifiers.path("byu_id").asText();
+			coreIdentity.setByuId(byuIdFormatted.replaceAll("-",""));
+			coreIdentity.setByuIdFormatted(byuIdFormatted);
+			coreIdentity.setPreferredName(names.path("preferred_name").asText());
+			coreIdentity.setCompleteName(names.path("complete_name").asText());
+			final String dateOfBirthStr = personalInformation.path("date_of_birth").asText();
 			try {
-				client.close();
-			} catch (IOException e) {
+				coreIdentity.setDateOfBirth(new SimpleDateFormat("yyyy-MM-dd").parse(dateOfBirthStr));
+			} catch (ParseException e) {
 				e.printStackTrace();
 			}
-		}
-		return responseBody;
-	}
+			coreIdentity.setGender(summaryLine.path("gender").asText());
+			coreIdentity.setReligion(personalInformation.path("resligion").asText());
+			coreIdentity.setRestricted(summaryLine.path("restricted").asBoolean());
 
-	private CloseableHttpClient _configureClient() {
-		final ConnectionConfig connectionConfig = ConnectionConfig.copy(ConnectionConfig.DEFAULT).setBufferSize(1024).build();
-		final SocketConfig socketConfig = SocketConfig.copy(SocketConfig.DEFAULT)
-				.setSoKeepAlive(true).setSoLinger(4)
-				.setSoReuseAddress(true).setSoTimeout(5000)
-				.setTcpNoDelay(true).build();
-		final PoolingHttpClientConnectionManager connectionManager = new PoolingHttpClientConnectionManager(16, TimeUnit.SECONDS);
-		connectionManager.setMaxTotal(32);
-		connectionManager.setMaxPerRoute(new HttpRoute(apiHost), 16);
-		connectionManager.setMaxPerRoute(new HttpRoute(wsHost), 16);
-		connectionManager.setDefaultSocketConfig(socketConfig);
-		final RequestConfig requestConfig = RequestConfig.copy(RequestConfig.DEFAULT)
-				.setConnectionRequestTimeout(5000)
-				.setConnectTimeout(5000)
-				.setSocketTimeout(5000)
-				.build();
-		return HttpClients.custom().useSystemProperties().disableAuthCaching().disableCookieManagement()
-				.setConnectionManager(connectionManager)
-				.setConnectionReuseStrategy(new DefaultConnectionReuseStrategy())
-				.setDefaultConnectionConfig(connectionConfig)
-				.setDefaultSocketConfig(socketConfig)
-				.setKeepAliveStrategy(new DefaultConnectionKeepAliveStrategy())
-				.setMaxConnTotal(8).setDefaultRequestConfig(requestConfig)
-				.build();
+			return coreIdentity;
+		}
+		return null;
 	}
 }
