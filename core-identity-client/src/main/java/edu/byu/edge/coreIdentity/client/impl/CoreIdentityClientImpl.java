@@ -80,8 +80,8 @@ public class CoreIdentityClientImpl implements CoreIdentityClient {
 			} catch (ParseException e) {
 				e.printStackTrace();
 			}
-			coreIdentity.setGender(summaryLine.path("gender").asText());
-			coreIdentity.setReligion(personalInformation.path("resligion").asText());
+			coreIdentity.setGender(personalInformation.path("gender").asText());
+			coreIdentity.setReligion(personalInformation.path("religion").asText());
 			coreIdentity.setRestricted(summaryLine.path("restricted").asBoolean());
 
 			return coreIdentity;
