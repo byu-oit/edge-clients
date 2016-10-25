@@ -34,8 +34,7 @@ public class MemberOfClientImpl implements MemberOfClient {
 
 	@Override
 	public boolean isPersonMemberOfGroup(String personId, String group) throws RestHttpException, IOException {
-		LOG.trace("isPersonMemberOfGroup " + personId + " " + group);
-		final String url = baseUrl + URLEncoder.encode(group, "UTF-8") + "/" + personId;
+		final String url = baseUrl + URLEncoder.encode(group, "UTF-8").replace("+", "%20") + "/" + personId;
 		final String result = new HttpRestBuilder(url)
 				.accept("application/json")
 				.contentType("application/json")
@@ -46,9 +45,12 @@ public class MemberOfClientImpl implements MemberOfClient {
 		if (!response.isMissingNode()){
 			final JsonNode isMemberNode = response.path("isMember");
 			if (isMemberNode.isBoolean()){
-				return isMemberNode.asBoolean();
+				final boolean isMember = isMemberNode.asBoolean();
+				LOG.trace("isPersonMemberOfGroup " + personId + " " + group + " = " + isMember);
+				return isMember;
 			}
 		}
+		LOG.trace("isPersonMemberOfGroup " + personId + " " + group + " = " + false);
 		return false;
 	}
 }
