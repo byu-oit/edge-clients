@@ -16,7 +16,9 @@
 
 package edu.byu.mpn.client.helpers;
 
+import com.google.gson.FieldNamingPolicy;
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.google.gson.annotations.SerializedName;
 import edu.byu.mpn.client.helpers.AndroidNotification;
 
@@ -38,7 +40,7 @@ public class GenericNotification {
 
 	public GenericNotification(String title, String message) {
 		this.message = message;
-		Gson gson = new Gson();
+		Gson gson = new GsonBuilder().setFieldNamingPolicy(FieldNamingPolicy.LOWER_CASE_WITH_UNDERSCORES).create();
 		this.androidNotificationAsJson = gson.toJson(new AndroidNotification(title, message));
 		this.appleNotificationAsJson = gson.toJson(new AppleNotification(title, message));
 	}
