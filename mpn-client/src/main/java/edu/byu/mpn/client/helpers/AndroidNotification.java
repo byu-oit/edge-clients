@@ -12,7 +12,7 @@ public class AndroidNotification {
 	}
 	
 	public AndroidNotification(String title, String message) {
-		this.notification = new Notification(title);
+		this.notification = new Notification(title, message);
 		this.data = new Data(title, message);
 	}
 	
@@ -42,14 +42,16 @@ public class AndroidNotification {
 	
 	private class Notification {
 		private String title;
+		private String body;
 		private final String sound = "default";
 		private final String clickAction = "edu.byu.suite.NOTIFICATION";
 		
 		public Notification() {
 		}
 		
-		public Notification(String title) {
+		public Notification(String title, String body) {
 			this.title = title;
+			this.body = body;
 		}
 		
 		public String getTitle() {
