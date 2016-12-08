@@ -4,6 +4,7 @@ import edu.byu.edge.coreIdentity.client.exceptions.RestHttpException;
 
 import java.io.*;
 import java.net.*;
+import java.util.HashMap;
 import java.util.Map;
 
 /**
@@ -18,6 +19,7 @@ public class HttpRestBuilder {
 	private String contentType;
 	private String body;
 	private Map<String, String> queryParams;
+	private Map<String, String> headers = new HashMap<String, String>();
 
 	public HttpRestBuilder(String url) {
 		this.url = url;
@@ -53,6 +55,11 @@ public class HttpRestBuilder {
 		return this;
 	}
 
+	public HttpRestBuilder header(String headerName, String headerValue){
+		this.headers.put(headerName, headerValue);
+		return this;
+	}
+
 	public String get() throws RestHttpException {
 		this.method = "GET";
 		return execute();
@@ -77,6 +84,9 @@ public class HttpRestBuilder {
 			}
 			if (contentType != null){
 				connection.setRequestProperty("Content-Type", contentType);
+			}
+			for (String headerName : headers.keySet()) {
+				connection.setRequestProperty(headerName, headers.get(headerName));
 			}
 			if (body != null || queryParams != null){
 				connection.setDoOutput(true);
