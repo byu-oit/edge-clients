@@ -1,4 +1,4 @@
-package edu.byu.edge.coreIdentity.client;
+package edu.byu.edge.coreIdentity.client.exceptions;
 
 /**
  * Created by wct5 on 2/10/16.

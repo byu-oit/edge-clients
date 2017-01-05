@@ -16,9 +16,10 @@
 
 package edu.byu.mpn.client.helpers;
 
+import com.google.gson.FieldNamingPolicy;
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.google.gson.annotations.SerializedName;
-import edu.byu.mpn.client.helpers.AndroidNotification;
 
 /**
  * Created by cwoodfie on 4/27/16.
@@ -29,13 +30,18 @@ public class GenericNotification {
 //	This is serialized by itself because amazon requires the GCM object to be in a string, and this gets gson to do that for us.
 	@SerializedName("GCM")
 	private String androidNotificationAsJson;
+//	Same deal as androidNotificationAsJson
+	@SerializedName("APNS")
+	private String appleNotificationAsJson;
 
 	public GenericNotification() {
 	}
 
 	public GenericNotification(String title, String message) {
 		this.message = message;
-		this.androidNotificationAsJson = new Gson().toJson(new AndroidNotification(title, message));
+		Gson gson = new GsonBuilder().setFieldNamingPolicy(FieldNamingPolicy.LOWER_CASE_WITH_UNDERSCORES).create();
+		this.androidNotificationAsJson = gson.toJson(new AndroidNotification(title, message));
+		this.appleNotificationAsJson = gson.toJson(new AppleNotification(title, message));
 	}
 
 	public String getMessage() {
@@ -54,11 +60,20 @@ public class GenericNotification {
 		this.androidNotificationAsJson = androidNotificationAsJson;
 	}
 
+	public String getAppleNotificationAsJson() {
+		return appleNotificationAsJson;
+	}
+
+	public void setAppleNotificationAsJson(String appleNotificationAsJson) {
+		this.appleNotificationAsJson = appleNotificationAsJson;
+	}
+
 	@Override
 	public String toString() {
 		return "GenericNotification{" +
 		       "message='" + message + '\'' +
 		       ", androidNotificationAsJson='" + androidNotificationAsJson + '\'' +
+		       ", appleNotificationAsJson='" + appleNotificationAsJson + '\'' +
 		       '}';
 	}
 }
