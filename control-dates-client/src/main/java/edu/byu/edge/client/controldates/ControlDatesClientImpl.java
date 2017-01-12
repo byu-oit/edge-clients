@@ -50,7 +50,7 @@ public class ControlDatesClientImpl extends BaseClient implements ControlDatesCl
 	public List<DateRowType> getAll(ControlDateType type) {
 		Preconditions.checkArgument(type != null, "Invalid (null) Control Date Type.");
 		String path = "all/" + type.toString();
-		ControlDatesWSServiceType cdws = executeCall(path);
+		ControlDatesWSServiceType cdws = executeCall(path, 1);
 		ResponseType response = cdws.getResponse();
 		if (response != null && response.getDateList() != null && response.getDateList().getDateRow() != null) {
 			return response.getDateList().getDateRow();
@@ -66,7 +66,7 @@ public class ControlDatesClientImpl extends BaseClient implements ControlDatesCl
 		Preconditions.checkArgument(controlDateType != null, "Invalid (null) Control Date Type.");
 
 		String path = "range/" + startYearTerm.getYearTerm() + "," + endYearTerm.getYearTerm() + "/" + controlDateType;
-		ControlDatesWSServiceType cdws = executeCall(path);
+		ControlDatesWSServiceType cdws = executeCall(path, 1);
 		ResponseType response = cdws.getResponse();
 		if (response != null && response.getDateList() != null && response.getDateList().getDateRow() != null) {
 			return response.getDateList().getDateRow();
@@ -88,7 +88,7 @@ public class ControlDatesClientImpl extends BaseClient implements ControlDatesCl
 			path += controlDateType.getControlDateType() + ",";
 		}
 		path = path.substring(0, path.lastIndexOf(","));
-		ControlDatesWSServiceType cdws = executeCall(path);
+		ControlDatesWSServiceType cdws = executeCall(path, 1);
 		ResponseType response = cdws.getResponse();
 		if (response != null && response.getDateList() != null && response.getDateList().getDateRow() != null) {
 			return response.getDateList().getDateRow();
@@ -136,7 +136,7 @@ public class ControlDatesClientImpl extends BaseClient implements ControlDatesCl
 				if (i < controlDateTypes.length - 1) path.append(",");
 			}
 		}
-		ControlDatesWSServiceType cdws = executeCall(path.toString());
+		ControlDatesWSServiceType cdws = executeCall(path.toString(), 1);
 		ResponseType response = cdws.getResponse();
 		if (response != null && response.getDateList() != null && response.getDateList().getDateRow() != null) {
 			return response.getDateList().getDateRow();
@@ -174,11 +174,16 @@ public class ControlDatesClientImpl extends BaseClient implements ControlDatesCl
 		return currentYearTerm;
 	}
 
-	private ControlDatesWSServiceType executeCall(String path) {
+	private ControlDatesWSServiceType executeCall(String path, int retryOnEmptyResult) {
 		try {
 			final WebResource webres = getResource().path(path);
 			LOG.debug("calling: " + webres.toString());
-			return webres.accept(MediaType.APPLICATION_XML_TYPE).get(ControlDatesWSServiceType.class);
+			final ControlDatesWSServiceType type = webres.accept(MediaType.APPLICATION_XML_TYPE).get(ControlDatesWSServiceType.class);
+			if (retryOnEmptyResult > 0 && (type == null || type.getResponse() == null || type.getResponse().getRequestCount() == null || type.getResponse().getRequestCount().intValue() == 0)) {
+				return executeCall(path, retryOnEmptyResult - 1);
+			} else {
+				return type;
+			}
 		} catch (final UniformInterfaceException e) {
 			if (super.processExceptionForRetry(e)) {
 				LOG.info("retrying GET due to '502 Bad Gateway'");
