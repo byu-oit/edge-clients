@@ -30,7 +30,21 @@ public class PersonSummaryClientImpl extends BaseClient implements PersonSummary
 			final SharedSecretNonceEncodingFilter sharedSecretNonceEncodingFilter,
 			final int readTimeout
 	) {
-		super(baseUrl + "/personSummary.cgi/", sharedSecretNonceEncodingFilter, readTimeout);
+		this(baseUrl, sharedSecretNonceEncodingFilter, readTimeout, 5000);
+	}
+
+	/**
+	 * @param baseUrl the base url of the service
+	 * @param sharedSecretNonceEncodingFilter the nonce encoding filter
+	 * @param readTimeout the default read timeout for the service
+	 * @param connectTimeout connect timeout
+	 */
+	public PersonSummaryClientImpl(
+			final String baseUrl,
+			final SharedSecretNonceEncodingFilter sharedSecretNonceEncodingFilter,
+			final int readTimeout, final int connectTimeout
+	) {
+		super(baseUrl + "/personSummary.cgi/", sharedSecretNonceEncodingFilter, readTimeout, connectTimeout);
 	}
 
 	@Cacheable(key = "#netId", value = "personSummaryClientCache")
