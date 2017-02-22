@@ -4,12 +4,15 @@ import com.sun.jersey.api.client.Client;
 import com.sun.jersey.api.client.UniformInterfaceException;
 import com.sun.jersey.api.client.WebResource;
 import com.sun.jersey.api.client.config.ClientConfig;
-import com.sun.jersey.api.client.config.DefaultClientConfig;
+import com.sun.jersey.client.apache4.config.ApacheHttpClient4Config;
+import com.sun.jersey.client.apache4.config.DefaultApacheHttpClient4Config;
 import edu.byu.commons.exception.NotAuthorizedException;
 import edu.byu.commons.exception.NotFoundException;
 import edu.byu.edge.client.pro.domain.personSummary.JaxbContextResolver;
 import edu.byu.security.hmac.jersey.SharedSecretNonceEncodingFilter;
 import org.apache.log4j.Logger;
+
+
 
 /**
  * Base class to handle client configuration.
@@ -34,14 +37,28 @@ public abstract class BaseClient {
 	 * @param readTimeout the default read timeout for the service
 	 */
 	protected BaseClient(final String baseUrl, final SharedSecretNonceEncodingFilter filter, final int readTimeout) {
+		this(baseUrl, filter, readTimeout, 5000);
+	}
+
+	/**
+	 *
+	 * @param baseUrl the base url of the service
+	 * @param filter the nonce encoding filter
+	 * @param readTimeout the default read timeout for the service
+	 * @param connectTimeout connect timeout
+	 */
+	protected BaseClient(final String baseUrl, final SharedSecretNonceEncodingFilter filter, final int readTimeout, final int connectTimeout) {
 		this.baseUrl = baseUrl;
 		this.filter = filter;
-		final ClientConfig config = new DefaultClientConfig();
-//		config.getFeatures().put(JSONConfiguration.FEATURE_POJO_MAPPING, Boolean.TRUE);
+//		final ClientConfig config = new DefaultClientConfig();
+		//		config.getFeatures().put(JSONConfiguration.FEATURE_POJO_MAPPING, Boolean.TRUE);
+		final DefaultApacheHttpClient4Config config = new DefaultApacheHttpClient4Config();
+		config.getProperties().put(ApacheHttpClient4Config.PROPERTY_PROXY_URI, "http://east.byu.edu:3128");
 		config.getClasses().add(JaxbContextResolver.class);
 		this.client = initClient(config);
 		this.client.addFilter(filter);
 		this.client.setReadTimeout(readTimeout);
+		this.client.setConnectTimeout(connectTimeout);
 		this.webResource = this.client.resource(baseUrl);
 	}
 
@@ -52,7 +69,7 @@ public abstract class BaseClient {
 	 */
 	protected Client initClient(ClientConfig config) {
 		try {
-		return Client.create(config);
+			return Client.create(config);
 		} catch (final Throwable t) {
 			LOG.error("error initializing client", t);
 			if (RuntimeException.class.isAssignableFrom(t.getClass())) throw (RuntimeException) t;
@@ -78,7 +95,7 @@ public abstract class BaseClient {
 	 * Processes an exception to either convert it to a BYU Exception, or do nothing.
 	 * Callers of this method should
 	 * @param t The exception to process.
-	 * @return
+	 * @return result
 	 */
 	protected Throwable processExceptionToCommon(final Throwable t) {
 		if (t == null) return null;
@@ -108,5 +125,20 @@ public abstract class BaseClient {
 		}
 		return false;
 	}
+
+	private static String nss(final String s) {
+		return s == null ? "" : s;
+	}
+
+	private static String getPropValue(final String envKey) {
+		if (System.getenv().containsKey(envKey)) {
+			return nss(System.getenv(envKey));
+		}
+		if (System.getProperties().containsKey(envKey)) {
+			return nss(System.getProperties().getProperty(envKey));
+		}
+		return "";
+	}
+
 }
 
