@@ -4,7 +4,7 @@ import com.google.common.base.Charsets;
 import com.google.common.base.Function;
 import com.google.common.collect.Lists;
 import com.google.common.io.CharStreams;
-import edu.byu.auth.client.ApiKeyClient;
+import edu.byu.auth.client.AccessTokenClient;
 import edu.byu.edge.academic.client.CreditHourClient;
 import edu.byu.edge.academic.client.ServiceException;
 import org.apache.log4j.Logger;
@@ -29,17 +29,17 @@ public class CreditHourClientImpl implements CreditHourClient, InitializingBean 
 	private static final Logger LOG = Logger.getLogger(CreditHourClientImpl.class);
 
 	private String baseUrl;
-	private ApiKeyClient apiKeyClient;
+	private AccessTokenClient accessTokenClient;
 
-	public CreditHourClientImpl(final String url, ApiKeyClient apiKeyClient) {
+	public CreditHourClientImpl(final String url, final AccessTokenClient accessTokenClient) {
 		this.baseUrl = _cleanUrl(url);
-		this.apiKeyClient = apiKeyClient;
+		this.accessTokenClient = accessTokenClient;
 	}
 
 	@Override
 	public void afterPropertiesSet() throws Exception {
 		Assert.hasText(baseUrl);
-		Assert.notNull(apiKeyClient);
+		Assert.notNull(accessTokenClient);
 	}
 
 	@Override
@@ -49,7 +49,7 @@ public class CreditHourClientImpl implements CreditHourClient, InitializingBean 
 			final HttpURLConnection connection = (HttpURLConnection) url.openConnection();
 			connection.setRequestMethod("GET");
 			connection.setRequestProperty("Accept", "application/json");
-			connection.setRequestProperty("Authorization", apiKeyClient.obtainAuthorizationHeaderString());
+			connection.setRequestProperty("Authorization", accessTokenClient.obtainAuthorizationHeaderString());
 //			connection.setRequestProperty("Content-Type", "application/xml");
 
 			final String result = CharStreams.toString(new InputStreamReader(connection.getInputStream(), Charsets.UTF_8));
