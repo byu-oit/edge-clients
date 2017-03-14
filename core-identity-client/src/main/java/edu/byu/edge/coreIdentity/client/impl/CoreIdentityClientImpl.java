@@ -75,15 +75,20 @@ public class CoreIdentityClientImpl implements CoreIdentityClient {
 			coreIdentity.setPreferredName(names.path("preferred_name").asText());
 			coreIdentity.setCompleteName(names.path("complete_name").asText());
 			final String dateOfBirthStr = personalInformation.path("date_of_birth").asText();
-			try {
-				coreIdentity.setDateOfBirth(new SimpleDateFormat("yyyy-MM-dd").parse(dateOfBirthStr));
-			} catch (ParseException e) {
-				e.printStackTrace();
+			if (dateOfBirthStr != null && !dateOfBirthStr.equalsIgnoreCase("null")){
+				try {
+					coreIdentity.setDateOfBirth(new SimpleDateFormat("yyyy-MM-dd").parse(dateOfBirthStr));
+				} catch (ParseException e) {
+					e.printStackTrace();
+				}
 			}
 			coreIdentity.setGender(personalInformation.path("gender").asText());
 			coreIdentity.setReligion(personalInformation.path("religion").asText());
 			coreIdentity.setRestricted(summaryLine.path("restricted").asBoolean());
 
+			if (coreIdentity.getPersonId() == null || coreIdentity.getPersonId().equalsIgnoreCase("null")){ // if empty personId, not a person
+				return null;
+			}
 			return coreIdentity;
 		}
 		return null;
