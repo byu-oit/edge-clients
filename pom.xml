@@ -23,5 +23,6 @@
 		<module>core-identity-client</module>
 		<module>academic-client</module>
 		<module>mpn-client</module>
+		<module>access-token-client</module>
 	</modules>
 </project>
