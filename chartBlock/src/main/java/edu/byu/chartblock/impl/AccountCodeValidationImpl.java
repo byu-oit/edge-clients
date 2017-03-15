@@ -27,27 +27,9 @@ import java.util.Map;
 public class AccountCodeValidationImpl implements AccountCodeValidation {
 
 	private static final Logger LOG = Logger.getLogger(AccountCodeValidationImpl.class);
-	public static final String URL_STRING = "%s/?operating_unit=%s&account_field=%s&class_field=%s&journal_source=%s&effective_date=%s";
-
+	private static final String URL_STRING = "%s/?operating_unit=%s&account_field=%s&class_field=%s&journal_source=%s&effective_date=%s";
 	private final String baseUrl;
 	private final AccessTokenClient accessTokenClient;
-
-	final private String BODY = "<soapenv:Envelope xmlns:soapenv='http://schemas.xmlsoap.org/soap/envelope/' xmlns:y='http://ws.byu.edu/namespaces/ps/Y_CF_VALIDATION_V1_Y2_RQ'>" +
-			"<soapenv:Header/>" +
-			"<soapenv:Body>" +
-			"<y:Y_CF_VALIDATION_V1_Y2>" +
-			"<y:MODE>D</y:MODE>" +
-			"<y:CHARTBLOCK>" +
-			"<y:SEQ_NBR>1</y:SEQ_NBR>" +
-			"<y:EFFDT></y:EFFDT>" +
-			"<y:OPERATING_UNIT>%s</y:OPERATING_UNIT>" +
-			"<y:ACCOUNT>%s</y:ACCOUNT>" +
-			"<y:CLASS_FIELD>%s</y:CLASS_FIELD>" +
-			"<y:SOURCE>PC</y:SOURCE>" +
-			"</y:CHARTBLOCK>" +
-			"</y:Y_CF_VALIDATION_V1_Y2>" +
-			"</soapenv:Body>" +
-			"</soapenv:Envelope>";
 
 	/**
 	 * @param baseUrl     the base url of the service
@@ -105,6 +87,7 @@ public class AccountCodeValidationImpl implements AccountCodeValidation {
 		}
 	}
 
+	// use only if we wanted everything that the endpoint returns in the map
 	private Map<String, String> iterateThroughNode(final JsonNode node, final String nodeName){
 		final Map<String, String> map = new HashMap<String, String>();
 		for (Iterator<Map.Entry<String, JsonNode>> it = node.fields(); it.hasNext(); ) {
