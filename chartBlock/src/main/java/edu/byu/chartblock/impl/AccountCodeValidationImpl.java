@@ -1,11 +1,21 @@
 package edu.byu.chartblock.impl;
 
-import com.sun.jersey.api.client.filter.ClientFilter;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.google.common.base.Charsets;
+import com.google.common.io.CharStreams;
+import edu.byu.auth.client.AccessTokenClient;
 import edu.byu.chartblock.AccountCodeValidation;
 import edu.byu.chartblock.ValidateChartBlockResult;
 import org.apache.log4j.Logger;
 
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.Map;
 
 /**
@@ -14,9 +24,13 @@ import java.util.Map;
  * Date: 7/2/2014
  * Time: 2:11 PM
  */
-public class AccountCodeValidationImpl extends BaseClient implements AccountCodeValidation {
+public class AccountCodeValidationImpl implements AccountCodeValidation {
 
 	private static final Logger LOG = Logger.getLogger(AccountCodeValidationImpl.class);
+	public static final String URL_STRING = "%s/?operating_unit=%s&account_field=%s&class_field=%s&journal_source=%s&effective_date=%s";
+
+	private final String baseUrl;
+	private final AccessTokenClient accessTokenClient;
 
 	final private String BODY = "<soapenv:Envelope xmlns:soapenv='http://schemas.xmlsoap.org/soap/envelope/' xmlns:y='http://ws.byu.edu/namespaces/ps/Y_CF_VALIDATION_V1_Y2_RQ'>" +
 			"<soapenv:Header/>" +
@@ -37,12 +51,11 @@ public class AccountCodeValidationImpl extends BaseClient implements AccountCode
 
 	/**
 	 * @param baseUrl     the base url of the service
-	 * @param filter      the nonce encoding filter
-	 * @param readTimeout the default read timeout for the service
+	 * @param accessTokenClient the access token client for wso 2
 	 */
-	protected AccountCodeValidationImpl(final String baseUrl, final ClientFilter filter, final int readTimeout) {
-		super(baseUrl, filter, readTimeout);
-		super.setSoapAction("ValidateChartblock.v1");
+	protected AccountCodeValidationImpl(final String baseUrl, final AccessTokenClient accessTokenClient) {
+		this.baseUrl = baseUrl;
+		this.accessTokenClient = accessTokenClient;
 	}
 
 	@Override
@@ -54,68 +67,56 @@ public class AccountCodeValidationImpl extends BaseClient implements AccountCode
 		if (account[0].length() != 8 && account[1].length() != 4 && account[2].length() != 5) {
 			throw new IllegalStateException("Invalid account code format");
 		}
-		final String formattedBody = String.format(BODY, account[0], account[1], account[2]);
+
 		try {
-			return callGetAccountCode(formattedBody);
-		} catch (final Exception e) {
-			if (super.processExceptionForRetry(e)) {
-				LOG.warn("Error...xss...retrying " + e.getMessage());
-				try {
-					return callGetAccountCode(formattedBody);
-				} catch (final Exception e2) {
-					LOG.error("Error on retry...", e2);
-					return new ValidateChartBlockResult(false, null);
-				}
+			final URL url = new URL(String.format(URL_STRING, baseUrl, account[0], account[1], account[2], "", ""));
+			final HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+			connection.setRequestMethod("GET");
+			connection.setRequestProperty("Accept", "application/json");
+			connection.setRequestProperty("Authorization", accessTokenClient.obtainAuthorizationHeaderString());
+
+			final String result = CharStreams.toString(new InputStreamReader(connection.getInputStream(), Charsets.UTF_8));
+			final ValidateChartBlockResult chartBlockResult = new ValidateChartBlockResult();
+			ObjectMapper mapper = new ObjectMapper();
+			final JsonNode rootNode = mapper.readTree(result).findPath("chartblock");
+			chartBlockResult.setSuccessful("Success".equals(rootNode.findPath("status").asText()));
+			final JsonNode operatingUnit = rootNode.findPath("operating_unit");
+//			Map<String, String> map = iterateThroughNode(operatingUnit, "operating_unit");
+			final Map<String, String> map = new HashMap<String, String>();
+			final JsonNode department = operatingUnit.findPath("department");
+			map.put("DEPARTMENT_ID", department.findPath("value").asText());
+			map.put("DEPARTMENT_NAME", department.findPath("description").asText());
+			final JsonNode contact = department.findPath("contact");
+			map.put("CONTACT_NAME", contact.findPath("name").asText());
+			map.put("CONTACT_NETID", contact.findPath("net_id").asText());
+			map.put("DEPARTMENT_CONTACT_EMAIL", contact.findPath("email_address").asText());
+			final JsonNode manager = department.findPath("manager");
+			map.put("MANAGER_NAME", manager.findPath("name").asText());
+			map.put("MANAGER_NETID", manager.findPath("net_id").asText());
+			map.put("MANAGER_EMAIL", manager.findPath("email_address").asText());
+			chartBlockResult.setFields(map);
+			return chartBlockResult;
+		} catch (MalformedURLException e) {
+			LOG.error("Error...", e);
+			return new ValidateChartBlockResult(false, null);
+		} catch (IOException e) {
+			LOG.error("Error...", e);
+			return new ValidateChartBlockResult(false, null);
+		}
+	}
+
+	private Map<String, String> iterateThroughNode(final JsonNode node, final String nodeName){
+		final Map<String, String> map = new HashMap<String, String>();
+		for (Iterator<Map.Entry<String, JsonNode>> it = node.fields(); it.hasNext(); ) {
+			Map.Entry<String, JsonNode> entry = it.next();
+			final JsonNode jsonNode = entry.getValue();
+			final String key = nodeName.toUpperCase() + "_" + entry.getKey().toUpperCase();
+			if (jsonNode.isTextual()){
+				map.put(key, jsonNode.asText());
 			} else {
-				LOG.error("Error...", e);
-				return new ValidateChartBlockResult(false, null);
+				map.putAll(iterateThroughNode(jsonNode, key));
 			}
 		}
+		return map;
 	}
-
-	private ValidateChartBlockResult callGetAccountCode(String formattedBody) {
-		final String post = getResource().path("").accept("application/xml").post(String.class, formattedBody);
-		final int a = post.indexOf("<DETAIL>") + 8;
-		final int b = post.indexOf("</DETAIL>");
-		final String detail = post.substring(a, b);
-		final String[] parts = detail.split("<\\/([a-zA-Z_]*)>");
-		final ValidateChartBlockResult vcbr = new ValidateChartBlockResult();
-		final Map<String, String> map = new HashMap<String, String>();
-		vcbr.setSuccessful(true);
-		for (String p : parts) {
-			final String value = p.substring(p.indexOf(">") + 1);
-			final String name = p.substring(1, p.indexOf(">"));
-			map.put(name, value);
-		}
-		vcbr.setFields(map);
-		return vcbr;
-	}
-	/*
-	 final String[] parts = detail.split("\\/");
-	 final ValidateChartBlockResult vcbr = new ValidateChartBlockResult();
-	 final Map<String, String> map = new HashMap<String, String>();
-	 int count = 0;
-	 vcbr.setSuccessful(true);
-	 for (String p : parts) {
-	 count++;
-	 final int c = p.indexOf("<");
-	 if (c < 0) continue;
-	 p = p.replaceFirst("<", "");
-	 String name = p.substring(0, p.indexOf(">"));
-	 if (count > 1) {
-	 name = p.substring(p.indexOf(">") + 1, p.indexOf("<"));
-	 name = name.substring(0, name.indexOf(">"));
-	 }
-	 String value = p.substring(p.indexOf(">") + 1, p.indexOf("<"));
-	 if (value.contains(">")) {
-	 value = value.substring(value.indexOf(">") + 1);
-	 }
-	 map.put(name, value);
-	 }
-	 vcbr.setFields(map);
-	 return vcbr;
-	 }
-	 }
-
-	 */
 }
