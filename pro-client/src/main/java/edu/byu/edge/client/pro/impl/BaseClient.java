@@ -4,15 +4,15 @@ import com.sun.jersey.api.client.Client;
 import com.sun.jersey.api.client.UniformInterfaceException;
 import com.sun.jersey.api.client.WebResource;
 import com.sun.jersey.api.client.config.ClientConfig;
+import com.sun.jersey.api.client.filter.ClientFilter;
 import com.sun.jersey.client.apache4.config.ApacheHttpClient4Config;
 import com.sun.jersey.client.apache4.config.DefaultApacheHttpClient4Config;
 import edu.byu.commons.exception.NotAuthorizedException;
 import edu.byu.commons.exception.NotFoundException;
 import edu.byu.edge.client.pro.domain.personSummary.JaxbContextResolver;
-import edu.byu.security.hmac.jersey.SharedSecretNonceEncodingFilter;
 import org.apache.log4j.Logger;
 
-
+import java.util.List;
 
 /**
  * Base class to handle client configuration.
@@ -26,37 +26,36 @@ public abstract class BaseClient {
 	private static final Logger LOG = Logger.getLogger(BaseClient.class);
 
 	protected final String baseUrl;
-	protected final SharedSecretNonceEncodingFilter filter;
 	protected final Client client;
 	protected final WebResource webResource;
 
 	/**
-	 *
-	 * @param baseUrl the base url of the service
-	 * @param filter the nonce encoding filter
+	 *  @param baseUrl the base url of the service
 	 * @param readTimeout the default read timeout for the service
+	 * @param filters the nonce encoding filter
 	 */
-	protected BaseClient(final String baseUrl, final SharedSecretNonceEncodingFilter filter, final int readTimeout) {
-		this(baseUrl, filter, readTimeout, 5000);
+	protected BaseClient(final String baseUrl, final int readTimeout, final List<ClientFilter> filters) {
+		this(baseUrl, filters, readTimeout, 5000);
 	}
 
 	/**
 	 *
 	 * @param baseUrl the base url of the service
-	 * @param filter the nonce encoding filter
+	 * @param filters the nonce encoding filter
 	 * @param readTimeout the default read timeout for the service
 	 * @param connectTimeout connect timeout
 	 */
-	protected BaseClient(final String baseUrl, final SharedSecretNonceEncodingFilter filter, final int readTimeout, final int connectTimeout) {
+	protected BaseClient(final String baseUrl, final List<ClientFilter> filters, final int readTimeout, final int connectTimeout) {
 		this.baseUrl = baseUrl;
-		this.filter = filter;
 //		final ClientConfig config = new DefaultClientConfig();
 		//		config.getFeatures().put(JSONConfiguration.FEATURE_POJO_MAPPING, Boolean.TRUE);
 		final DefaultApacheHttpClient4Config config = new DefaultApacheHttpClient4Config();
 		config.getProperties().put(ApacheHttpClient4Config.PROPERTY_PROXY_URI, "http://east.byu.edu:3128");
 		config.getClasses().add(JaxbContextResolver.class);
 		this.client = initClient(config);
-		this.client.addFilter(filter);
+		for (ClientFilter filter : filters) {
+			this.client.addFilter(filter);
+		}
 		this.client.setReadTimeout(readTimeout);
 		this.client.setConnectTimeout(connectTimeout);
 		this.webResource = this.client.resource(baseUrl);

@@ -3,10 +3,20 @@ package edu.byu.edge.client.controldates;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.text.ParseException;
 import java.util.Date;
 import java.util.List;
+import java.util.Properties;
 
+import edu.byu.wso2.core.Wso2Credentials;
+import edu.byu.wso2.core.provider.ClientCredentialOauthTokenProvider;
+import edu.byu.wso2.core.provider.ClientCredentialsTokenHeaderProvider;
+import edu.byu.wso2.filter.jersey.JerseyOutboundOauthTokenFilter;
+import org.junit.BeforeClass;
 import org.junit.Test;
 
 import com.google.common.base.Strings;
@@ -18,7 +28,25 @@ import edu.byu.edge.client.controldates.domain.DateRowType;
 
 public class ControlDatesClientImplTestCase {
 
-	private static ControlDatesClient controlDatesClient = new ControlDatesClientImpl();
+	private static ControlDatesClient controlDatesClient;
+
+	@BeforeClass
+	public static void setup() throws IOException {
+		Properties properties = new Properties();
+
+		final FileInputStream inputStream = new FileInputStream(
+				System.getProperty("user.home") + File.separator +
+						"basic-oauth-tester.properties");
+		properties.load(inputStream);
+		controlDatesClient = new ControlDatesClientImpl(
+				new JerseyOutboundOauthTokenFilter(
+						new ClientCredentialsTokenHeaderProvider(
+								new ClientCredentialOauthTokenProvider(
+										new Wso2Credentials(
+												properties.getProperty("client_id"),
+												properties.getProperty("client_secret"))))));
+
+	}
 
 	@Test
 	public void getAllTestgetAllInvalidInput() {

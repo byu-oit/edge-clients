@@ -13,7 +13,7 @@
 
 	<groupId>edu.byu.edge.client.controldates</groupId>
 	<artifactId>control-dates-client</artifactId>
-	<version>1.2.0-SNAPSHOT</version>
+	<version>2.0.0-SNAPSHOT</version>
 	<name>control-dates-client</name>
 
 	<url>http://soaregistry.byu.edu/rest/services/uddi:ac92e918-25db-11e1-8974-dfb5fae145a3/wsdl</url>
@@ -33,6 +33,16 @@
 			<groupId>edu.byu.util</groupId>
 			<artifactId>hashUtil</artifactId>
 			<scope>runtime</scope>
+		</dependency>
+		<dependency>
+			<groupId>edu.byu.wso2</groupId>
+			<artifactId>core</artifactId>
+			<version>1.0-SNAPSHOT</version>
+		</dependency>
+		<dependency>
+			<groupId>edu.byu.wso2</groupId>
+			<artifactId>filter-jersey</artifactId>
+			<version>1.0-SNAPSHOT</version>
 		</dependency>
 		<dependency>
 			<groupId>com.google.guava</groupId>
