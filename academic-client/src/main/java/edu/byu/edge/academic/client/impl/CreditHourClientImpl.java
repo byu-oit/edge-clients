@@ -4,9 +4,9 @@ import com.google.common.base.Charsets;
 import com.google.common.base.Function;
 import com.google.common.collect.Lists;
 import com.google.common.io.CharStreams;
-import edu.byu.auth.client.AccessTokenClient;
 import edu.byu.edge.academic.client.CreditHourClient;
 import edu.byu.edge.academic.client.ServiceException;
+import edu.byu.wso2.core.provider.TokenHeaderProvider;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.util.Assert;
@@ -29,17 +29,17 @@ public class CreditHourClientImpl implements CreditHourClient, InitializingBean 
 	private static final Logger LOG = Logger.getLogger(CreditHourClientImpl.class);
 
 	private String baseUrl;
-	private AccessTokenClient accessTokenClient;
+	private final TokenHeaderProvider tokenHeaderProvider;
 
-	public CreditHourClientImpl(final String url, final AccessTokenClient accessTokenClient) {
+	public CreditHourClientImpl(final String url, final TokenHeaderProvider tokenHeaderProvider) {
 		this.baseUrl = _cleanUrl(url);
-		this.accessTokenClient = accessTokenClient;
+		this.tokenHeaderProvider = tokenHeaderProvider;
 	}
 
 	@Override
 	public void afterPropertiesSet() throws Exception {
 		Assert.hasText(baseUrl);
-		Assert.notNull(accessTokenClient);
+		Assert.notNull(tokenHeaderProvider);
 	}
 
 	@Override
@@ -49,7 +49,7 @@ public class CreditHourClientImpl implements CreditHourClient, InitializingBean 
 			final HttpURLConnection connection = (HttpURLConnection) url.openConnection();
 			connection.setRequestMethod("GET");
 			connection.setRequestProperty("Accept", "application/json");
-			connection.setRequestProperty("Authorization", accessTokenClient.obtainAuthorizationHeaderString());
+			connection.setRequestProperty("Authorization", tokenHeaderProvider.getTokenHeaderValue());
 //			connection.setRequestProperty("Content-Type", "application/xml");
 
 			final String result = CharStreams.toString(new InputStreamReader(connection.getInputStream(), Charsets.UTF_8));
