@@ -2,11 +2,11 @@ package edu.byu.edge.coreIdentity.client.impl;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import edu.byu.auth.client.AccessTokenClient;
 import edu.byu.edge.coreIdentity.client.IdentityLookupClient;
 import edu.byu.edge.coreIdentity.client.exceptions.RestHttpException;
 import edu.byu.edge.coreIdentity.client.rest.HttpRestBuilder;
 import edu.byu.edge.coreIdentity.domain.IdentityLookupSummary;
+import edu.byu.wso2.core.provider.TokenHeaderProvider;
 import org.apache.log4j.Logger;
 
 import java.io.IOException;
@@ -24,16 +24,16 @@ public class IdentityLookupClientImpl implements IdentityLookupClient {
 	private static final ObjectMapper MAPPER = new ObjectMapper();
 	private static final ArrayList<IdentityLookupSummary> EMPTY_LIST = new ArrayList<IdentityLookupSummary>();
 
-	private AccessTokenClient accessTokenClient;
+	private final TokenHeaderProvider tokenHeaderProvider;
 	private final String baseUrl;
 
-	public IdentityLookupClientImpl(AccessTokenClient accessTokenClient) {
-		this.accessTokenClient = accessTokenClient;
+	public IdentityLookupClientImpl(TokenHeaderProvider tokenHeaderProvider) {
+		this.tokenHeaderProvider = tokenHeaderProvider;
 		this.baseUrl = "https://api.byu.edu:443/domains/legacy/identity/person/personLookup/v1/";
 	}
 
-	public IdentityLookupClientImpl(AccessTokenClient accessTokenClient, String baseUrl) {
-		this.accessTokenClient = accessTokenClient;
+	public IdentityLookupClientImpl(TokenHeaderProvider tokenHeaderProvider, String baseUrl) {
+		this.tokenHeaderProvider = tokenHeaderProvider;
 		this.baseUrl = baseUrl;
 	}
 
@@ -73,7 +73,7 @@ public class IdentityLookupClientImpl implements IdentityLookupClient {
 		final String result = new HttpRestBuilder(url)
 				.accept("application/json")
 				.contentType("application/json")
-				.authorization(accessTokenClient.obtainAuthorizationHeaderString())
+				.authorization(tokenHeaderProvider.getTokenHeaderValue())
 				.get();
 
 		final JsonNode root = MAPPER.readTree(result);

@@ -2,11 +2,11 @@ package edu.byu.edge.coreIdentity.client.impl;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import edu.byu.auth.client.AccessTokenClient;
 import edu.byu.edge.coreIdentity.client.CoreIdentityClient;
 import edu.byu.edge.coreIdentity.client.exceptions.RestHttpException;
 import edu.byu.edge.coreIdentity.client.rest.HttpRestBuilder;
 import edu.byu.edge.coreIdentity.domain.CoreIdentity;
+import edu.byu.wso2.core.provider.TokenHeaderProvider;
 import org.apache.log4j.Logger;
 
 import java.io.IOException;
@@ -21,16 +21,16 @@ public class CoreIdentityClientImpl implements CoreIdentityClient {
 
 	private static final ObjectMapper MAPPER = new ObjectMapper();
 
-	private AccessTokenClient accessTokenClient;
+	private final TokenHeaderProvider tokenHeaderProvider;
 	private final String baseUrl;
 
-	public CoreIdentityClientImpl(AccessTokenClient accessTokenClient) {
-		this.accessTokenClient = accessTokenClient;
+	public CoreIdentityClientImpl(TokenHeaderProvider tokenHeaderProvider) {
+		this.tokenHeaderProvider = tokenHeaderProvider;
 		this.baseUrl = "https://api.byu.edu:443/domains/legacy/identity/person/PRO/personsummary/v1/";
 	}
 
-	public CoreIdentityClientImpl(AccessTokenClient accessTokenClient, String baseUrl) {
-		this.accessTokenClient = accessTokenClient;
+	public CoreIdentityClientImpl(TokenHeaderProvider tokenHeaderProvider, String baseUrl) {
+		this.tokenHeaderProvider = tokenHeaderProvider;
 		this.baseUrl = baseUrl;
 	}
 
@@ -57,7 +57,7 @@ public class CoreIdentityClientImpl implements CoreIdentityClient {
 		final String result = new HttpRestBuilder(url)
 				.accept("application/json")
 				.contentType("application/json")
-				.authorization(accessTokenClient.obtainAuthorizationHeaderString())
+				.authorization(tokenHeaderProvider.getTokenHeaderValue())
 				.get();
 		final JsonNode root = MAPPER.readTree(result);
 		final JsonNode response = root.findPath("response");
