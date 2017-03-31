@@ -2,12 +2,14 @@ package edu.byu.edge.coreIdentity.client.impl;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.PropertyNamingStrategy;
 import edu.byu.edge.coreIdentity.client.IdentityLookupClient;
 import edu.byu.edge.coreIdentity.client.exceptions.RestHttpException;
 import edu.byu.edge.coreIdentity.client.rest.HttpRestBuilder;
 import edu.byu.edge.coreIdentity.domain.IdentityLookupSummary;
 import edu.byu.wso2.core.provider.TokenHeaderProvider;
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.io.IOException;
 import java.net.URLEncoder;
@@ -19,9 +21,9 @@ import java.util.List;
  * Created by Scott Hutchings on 8/30/2016.
  */
 public class IdentityLookupClientImpl implements IdentityLookupClient {
-	private static final Logger LOG = Logger.getLogger(IdentityLookupClientImpl.class);
+	private static final Logger LOG = LogManager.getLogger(IdentityLookupClientImpl.class);
 
-	private static final ObjectMapper MAPPER = new ObjectMapper();
+	private static final ObjectMapper MAPPER = new ObjectMapper().setPropertyNamingStrategy(PropertyNamingStrategy.CAMEL_CASE_TO_LOWER_CASE_WITH_UNDERSCORES);
 	private static final ArrayList<IdentityLookupSummary> EMPTY_LIST = new ArrayList<IdentityLookupSummary>();
 
 	private final TokenHeaderProvider tokenHeaderProvider;

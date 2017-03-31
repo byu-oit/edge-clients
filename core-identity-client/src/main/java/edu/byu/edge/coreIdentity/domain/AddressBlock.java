@@ -1,13 +1,20 @@
 package edu.byu.edge.coreIdentity.domain;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 /**
  * Created by Scott Hutchings on 8/30/2016.
  */
 public class AddressBlock {
+	@JsonProperty("address_line_1")
 	private String addressLine1;
+	@JsonProperty("address_line_2")
 	private String addressLine2;
+	@JsonProperty("address_line_3")
 	private String addressLine3;
+	@JsonProperty("address_line_4")
 	private String addressLine4;
+	@JsonProperty("address_line_5")
 	private String addressLine5;
 
 	public String getAddressLine1() {

@@ -6,7 +6,8 @@ import edu.byu.edge.coreIdentity.client.MemberOfClient;
 import edu.byu.edge.coreIdentity.client.exceptions.RestHttpException;
 import edu.byu.edge.coreIdentity.client.rest.HttpRestBuilder;
 import edu.byu.wso2.core.provider.TokenHeaderProvider;
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.io.IOException;
 import java.net.URLEncoder;
@@ -15,7 +16,7 @@ import java.net.URLEncoder;
  * Created by eric on 2/3/16.
  */
 public class MemberOfClientImpl implements MemberOfClient {
-	private static final Logger LOG = Logger.getLogger(MemberOfClientImpl.class);
+	private static final Logger LOG = LogManager.getLogger(MemberOfClientImpl.class);
 
 	private static final ObjectMapper MAPPER = new ObjectMapper();
 

@@ -7,7 +7,8 @@ import edu.byu.edge.coreIdentity.client.exceptions.RestHttpException;
 import edu.byu.edge.coreIdentity.client.rest.HttpRestBuilder;
 import edu.byu.edge.coreIdentity.domain.CoreIdentity;
 import edu.byu.wso2.core.provider.TokenHeaderProvider;
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.io.IOException;
 import java.text.ParseException;
@@ -17,7 +18,7 @@ import java.text.SimpleDateFormat;
  * Created by Scott Hutchings on 2/3/2016.
  */
 public class CoreIdentityClientImpl implements CoreIdentityClient {
-	private static final Logger LOG = Logger.getLogger(CoreIdentityClientImpl.class);
+	private static final Logger LOG = LogManager.getLogger(CoreIdentityClientImpl.class);
 
 	private static final ObjectMapper MAPPER = new ObjectMapper();
 
