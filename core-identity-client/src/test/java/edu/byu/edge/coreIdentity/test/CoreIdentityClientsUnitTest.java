@@ -37,6 +37,8 @@ public class CoreIdentityClientsUnitTest {
 	private static CoreIdentityClient coreIdentityClient;
 	private static IdentityLookupClient identityLookupClient;
 	private static MemberOfClient memberOfClient;
+	private static String personId;
+	private static String netId;
 
 	@BeforeClass
 	public static void setup() throws IOException {
@@ -52,14 +54,17 @@ public class CoreIdentityClientsUnitTest {
 		coreIdentityClient = new CoreIdentityClientImpl(tokenHeaderProvider);
 		identityLookupClient = new IdentityLookupClientImpl(tokenHeaderProvider);
 		memberOfClient = new MemberOfClientImpl(tokenHeaderProvider);
+		personId = properties.getProperty("person_id");
+		netId = properties.getProperty("net_id");
 	}
 
 	@Test
 	public void testCoreIdentityClient() {
 		try {
-			final CoreIdentity testPerson = coreIdentityClient.getCoreIdentityByNetId("endor2");
+			final CoreIdentity testPerson = coreIdentityClient.getCoreIdentityByNetId(netId);
 			Assert.assertNotNull(testPerson);
 			Assert.assertNotNull(testPerson.getPersonId());
+			Assert.assertEquals(personId, testPerson.getPersonId());
 			LOG.debug(testPerson);
 		} catch (Exception e) {
 			LOG.error(e);
@@ -70,7 +75,7 @@ public class CoreIdentityClientsUnitTest {
 	@Test
 	public void testIdentityLookupClient() {
 		try {
-			final List<IdentityLookupSummary> lookupSummaries = identityLookupClient.searchBy("endor2");
+			final List<IdentityLookupSummary> lookupSummaries = identityLookupClient.searchBy(netId);
 			Assert.assertNotNull(lookupSummaries);
 			LOG.debug(lookupSummaries);
 		} catch (Exception e) {
@@ -83,7 +88,7 @@ public class CoreIdentityClientsUnitTest {
 	public void testMemberOfClient() {
 		final boolean isMember;
 		try {
-			isMember = memberOfClient.isPersonMemberOfGroup("039242872", "testGroup");
+			isMember = memberOfClient.isPersonMemberOfGroup(personId, "testGroup");
 			LOG.debug("isMember: " + isMember);
 		} catch (Exception e) {
 			LOG.error(e);

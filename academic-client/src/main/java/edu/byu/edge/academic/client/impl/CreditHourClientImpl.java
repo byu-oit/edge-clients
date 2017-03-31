@@ -7,10 +7,12 @@ import com.google.common.io.CharStreams;
 import edu.byu.edge.academic.client.CreditHourClient;
 import edu.byu.edge.academic.client.ServiceException;
 import edu.byu.wso2.core.provider.TokenHeaderProvider;
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.util.Assert;
 
+import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
@@ -26,10 +28,15 @@ import java.util.regex.Pattern;
  * Created by eric on 2/4/16.
  */
 public class CreditHourClientImpl implements CreditHourClient, InitializingBean {
-	private static final Logger LOG = Logger.getLogger(CreditHourClientImpl.class);
+	private static final Logger LOG = LogManager.getLogger(CreditHourClientImpl.class);
 
 	private String baseUrl;
 	private final TokenHeaderProvider tokenHeaderProvider;
+
+	public CreditHourClientImpl(final TokenHeaderProvider tokenHeaderProvider) {
+		this.baseUrl = "https://api.byu.edu:443/domains/legacy/academic/registration/studentschedule/v1/";
+		this.tokenHeaderProvider = tokenHeaderProvider;
+	}
 
 	public CreditHourClientImpl(final String url, final TokenHeaderProvider tokenHeaderProvider) {
 		this.baseUrl = _cleanUrl(url);
