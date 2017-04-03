@@ -8,7 +8,8 @@ import javax.ws.rs.Path;
 import javax.ws.rs.core.MediaType;
 
 import com.sun.jersey.api.client.filter.ClientFilter;
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.cache.annotation.Cacheable;
 
 import com.google.common.base.Preconditions;
@@ -32,7 +33,7 @@ import edu.byu.edge.client.controldates.domain.ResponseType;
  * 
  */
 public class ControlDatesClientImpl extends BaseClient implements ControlDatesClient {
-	private static final Logger LOG = Logger.getLogger(ControlDatesClientImpl.class);
+	private static final Logger LOG = LogManager.getLogger(ControlDatesClientImpl.class);
 
 	public static final String productionBaseUrl = "https://api.byu.edu:443/domains/legacy/academic/controls/controldatesws/v1";
 	private static final int timeoutMs = 30000;
@@ -66,7 +67,7 @@ public class ControlDatesClientImpl extends BaseClient implements ControlDatesCl
 		Preconditions.checkArgument(endYearTerm != null, "Invalid (null) End YearTerm.");
 		Preconditions.checkArgument(controlDateType != null, "Invalid (null) Control Date Type.");
 
-		String path = "range/" + startYearTerm.getYearTerm() + "," + endYearTerm.getYearTerm() + "/" + controlDateType;
+		String path = "range/" + startYearTerm.getYearTerm() + "_" + endYearTerm.getYearTerm() + "/" + controlDateType;
 		ControlDatesWSServiceType cdws = executeCall(path, 1);
 		ResponseType response = cdws.getResponse();
 		if (response != null && response.getDateList() != null && response.getDateList().getDateRow() != null) {

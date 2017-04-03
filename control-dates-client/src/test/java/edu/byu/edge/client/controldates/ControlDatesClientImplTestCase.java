@@ -5,7 +5,6 @@ import static org.junit.Assert.fail;
 
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.text.ParseException;
 import java.util.Date;
@@ -16,6 +15,8 @@ import edu.byu.wso2.core.Wso2Credentials;
 import edu.byu.wso2.core.provider.ClientCredentialOauthTokenProvider;
 import edu.byu.wso2.core.provider.ClientCredentialsTokenHeaderProvider;
 import edu.byu.wso2.filter.jersey.JerseyOutboundOauthTokenFilter;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
@@ -27,6 +28,7 @@ import edu.byu.edge.client.controldates.domain.ControlDatesWSServiceType;
 import edu.byu.edge.client.controldates.domain.DateRowType;
 
 public class ControlDatesClientImplTestCase {
+	private static final Logger LOG = LogManager.getLogger(ControlDatesClientImplTestCase.class);
 
 	private static ControlDatesClient controlDatesClient;
 

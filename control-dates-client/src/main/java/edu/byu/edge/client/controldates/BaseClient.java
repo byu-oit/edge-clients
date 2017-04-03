@@ -1,7 +1,6 @@
 package edu.byu.edge.client.controldates;
 
 import com.sun.jersey.api.client.filter.ClientFilter;
-import org.apache.log4j.Logger;
 
 import com.sun.jersey.api.client.Client;
 import com.sun.jersey.api.client.UniformInterfaceException;
@@ -11,12 +10,14 @@ import com.sun.jersey.api.client.config.DefaultClientConfig;
 
 import edu.byu.commons.exception.NotAuthorizedException;
 import edu.byu.commons.exception.NotFoundException;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.util.List;
 
 public class BaseClient {
 
-	private static final Logger LOG = Logger.getLogger(BaseClient.class);
+	private static final Logger LOG = LogManager.getLogger(BaseClient.class);
 
 	protected final String baseUrl;
 	protected final Client client;
