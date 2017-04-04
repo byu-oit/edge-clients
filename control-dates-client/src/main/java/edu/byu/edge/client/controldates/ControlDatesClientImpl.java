@@ -67,7 +67,7 @@ public class ControlDatesClientImpl extends BaseClient implements ControlDatesCl
 		Preconditions.checkArgument(endYearTerm != null, "Invalid (null) End YearTerm.");
 		Preconditions.checkArgument(controlDateType != null, "Invalid (null) Control Date Type.");
 
-		String path = "range/" + startYearTerm.getYearTerm() + "_" + endYearTerm.getYearTerm() + "/" + controlDateType;
+		String path = "range/" + startYearTerm.getYearTerm() + "," + endYearTerm.getYearTerm() + "/" + controlDateType;
 		ControlDatesWSServiceType cdws = executeCall(path, 1);
 		ResponseType response = cdws.getResponse();
 		if (response != null && response.getDateList() != null && response.getDateList().getDateRow() != null) {
