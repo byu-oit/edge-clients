@@ -6,7 +6,8 @@ import com.sun.jersey.api.client.WebResource;
 import com.sun.jersey.api.client.config.ClientConfig;
 import com.sun.jersey.api.client.config.DefaultClientConfig;
 import com.sun.jersey.api.client.filter.ClientFilter;
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 /**
  * Created by IntelliJ IDEA.
@@ -15,7 +16,7 @@ import org.apache.log4j.Logger;
  * Time: 3:05 PM
  */
 public abstract class BaseClient {
-	private static final Logger LOG = Logger.getLogger(BaseClient.class);
+	private static final Logger LOG = LogManager.getLogger(BaseClient.class);
 
 	protected final String baseUrl;
 	protected final ClientFilter filter;

@@ -2,7 +2,8 @@ package edu.byu.chartblock.test;
 
 import edu.byu.chartblock.AccountCodeValidation;
 import edu.byu.chartblock.ValidateChartBlockResult;
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,11 +26,10 @@ import static org.junit.Assert.assertTrue;
  */
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = {
-		"classpath:test-context.xml",
-		"classpath:chartBlock-context.xml"
+		"classpath:test-context.xml"
 })
 public class AccountCodeValidationImplTest extends BaseTest {
-	private static final Logger LOG = Logger.getLogger(AccountCodeValidationImplTest.class);
+	private static final Logger LOG = LogManager.getLogger(AccountCodeValidationImplTest.class);
 
 	@Autowired
 	private AccountCodeValidation accountCodeValidation;
