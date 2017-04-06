@@ -38,15 +38,15 @@ public class ControlDatesClientImplTestCase {
 
 		final FileInputStream inputStream = new FileInputStream(
 				System.getProperty("user.home") + File.separator +
-						"basic-oauth-tester.properties");
+						"cred" + File.separator + "oauth-tester.cred");
 		properties.load(inputStream);
 		controlDatesClient = new ControlDatesClientImpl(
 				new JerseyOutboundOauthTokenFilter(
 						new ClientCredentialsTokenHeaderProvider(
 								new ClientCredentialOauthTokenProvider(
 										new Wso2Credentials(
-												properties.getProperty("client_id"),
-												properties.getProperty("client_secret"))))));
+												properties.getProperty("stage.client_id"),
+												properties.getProperty("stage.client_secret"))))));
 
 	}
 

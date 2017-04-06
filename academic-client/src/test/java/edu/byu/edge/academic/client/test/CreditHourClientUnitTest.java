@@ -42,9 +42,9 @@ public class CreditHourClientUnitTest {
 		final Properties properties = new Properties();
 		final FileInputStream inputStream = new FileInputStream(
 				System.getProperty("user.home") + File.separator +
-						"basic-oauth-tester.properties");
+						"cred" + File.separator + "oauth-tester.cred");
 		properties.load(inputStream);
-		Wso2Credentials wso2Credentials = new Wso2Credentials(properties.getProperty("client_id"),properties.getProperty("client_secret"));
+		Wso2Credentials wso2Credentials = new Wso2Credentials(properties.getProperty("stage.client_id"),properties.getProperty("stage.client_secret"));
 		ClientCredentialOauthTokenProvider tokenProvider = new ClientCredentialOauthTokenProvider(wso2Credentials);
 		TokenHeaderProvider tokenHeaderProvider = new ClientCredentialsTokenHeaderProvider(tokenProvider);
 		creditHourClient = new CreditHourClientImpl(tokenHeaderProvider);
