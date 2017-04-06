@@ -3,7 +3,8 @@ package edu.byu.chartblock.impl;
 import com.sun.jersey.api.client.filter.ClientFilter;
 import edu.byu.chartblock.AccountCodeValidation;
 import edu.byu.chartblock.ValidateChartBlockResult;
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -16,7 +17,7 @@ import java.util.Map;
  */
 public class AccountCodeValidationImpl extends BaseClient implements AccountCodeValidation {
 
-	private static final Logger LOG = Logger.getLogger(AccountCodeValidationImpl.class);
+	private static final Logger LOG = LogManager.getLogger(AccountCodeValidationImpl.class);
 
 	final private String BODY = "<soapenv:Envelope xmlns:soapenv='http://schemas.xmlsoap.org/soap/envelope/' xmlns:y='http://ws.byu.edu/namespaces/ps/Y_CF_VALIDATION_V1_Y2_RQ'>" +
 			"<soapenv:Header/>" +
