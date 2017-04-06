@@ -24,6 +24,7 @@
 		<jackson.databind.version>2.6.0</jackson.databind.version>
 		<log4j2.version>2.3</log4j2.version>
 		<slf4j.version>1.7.24</slf4j.version>
+		<hashUtil.version>2.0.0-SNAPSHOT</hashUtil.version>
 	</properties>
 
 	<dependencies>
