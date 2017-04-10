@@ -9,21 +9,6 @@
 
 	<bean id="accountCodeValidationClient" class="edu.byu.chartblock.impl.AccountCodeValidationImpl"
 			c:baseUrl="https://ws.byu.edu/soap/v2.0/generalledger/controls/chartblock"
-			c:filter-ref="tokenFilter"
+			c:filters-ref="tokenFilter"
 			c:readTimeout="10000"/>
-
-	<bean id="tokenFilter" class="edu.byu.wso2.filter.jersey.JerseyOutboundOauthTokenFilter"
-		  c:tokenHeaderProvider-ref="tokenHeaderProvider"/>
-
-
-	<bean id="sharedSecretCredentialResolver" class="edu.byu.security.hmac.DaoSharedSecretCredentialResolver"
-		  c:credentialDAO-ref="sharedSecretCredentialDAO" />
-
-	<bean id="edgeApiKeyCredentialResolutionRequest" class="edu.byu.security.hmac.PersonIdCredentialResolutionRequest"
-		  c:personId="820285322" />
-
-	<bean id="chartBlockNonceEncodingFilter" class="edu.byu.security.hmac.jersey.NoActorSharedSecretNonceEncodingFilter"
-		  c:credentialResolver-ref="sharedSecretCredentialResolver"
-		  c:resolutionRequest-ref="edgeApiKeyCredentialResolutionRequest"
-		  c:nonceDAO-ref="nonceDAO" />
 </beans>

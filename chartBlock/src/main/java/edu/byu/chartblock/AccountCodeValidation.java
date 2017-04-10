@@ -12,5 +12,5 @@ public interface AccountCodeValidation {
 	 *
 	 * @param accountCode Format must be XXXXXXXX-XXXX-XXXXX
 	 */
-	ValidateChartBlockResult getAccount(String accountCode);
+	ChartBlock getAccount(String accountCode);
 }
