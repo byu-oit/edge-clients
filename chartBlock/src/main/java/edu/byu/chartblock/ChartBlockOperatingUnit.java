@@ -19,6 +19,7 @@ public class ChartBlockOperatingUnit implements Serializable{
 	private String effectiveDate;
 	private ChartBlockContact manager;
 	private ChartBlockContact contact;
+	private ChartBlockDepartment department;
 
 	public ChartBlockOperatingUnit() {
 	}
@@ -69,5 +70,13 @@ public class ChartBlockOperatingUnit implements Serializable{
 
 	public void setContact(ChartBlockContact contact) {
 		this.contact = contact;
+	}
+
+	public ChartBlockDepartment getDepartment() {
+		return department;
+	}
+
+	public void setDepartment(ChartBlockDepartment department) {
+		this.department = department;
 	}
 }
