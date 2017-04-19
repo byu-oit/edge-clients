@@ -20,6 +20,8 @@ public class ChartBlockOperatingUnit implements Serializable{
 	private ChartBlockContact manager;
 	private ChartBlockContact contact;
 	private ChartBlockDepartment department;
+	private String failedCode;
+	private String failedReason;
 
 	public ChartBlockOperatingUnit() {
 	}
@@ -78,5 +80,21 @@ public class ChartBlockOperatingUnit implements Serializable{
 
 	public void setDepartment(ChartBlockDepartment department) {
 		this.department = department;
+	}
+
+	public String getFailedCode() {
+		return failedCode;
+	}
+
+	public void setFailedCode(String failedCode) {
+		this.failedCode = failedCode;
+	}
+
+	public String getFailedReason() {
+		return failedReason;
+	}
+
+	public void setFailedReason(String failedReason) {
+		this.failedReason = failedReason;
 	}
 }

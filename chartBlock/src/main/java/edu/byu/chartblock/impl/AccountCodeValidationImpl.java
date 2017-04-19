@@ -9,6 +9,8 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import java.io.IOException;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * Created by IntelliJ IDEA.
@@ -21,6 +23,8 @@ public class AccountCodeValidationImpl extends BaseClient implements AccountCode
 	private static final Logger LOG = LogManager.getLogger(AccountCodeValidationImpl.class);
 
 	private static final String DEFAULT_URL = "https://api.byu.edu:443/domains/erp/fs/chartfieldvalidation/v1";
+	private static final Pattern BLANK_EMAIL_OR_PHONE_PATTERN = Pattern.compile("(\"phone_number\"|\"email_address\")\\s*:\\s*\\{\\}");
+
 	private final ObjectMapper mapper;
 
 	public AccountCodeValidationImpl(ClientFilter ... filters){
@@ -55,11 +59,19 @@ public class AccountCodeValidationImpl extends BaseClient implements AccountCode
 				.accept("application/json")
 				.get(String.class);
 		try {
-			final String chartBlockStr = mapper.readTree(response).findPath("chartfieldvalidation").findPath("chartblock").toString();
+			final String chartBlockStr = mapper.readTree(cleanEmptyObjects(response)).findPath("chartfieldvalidation").findPath("chartblock").toString();
 			return mapper.readValue(chartBlockStr, ChartBlock.class);
 		} catch (IOException e) {
 			LOG.error(e);
 			return null;
 		}
+	}
+
+	private static String cleanEmptyObjects(String json){
+		final Matcher matcher = BLANK_EMAIL_OR_PHONE_PATTERN.matcher(json);
+		if (matcher.find()){
+			return matcher.replaceAll("$1:\"\"");
+		}
+		return json;
 	}
 }
