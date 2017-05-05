@@ -23,7 +23,7 @@
 	</description>
 
 	<properties>
-		<hashUtil.version>1.0.1</hashUtil.version>
+		<hashUtil.version>2.0.0</hashUtil.version>
 	</properties>
 
 	<dependencies>
