@@ -1,14 +1,20 @@
 package edu.byu.edge.coreIdentity.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+
 /**
  * Created by Scott Hutchings on 8/30/2016.
  */
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class IdentityLookupSummary {
 	private String sortName;
 	private String jobTitle;
 	private String department;
 	private String homeTown;
 	private String homeStateCode;
+	@JsonDeserialize(using = StringToBooleanDeserializer.class)
 	private Boolean registrarWarning;
 	private String personId;
 	private String byuId;
@@ -16,6 +22,11 @@ public class IdentityLookupSummary {
 	private String gender;
 	private String employeeStatus;
 	private String emailService;
+	@JsonProperty("Home Address Block")
+	private AddressBlock homeAddressBlock;
+	@JsonProperty("Permanent Address Block")
+	private AddressBlock permanentAddressBlock;
+	@JsonProperty("Campus Address Block")
 	private AddressBlock campusAddressBlock;
 
 	public String getSortName() {
@@ -114,6 +125,22 @@ public class IdentityLookupSummary {
 		this.emailService = emailService;
 	}
 
+	public AddressBlock getHomeAddressBlock() {
+		return homeAddressBlock;
+	}
+
+	public void setHomeAddressBlock(AddressBlock homeAddressBlock) {
+		this.homeAddressBlock = homeAddressBlock;
+	}
+
+	public AddressBlock getPermanentAddressBlock() {
+		return permanentAddressBlock;
+	}
+
+	public void setPermanentAddressBlock(AddressBlock permanentAddressBlock) {
+		this.permanentAddressBlock = permanentAddressBlock;
+	}
+
 	public AddressBlock getCampusAddressBlock() {
 		return campusAddressBlock;
 	}
@@ -137,6 +164,8 @@ public class IdentityLookupSummary {
 				", gender='" + gender + '\'' +
 				", employeeStatus='" + employeeStatus + '\'' +
 				", emailService='" + emailService + '\'' +
+				", homeAddressBlock=" + homeAddressBlock +
+				", permanentAddressBlock=" + permanentAddressBlock +
 				", campusAddressBlock=" + campusAddressBlock +
 				'}';
 	}

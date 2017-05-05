@@ -1,6 +1,6 @@
 package edu.byu.edge.client.controldates;
 
-import org.apache.log4j.Logger;
+import com.sun.jersey.api.client.filter.ClientFilter;
 
 import com.sun.jersey.api.client.Client;
 import com.sun.jersey.api.client.UniformInterfaceException;
@@ -10,19 +10,32 @@ import com.sun.jersey.api.client.config.DefaultClientConfig;
 
 import edu.byu.commons.exception.NotAuthorizedException;
 import edu.byu.commons.exception.NotFoundException;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
+import java.util.List;
 
 public class BaseClient {
 
-	private static final Logger LOG = Logger.getLogger(BaseClient.class);
+	private static final Logger LOG = LogManager.getLogger(BaseClient.class);
 
 	protected final String baseUrl;
 	protected final Client client;
 	protected final WebResource webResource;
 
-	protected BaseClient(final String baseUrl, final int readTimeout) {
+	protected BaseClient(final String baseUrl, final int readTimeout){
+		this(baseUrl, readTimeout, null);
+	}
+
+	protected BaseClient(final String baseUrl, final int readTimeout, final ClientFilter ... filters) {
 		this.baseUrl = baseUrl;
 		final ClientConfig config = new DefaultClientConfig();
 		this.client = initClient(config);
+		if (filters != null){
+			for (ClientFilter filter : filters) {
+				this.client.addFilter(filter);
+			}
+		}
 		this.client.setReadTimeout(readTimeout);
 		this.webResource = this.client.resource(baseUrl);
 	}

@@ -4,10 +4,12 @@ import com.google.common.base.Charsets;
 import com.google.common.base.Function;
 import com.google.common.collect.Lists;
 import com.google.common.io.CharStreams;
-import edu.byu.auth.client.ApiKeyClient;
 import edu.byu.edge.academic.client.CreditHourClient;
 import edu.byu.edge.academic.client.ServiceException;
-import org.apache.log4j.Logger;
+import edu.byu.wso2.core.jwt.OriginalJwtHolder;
+import edu.byu.wso2.core.provider.TokenHeaderProvider;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.util.Assert;
 
@@ -26,31 +28,51 @@ import java.util.regex.Pattern;
  * Created by eric on 2/4/16.
  */
 public class CreditHourClientImpl implements CreditHourClient, InitializingBean {
-	private static final Logger LOG = Logger.getLogger(CreditHourClientImpl.class);
+	private static final Logger LOG = LogManager.getLogger(CreditHourClientImpl.class);
+	public static final String DEFAULT_BASE_URL = "https://api.byu.edu:443/domains/legacy/academic/registration/studentschedule/v1/";
 
 	private String baseUrl;
-	private ApiKeyClient apiKeyClient;
+	private final TokenHeaderProvider tokenHeaderProvider;
+	private OriginalJwtHolder originalJwtHolder;
 
-	public CreditHourClientImpl(final String url, ApiKeyClient apiKeyClient) {
-		this.baseUrl = _cleanUrl(url);
-		this.apiKeyClient = apiKeyClient;
+	public CreditHourClientImpl(final TokenHeaderProvider tokenHeaderProvider) {
+		this (DEFAULT_BASE_URL, tokenHeaderProvider);
+	}
+
+	public CreditHourClientImpl (final String baseUrl, final TokenHeaderProvider tokenHeaderProvider) {
+		this.baseUrl = _cleanUrl(baseUrl);
+		this.tokenHeaderProvider = tokenHeaderProvider;
+	}
+
+	public void setOriginalJwtHolder(OriginalJwtHolder originalJwtHolder) {
+		this.originalJwtHolder = originalJwtHolder;
 	}
 
 	@Override
 	public void afterPropertiesSet() throws Exception {
 		Assert.hasText(baseUrl);
-		Assert.notNull(apiKeyClient);
+		Assert.notNull(tokenHeaderProvider);
 	}
 
 	@Override
 	public double getCreditHoursByPersonIdAndYearTerm(String personId, String yearTerm) throws ServiceException {
+		return getCreditHoursByPersonIdAndYearTerm(personId, yearTerm, null);
+	}
+
+	@Override
+	public double getCreditHoursByPersonIdAndYearTerm(String personId, String yearTerm, String actingFor) throws ServiceException {
 		try {
 			final URL url = new URL(baseUrl + personId + "/" + yearTerm);
 			final HttpURLConnection connection = (HttpURLConnection) url.openConnection();
 			connection.setRequestMethod("GET");
 			connection.setRequestProperty("Accept", "application/json");
-			connection.setRequestProperty("Authorization", apiKeyClient.obtainAuthorizationHeaderString());
-//			connection.setRequestProperty("Content-Type", "application/xml");
+			connection.setRequestProperty("Authorization", tokenHeaderProvider.getTokenHeaderValue());
+			if (originalJwtHolder != null) {
+				connection.setRequestProperty(OriginalJwtHolder.ORIGINAL_JWT_HEADER_KEY, originalJwtHolder.getOriginalJwt());
+			}
+			if (actingFor != null) {
+				connection.setRequestProperty("acting-for", actingFor);
+			}
 
 			final String result = CharStreams.toString(new InputStreamReader(connection.getInputStream(), Charsets.UTF_8));
 			final List<String> list = new LinkedList<String>();

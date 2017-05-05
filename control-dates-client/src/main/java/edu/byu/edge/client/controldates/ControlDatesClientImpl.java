@@ -7,7 +7,9 @@ import java.util.*;
 import javax.ws.rs.Path;
 import javax.ws.rs.core.MediaType;
 
-import org.apache.log4j.Logger;
+import com.sun.jersey.api.client.filter.ClientFilter;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.cache.annotation.Cacheable;
 
 import com.google.common.base.Preconditions;
@@ -31,17 +33,17 @@ import edu.byu.edge.client.controldates.domain.ResponseType;
  * 
  */
 public class ControlDatesClientImpl extends BaseClient implements ControlDatesClient {
-	private static final Logger LOG = Logger.getLogger(ControlDatesClientImpl.class);
+	private static final Logger LOG = LogManager.getLogger(ControlDatesClientImpl.class);
 
-	public static final String productionBaseUrl = "https://soaregistry.byu.edu:443/services/rest/v1/academic/control/controldatesws";
+	public static final String productionBaseUrl = "https://api.byu.edu:443/domains/legacy/academic/controls/controldatesws/v1";
 	private static final int timeoutMs = 30000;
 
-	public ControlDatesClientImpl() {
-		super(productionBaseUrl, timeoutMs);
+	public ControlDatesClientImpl(ClientFilter ... filters) {
+		super(productionBaseUrl, timeoutMs, filters);
 	}
 
-	public ControlDatesClientImpl(int timeout) {
-		super(productionBaseUrl, timeout);
+	public ControlDatesClientImpl(int timeout, ClientFilter ... filters) {
+		super(productionBaseUrl, timeout, filters);
 	}
 
 	@Cacheable(value = "controlDatesClientCache")
@@ -178,7 +180,9 @@ public class ControlDatesClientImpl extends BaseClient implements ControlDatesCl
 		try {
 			final WebResource webres = getResource().path(path);
 			LOG.debug("calling: " + webres.toString());
-			final ControlDatesWSServiceType type = webres.accept(MediaType.APPLICATION_XML_TYPE).get(ControlDatesWSServiceType.class);
+			final ControlDatesWSServiceType type = webres
+					.accept(MediaType.APPLICATION_XML_TYPE)
+					.get(ControlDatesWSServiceType.class);
 			if (retryOnEmptyResult > 0 && (type == null || type.getResponse() == null || type.getResponse().getRequestCount() == null || type.getResponse().getRequestCount().intValue() == 0)) {
 				return executeCall(path, retryOnEmptyResult - 1);
 			} else {
