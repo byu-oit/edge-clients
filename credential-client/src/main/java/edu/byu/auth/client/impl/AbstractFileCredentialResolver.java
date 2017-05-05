@@ -62,7 +62,7 @@ public abstract class AbstractFileCredentialResolver implements InitializingBean
 	}
 
 	protected String decrypt(final String enc) {
-		return skipEncryption ? enc : Crypto.bytesToString(Crypto.decrypt(enckey, Base64.decodeToBytes(enc)));
+		return skipEncryption ? enc : Crypto.bytesToString(Crypto.decrypt(enckey, Base64.decode(enc)));
 	}
 
 	private boolean validateFile(final File f) {

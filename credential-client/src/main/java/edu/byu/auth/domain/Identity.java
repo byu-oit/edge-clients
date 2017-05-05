@@ -5,39 +5,39 @@ import javax.xml.bind.annotation.*;
 
 
 /**
- * 
- * 				
+ *
+ *
  * 						An identity represents an principal that can participate in authentication and authorization with BYU.
- * 						
- * 			
- * 
+ *
+ *
+ *
  * <p>Java class for identity complex type.
- * 
+ *
  * <p>The following schema fragment specifies the expected content contained within this class.
- * 
+ *
  * <pre>
- * &lt;complexType name="identity">
- *   &lt;complexContent>
- *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
- *       &lt;sequence>
- *         &lt;element name="personId" type="{http://www.w3.org/2001/XMLSchema}string"/>
- *         &lt;element name="byuId" type="{http://www.w3.org/2001/XMLSchema}string"/>
- *         &lt;element name="netId" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/>
- *         &lt;element name="sortName" type="{http://www.w3.org/2001/XMLSchema}string"/>
- *         &lt;element name="preferredFirstName" type="{http://www.w3.org/2001/XMLSchema}string"/>
- *         &lt;element name="surname" type="{http://www.w3.org/2001/XMLSchema}string"/>
- *         &lt;element name="fullName" type="{http://www.w3.org/2001/XMLSchema}string"/>
- *         &lt;element name="gender" type="{http://www.w3.org/2001/XMLSchema}string"/>
- *         &lt;element name="restricted" type="{http://www.w3.org/2001/XMLSchema}boolean"/>
- *         &lt;element name="deceased" type="{http://www.w3.org/2001/XMLSchema}boolean"/>
- *         &lt;element name="organization" type="{http://www.w3.org/2001/XMLSchema}boolean"/>
- *       &lt;/sequence>
- *     &lt;/restriction>
- *   &lt;/complexContent>
- * &lt;/complexType>
+ * &lt;complexType name="identity"&gt;
+ *   &lt;complexContent&gt;
+ *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType"&gt;
+ *       &lt;sequence&gt;
+ *         &lt;element name="personId" type="{http://www.w3.org/2001/XMLSchema}string"/&gt;
+ *         &lt;element name="byuId" type="{http://www.w3.org/2001/XMLSchema}string"/&gt;
+ *         &lt;element name="netId" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/&gt;
+ *         &lt;element name="sortName" type="{http://www.w3.org/2001/XMLSchema}string"/&gt;
+ *         &lt;element name="preferredFirstName" type="{http://www.w3.org/2001/XMLSchema}string"/&gt;
+ *         &lt;element name="surname" type="{http://www.w3.org/2001/XMLSchema}string"/&gt;
+ *         &lt;element name="fullName" type="{http://www.w3.org/2001/XMLSchema}string"/&gt;
+ *         &lt;element name="gender" type="{http://www.w3.org/2001/XMLSchema}string"/&gt;
+ *         &lt;element name="restricted" type="{http://www.w3.org/2001/XMLSchema}boolean"/&gt;
+ *         &lt;element name="deceased" type="{http://www.w3.org/2001/XMLSchema}boolean"/&gt;
+ *         &lt;element name="organization" type="{http://www.w3.org/2001/XMLSchema}boolean"/&gt;
+ *       &lt;/sequence&gt;
+ *     &lt;/restriction&gt;
+ *   &lt;/complexContent&gt;
+ * &lt;/complexType&gt;
  * </pre>
- * 
- * 
+ *
+ *
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "identity", namespace = "http://ws.byu.edu/namespaces/security/authentication/v1.0", propOrder = {
@@ -91,11 +91,11 @@ public class Identity {
 
     /**
      * Gets the value of the personId property.
-     * 
+     *
      * @return
      *     possible object is
      *     {@link String }
-     *     
+     *
      */
     public String getPersonId() {
         return personId;
@@ -103,11 +103,11 @@ public class Identity {
 
     /**
      * Sets the value of the personId property.
-     * 
+     *
      * @param value
      *     allowed object is
      *     {@link String }
-     *     
+     *
      */
     public void setPersonId(String value) {
         this.personId = value;
@@ -115,11 +115,11 @@ public class Identity {
 
     /**
      * Gets the value of the byuId property.
-     * 
+     *
      * @return
      *     possible object is
      *     {@link String }
-     *     
+     *
      */
     public String getByuId() {
         return byuId;
@@ -127,11 +127,11 @@ public class Identity {
 
     /**
      * Sets the value of the byuId property.
-     * 
+     *
      * @param value
      *     allowed object is
      *     {@link String }
-     *     
+     *
      */
     public void setByuId(String value) {
         this.byuId = value;
@@ -139,11 +139,11 @@ public class Identity {
 
     /**
      * Gets the value of the netId property.
-     * 
+     *
      * @return
      *     possible object is
      *     {@link String }
-     *     
+     *
      */
     public String getNetId() {
         return netId;
@@ -151,11 +151,11 @@ public class Identity {
 
     /**
      * Sets the value of the netId property.
-     * 
+     *
      * @param value
      *     allowed object is
      *     {@link String }
-     *     
+     *
      */
     public void setNetId(String value) {
         this.netId = value;
@@ -163,11 +163,11 @@ public class Identity {
 
     /**
      * Gets the value of the sortName property.
-     * 
+     *
      * @return
      *     possible object is
      *     {@link String }
-     *     
+     *
      */
     public String getSortName() {
         return sortName;
@@ -175,11 +175,11 @@ public class Identity {
 
     /**
      * Sets the value of the sortName property.
-     * 
+     *
      * @param value
      *     allowed object is
      *     {@link String }
-     *     
+     *
      */
     public void setSortName(String value) {
         this.sortName = value;
@@ -187,11 +187,11 @@ public class Identity {
 
     /**
      * Gets the value of the preferredFirstName property.
-     * 
+     *
      * @return
      *     possible object is
      *     {@link String }
-     *     
+     *
      */
     public String getPreferredFirstName() {
         return preferredFirstName;
@@ -199,11 +199,11 @@ public class Identity {
 
     /**
      * Sets the value of the preferredFirstName property.
-     * 
+     *
      * @param value
      *     allowed object is
      *     {@link String }
-     *     
+     *
      */
     public void setPreferredFirstName(String value) {
         this.preferredFirstName = value;
@@ -211,11 +211,11 @@ public class Identity {
 
     /**
      * Gets the value of the surname property.
-     * 
+     *
      * @return
      *     possible object is
      *     {@link String }
-     *     
+     *
      */
     public String getSurname() {
         return surname;
@@ -223,11 +223,11 @@ public class Identity {
 
     /**
      * Sets the value of the surname property.
-     * 
+     *
      * @param value
      *     allowed object is
      *     {@link String }
-     *     
+     *
      */
     public void setSurname(String value) {
         this.surname = value;
@@ -235,11 +235,11 @@ public class Identity {
 
     /**
      * Gets the value of the fullName property.
-     * 
+     *
      * @return
      *     possible object is
      *     {@link String }
-     *     
+     *
      */
     public String getFullName() {
         return fullName;
@@ -247,11 +247,11 @@ public class Identity {
 
     /**
      * Sets the value of the fullName property.
-     * 
+     *
      * @param value
      *     allowed object is
      *     {@link String }
-     *     
+     *
      */
     public void setFullName(String value) {
         this.fullName = value;
@@ -259,11 +259,11 @@ public class Identity {
 
     /**
      * Gets the value of the gender property.
-     * 
+     *
      * @return
      *     possible object is
      *     {@link String }
-     *     
+     *
      */
     public String getGender() {
         return gender;
@@ -271,11 +271,11 @@ public class Identity {
 
     /**
      * Sets the value of the gender property.
-     * 
+     *
      * @param value
      *     allowed object is
      *     {@link String }
-     *     
+     *
      */
     public void setGender(String value) {
         this.gender = value;
@@ -283,7 +283,7 @@ public class Identity {
 
     /**
      * Gets the value of the restricted property.
-     * 
+     * @return boolean
      */
     public boolean isRestricted() {
         return restricted;
@@ -291,15 +291,15 @@ public class Identity {
 
     /**
      * Sets the value of the restricted property.
-     * 
+     * @param value of the restricted property.
      */
     public void setRestricted(boolean value) {
         this.restricted = value;
     }
 
     /**
-     * Gets the value of the deceased property.
-     * 
+     *
+     * @return the value of the deceased property.
      */
     public boolean isDeceased() {
         return deceased;
@@ -307,15 +307,15 @@ public class Identity {
 
     /**
      * Sets the value of the deceased property.
-     * 
+     * @param value of the deceased property.
      */
     public void setDeceased(boolean value) {
         this.deceased = value;
     }
 
     /**
-     * Gets the value of the organization property.
-     * 
+     *
+     * @return the value of the organization property.
      */
     public boolean isOrganization() {
         return organization;
@@ -323,7 +323,7 @@ public class Identity {
 
     /**
      * Sets the value of the organization property.
-     * 
+     * @param value of the organization property.
      */
     public void setOrganization(boolean value) {
         this.organization = value;
