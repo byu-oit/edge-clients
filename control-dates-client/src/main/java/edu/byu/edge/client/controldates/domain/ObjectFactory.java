@@ -42,7 +42,7 @@ public class ObjectFactory {
 
     /**
      * Create an instance of {@link RequestType }
-     * 
+     * @return RequestType
      */
     public RequestType createRequestType() {
         return new RequestType();
@@ -50,7 +50,7 @@ public class ObjectFactory {
 
     /**
      * Create an instance of {@link DateListType }
-     * 
+     * @return DateListType
      */
     public DateListType createDateListType() {
         return new DateListType();
@@ -58,7 +58,7 @@ public class ObjectFactory {
 
     /**
      * Create an instance of {@link DateRowType }
-     * 
+     * @return DateRowType
      */
     public DateRowType createDateRowType() {
         return new DateRowType();
@@ -66,7 +66,7 @@ public class ObjectFactory {
 
     /**
      * Create an instance of {@link ResponseType }
-     * 
+     * @return ResponseType
      */
     public ResponseType createResponseType() {
         return new ResponseType();
@@ -74,7 +74,7 @@ public class ObjectFactory {
 
     /**
      * Create an instance of {@link ErrorsType }
-     * 
+     * @return ErrorsType
      */
     public ErrorsType createErrorsType() {
         return new ErrorsType();
@@ -82,7 +82,7 @@ public class ObjectFactory {
 
     /**
      * Create an instance of {@link ErrorType }
-     * 
+     * @return ErrorType
      */
     public ErrorType createErrorType() {
         return new ErrorType();
@@ -90,7 +90,7 @@ public class ObjectFactory {
 
     /**
      * Create an instance of {@link ControlDatesWSServiceType }
-     * 
+     * @return ControlDatesWSServiceType
      */
     public ControlDatesWSServiceType createControlDatesWSServiceType() {
         return new ControlDatesWSServiceType();
@@ -98,7 +98,8 @@ public class ObjectFactory {
 
     /**
      * Create an instance of {@link JAXBElement }{@code <}{@link ControlDatesWSServiceType }{@code >}}
-     * 
+     * @param value ControlDatesWSServiceType
+     * @return JAXBElement
      */
     @XmlElementDecl(namespace = "uri://byu/c/ae/prod/controls/cgi/controlDatesWS.cgi", name = "ControlDatesWSService")
     public JAXBElement<ControlDatesWSServiceType> createControlDatesWSService(ControlDatesWSServiceType value) {

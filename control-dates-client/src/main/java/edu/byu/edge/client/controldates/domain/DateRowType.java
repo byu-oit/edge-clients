@@ -22,19 +22,19 @@ import javax.xml.bind.annotation.XmlType;
  * <p>The following schema fragment specifies the expected content contained within this class.
  * 
  * <pre>
- * &lt;complexType name="date_rowType">
- *   &lt;complexContent>
- *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
- *       &lt;sequence>
- *         &lt;element name="date_type" type="{http://www.w3.org/2001/XMLSchema}string"/>
- *         &lt;element name="year_term" type="{http://www.w3.org/2001/XMLSchema}string"/>
- *         &lt;element name="start_date" type="{http://www.w3.org/2001/XMLSchema}string"/>
- *         &lt;element name="end_date" type="{http://www.w3.org/2001/XMLSchema}string"/>
- *         &lt;element name="description" type="{http://www.w3.org/2001/XMLSchema}string"/>
- *       &lt;/sequence>
- *     &lt;/restriction>
- *   &lt;/complexContent>
- * &lt;/complexType>
+ * &lt;complexType name="date_rowType"&gt;
+ *   &lt;complexContent&gt;
+ *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType"&gt;
+ *       &lt;sequence&gt;
+ *         &lt;element name="date_type" type="{http://www.w3.org/2001/XMLSchema}string"/&gt;
+ *         &lt;element name="year_term" type="{http://www.w3.org/2001/XMLSchema}string"/&gt;
+ *         &lt;element name="start_date" type="{http://www.w3.org/2001/XMLSchema}string"/&gt;
+ *         &lt;element name="end_date" type="{http://www.w3.org/2001/XMLSchema}string"/&gt;
+ *         &lt;element name="description" type="{http://www.w3.org/2001/XMLSchema}string"/&gt;
+ *       &lt;/sequence&gt;
+ *     &lt;/restriction&gt;
+ *   &lt;/complexContent&gt;
+ * &lt;/complexType&gt;
  * </pre>
  * 
  * 

@@ -21,19 +21,19 @@ import javax.xml.bind.annotation.XmlType;
  * <p>The following schema fragment specifies the expected content contained within this class.
  * 
  * <pre>
- * &lt;complexType name="requestType">
- *   &lt;complexContent>
- *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
- *       &lt;sequence>
- *         &lt;element name="method" type="{http://www.w3.org/2001/XMLSchema}string"/>
- *         &lt;element name="resource" type="{http://www.w3.org/2001/XMLSchema}string"/>
- *         &lt;element name="attributes" type="{http://www.w3.org/2001/XMLSchema}string"/>
- *         &lt;element name="status" type="{http://www.w3.org/2001/XMLSchema}integer"/>
- *         &lt;element name="statusMessage" type="{http://www.w3.org/2001/XMLSchema}string"/>
- *       &lt;/sequence>
- *     &lt;/restriction>
- *   &lt;/complexContent>
- * &lt;/complexType>
+ * &lt;complexType name="requestType"&gt;
+ *   &lt;complexContent&gt;
+ *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType"&gt;
+ *       &lt;sequence&gt;
+ *         &lt;element name="method" type="{http://www.w3.org/2001/XMLSchema}string"/&gt;
+ *         &lt;element name="resource" type="{http://www.w3.org/2001/XMLSchema}string"/&gt;
+ *         &lt;element name="attributes" type="{http://www.w3.org/2001/XMLSchema}string"/&gt;
+ *         &lt;element name="status" type="{http://www.w3.org/2001/XMLSchema}integer"/&gt;
+ *         &lt;element name="statusMessage" type="{http://www.w3.org/2001/XMLSchema}string"/&gt;
+ *       &lt;/sequence&gt;
+ *     &lt;/restriction&gt;
+ *   &lt;/complexContent&gt;
+ * &lt;/complexType&gt;
  * </pre>
  * 
  * 
