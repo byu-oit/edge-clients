@@ -6,6 +6,7 @@ import com.google.common.collect.Lists;
 import com.google.common.io.CharStreams;
 import edu.byu.edge.academic.client.CreditHourClient;
 import edu.byu.edge.academic.client.ServiceException;
+import edu.byu.wso2.core.jwt.JwtHeaderHolder;
 import edu.byu.wso2.core.jwt.OriginalJwtHolder;
 import edu.byu.wso2.core.provider.TokenHeaderProvider;
 import org.apache.logging.log4j.LogManager;
@@ -68,7 +69,7 @@ public class CreditHourClientImpl implements CreditHourClient, InitializingBean 
 			connection.setRequestProperty("Accept", "application/json");
 			connection.setRequestProperty("Authorization", tokenHeaderProvider.getTokenHeaderValue());
 			if (originalJwtHolder != null) {
-				connection.setRequestProperty(OriginalJwtHolder.ORIGINAL_JWT_HEADER_KEY, originalJwtHolder.getOriginalJwt());
+				connection.setRequestProperty(JwtHeaderHolder.ORIGINAL_JWT_HEADER, originalJwtHolder.getOriginalJwt());
 			}
 			if (actingFor != null) {
 				connection.setRequestProperty("acting-for", actingFor);
