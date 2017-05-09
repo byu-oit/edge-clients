@@ -8,13 +8,13 @@
 		diskPersistent="false"
 		maxElementsInMemory="5"
 		timeToIdleSeconds="15"
-		timeToLiveSeconds="30"
-		/>
-	<cache eternal="false" name="controlDatesClientCache" overflowToDisk="true"
-		diskPersistent="false"
-		maxElementsInMemory="128"
-		timeToIdleSeconds="0"
-		timeToLiveSeconds="86400"
-		diskExpiryThreadIntervalSeconds="10"
-		/>
+		timeToLiveSeconds="30" />
+	<cache name="controlDatesCache"
+		   eternal="false"
+		   overflowToDisk="false"
+		   diskPersistent="false"
+		   maxElementsInMemory="128"
+		   timeToIdleSeconds="0"
+		   timeToLiveSeconds="86400"
+		   diskExpiryThreadIntervalSeconds="10" />
 </ehcache>

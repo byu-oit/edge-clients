@@ -10,7 +10,6 @@ import javax.ws.rs.core.MediaType;
 import com.sun.jersey.api.client.filter.ClientFilter;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.springframework.cache.annotation.Cacheable;
 
 import com.google.common.base.Preconditions;
 import com.sun.jersey.api.client.ClientHandlerException;
@@ -46,7 +45,6 @@ public class ControlDatesClientImpl extends BaseClient implements ControlDatesCl
 		super(productionBaseUrl, timeout, filters);
 	}
 
-	@Cacheable(value = "controlDatesClientCache")
 	@Path("/all")
 	@Override
 	public List<DateRowType> getAll(ControlDateType type) {
@@ -61,7 +59,6 @@ public class ControlDatesClientImpl extends BaseClient implements ControlDatesCl
 		return new ArrayList<DateRowType>();
 	}
 
-	@Cacheable(value = "controlDatesClientCache")
 	@Override
 	public List<DateRowType> getRange(YearTerm startYearTerm, YearTerm endYearTerm, ControlDateType controlDateType) {
 		LOG.trace("getRange");
@@ -78,7 +75,6 @@ public class ControlDatesClientImpl extends BaseClient implements ControlDatesCl
 		return new ArrayList<DateRowType>();
 	}
 
-	@Cacheable("controlDatesClientCache")
 	@Override
 	public List<DateRowType> getByYearTermAndTypes(YearTerm yearTerm, ControlDateType... controlDateTypes) {
 		LOG.trace("getByYearTermAndTypes");
@@ -101,7 +97,6 @@ public class ControlDatesClientImpl extends BaseClient implements ControlDatesCl
 		return new ArrayList<DateRowType>();
 	}
 
-	@Cacheable("controlDatesClientCache")
 	@Override
 	public DateRowType getByYearTermAndType(YearTerm yearTerm, ControlDateType controlDateType) {
 		LOG.trace("getByYearTermAndType");
@@ -112,7 +107,6 @@ public class ControlDatesClientImpl extends BaseClient implements ControlDatesCl
 		return null;
 	}
 
-	@Cacheable("controlDatesClientCache")
 	@Override
 	public Date parseResponseDateString(String responseDateString) throws ParseException {
 		LOG.trace("parseResponseDateString");
@@ -120,7 +114,6 @@ public class ControlDatesClientImpl extends BaseClient implements ControlDatesCl
 		return formatter.parse(responseDateString);
 	}
 
-	@Cacheable("controlDatesClientCache")
 	@Override
 	public List<DateRowType> getByDateAndTypes(Date asOfDate, ControlDateType... controlDateTypes) {
 		LOG.trace("getByDateAndTypes");
@@ -152,7 +145,6 @@ public class ControlDatesClientImpl extends BaseClient implements ControlDatesCl
 		return new ArrayList<DateRowType>();
 	}
 
-	@Cacheable("controlDatesClientCache")
 	@Override
 	public DateRowType getByDateAndType(Date asOfDate, ControlDateType controlDateType) {
 		LOG.trace("getByDateAndType");

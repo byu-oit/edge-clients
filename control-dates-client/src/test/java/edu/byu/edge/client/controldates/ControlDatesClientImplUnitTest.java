@@ -20,6 +20,7 @@ import edu.byu.edge.client.controldates.domain.ControlDatesWSServiceType;
 import edu.byu.edge.client.controldates.domain.DateRowType;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
@@ -31,10 +32,18 @@ public class ControlDatesClientImplUnitTest {
 	private static final Logger LOG = LogManager.getLogger(ControlDatesClientImplUnitTest.class);
 
 	private ControlDatesClient controlDatesClient;
+	private ControlDatesClient cachedControlDatesClient;
 
 	@Autowired
+	@Qualifier("controlDatesClient")
 	public void setControlDatesClient(ControlDatesClient controlDatesClient) {
 		this.controlDatesClient = controlDatesClient;
+	}
+
+	@Autowired
+	@Qualifier("cachedControlDatesClient")
+	public void setCachedControlDatesClient(ControlDatesClient cachedControlDatesClient) {
+		this.cachedControlDatesClient = cachedControlDatesClient;
 	}
 
 	//	@BeforeClass
@@ -289,12 +298,12 @@ public class ControlDatesClientImplUnitTest {
 	public void testCaching(){
 		Date today = new Date();
 		long start = System.currentTimeMillis();
-		final DateRowType result1 = controlDatesClient.getByDateAndType(today, ControlDateType.CURRICULUM);
+		final DateRowType result1 = cachedControlDatesClient.getByDateAndType(today, ControlDateType.CURRICULUM);
 		long callTime = System.currentTimeMillis() - start;
 		assertTrue(callTime > 10);
 
 		start = System.currentTimeMillis();
-		final DateRowType result2 = controlDatesClient.getByDateAndType(today, ControlDateType.CURRICULUM);
+		final DateRowType result2 = cachedControlDatesClient.getByDateAndType(today, ControlDateType.CURRICULUM);
 		callTime = System.currentTimeMillis() - start;
 		assertTrue(callTime < 10);
 
