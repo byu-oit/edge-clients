@@ -38,7 +38,7 @@ import java.util.Properties;
 @ContextConfiguration(locations = {"classpath:test-context.xml"})
 public class CoreIdentityClientsUnitTest {
 	private static final Logger LOG = LogManager.getLogger(CoreIdentityClientsUnitTest.class);
-	private static CoreIdentityClient coreIdentityClient;
+	private CoreIdentityClient coreIdentityClient;
 	private static IdentityLookupClient identityLookupClient;
 	private MemberOfClient memberOfClient;
 	private static String personId;
@@ -47,6 +47,11 @@ public class CoreIdentityClientsUnitTest {
 	@Autowired
 	public void setMemberOfClient(MemberOfClient memberOfClient) {
 		this.memberOfClient = memberOfClient;
+	}
+
+	@Autowired
+	public void setCoreIdentityClient(CoreIdentityClient coreIdentityClient) {
+		this.coreIdentityClient = coreIdentityClient;
 	}
 
 	@BeforeClass
@@ -60,7 +65,7 @@ public class CoreIdentityClientsUnitTest {
 		Wso2Credentials wso2Credentials = new Wso2Credentials(properties.getProperty("stage.client_id"),properties.getProperty("stage.client_secret"));
 		ClientCredentialOauthTokenProvider tokenProvider = new ClientCredentialOauthTokenProvider(wso2Credentials);
 		TokenHeaderProvider tokenHeaderProvider = new ClientCredentialsTokenHeaderProvider(tokenProvider);
-		coreIdentityClient = new CoreIdentityClientImpl(tokenHeaderProvider);
+//		coreIdentityClient = new CoreIdentityClientImpl(tokenHeaderProvider);
 		identityLookupClient = new IdentityLookupClientImpl(tokenHeaderProvider);
 //		memberOfClient = new MemberOfClientImpl(tokenHeaderProvider);
 		personId = properties.getProperty("person_id");
@@ -75,6 +80,8 @@ public class CoreIdentityClientsUnitTest {
 			Assert.assertNotNull(testPerson.getPersonId());
 			Assert.assertEquals(personId, testPerson.getPersonId());
 			LOG.debug(testPerson);
+			final CoreIdentity testCached = coreIdentityClient.getCoreIdentityByByuId(netId);
+			Assert.assertEquals(testPerson, testCached);
 		} catch (Exception e) {
 			LOG.error(e);
 			Assert.fail("An exception occurred trying the coreIdentityClient service");

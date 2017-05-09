@@ -14,9 +14,13 @@
 
 	<bean id="cacheManager" class="org.springframework.cache.ehcache.EhCacheCacheManager"
 		  c:cacheManager-ref="ehCacheManager" />
-	<bean id="ehCacheManager" class="net.sf.ehcache.CacheManager" />
+	<bean id="ehCacheManager" class="org.springframework.cache.ehcache.EhCacheManagerFactoryBean"
+		  p:configLocation="classpath:coreIdentityEhcache.xml"
+		  p:shared="true"/>
 
 	<bean id="cachedMemberOfClient" class="edu.byu.edge.coreIdentity.client.impl.CachedMemberOfClient"
+		  c:tokenHeaderProvider-ref="tokenHeaderProvider"/>
+	<bean id="cachedCoreIdentityClient" class="edu.byu.edge.coreIdentity.client.impl.CachedCoreIdentityClient"
 		  c:tokenHeaderProvider-ref="tokenHeaderProvider"/>
 	<bean id="tokenHeaderProvider" class="edu.byu.wso2.core.provider.ClientCredentialsTokenHeaderProvider"
 		  c:clientCredentialsTokenProvider-ref="tokenProvider"/>
