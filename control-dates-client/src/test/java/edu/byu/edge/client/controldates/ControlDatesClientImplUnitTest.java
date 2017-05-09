@@ -1,23 +1,15 @@
 package edu.byu.edge.client.controldates;
 
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
 import java.text.ParseException;
 import java.util.Date;
 import java.util.List;
-import java.util.Properties;
 
-import edu.byu.wso2.core.Wso2Credentials;
-import edu.byu.wso2.core.provider.ClientCredentialOauthTokenProvider;
-import edu.byu.wso2.core.provider.ClientCredentialsTokenHeaderProvider;
-import edu.byu.wso2.filter.jersey.JerseyOutboundOauthTokenFilter;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.junit.BeforeClass;
 import org.junit.Test;
 
 import com.google.common.base.Strings;
@@ -26,29 +18,42 @@ import edu.byu.common.domain.YearTerm;
 import edu.byu.edge.client.controldates.domain.ControlDateType;
 import edu.byu.edge.client.controldates.domain.ControlDatesWSServiceType;
 import edu.byu.edge.client.controldates.domain.DateRowType;
+import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
-public class ControlDatesClientImplTestCase {
-	private static final Logger LOG = LogManager.getLogger(ControlDatesClientImplTestCase.class);
+@RunWith(SpringJUnit4ClassRunner.class)
+@ContextConfiguration(locations = {
+	"classpath:test-context.xml"
+})
+public class ControlDatesClientImplUnitTest {
+	private static final Logger LOG = LogManager.getLogger(ControlDatesClientImplUnitTest.class);
 
-	private static ControlDatesClient controlDatesClient;
+	private ControlDatesClient controlDatesClient;
 
-	@BeforeClass
-	public static void setup() throws IOException {
-		Properties properties = new Properties();
-
-		final FileInputStream inputStream = new FileInputStream(
-				System.getProperty("user.home") + File.separator +
-						"cred" + File.separator + "oauth-tester.cred");
-		properties.load(inputStream);
-		controlDatesClient = new ControlDatesClientImpl(
-				new JerseyOutboundOauthTokenFilter(
-						new ClientCredentialsTokenHeaderProvider(
-								new ClientCredentialOauthTokenProvider(
-										new Wso2Credentials(
-												properties.getProperty("stage.client_id"),
-												properties.getProperty("stage.client_secret"))))));
-
+	@Autowired
+	public void setControlDatesClient(ControlDatesClient controlDatesClient) {
+		this.controlDatesClient = controlDatesClient;
 	}
+
+	//	@BeforeClass
+//	public static void setup() throws IOException {
+//		Properties properties = new Properties();
+//
+//		final FileInputStream inputStream = new FileInputStream(
+//				System.getProperty("user.home") + File.separator +
+//						"cred" + File.separator + "oauth-tester.cred");
+//		properties.load(inputStream);
+//		final JerseyOutboundOauthTokenFilter tokenFilter = new JerseyOutboundOauthTokenFilter(
+//				new ClientCredentialsTokenHeaderProvider(
+//						new ClientCredentialOauthTokenProvider(
+//								new Wso2Credentials(
+//										properties.getProperty("stage.client_id"),
+//										properties.getProperty("stage.client_secret")))));
+//		controlDatesClient = new ControlDatesClientImpl(tokenFilter);
+//		cachedControlDatesClient = new CachedControlDatesClient(tokenFilter);
+//	}
 
 	@Test
 	public void getAllTestgetAllInvalidInput() {
@@ -278,5 +283,21 @@ public class ControlDatesClientImplTestCase {
 		// you would expect (unlike getByYearTermAndTypes)
 		result = controlDatesClient.getByDateAndType(today, ControlDateType.ID_CARD_EXP_BLACKOUT);
 		assertTrue(result == null);
+	}
+
+	@Test
+	public void testCaching(){
+		Date today = new Date();
+		long start = System.currentTimeMillis();
+		final DateRowType result1 = controlDatesClient.getByDateAndType(today, ControlDateType.CURRICULUM);
+		long callTime = System.currentTimeMillis() - start;
+		assertTrue(callTime > 10);
+
+		start = System.currentTimeMillis();
+		final DateRowType result2 = controlDatesClient.getByDateAndType(today, ControlDateType.CURRICULUM);
+		callTime = System.currentTimeMillis() - start;
+		assertTrue(callTime < 10);
+
+		assertEquals(result1, result2);
 	}
 }

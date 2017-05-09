@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	   xmlns:ehcache="http://www.springframework.org/schema/cache"
+	   xmlns:c="http://www.springframework.org/schema/c" xmlns:context="http://www.springframework.org/schema/context"
+	   xmlns:p="http://www.springframework.org/schema/p"
+	   xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+	   						http://www.springframework.org/schema/cache http://www.springframework.org/schema/cache/spring-cache.xsd
+	   						http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
+
+	<context:annotation-config/>
+	<context:property-placeholder location="file:${user.home}/cred/oauth-tester.cred"/>
+	<ehcache:annotation-driven />
+
+	<bean id="cacheManager" class="org.springframework.cache.ehcache.EhCacheCacheManager"
+		  c:cacheManager-ref="ehCacheManager" />
+	<bean id="ehCacheManager" class="net.sf.ehcache.CacheManager" />
+
+	<bean id="controlDatesClient" class="edu.byu.edge.client.controldates.ControlDatesClientImpl"
+		  c:filters-ref="tokenFilter"/>
+	<bean id="tokenFilter" class="edu.byu.wso2.filter.jersey.JerseyOutboundOauthTokenFilter"
+		  c:tokenHeaderProvider-ref="tokenHeaderProvider"/>
+	<bean id="tokenHeaderProvider" class="edu.byu.wso2.core.provider.ClientCredentialsTokenHeaderProvider"
+		  c:clientCredentialsTokenProvider-ref="tokenProvider"/>
+	<bean id="tokenProvider" class="edu.byu.wso2.core.provider.ClientCredentialOauthTokenProvider"
+		  c:wso2Credentials-ref="wso2Credentials"/>
+	<bean id="wso2Credentials" class="edu.byu.wso2.core.Wso2Credentials"
+		  c:clientId="${stage.client_id}"
+		  c:clientSecret="${stage.client_secret}"/>
+</beans>
