@@ -39,7 +39,7 @@ import java.util.Properties;
 public class CoreIdentityClientsUnitTest {
 	private static final Logger LOG = LogManager.getLogger(CoreIdentityClientsUnitTest.class);
 	private CoreIdentityClient coreIdentityClient;
-	private static IdentityLookupClient identityLookupClient;
+	private IdentityLookupClient identityLookupClient;
 	private MemberOfClient memberOfClient;
 	private static String personId;
 	private static String netId;
@@ -54,6 +54,11 @@ public class CoreIdentityClientsUnitTest {
 		this.coreIdentityClient = coreIdentityClient;
 	}
 
+	@Autowired
+	public void setIdentityLookupClient(IdentityLookupClient identityLookupClient) {
+		this.identityLookupClient = identityLookupClient;
+	}
+
 	@BeforeClass
 	public static void setup() throws IOException {
 		Properties properties = new Properties();
@@ -62,11 +67,11 @@ public class CoreIdentityClientsUnitTest {
 				System.getProperty("user.home") + File.separator +
 						"cred" + File.separator + "oauth-tester.cred");
 		properties.load(inputStream);
-		Wso2Credentials wso2Credentials = new Wso2Credentials(properties.getProperty("stage.client_id"),properties.getProperty("stage.client_secret"));
-		ClientCredentialOauthTokenProvider tokenProvider = new ClientCredentialOauthTokenProvider(wso2Credentials);
-		TokenHeaderProvider tokenHeaderProvider = new ClientCredentialsTokenHeaderProvider(tokenProvider);
+//		Wso2Credentials wso2Credentials = new Wso2Credentials(properties.getProperty("stage.client_id"),properties.getProperty("stage.client_secret"));
+//		ClientCredentialOauthTokenProvider tokenProvider = new ClientCredentialOauthTokenProvider(wso2Credentials);
+//		TokenHeaderProvider tokenHeaderProvider = new ClientCredentialsTokenHeaderProvider(tokenProvider);
 //		coreIdentityClient = new CoreIdentityClientImpl(tokenHeaderProvider);
-		identityLookupClient = new IdentityLookupClientImpl(tokenHeaderProvider);
+//		identityLookupClient = new IdentityLookupClientImpl(tokenHeaderProvider);
 //		memberOfClient = new MemberOfClientImpl(tokenHeaderProvider);
 		personId = properties.getProperty("person_id");
 		netId = properties.getProperty("net_id");

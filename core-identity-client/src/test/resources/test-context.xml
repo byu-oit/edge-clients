@@ -22,6 +22,9 @@
 		  c:tokenHeaderProvider-ref="tokenHeaderProvider"/>
 	<bean id="cachedCoreIdentityClient" class="edu.byu.edge.coreIdentity.client.impl.CachedCoreIdentityClient"
 		  c:tokenHeaderProvider-ref="tokenHeaderProvider"/>
+	<bean id="cachedIdentityLookupClient" class="edu.byu.edge.coreIdentity.client.impl.CachedIdentityLookupClient"
+		  c:tokenHeaderProvider-ref="tokenHeaderProvider"/>
+
 	<bean id="tokenHeaderProvider" class="edu.byu.wso2.core.provider.ClientCredentialsTokenHeaderProvider"
 		  c:clientCredentialsTokenProvider-ref="tokenProvider"/>
 	<bean id="tokenProvider" class="edu.byu.wso2.core.provider.ClientCredentialOauthTokenProvider"

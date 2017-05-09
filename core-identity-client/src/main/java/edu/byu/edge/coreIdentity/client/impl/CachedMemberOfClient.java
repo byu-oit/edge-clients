@@ -21,7 +21,7 @@ public class CachedMemberOfClient extends MemberOfClientImpl implements MemberOf
 	}
 
 	@Override
-	@Cacheable(value = "isMember", unless = "#result == false")
+	@Cacheable(value = "isMemberCache", unless = "#result == false")
 	public boolean isPersonMemberOfGroup(String personId, String group) throws RestHttpException, IOException {
 		return super.isPersonMemberOfGroup(personId, group);
 	}

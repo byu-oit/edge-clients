@@ -22,19 +22,19 @@ public class CachedCoreIdentityClient extends CoreIdentityClientImpl implements 
 	}
 
 	@Override
-	@Cacheable(value = "coreIdentity", unless = "#result == null")
+	@Cacheable(value = "coreIdentityCache", unless = "#result == null")
 	public CoreIdentity getCoreIdentityByPersonId(String personId) throws RestHttpException, IOException {
 		return super.getCoreIdentityByPersonId(personId);
 	}
 
 	@Override
-	@Cacheable(value = "coreIdentity", unless = "#result == null")
+	@Cacheable(value = "coreIdentityCache", unless = "#result == null")
 	public CoreIdentity getCoreIdentityByByuId(String byuId) {
 		return super.getCoreIdentityByByuId(byuId);
 	}
 
 	@Override
-	@Cacheable(value = "coreIdentity", unless = "#result == null")
+	@Cacheable(value = "coreIdentityCache", unless = "#result == null")
 	public CoreIdentity getCoreIdentityByNetId(String netId) throws IOException, RestHttpException {
 		return super.getCoreIdentityByNetId(netId);
 	}

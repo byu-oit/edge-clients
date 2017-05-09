@@ -9,22 +9,29 @@
 				  diskPersistent="false"
 				  maxElementsInMemory="5"
 				  timeToIdleSeconds="15"
-				  timeToLiveSeconds="30"
-	/>
-	<cache eternal="false" name="isMember"
+				  timeToLiveSeconds="30"	/>
+
+	<cache eternal="false" name="isMemberCache"
 		   overflowToDisk="false"
 		   diskPersistent="false"
 		   maxElementsInMemory="128"
 		   timeToIdleSeconds="0"
 		   timeToLiveSeconds="86400"
-		   diskExpiryThreadIntervalSeconds="10"
-	/>
-	<cache eternal="false" name="coreIdentity"
+		   diskExpiryThreadIntervalSeconds="10"	/>
+
+	<cache eternal="false" name="coreIdentityCache"
 		   overflowToDisk="false"
 		   diskPersistent="false"
 		   maxElementsInMemory="128"
 		   timeToIdleSeconds="0"
 		   timeToLiveSeconds="86400"
-		   diskExpiryThreadIntervalSeconds="10"
-	/>
+		   diskExpiryThreadIntervalSeconds="10"	/>
+
+	<cache eternal="false" name="identityLookupCache"
+		   overflowToDisk="false"
+		   diskPersistent="false"
+		   maxElementsInMemory="128"
+		   timeToIdleSeconds="0"
+		   timeToLiveSeconds="86400"
+		   diskExpiryThreadIntervalSeconds="10"	/>
 </ehcache>
