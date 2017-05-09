@@ -20,6 +20,9 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -31,14 +34,20 @@ import java.util.Properties;
  * Created by Scott Hutchings on 3/30/2017.
  * edge-clients
  */
-@RunWith(JUnit4.class)
+@RunWith(SpringJUnit4ClassRunner.class)
+@ContextConfiguration(locations = {"classpath:test-context.xml"})
 public class CoreIdentityClientsUnitTest {
 	private static final Logger LOG = LogManager.getLogger(CoreIdentityClientsUnitTest.class);
 	private static CoreIdentityClient coreIdentityClient;
 	private static IdentityLookupClient identityLookupClient;
-	private static MemberOfClient memberOfClient;
+	private MemberOfClient memberOfClient;
 	private static String personId;
 	private static String netId;
+
+	@Autowired
+	public void setMemberOfClient(MemberOfClient memberOfClient) {
+		this.memberOfClient = memberOfClient;
+	}
 
 	@BeforeClass
 	public static void setup() throws IOException {
@@ -53,7 +62,7 @@ public class CoreIdentityClientsUnitTest {
 		TokenHeaderProvider tokenHeaderProvider = new ClientCredentialsTokenHeaderProvider(tokenProvider);
 		coreIdentityClient = new CoreIdentityClientImpl(tokenHeaderProvider);
 		identityLookupClient = new IdentityLookupClientImpl(tokenHeaderProvider);
-		memberOfClient = new MemberOfClientImpl(tokenHeaderProvider);
+//		memberOfClient = new MemberOfClientImpl(tokenHeaderProvider);
 		personId = properties.getProperty("person_id");
 		netId = properties.getProperty("net_id");
 	}
