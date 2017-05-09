@@ -4,13 +4,15 @@
 		updateCheck="false" monitoring="autodetect" dynamicConfig="true"
 		name="controlDatesCacheManager">
 	<diskStore path="java.io.tmpdir/controlDatesCache" />
-	<defaultCache eternal="false" overflowToDisk="false"
+	<defaultCache eternal="false"
+				  overflowToDisk="false"
 				  diskPersistent="false"
 				  maxElementsInMemory="5"
 				  timeToIdleSeconds="15"
 				  timeToLiveSeconds="30"
 	/>
-	<cache eternal="false" name="controlDatesClientCache" overflowToDisk="true"
+	<cache eternal="false" name="controlDatesClientCache"
+		   overflowToDisk="false"
 		   diskPersistent="false"
 		   maxElementsInMemory="128"
 		   timeToIdleSeconds="0"
