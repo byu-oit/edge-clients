@@ -27,8 +27,8 @@ import edu.byu.edge.client.controldates.domain.ControlDateType;
 import edu.byu.edge.client.controldates.domain.ControlDatesWSServiceType;
 import edu.byu.edge.client.controldates.domain.DateRowType;
 
-public class ControlDatesClientImplTestCase {
-	private static final Logger LOG = LogManager.getLogger(ControlDatesClientImplTestCase.class);
+public class ControlDatesClientImplIntegrationTest {
+	private static final Logger LOG = LogManager.getLogger(ControlDatesClientImplIntegrationTest.class);
 
 	private static ControlDatesClient controlDatesClient;
 
@@ -133,7 +133,7 @@ public class ControlDatesClientImplTestCase {
 		}
 
 		try {
-			controlDatesClient.getByYearTermAndTypes(someYearTerm, null);
+			controlDatesClient.getByYearTermAndTypes(someYearTerm, (ControlDateType) null);
 			fail("Expected Exception was not thrown");
 		} catch (IllegalArgumentException e) {
 			// expected
@@ -212,7 +212,7 @@ public class ControlDatesClientImplTestCase {
 		}
 
 		try {
-			controlDatesClient.getByDateAndTypes(today, null);
+			controlDatesClient.getByDateAndTypes(today, (ControlDateType) null);
 			fail("Expected Exception was not thrown");
 		} catch (IllegalArgumentException e) {
 			// expected

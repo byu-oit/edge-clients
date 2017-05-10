@@ -83,7 +83,7 @@ public interface ControlDatesClient {
 	 * java Date object.
 	 * 
 	 * @param responseDateString
-	 * @return
+	 * @return response
 	 * @throws ParseException
 	 */
 	Date parseResponseDateString(String responseDateString) throws ParseException;

@@ -39,7 +39,7 @@ public class ControlDatesClientImpl extends BaseClient implements ControlDatesCl
 	private static final int timeoutMs = 30000;
 
 	public ControlDatesClientImpl(ClientFilter ... filters) {
-		super(productionBaseUrl, timeoutMs, filters);
+		this(timeoutMs, filters);
 	}
 
 	public ControlDatesClientImpl(int timeout, ClientFilter ... filters) {
