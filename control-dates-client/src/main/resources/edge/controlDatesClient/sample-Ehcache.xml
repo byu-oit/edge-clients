@@ -3,7 +3,7 @@
 		xsi:noNamespaceSchemaLocation="http://ehcache.org/ehcache.xsd"
 		updateCheck="false" monitoring="autodetect" dynamicConfig="true"
 		name="controlDatesCacheManager">
-	<diskStore path="java.io.tmpdir/controlDatesCache" />
+
 	<defaultCache eternal="false" overflowToDisk="false"
 		diskPersistent="false"
 		maxElementsInMemory="5"
