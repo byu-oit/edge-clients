@@ -15,7 +15,7 @@
 	<bean id="cacheManager" class="org.springframework.cache.ehcache.EhCacheCacheManager"
 		  c:cacheManager-ref="ehCacheManager" />
 	<bean id="ehCacheManager" class="org.springframework.cache.ehcache.EhCacheManagerFactoryBean"
-		  p:configLocation="classpath:edge/controlDatesClient/sample-Ehcache.xml" p:shared="true"/>
+		  p:configLocation="classpath:edge/controlDatesClient/sample-ehcache.xml" p:shared="true"/>
 
 	<bean id="controlDatesClient" class="edu.byu.edge.client.controldates.ControlDatesClientImpl"
 		  c:filters-ref="tokenFilter"/>

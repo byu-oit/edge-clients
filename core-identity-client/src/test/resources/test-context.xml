@@ -15,7 +15,7 @@
 	<bean id="cacheManager" class="org.springframework.cache.ehcache.EhCacheCacheManager"
 		  c:cacheManager-ref="ehCacheManager" />
 	<bean id="ehCacheManager" class="org.springframework.cache.ehcache.EhCacheManagerFactoryBean"
-		  p:configLocation="classpath:edge/coreIdentityClient/coreIdentityEhcache.xml"
+		  p:configLocation="classpath:edge/coreIdentityClient/sample-ehcache.xml"
 		  p:shared="true"/>
 
 	<bean id="cachedMemberOfClient" class="edu.byu.edge.coreIdentity.client.impl.CachedMemberOfClient"
