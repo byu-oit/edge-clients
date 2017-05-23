@@ -297,16 +297,10 @@ public class ControlDatesClientImplUnitTest {
 	@Test
 	public void testCaching(){
 		Date today = new Date();
-		long start = System.currentTimeMillis();
 		final DateRowType result1 = cachedControlDatesClient.getByDateAndType(today, ControlDateType.CURRICULUM);
-		long callTime = System.currentTimeMillis() - start;
-		assertTrue(callTime > 10);
-
-		start = System.currentTimeMillis();
 		final DateRowType result2 = cachedControlDatesClient.getByDateAndType(today, ControlDateType.CURRICULUM);
-		callTime = System.currentTimeMillis() - start;
-		assertTrue(callTime < 10);
 
 		assertEquals(result1, result2);
+		assertTrue(result1 == result2);
 	}
 }

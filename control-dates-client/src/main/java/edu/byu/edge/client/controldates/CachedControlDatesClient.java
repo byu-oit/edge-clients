@@ -26,50 +26,44 @@ public class CachedControlDatesClient extends ControlDatesClientImpl {
 	}
 
 	@Override
-	@Cacheable(value = "controlDatesCache", unless = "#result == null")
+	@Cacheable(value = "controlDatesCache", unless = "#result == null", keyGenerator = "controlDatesCacheKeyGenerator")
 	public List<DateRowType> getAll(ControlDateType type) {
 		return super.getAll(type);
 	}
 
 	@Override
-	@Cacheable(value = "controlDatesCache", unless = "#result == null")
+	@Cacheable(value = "controlDatesCache", unless = "#result == null", keyGenerator = "controlDatesCacheKeyGenerator")
 	public List<DateRowType> getRange(YearTerm startYearTerm, YearTerm endYearTerm, ControlDateType controlDateType) {
 		return super.getRange(startYearTerm, endYearTerm, controlDateType);
 	}
 
 	@Override
-	@Cacheable(value = "controlDatesCache", unless = "#result == null")
+	@Cacheable(value = "controlDatesCache", unless = "#result == null", keyGenerator = "controlDatesCacheKeyGenerator")
 	public List<DateRowType> getByYearTermAndTypes(YearTerm yearTerm, ControlDateType... controlDateTypes) {
 		return super.getByYearTermAndTypes(yearTerm, controlDateTypes);
 	}
 
 	@Override
-	@Cacheable(value = "controlDatesCache", unless = "#result == null")
+	@Cacheable(value = "controlDatesCache", unless = "#result == null", keyGenerator = "controlDatesCacheKeyGenerator")
 	public DateRowType getByYearTermAndType(YearTerm yearTerm, ControlDateType controlDateType) {
 		return super.getByYearTermAndType(yearTerm, controlDateType);
 	}
 
 	@Override
-	@Cacheable(value = "controlDatesCache", unless = "#result == null")
-	public Date parseResponseDateString(String responseDateString) throws ParseException {
-		return super.parseResponseDateString(responseDateString);
-	}
-
-	@Override
-	@Cacheable(value = "controlDatesCache", unless = "#result == null")
+	@Cacheable(value = "controlDatesCache", unless = "#result == null", keyGenerator = "controlDatesCacheKeyGenerator")
 	public List<DateRowType> getByDateAndTypes(Date asOfDate, ControlDateType... controlDateTypes) {
 		return super.getByDateAndTypes(asOfDate, controlDateTypes);
 	}
 
 	@Override
-	@Cacheable(value = "controlDatesCache", unless = "#result == null")
+	@Cacheable(value = "controlDatesCache", unless = "#result == null", keyGenerator = "controlDatesCacheKeyGenerator")
 	public DateRowType getByDateAndType(Date asOfDate, ControlDateType controlDateType) {
 
 		return super.getByDateAndType(asOfDate, controlDateType);
 	}
 
 	@Override
-	@Cacheable(value = "controlDatesCache", unless = "#result == null")
+	@Cacheable(value = "controlDatesCache", unless = "#result == null", keyGenerator = "controlDatesCacheKeyGenerator")
 	public String getYearTermWithAdjustedFallWinterStartDates(Date onDate, Date winterStartDate, Date fallStartDate) {
 		return super.getYearTermWithAdjustedFallWinterStartDates(onDate, winterStartDate, fallStartDate);
 	}
