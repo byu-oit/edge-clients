@@ -43,6 +43,7 @@ public class CoreIdentityClientsUnitTest {
 	private MemberOfClient memberOfClient;
 	private static String personId;
 	private static String netId;
+	private static String groupId;
 
 	@Autowired
 	public void setMemberOfClient(MemberOfClient memberOfClient) {
@@ -75,6 +76,7 @@ public class CoreIdentityClientsUnitTest {
 //		memberOfClient = new MemberOfClientImpl(tokenHeaderProvider);
 		personId = properties.getProperty("person_id");
 		netId = properties.getProperty("net_id");
+		groupId = properties.getProperty("group_id");
 	}
 
 	@Test
@@ -88,7 +90,7 @@ public class CoreIdentityClientsUnitTest {
 			final CoreIdentity testCached = coreIdentityClient.getCoreIdentityByByuId(netId);
 			Assert.assertEquals(testPerson, testCached);
 		} catch (Exception e) {
-			LOG.error(e);
+			LOG.error("Error in testCoreIdentityClient", e);
 			Assert.fail("An exception occurred trying the coreIdentityClient service");
 		}
 	}
@@ -100,7 +102,7 @@ public class CoreIdentityClientsUnitTest {
 			Assert.assertNotNull(lookupSummaries);
 			LOG.debug(lookupSummaries);
 		} catch (Exception e) {
-			LOG.error(e);
+			LOG.error("Error in testIdentityLookupClient", e);
 			Assert.fail("An exception occurred trying the identityLookupClient service");
 		}
 	}
@@ -109,10 +111,10 @@ public class CoreIdentityClientsUnitTest {
 	public void testMemberOfClient() {
 		final boolean isMember;
 		try {
-			isMember = memberOfClient.isPersonMemberOfGroup(personId, "testGroup");
+			isMember = memberOfClient.isPersonMemberOfGroup(personId, groupId);
 			LOG.debug("isMember: " + isMember);
 		} catch (Exception e) {
-			LOG.error(e);
+			LOG.error("Error in testMemberOfClient", e);
 			Assert.fail("An exception occurred trying the isMember service");
 		}
 	}
