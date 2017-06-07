@@ -20,6 +20,9 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -31,14 +34,31 @@ import java.util.Properties;
  * Created by Scott Hutchings on 3/30/2017.
  * edge-clients
  */
-@RunWith(JUnit4.class)
+@RunWith(SpringJUnit4ClassRunner.class)
+@ContextConfiguration(locations = {"classpath:test-context.xml"})
 public class CoreIdentityClientsUnitTest {
 	private static final Logger LOG = LogManager.getLogger(CoreIdentityClientsUnitTest.class);
-	private static CoreIdentityClient coreIdentityClient;
-	private static IdentityLookupClient identityLookupClient;
-	private static MemberOfClient memberOfClient;
+	private CoreIdentityClient coreIdentityClient;
+	private IdentityLookupClient identityLookupClient;
+	private MemberOfClient memberOfClient;
 	private static String personId;
 	private static String netId;
+	private static String groupId;
+
+	@Autowired
+	public void setMemberOfClient(MemberOfClient memberOfClient) {
+		this.memberOfClient = memberOfClient;
+	}
+
+	@Autowired
+	public void setCoreIdentityClient(CoreIdentityClient coreIdentityClient) {
+		this.coreIdentityClient = coreIdentityClient;
+	}
+
+	@Autowired
+	public void setIdentityLookupClient(IdentityLookupClient identityLookupClient) {
+		this.identityLookupClient = identityLookupClient;
+	}
 
 	@BeforeClass
 	public static void setup() throws IOException {
@@ -48,14 +68,15 @@ public class CoreIdentityClientsUnitTest {
 				System.getProperty("user.home") + File.separator +
 						"cred" + File.separator + "oauth-tester.cred");
 		properties.load(inputStream);
-		Wso2Credentials wso2Credentials = new Wso2Credentials(properties.getProperty("stage.client_id"),properties.getProperty("stage.client_secret"));
-		ClientCredentialOauthTokenProvider tokenProvider = new ClientCredentialOauthTokenProvider(wso2Credentials);
-		TokenHeaderProvider tokenHeaderProvider = new ClientCredentialsTokenHeaderProvider(tokenProvider);
-		coreIdentityClient = new CoreIdentityClientImpl(tokenHeaderProvider);
-		identityLookupClient = new IdentityLookupClientImpl(tokenHeaderProvider);
-		memberOfClient = new MemberOfClientImpl(tokenHeaderProvider);
+//		Wso2Credentials wso2Credentials = new Wso2Credentials(properties.getProperty("stage.client_id"),properties.getProperty("stage.client_secret"));
+//		ClientCredentialOauthTokenProvider tokenProvider = new ClientCredentialOauthTokenProvider(wso2Credentials);
+//		TokenHeaderProvider tokenHeaderProvider = new ClientCredentialsTokenHeaderProvider(tokenProvider);
+//		coreIdentityClient = new CoreIdentityClientImpl(tokenHeaderProvider);
+//		identityLookupClient = new IdentityLookupClientImpl(tokenHeaderProvider);
+//		memberOfClient = new MemberOfClientImpl(tokenHeaderProvider);
 		personId = properties.getProperty("person_id");
 		netId = properties.getProperty("net_id");
+		groupId = properties.getProperty("group_id");
 	}
 
 	@Test
@@ -66,8 +87,10 @@ public class CoreIdentityClientsUnitTest {
 			Assert.assertNotNull(testPerson.getPersonId());
 			Assert.assertEquals(personId, testPerson.getPersonId());
 			LOG.debug(testPerson);
+			final CoreIdentity testCached = coreIdentityClient.getCoreIdentityByByuId(netId);
+			Assert.assertEquals(testPerson, testCached);
 		} catch (Exception e) {
-			LOG.error(e);
+			LOG.error("Error in testCoreIdentityClient", e);
 			Assert.fail("An exception occurred trying the coreIdentityClient service");
 		}
 	}
@@ -79,7 +102,7 @@ public class CoreIdentityClientsUnitTest {
 			Assert.assertNotNull(lookupSummaries);
 			LOG.debug(lookupSummaries);
 		} catch (Exception e) {
-			LOG.error(e);
+			LOG.error("Error in testIdentityLookupClient", e);
 			Assert.fail("An exception occurred trying the identityLookupClient service");
 		}
 	}
@@ -88,10 +111,10 @@ public class CoreIdentityClientsUnitTest {
 	public void testMemberOfClient() {
 		final boolean isMember;
 		try {
-			isMember = memberOfClient.isPersonMemberOfGroup(personId, "testGroup");
+			isMember = memberOfClient.isPersonMemberOfGroup(personId, groupId);
 			LOG.debug("isMember: " + isMember);
 		} catch (Exception e) {
-			LOG.error(e);
+			LOG.error("Error in testMemberOfClient", e);
 			Assert.fail("An exception occurred trying the isMember service");
 		}
 	}

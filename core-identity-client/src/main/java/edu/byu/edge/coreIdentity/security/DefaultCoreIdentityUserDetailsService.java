@@ -4,7 +4,7 @@ import edu.byu.edge.coreIdentity.client.CoreIdentityClient;
 import edu.byu.edge.coreIdentity.client.MemberOfClient;
 import edu.byu.edge.coreIdentity.client.exceptions.RestHttpException;
 import edu.byu.edge.coreIdentity.domain.CoreIdentity;
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -19,7 +19,7 @@ import java.util.List;
  * Created by Scott Hutchings on 7/7/2016.
  */
 public class DefaultCoreIdentityUserDetailsService implements UserDetailsService {
-	private static final Logger LOG = Logger.getLogger(DefaultCoreIdentityUserDetailsService.class);
+	private static final org.apache.logging.log4j.Logger LOG = LogManager.getLogger(DefaultCoreIdentityUserDetailsService.class);
 
 	private CoreIdentityClient coreIdentityClient;
 	private MemberOfClient memberOfClient;
