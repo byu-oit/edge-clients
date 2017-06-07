@@ -16,6 +16,10 @@ public class CoreIdentity {
 	private String gender;
 	private String religion;
 	private boolean isRestricted;
+	private boolean isRegistrarWarning;
+	private boolean isDeceased;
+	private String studentRole;
+	private String employRole;
 
 //	private String fullName;
 //	private String preferredFirstName;
@@ -107,6 +111,38 @@ public class CoreIdentity {
 		isRestricted = restricted;
 	}
 
+	public boolean isRegistrarWarning() {
+		return isRegistrarWarning;
+	}
+
+	public void setRegistrarWarning(boolean registrarWarning) {
+		isRegistrarWarning = registrarWarning;
+	}
+
+	public boolean isDeceased() {
+		return isDeceased;
+	}
+
+	public void setDeceased(boolean deceased) {
+		isDeceased = deceased;
+	}
+
+	public String getStudentRole() {
+		return studentRole;
+	}
+
+	public void setStudentRole(String studentRole) {
+		this.studentRole = studentRole;
+	}
+
+	public String getEmployRole() {
+		return employRole;
+	}
+
+	public void setEmployRole(String employRole) {
+		this.employRole = employRole;
+	}
+
 	@Override
 	public String toString() {
 		return "CoreIdentity{" +
@@ -120,6 +156,10 @@ public class CoreIdentity {
 				", gender='" + gender + '\'' +
 				", religion='" + religion + '\'' +
 				", isRestricted=" + isRestricted +
+				", isRegistrarWarning=" + isRegistrarWarning +
+				", isDeceased=" + isDeceased +
+				", studentRole='" + studentRole + '\'' +
+				", employRole='" + employRole + '\'' +
 				'}';
 	}
 
