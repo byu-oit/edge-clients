@@ -1,11 +1,13 @@
 package edu.byu.edge.coreIdentity.domain;
 
+import java.io.Serializable;
 import java.util.Date;
 
 /**
  * Created by Scott Hutchings on 2/3/2016.
  */
-public class CoreIdentity {
+public class CoreIdentity implements Serializable {
+	private static final long serialVersionUID = 3L;
 	private String personId;
 	private String netId;
 	private String byuId;
