@@ -17,8 +17,8 @@ ddd:
   ubiquitous_language_url: 
   context_map_url: 
 links:
-  system_documentation_url: https://github.com/byu-oit-appdev/edge-clients
-  source_repo_url: https://github.com/byu-oit-appdev/edge-clients
+  system_documentation_url: https://github.com/byu-oit/edge-clients
+  source_repo_url: https://github.com/byu-oit/edge-clients
   swagger_urls:
 microservice: False
 technologies_used:
@@ -50,5 +50,5 @@ tags:
   env: prd
   app: edge-clients
   team: gro:AD-Back End Technologies and Applications
-federation_json_url: https://raw.githubusercontent.com/byu-oit-appdev/edge-clients/master/.repo-meta.yml
+federation_json_url: https://raw.githubusercontent.com/byu-oit/edge-clients/master/.repo-meta.yml
 
