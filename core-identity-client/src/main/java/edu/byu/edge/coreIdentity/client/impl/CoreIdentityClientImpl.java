@@ -64,7 +64,7 @@ public class CoreIdentityClientImpl implements CoreIdentityClient {
 		final JsonNode response = root.findPath("response");
 		if (!response.isMissingNode()){
 			CoreIdentity coreIdentity = new CoreIdentity();
-			final JsonNode summaryLine = response.path("summary_line");
+			final JsonNode summaryLine = response.path("person_summary_line");
 			final JsonNode identifiers = response.path("identifiers");
 			final JsonNode names = response.path("names");
 			final JsonNode personalInformation = response.path("personal_information");
@@ -86,6 +86,10 @@ public class CoreIdentityClientImpl implements CoreIdentityClient {
 			coreIdentity.setGender(personalInformation.path("gender").asText());
 			coreIdentity.setReligion(personalInformation.path("religion").asText());
 			coreIdentity.setRestricted(summaryLine.path("restricted").asBoolean());
+			coreIdentity.setDeceased(summaryLine.path("deceased").asBoolean());
+			coreIdentity.setRegistrarWarning(summaryLine.path("registrar_warning").asBoolean());
+			coreIdentity.setStudentRole(summaryLine.path("student_role").asText());
+			coreIdentity.setEmployRole(summaryLine.path("employee_role").asText());
 
 			if (coreIdentity.getPersonId() == null || coreIdentity.getPersonId().equalsIgnoreCase("null")){ // if empty personId, not a person
 				return null;
