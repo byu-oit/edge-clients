@@ -7,7 +7,7 @@
 	<parent>
 		<groupId>edu.byu.edge.framework</groupId>
 		<artifactId>edge-pom</artifactId>
-		<version>1.5</version>
+		<version>1.6-SNAPSHOT</version>
 		<relativePath></relativePath>
 	</parent>
 
@@ -19,10 +19,12 @@
 	<url>http://soaregistry.byu.edu/rest/services/uddi:ac92e918-25db-11e1-8974-dfb5fae145a3/wsdl</url>
 
 	<properties>
+		<common-domain.version>1.7.1</common-domain.version>
 		<log4j2.version>2.3</log4j2.version>
 		<slf4j.version>1.7.24</slf4j.version>
 		<hashUtil.version>2.0.0-SNAPSHOT</hashUtil.version>
 		<spring.version>4.2.8.RELEASE</spring.version>
+		<wso2.version>1.0-SNAPSHOT</wso2.version>
 	</properties>
 
 	<dependencies>
@@ -33,7 +35,7 @@
 		<dependency>
 			<groupId>edu.byu.commons-util</groupId>
 			<artifactId>common-exception</artifactId>
-			<version>1.0.0</version>
+			<version>${byu.common-exception.version}</version>
 			<scope>compile</scope>
 		</dependency>
 		<dependency>
@@ -44,12 +46,12 @@
 		<dependency>
 			<groupId>edu.byu.wso2</groupId>
 			<artifactId>core</artifactId>
-			<version>1.0-SNAPSHOT</version>
+			<version>${wso2.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>edu.byu.wso2</groupId>
 			<artifactId>filter-jersey</artifactId>
-			<version>1.0-SNAPSHOT</version>
+			<version>${wso2.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>net.sf.ehcache</groupId>
@@ -64,17 +66,17 @@
 		</dependency>
 		<dependency>
 			<groupId>com.sun.jersey</groupId>
-			<artifactId>jersey-core</artifactId>
-			<scope>compile</scope>
-		</dependency>
-		<dependency>
-			<groupId>com.sun.jersey</groupId>
 			<artifactId>jersey-client</artifactId>
 			<scope>compile</scope>
 		</dependency>
 		<dependency>
 			<groupId>com.sun.jersey</groupId>
 			<artifactId>jersey-json</artifactId>
+			<scope>runtime</scope>
+		</dependency>
+		<dependency>
+			<groupId>com.sun.xml.bind</groupId>
+			<artifactId>jaxb-core</artifactId>
 			<scope>runtime</scope>
 		</dependency>
 		<dependency>
@@ -148,25 +150,12 @@
 			<dependency>
 				<groupId>edu.byu.common</groupId>
 				<artifactId>common-domain</artifactId>
-				<version>1.7.1</version>
+				<version>${common-domain.version}</version>
 				<scope>compile</scope>
 			</dependency>
 		</dependencies>
 	</dependencyManagement>
 
 	<build>
-		<plugins>
-			<!-- Not sure why, but the tests won't run without this -->
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-surefire-plugin</artifactId>
-				<version>2.4.3</version>
-				<configuration>
-					<includes>
-						<include>**/*.java</include>
-					</includes>
-				</configuration>
-			</plugin>
-		</plugins>
 	</build>
 </project>

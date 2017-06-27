@@ -24,7 +24,7 @@ public class BaseClient {
 	protected final WebResource webResource;
 
 	protected BaseClient(final String baseUrl, final int readTimeout){
-		this(baseUrl, readTimeout, null);
+		this(baseUrl, readTimeout, (ClientFilter) null);
 	}
 
 	protected BaseClient(final String baseUrl, final int readTimeout, final ClientFilter ... filters) {
@@ -44,8 +44,7 @@ public class BaseClient {
 	 * Configures a client with the provided configuration. Override to add
 	 * custom configuration.
 	 * 
-	 * @param config
-	 *            the configuration
+	 * @param config the configuration
 	 * @return the client
 	 */
 	protected Client initClient(ClientConfig config) {
@@ -70,9 +69,8 @@ public class BaseClient {
 	 * Processes an exception to either convert it to a BYU Exception, or do
 	 * nothing. Callers of this method should
 	 * 
-	 * @param t
-	 *            The exception to process.
-	 * @return
+	 * @param t The exception to process.
+	 * @return result
 	 */
 	protected Throwable processExceptionToCommon(final Throwable t) {
 		if (t == null)
@@ -92,8 +90,7 @@ public class BaseClient {
 	 * Processes the given throwable to convert it to the BYU common exceptions.
 	 * Determines if the throwable was caused by something that we should retry.
 	 * 
-	 * @param t
-	 *            the throwable
+	 * @param t the throwable
 	 * @return true if the throwable appears to be 'retryable', false otherwise
 	 */
 	protected boolean processExceptionForRetry(final Throwable t) {
