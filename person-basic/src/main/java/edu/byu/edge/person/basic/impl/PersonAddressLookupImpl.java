@@ -115,6 +115,7 @@ public class PersonAddressLookupImpl implements PersonAddressLookup {
 		isFirst = checkAndAppendAddress(query, isFirst, zip, "POSTAL_CODE", "zip");
 		query.append(" order by upper(p.SORT_NAME)");
 		final String sql = query.toString();
+		LOG.debug(sql);
 		return jdbcTemplate.query(sql, params, PERSON_ADDRESSES_EXTRACTOR);
 	}
 

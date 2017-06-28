@@ -87,6 +87,10 @@
 		<priority value="DEBUG"/>
 	</category>
 
+	<category name="edu.byu.edge.person.basic">
+		<priority value="DEBUG"/>
+	</category>
+
 	<category name="edu.byu.security">
 		<priority value="DEBUG"/>
 	</category>
