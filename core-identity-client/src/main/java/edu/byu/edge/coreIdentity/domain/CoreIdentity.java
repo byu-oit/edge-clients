@@ -23,14 +23,14 @@ public class CoreIdentity implements Serializable {
 	private String studentRole;
 	private String employRole;
 
-//	private String fullName;
-//	private String preferredFirstName;
-//	private String restOfName;
-//	private String surname;
-//	private String preferredSurname;
-//	private String sortName;
-//	private String emailAddress;
-//	private Boolean emailAddressUnlisted;
+	private String fullName;
+	private String preferredFirstName;
+	private String restOfName;
+	private String surname;
+	private String preferredSurname;
+	private String sortName;
+	private String emailAddress;
+	private Boolean emailAddressUnlisted;
 
 
 	public String getPersonId() {
@@ -143,6 +143,70 @@ public class CoreIdentity implements Serializable {
 
 	public void setEmployRole(String employRole) {
 		this.employRole = employRole;
+	}
+
+	public String getFullName() {
+		return fullName;
+	}
+
+	public void setFullName(String fullName) {
+		this.fullName = fullName;
+	}
+
+	public String getPreferredFirstName() {
+		return preferredFirstName;
+	}
+
+	public void setPreferredFirstName(String preferredFirstName) {
+		this.preferredFirstName = preferredFirstName;
+	}
+
+	public String getRestOfName() {
+		return restOfName;
+	}
+
+	public void setRestOfName(String restOfName) {
+		this.restOfName = restOfName;
+	}
+
+	public String getSurname() {
+		return surname;
+	}
+
+	public void setSurname(String surname) {
+		this.surname = surname;
+	}
+
+	public String getPreferredSurname() {
+		return preferredSurname;
+	}
+
+	public void setPreferredSurname(String preferredSurname) {
+		this.preferredSurname = preferredSurname;
+	}
+
+	public String getSortName() {
+		return sortName;
+	}
+
+	public void setSortName(String sortName) {
+		this.sortName = sortName;
+	}
+
+	public String getEmailAddress() {
+		return emailAddress;
+	}
+
+	public void setEmailAddress(String emailAddress) {
+		this.emailAddress = emailAddress;
+	}
+
+	public Boolean getEmailAddressUnlisted() {
+		return emailAddressUnlisted;
+	}
+
+	public void setEmailAddressUnlisted(Boolean emailAddressUnlisted) {
+		this.emailAddressUnlisted = emailAddressUnlisted;
 	}
 
 	@Override
