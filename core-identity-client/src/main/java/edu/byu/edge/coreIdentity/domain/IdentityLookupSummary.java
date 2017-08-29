@@ -18,6 +18,7 @@ public class IdentityLookupSummary {
 	private Boolean registrarWarning;
 	private String personId;
 	private String byuId;
+	private String netId;
 	private String dateOfBirth;
 	private String gender;
 	private String employeeStatus;
@@ -93,6 +94,14 @@ public class IdentityLookupSummary {
 		this.byuId = byuId;
 	}
 
+	public String getNetId() {
+		return netId;
+	}
+
+	public void setNetId(String netId) {
+		this.netId = netId;
+	}
+
 	public String getDateOfBirth() {
 		return dateOfBirth;
 	}
@@ -160,6 +169,7 @@ public class IdentityLookupSummary {
 				", registrarWarning=" + registrarWarning +
 				", personId='" + personId + '\'' +
 				", byuId='" + byuId + '\'' +
+				", netId='" + netId + '\'' +
 				", dateOfBirth='" + dateOfBirth + '\'' +
 				", gender='" + gender + '\'' +
 				", employeeStatus='" + employeeStatus + '\'' +
