@@ -29,6 +29,7 @@ public class YpayClientIntegrationTestCase {
 			final MyYpayClient client = new MyYpayClient(false, "parking-citations", new TokenHeaderProvider() {
 				@Override
 				public String getTokenHeaderValue() {
+					//NOTE: This is a sandbox token that doesn't have access to do anything
 					return "Bearer c8358568e5a2b819de9ebd3d744d26e8";
 				}
 			});
