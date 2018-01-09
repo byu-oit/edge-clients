@@ -20,16 +20,16 @@ import javax.xml.bind.annotation.XmlType;
  * <p>The following schema fragment specifies the expected content contained within this class.
  * 
  * <pre>
- * &lt;complexType name="BillingAddressListType">
- *   &lt;complexContent>
- *     &lt;extension base="{http://schemas.byu.edu/payment/common}ListBaseType">
- *       &lt;choice maxOccurs="unbounded" minOccurs="0">
- *         &lt;element name="usAddress" type="{http://schemas.byu.edu/payment/profile}USBillingAddressType"/>
- *         &lt;element name="internationalAddress" type="{http://schemas.byu.edu/payment/profile}InternationalBillingAddressType"/>
- *       &lt;/choice>
- *     &lt;/extension>
- *   &lt;/complexContent>
- * &lt;/complexType>
+ * &lt;complexType name="BillingAddressListType"&gt;
+ *   &lt;complexContent&gt;
+ *     &lt;extension base="{http://schemas.byu.edu/payment/common}ListBaseType"&gt;
+ *       &lt;choice maxOccurs="unbounded" minOccurs="0"&gt;
+ *         &lt;element name="usAddress" type="{http://schemas.byu.edu/payment/profile}USBillingAddressType"/&gt;
+ *         &lt;element name="internationalAddress" type="{http://schemas.byu.edu/payment/profile}InternationalBillingAddressType"/&gt;
+ *       &lt;/choice&gt;
+ *     &lt;/extension&gt;
+ *   &lt;/complexContent&gt;
+ * &lt;/complexType&gt;
  * </pre>
  * 
  * 

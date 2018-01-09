@@ -14,22 +14,22 @@ import javax.xml.bind.annotation.XmlType;
  * <p>The following schema fragment specifies the expected content contained within this class.
  * 
  * <pre>
- * &lt;complexType name="InvoiceCheckoutType">
- *   &lt;complexContent>
- *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
- *       &lt;sequence>
- *         &lt;element name="owner" type="{http://schemas.byu.edu/payment/common}personId"/>
- *         &lt;element name="returnUrl" type="{http://www.w3.org/2001/XMLSchema}anyURI"/>
- *         &lt;element name="clientSystemId" type="{http://www.w3.org/2001/XMLSchema}string"/>
- *         &lt;element name="clientSystemName" type="{http://www.w3.org/2001/XMLSchema}string"/>
- *         &lt;element name="lineItems" type="{http://schemas.byu.edu/payment/invoice}LineItemListType"/>
- *         &lt;element name="paymentSourceAllowed" type="{http://schemas.byu.edu/payment/invoice}PaymentSourceAllowedType"/>
- *         &lt;element name="creditCardTerms" type="{http://schemas.byu.edu/payment/invoice}TermsAndConditions"/>
- *         &lt;element name="bankAccountTerms" type="{http://schemas.byu.edu/payment/invoice}TermsAndConditions"/>
- *       &lt;/sequence>
- *     &lt;/restriction>
- *   &lt;/complexContent>
- * &lt;/complexType>
+ * &lt;complexType name="InvoiceCheckoutType"&gt;
+ *   &lt;complexContent&gt;
+ *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType"&gt;
+ *       &lt;sequence&gt;
+ *         &lt;element name="owner" type="{http://schemas.byu.edu/payment/common}personId"/&gt;
+ *         &lt;element name="returnUrl" type="{http://www.w3.org/2001/XMLSchema}anyURI"/&gt;
+ *         &lt;element name="clientSystemId" type="{http://www.w3.org/2001/XMLSchema}string"/&gt;
+ *         &lt;element name="clientSystemName" type="{http://www.w3.org/2001/XMLSchema}string"/&gt;
+ *         &lt;element name="lineItems" type="{http://schemas.byu.edu/payment/invoice}LineItemListType"/&gt;
+ *         &lt;element name="paymentSourceAllowed" type="{http://schemas.byu.edu/payment/invoice}PaymentSourceAllowedType"/&gt;
+ *         &lt;element name="creditCardTerms" type="{http://schemas.byu.edu/payment/invoice}TermsAndConditions"/&gt;
+ *         &lt;element name="bankAccountTerms" type="{http://schemas.byu.edu/payment/invoice}TermsAndConditions"/&gt;
+ *       &lt;/sequence&gt;
+ *     &lt;/restriction&gt;
+ *   &lt;/complexContent&gt;
+ * &lt;/complexType&gt;
  * </pre>
  * 
  * 

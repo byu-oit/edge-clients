@@ -13,25 +13,25 @@ import javax.xml.bind.annotation.XmlType;
  * <p>Java class for SystemMessageType complex type.
  * <p>The following schema fragment specifies the expected content contained within this class.
  * <pre>
- * &lt;complexType name="SystemMessageType">
- * &lt;complexContent>
- * &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
- * &lt;sequence>
- * &lt;element name="systemMessageId" type="{http://www.w3.org/2001/XMLSchema}string"/>
- * &lt;element name="timeOfMessage" type="{http://www.w3.org/2001/XMLSchema}date"/>
- * &lt;element name="server" type="{http://www.w3.org/2001/XMLSchema}string"/>
- * &lt;element name="category" type="{http://www.w3.org/2001/XMLSchema}string"/>
- * &lt;element name="message" type="{http://www.w3.org/2001/XMLSchema}string"/>
- * &lt;element name="currentUser" type="{http://www.w3.org/2001/XMLSchema}string"/>
- * &lt;element name="currentActor" type="{http://www.w3.org/2001/XMLSchema}string"/>
- * &lt;element name="dateCleared" type="{http://www.w3.org/2001/XMLSchema}date"/>
- * &lt;element name="clearedBy" type="{http://www.w3.org/2001/XMLSchema}string"/>
- * &lt;element name="trace" type="{http://www.w3.org/2001/XMLSchema}string"/>
- * &lt;element name="level" type="{http://schemas.byu.edu/payment/system}LevelType"/>
- * &lt;/sequence>
- * &lt;/restriction>
- * &lt;/complexContent>
- * &lt;/complexType>
+ * &lt;complexType name="SystemMessageType"&gt;
+ * &lt;complexContent&gt;
+ * &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType"&gt;
+ * &lt;sequence&gt;
+ * &lt;element name="systemMessageId" type="{http://www.w3.org/2001/XMLSchema}string"/&gt;
+ * &lt;element name="timeOfMessage" type="{http://www.w3.org/2001/XMLSchema}date"/&gt;
+ * &lt;element name="server" type="{http://www.w3.org/2001/XMLSchema}string"/&gt;
+ * &lt;element name="category" type="{http://www.w3.org/2001/XMLSchema}string"/&gt;
+ * &lt;element name="message" type="{http://www.w3.org/2001/XMLSchema}string"/&gt;
+ * &lt;element name="currentUser" type="{http://www.w3.org/2001/XMLSchema}string"/&gt;
+ * &lt;element name="currentActor" type="{http://www.w3.org/2001/XMLSchema}string"/&gt;
+ * &lt;element name="dateCleared" type="{http://www.w3.org/2001/XMLSchema}date"/&gt;
+ * &lt;element name="clearedBy" type="{http://www.w3.org/2001/XMLSchema}string"/&gt;
+ * &lt;element name="trace" type="{http://www.w3.org/2001/XMLSchema}string"/&gt;
+ * &lt;element name="level" type="{http://schemas.byu.edu/payment/system}LevelType"/&gt;
+ * &lt;/sequence&gt;
+ * &lt;/restriction&gt;
+ * &lt;/complexContent&gt;
+ * &lt;/complexType&gt;
  * </pre>
  *       
  * 
@@ -40,25 +40,25 @@ import javax.xml.bind.annotation.XmlType;
  * <p>The following schema fragment specifies the expected content contained within this class.
  * 
  * <pre>
- * &lt;complexType name="SystemMessageType">
- *   &lt;complexContent>
- *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
- *       &lt;sequence>
- *         &lt;element name="systemMessageId" type="{http://www.w3.org/2001/XMLSchema}string"/>
- *         &lt;element name="timeOfMessage" type="{http://www.w3.org/2001/XMLSchema}string"/>
- *         &lt;element name="server" type="{http://www.w3.org/2001/XMLSchema}string"/>
- *         &lt;element name="category" type="{http://www.w3.org/2001/XMLSchema}string"/>
- *         &lt;element name="message" type="{http://www.w3.org/2001/XMLSchema}string"/>
- *         &lt;element name="currentUser" type="{http://www.w3.org/2001/XMLSchema}string"/>
- *         &lt;element name="currentActor" type="{http://www.w3.org/2001/XMLSchema}string"/>
- *         &lt;element name="dateCleared" type="{http://www.w3.org/2001/XMLSchema}string"/>
- *         &lt;element name="clearedBy" type="{http://www.w3.org/2001/XMLSchema}string"/>
- *         &lt;element name="trace" type="{http://www.w3.org/2001/XMLSchema}string"/>
- *         &lt;element name="level" type="{http://schemas.byu.edu/payment/system}LevelType"/>
- *       &lt;/sequence>
- *     &lt;/restriction>
- *   &lt;/complexContent>
- * &lt;/complexType>
+ * &lt;complexType name="SystemMessageType"&gt;
+ *   &lt;complexContent&gt;
+ *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType"&gt;
+ *       &lt;sequence&gt;
+ *         &lt;element name="systemMessageId" type="{http://www.w3.org/2001/XMLSchema}string"/&gt;
+ *         &lt;element name="timeOfMessage" type="{http://www.w3.org/2001/XMLSchema}string"/&gt;
+ *         &lt;element name="server" type="{http://www.w3.org/2001/XMLSchema}string"/&gt;
+ *         &lt;element name="category" type="{http://www.w3.org/2001/XMLSchema}string"/&gt;
+ *         &lt;element name="message" type="{http://www.w3.org/2001/XMLSchema}string"/&gt;
+ *         &lt;element name="currentUser" type="{http://www.w3.org/2001/XMLSchema}string"/&gt;
+ *         &lt;element name="currentActor" type="{http://www.w3.org/2001/XMLSchema}string"/&gt;
+ *         &lt;element name="dateCleared" type="{http://www.w3.org/2001/XMLSchema}string"/&gt;
+ *         &lt;element name="clearedBy" type="{http://www.w3.org/2001/XMLSchema}string"/&gt;
+ *         &lt;element name="trace" type="{http://www.w3.org/2001/XMLSchema}string"/&gt;
+ *         &lt;element name="level" type="{http://schemas.byu.edu/payment/system}LevelType"/&gt;
+ *       &lt;/sequence&gt;
+ *     &lt;/restriction&gt;
+ *   &lt;/complexContent&gt;
+ * &lt;/complexType&gt;
  * </pre>
  * 
  * 

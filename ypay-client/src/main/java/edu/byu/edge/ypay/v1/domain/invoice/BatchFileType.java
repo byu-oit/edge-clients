@@ -17,23 +17,23 @@ import javax.xml.datatype.XMLGregorianCalendar;
  * <p>The following schema fragment specifies the expected content contained within this class.
  * 
  * <pre>
- * &lt;complexType name="BatchFileType">
- *   &lt;complexContent>
- *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
- *       &lt;sequence>
- *         &lt;element name="fileId" type="{http://www.w3.org/2001/XMLSchema}string"/>
- *         &lt;element name="fileDate" type="{http://www.w3.org/2001/XMLSchema}dateTime"/>
- *         &lt;element name="processingStarted" type="{http://www.w3.org/2001/XMLSchema}dateTime"/>
- *         &lt;element name="processingFinished" type="{http://www.w3.org/2001/XMLSchema}dateTime"/>
- *         &lt;element name="fileType" type="{http://schemas.byu.edu/payment/invoice}BatchFileTypeType"/>
- *         &lt;element name="processedBy" type="{http://www.w3.org/2001/XMLSchema}string"/>
- *         &lt;element name="successfulFinish" type="{http://www.w3.org/2001/XMLSchema}boolean"/>
- *         &lt;element name="fileName" type="{http://www.w3.org/2001/XMLSchema}string"/>
- *         &lt;element name="attributes" type="{http://schemas.byu.edu/payment/invoice}BatchFileTypeAttribute" maxOccurs="unbounded" minOccurs="0"/>
- *       &lt;/sequence>
- *     &lt;/restriction>
- *   &lt;/complexContent>
- * &lt;/complexType>
+ * &lt;complexType name="BatchFileType"&gt;
+ *   &lt;complexContent&gt;
+ *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType"&gt;
+ *       &lt;sequence&gt;
+ *         &lt;element name="fileId" type="{http://www.w3.org/2001/XMLSchema}string"/&gt;
+ *         &lt;element name="fileDate" type="{http://www.w3.org/2001/XMLSchema}dateTime"/&gt;
+ *         &lt;element name="processingStarted" type="{http://www.w3.org/2001/XMLSchema}dateTime"/&gt;
+ *         &lt;element name="processingFinished" type="{http://www.w3.org/2001/XMLSchema}dateTime"/&gt;
+ *         &lt;element name="fileType" type="{http://schemas.byu.edu/payment/invoice}BatchFileTypeType"/&gt;
+ *         &lt;element name="processedBy" type="{http://www.w3.org/2001/XMLSchema}string"/&gt;
+ *         &lt;element name="successfulFinish" type="{http://www.w3.org/2001/XMLSchema}boolean"/&gt;
+ *         &lt;element name="fileName" type="{http://www.w3.org/2001/XMLSchema}string"/&gt;
+ *         &lt;element name="attributes" type="{http://schemas.byu.edu/payment/invoice}BatchFileTypeAttribute" maxOccurs="unbounded" minOccurs="0"/&gt;
+ *       &lt;/sequence&gt;
+ *     &lt;/restriction&gt;
+ *   &lt;/complexContent&gt;
+ * &lt;/complexType&gt;
  * </pre>
  * 
  * 

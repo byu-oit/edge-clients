@@ -11,12 +11,12 @@ import javax.xml.bind.annotation.XmlType;
  * <p>The following schema fragment specifies the expected content contained within this class.
  * <p>
  * <pre>
- * &lt;simpleType name="PaymentSourceUsedType">
- *   &lt;restriction base="{http://www.w3.org/2001/XMLSchema}string">
- *     &lt;enumeration value="BANK_ACCOUNT"/>
- *     &lt;enumeration value="CREDIT_CARD"/>
- *   &lt;/restriction>
- * &lt;/simpleType>
+ * &lt;simpleType name="PaymentSourceUsedType"&gt;
+ *   &lt;restriction base="{http://www.w3.org/2001/XMLSchema}string"&gt;
+ *     &lt;enumeration value="BANK_ACCOUNT"/&gt;
+ *     &lt;enumeration value="CREDIT_CARD"/&gt;
+ *   &lt;/restriction&gt;
+ * &lt;/simpleType&gt;
  * </pre>
  * 
  */

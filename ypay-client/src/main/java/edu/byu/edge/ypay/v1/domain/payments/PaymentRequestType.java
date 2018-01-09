@@ -15,22 +15,22 @@ import javax.xml.datatype.XMLGregorianCalendar;
  * <p>The following schema fragment specifies the expected content contained within this class.
  * 
  * <pre>
- * &lt;complexType name="PaymentRequestType">
- *   &lt;complexContent>
- *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
- *       &lt;sequence>
- *         &lt;element name="personId" type="{http://www.w3.org/2001/XMLSchema}string"/>
- *         &lt;choice>
- *           &lt;element name="bankAccountId" type="{http://www.w3.org/2001/XMLSchema}string"/>
- *           &lt;element name="creditCardId" type="{http://www.w3.org/2001/XMLSchema}string"/>
- *         &lt;/choice>
- *         &lt;element name="userAgreedToTerms" type="{http://www.w3.org/2001/XMLSchema}dateTime"/>
- *         &lt;element name="uuid" type="{http://www.w3.org/2001/XMLSchema}string"/>
- *         &lt;element name="encrpytedCVVCode" type="{http://www.w3.org/2001/XMLSchema}base64Binary"/>
- *       &lt;/sequence>
- *     &lt;/restriction>
- *   &lt;/complexContent>
- * &lt;/complexType>
+ * &lt;complexType name="PaymentRequestType"&gt;
+ *   &lt;complexContent&gt;
+ *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType"&gt;
+ *       &lt;sequence&gt;
+ *         &lt;element name="personId" type="{http://www.w3.org/2001/XMLSchema}string"/&gt;
+ *         &lt;choice&gt;
+ *           &lt;element name="bankAccountId" type="{http://www.w3.org/2001/XMLSchema}string"/&gt;
+ *           &lt;element name="creditCardId" type="{http://www.w3.org/2001/XMLSchema}string"/&gt;
+ *         &lt;/choice&gt;
+ *         &lt;element name="userAgreedToTerms" type="{http://www.w3.org/2001/XMLSchema}dateTime"/&gt;
+ *         &lt;element name="uuid" type="{http://www.w3.org/2001/XMLSchema}string"/&gt;
+ *         &lt;element name="encrpytedCVVCode" type="{http://www.w3.org/2001/XMLSchema}base64Binary"/&gt;
+ *       &lt;/sequence&gt;
+ *     &lt;/restriction&gt;
+ *   &lt;/complexContent&gt;
+ * &lt;/complexType&gt;
  * </pre>
  * 
  * 

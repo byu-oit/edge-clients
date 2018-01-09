@@ -17,21 +17,21 @@ import javax.xml.bind.annotation.XmlType;
  * <p>The following schema fragment specifies the expected content contained within this class.
  * 
  * <pre>
- * &lt;complexType name="CreditCardType">
- *   &lt;complexContent>
- *     &lt;extension base="{http://schemas.byu.edu/payment/payments}CreditCardBaseType">
- *       &lt;sequence>
- *         &lt;element name="creditCardId" type="{http://www.w3.org/2001/XMLSchema}string"/>
- *         &lt;element name="owner" type="{http://schemas.byu.edu/payment/common}personId"/>
- *         &lt;element name="mungedCardNumber" type="{http://www.w3.org/2001/XMLSchema}string"/>
- *         &lt;element name="cardNumberLastFour" type="{http://www.w3.org/2001/XMLSchema}string"/>
- *         &lt;element name="creditCardType" type="{http://schemas.byu.edu/payment/payments}CreditCardTypeType"/>
- *         &lt;element name="disabled" type="{http://www.w3.org/2001/XMLSchema}boolean"/>
- *         &lt;element name="reasonDisabled" type="{http://www.w3.org/2001/XMLSchema}string"/>
- *       &lt;/sequence>
- *     &lt;/extension>
- *   &lt;/complexContent>
- * &lt;/complexType>
+ * &lt;complexType name="CreditCardType"&gt;
+ *   &lt;complexContent&gt;
+ *     &lt;extension base="{http://schemas.byu.edu/payment/payments}CreditCardBaseType"&gt;
+ *       &lt;sequence&gt;
+ *         &lt;element name="creditCardId" type="{http://www.w3.org/2001/XMLSchema}string"/&gt;
+ *         &lt;element name="owner" type="{http://schemas.byu.edu/payment/common}personId"/&gt;
+ *         &lt;element name="mungedCardNumber" type="{http://www.w3.org/2001/XMLSchema}string"/&gt;
+ *         &lt;element name="cardNumberLastFour" type="{http://www.w3.org/2001/XMLSchema}string"/&gt;
+ *         &lt;element name="creditCardType" type="{http://schemas.byu.edu/payment/payments}CreditCardTypeType"/&gt;
+ *         &lt;element name="disabled" type="{http://www.w3.org/2001/XMLSchema}boolean"/&gt;
+ *         &lt;element name="reasonDisabled" type="{http://www.w3.org/2001/XMLSchema}string"/&gt;
+ *       &lt;/sequence&gt;
+ *     &lt;/extension&gt;
+ *   &lt;/complexContent&gt;
+ * &lt;/complexType&gt;
  * </pre>
  * 
  * 

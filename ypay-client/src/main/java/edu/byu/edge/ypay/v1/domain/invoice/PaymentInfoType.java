@@ -15,21 +15,21 @@ import javax.xml.datatype.XMLGregorianCalendar;
  * <p>The following schema fragment specifies the expected content contained within this class.
  * 
  * <pre>
- * &lt;complexType name="PaymentInfoType">
- *   &lt;complexContent>
- *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
- *       &lt;sequence>
- *         &lt;element name="transactionId" type="{http://www.w3.org/2001/XMLSchema}string"/>
- *         &lt;element name="paidWith" type="{http://schemas.byu.edu/payment/invoice}PaidWithType"/>
- *         &lt;element name="errors" type="{http://schemas.byu.edu/payment/invoice}PaymentErrorListType"/>
- *         &lt;element name="dateStartedPayment" type="{http://www.w3.org/2001/XMLSchema}dateTime"/>
- *         &lt;element name="dateFinishedPayment" type="{http://www.w3.org/2001/XMLSchema}dateTime"/>
- *         &lt;element name="dateAgreedToTerms" type="{http://www.w3.org/2001/XMLSchema}dateTime"/>
- *         &lt;element name="paidBy" type="{http://schemas.byu.edu/payment/common}personId"/>
- *       &lt;/sequence>
- *     &lt;/restriction>
- *   &lt;/complexContent>
- * &lt;/complexType>
+ * &lt;complexType name="PaymentInfoType"&gt;
+ *   &lt;complexContent&gt;
+ *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType"&gt;
+ *       &lt;sequence&gt;
+ *         &lt;element name="transactionId" type="{http://www.w3.org/2001/XMLSchema}string"/&gt;
+ *         &lt;element name="paidWith" type="{http://schemas.byu.edu/payment/invoice}PaidWithType"/&gt;
+ *         &lt;element name="errors" type="{http://schemas.byu.edu/payment/invoice}PaymentErrorListType"/&gt;
+ *         &lt;element name="dateStartedPayment" type="{http://www.w3.org/2001/XMLSchema}dateTime"/&gt;
+ *         &lt;element name="dateFinishedPayment" type="{http://www.w3.org/2001/XMLSchema}dateTime"/&gt;
+ *         &lt;element name="dateAgreedToTerms" type="{http://www.w3.org/2001/XMLSchema}dateTime"/&gt;
+ *         &lt;element name="paidBy" type="{http://schemas.byu.edu/payment/common}personId"/&gt;
+ *       &lt;/sequence&gt;
+ *     &lt;/restriction&gt;
+ *   &lt;/complexContent&gt;
+ * &lt;/complexType&gt;
  * </pre>
  * 
  * 

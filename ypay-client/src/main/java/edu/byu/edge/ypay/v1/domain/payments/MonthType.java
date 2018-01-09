@@ -11,22 +11,22 @@ import javax.xml.bind.annotation.XmlType;
  * <p>The following schema fragment specifies the expected content contained within this class.
  * <p>
  * <pre>
- * &lt;simpleType name="MonthType">
- *   &lt;restriction base="{http://www.w3.org/2001/XMLSchema}string">
- *     &lt;enumeration value="JAN"/>
- *     &lt;enumeration value="FEB"/>
- *     &lt;enumeration value="MAR"/>
- *     &lt;enumeration value="APR"/>
- *     &lt;enumeration value="MAY"/>
- *     &lt;enumeration value="JUN"/>
- *     &lt;enumeration value="JUL"/>
- *     &lt;enumeration value="AUG"/>
- *     &lt;enumeration value="SEP"/>
- *     &lt;enumeration value="OCT"/>
- *     &lt;enumeration value="NOV"/>
- *     &lt;enumeration value="DEC"/>
- *   &lt;/restriction>
- * &lt;/simpleType>
+ * &lt;simpleType name="MonthType"&gt;
+ *   &lt;restriction base="{http://www.w3.org/2001/XMLSchema}string"&gt;
+ *     &lt;enumeration value="JAN"/&gt;
+ *     &lt;enumeration value="FEB"/&gt;
+ *     &lt;enumeration value="MAR"/&gt;
+ *     &lt;enumeration value="APR"/&gt;
+ *     &lt;enumeration value="MAY"/&gt;
+ *     &lt;enumeration value="JUN"/&gt;
+ *     &lt;enumeration value="JUL"/&gt;
+ *     &lt;enumeration value="AUG"/&gt;
+ *     &lt;enumeration value="SEP"/&gt;
+ *     &lt;enumeration value="OCT"/&gt;
+ *     &lt;enumeration value="NOV"/&gt;
+ *     &lt;enumeration value="DEC"/&gt;
+ *   &lt;/restriction&gt;
+ * &lt;/simpleType&gt;
  * </pre>
  * 
  */

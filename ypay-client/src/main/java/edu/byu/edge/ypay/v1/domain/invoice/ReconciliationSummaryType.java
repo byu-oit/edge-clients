@@ -15,19 +15,19 @@ import javax.xml.datatype.XMLGregorianCalendar;
  * <p>The following schema fragment specifies the expected content contained within this class.
  * 
  * <pre>
- * &lt;complexType name="ReconciliationSummaryType">
- *   &lt;complexContent>
- *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
- *       &lt;sequence>
- *         &lt;element name="dateReconciled" type="{http://www.w3.org/2001/XMLSchema}dateTime"/>
- *         &lt;element name="reconciledIn" type="{http://schemas.byu.edu/payment/invoice}BatchFileSummary"/>
- *         &lt;element name="returnedIn" type="{http://schemas.byu.edu/payment/invoice}BatchFileSummary"/>
- *         &lt;element name="returnReconciledInFile" type="{http://schemas.byu.edu/payment/invoice}BatchFileSummary"/>
- *         &lt;element name="returnTransactionId" type="{http://www.w3.org/2001/XMLSchema}string"/>
- *       &lt;/sequence>
- *     &lt;/restriction>
- *   &lt;/complexContent>
- * &lt;/complexType>
+ * &lt;complexType name="ReconciliationSummaryType"&gt;
+ *   &lt;complexContent&gt;
+ *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType"&gt;
+ *       &lt;sequence&gt;
+ *         &lt;element name="dateReconciled" type="{http://www.w3.org/2001/XMLSchema}dateTime"/&gt;
+ *         &lt;element name="reconciledIn" type="{http://schemas.byu.edu/payment/invoice}BatchFileSummary"/&gt;
+ *         &lt;element name="returnedIn" type="{http://schemas.byu.edu/payment/invoice}BatchFileSummary"/&gt;
+ *         &lt;element name="returnReconciledInFile" type="{http://schemas.byu.edu/payment/invoice}BatchFileSummary"/&gt;
+ *         &lt;element name="returnTransactionId" type="{http://www.w3.org/2001/XMLSchema}string"/&gt;
+ *       &lt;/sequence&gt;
+ *     &lt;/restriction&gt;
+ *   &lt;/complexContent&gt;
+ * &lt;/complexType&gt;
  * </pre>
  * 
  * 

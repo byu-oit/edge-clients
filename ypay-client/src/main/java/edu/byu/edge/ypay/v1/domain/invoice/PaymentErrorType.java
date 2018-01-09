@@ -19,22 +19,22 @@ import javax.xml.datatype.XMLGregorianCalendar;
  * <p>The following schema fragment specifies the expected content contained within this class.
  * 
  * <pre>
- * &lt;complexType name="PaymentErrorType">
- *   &lt;complexContent>
- *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
- *       &lt;sequence>
- *         &lt;element name="paymentErrorId" type="{http://schemas.byu.edu/payment/common}uuid"/>
- *         &lt;element name="dateFinished" type="{http://www.w3.org/2001/XMLSchema}dateTime"/>
- *         &lt;element name="errorCode" type="{http://www.w3.org/2001/XMLSchema}int"/>
- *         &lt;element name="errorMessage" type="{http://www.w3.org/2001/XMLSchema}string"/>
- *         &lt;element name="invoiceId" type="{http://www.w3.org/2001/XMLSchema}long"/>
- *         &lt;element name="paymentSourceId" type="{http://schemas.byu.edu/payment/invoice}PaymentSourceIdType"/>
- *         &lt;element name="paidWith" type="{http://schemas.byu.edu/payment/invoice}PaidWithType"/>
- *         &lt;element name="creditCardError" type="{http://www.w3.org/2001/XMLSchema}boolean"/>
- *       &lt;/sequence>
- *     &lt;/restriction>
- *   &lt;/complexContent>
- * &lt;/complexType>
+ * &lt;complexType name="PaymentErrorType"&gt;
+ *   &lt;complexContent&gt;
+ *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType"&gt;
+ *       &lt;sequence&gt;
+ *         &lt;element name="paymentErrorId" type="{http://schemas.byu.edu/payment/common}uuid"/&gt;
+ *         &lt;element name="dateFinished" type="{http://www.w3.org/2001/XMLSchema}dateTime"/&gt;
+ *         &lt;element name="errorCode" type="{http://www.w3.org/2001/XMLSchema}int"/&gt;
+ *         &lt;element name="errorMessage" type="{http://www.w3.org/2001/XMLSchema}string"/&gt;
+ *         &lt;element name="invoiceId" type="{http://www.w3.org/2001/XMLSchema}long"/&gt;
+ *         &lt;element name="paymentSourceId" type="{http://schemas.byu.edu/payment/invoice}PaymentSourceIdType"/&gt;
+ *         &lt;element name="paidWith" type="{http://schemas.byu.edu/payment/invoice}PaidWithType"/&gt;
+ *         &lt;element name="creditCardError" type="{http://www.w3.org/2001/XMLSchema}boolean"/&gt;
+ *       &lt;/sequence&gt;
+ *     &lt;/restriction&gt;
+ *   &lt;/complexContent&gt;
+ * &lt;/complexType&gt;
  * </pre>
  * 
  * 

@@ -14,17 +14,17 @@ import javax.xml.bind.annotation.XmlType;
  * <p>The following schema fragment specifies the expected content contained within this class.
  * 
  * <pre>
- * &lt;complexType name="InvoiceBaseType">
- *   &lt;complexContent>
- *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
- *       &lt;sequence>
- *         &lt;element name="owner" type="{http://schemas.byu.edu/payment/common}personId"/>
- *         &lt;element name="paymentSourceAllowed" type="{http://schemas.byu.edu/payment/invoice}PaymentSourceAllowedType"/>
- *         &lt;element name="lineItems" type="{http://schemas.byu.edu/payment/invoice}LineItemListType"/>
- *       &lt;/sequence>
- *     &lt;/restriction>
- *   &lt;/complexContent>
- * &lt;/complexType>
+ * &lt;complexType name="InvoiceBaseType"&gt;
+ *   &lt;complexContent&gt;
+ *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType"&gt;
+ *       &lt;sequence&gt;
+ *         &lt;element name="owner" type="{http://schemas.byu.edu/payment/common}personId"/&gt;
+ *         &lt;element name="paymentSourceAllowed" type="{http://schemas.byu.edu/payment/invoice}PaymentSourceAllowedType"/&gt;
+ *         &lt;element name="lineItems" type="{http://schemas.byu.edu/payment/invoice}LineItemListType"/&gt;
+ *       &lt;/sequence&gt;
+ *     &lt;/restriction&gt;
+ *   &lt;/complexContent&gt;
+ * &lt;/complexType&gt;
  * </pre>
  * 
  * 

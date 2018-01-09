@@ -13,15 +13,15 @@ import javax.xml.bind.annotation.XmlType;
  *         <p>Java class for ListBaseType complex type.
  * <p>The following schema fragment specifies the expected content contained within this class.
  * <pre>
- * &lt;complexType name="ListBaseType">
- * &lt;complexContent>
- * &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
- * &lt;attribute name="start" type="{http://www.w3.org/2001/XMLSchema}int" />
- * &lt;attribute name="count" type="{http://www.w3.org/2001/XMLSchema}int" />
- * &lt;attribute name="total" type="{http://www.w3.org/2001/XMLSchema}int" />
- * &lt;/restriction>
- * &lt;/complexContent>
- * &lt;/complexType>
+ * &lt;complexType name="ListBaseType"&gt;
+ * &lt;complexContent&gt;
+ * &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType"&gt;
+ * &lt;attribute name="start" type="{http://www.w3.org/2001/XMLSchema}int" /&gt;
+ * &lt;attribute name="count" type="{http://www.w3.org/2001/XMLSchema}int" /&gt;
+ * &lt;attribute name="total" type="{http://www.w3.org/2001/XMLSchema}int" /&gt;
+ * &lt;/restriction&gt;
+ * &lt;/complexContent&gt;
+ * &lt;/complexType&gt;
  * </pre>
  *       
  * 
@@ -30,15 +30,15 @@ import javax.xml.bind.annotation.XmlType;
  * <p>The following schema fragment specifies the expected content contained within this class.
  * 
  * <pre>
- * &lt;complexType name="ListBaseType">
- *   &lt;complexContent>
- *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
- *       &lt;attribute name="start" type="{http://www.w3.org/2001/XMLSchema}int" />
- *       &lt;attribute name="count" type="{http://www.w3.org/2001/XMLSchema}int" />
- *       &lt;attribute name="total" type="{http://www.w3.org/2001/XMLSchema}int" />
- *     &lt;/restriction>
- *   &lt;/complexContent>
- * &lt;/complexType>
+ * &lt;complexType name="ListBaseType"&gt;
+ *   &lt;complexContent&gt;
+ *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType"&gt;
+ *       &lt;attribute name="start" type="{http://www.w3.org/2001/XMLSchema}int" /&gt;
+ *       &lt;attribute name="count" type="{http://www.w3.org/2001/XMLSchema}int" /&gt;
+ *       &lt;attribute name="total" type="{http://www.w3.org/2001/XMLSchema}int" /&gt;
+ *     &lt;/restriction&gt;
+ *   &lt;/complexContent&gt;
+ * &lt;/complexType&gt;
  * </pre>
  * 
  * 

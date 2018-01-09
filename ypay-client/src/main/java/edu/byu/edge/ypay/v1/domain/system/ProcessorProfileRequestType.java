@@ -13,19 +13,19 @@ import javax.xml.bind.annotation.XmlType;
  *         <p>Java class for ProcessorProfileRequestType complex type.
  * <p>The following schema fragment specifies the expected content contained within this class.
  * <pre>
- * &lt;complexType name="ProcessorProfileRequestType">
- * &lt;complexContent>
- * &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
- * &lt;sequence>
- * &lt;element name="name" type="{http://www.w3.org/2001/XMLSchema}string"/>
- * &lt;element name="doesAVS" type="{http://www.w3.org/2001/XMLSchema}boolean"/>
- * &lt;element name="doesCVV" type="{http://www.w3.org/2001/XMLSchema}boolean"/>
- * &lt;element name="whenToUse" type="{http://www.w3.org/2001/XMLSchema}string"/>
- * &lt;element name="cashnetInfo" type="{http://schemas.byu.edu/payment/system}CashnetInfoType"/>
- * &lt;/sequence>
- * &lt;/restriction>
- * &lt;/complexContent>
- * &lt;/complexType>
+ * &lt;complexType name="ProcessorProfileRequestType"&gt;
+ * &lt;complexContent&gt;
+ * &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType"&gt;
+ * &lt;sequence&gt;
+ * &lt;element name="name" type="{http://www.w3.org/2001/XMLSchema}string"/&gt;
+ * &lt;element name="doesAVS" type="{http://www.w3.org/2001/XMLSchema}boolean"/&gt;
+ * &lt;element name="doesCVV" type="{http://www.w3.org/2001/XMLSchema}boolean"/&gt;
+ * &lt;element name="whenToUse" type="{http://www.w3.org/2001/XMLSchema}string"/&gt;
+ * &lt;element name="cashnetInfo" type="{http://schemas.byu.edu/payment/system}CashnetInfoType"/&gt;
+ * &lt;/sequence&gt;
+ * &lt;/restriction&gt;
+ * &lt;/complexContent&gt;
+ * &lt;/complexType&gt;
  * </pre>
  *       
  * 
@@ -34,19 +34,19 @@ import javax.xml.bind.annotation.XmlType;
  * <p>The following schema fragment specifies the expected content contained within this class.
  * 
  * <pre>
- * &lt;complexType name="ProcessorProfileRequestType">
- *   &lt;complexContent>
- *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
- *       &lt;sequence>
- *         &lt;element name="name" type="{http://www.w3.org/2001/XMLSchema}string"/>
- *         &lt;element name="doesAVS" type="{http://www.w3.org/2001/XMLSchema}boolean"/>
- *         &lt;element name="doesCVV" type="{http://www.w3.org/2001/XMLSchema}boolean"/>
- *         &lt;element name="whenToUse" type="{http://www.w3.org/2001/XMLSchema}string"/>
- *         &lt;element name="cashnetInfo" type="{http://schemas.byu.edu/payment/system}CashnetInfoType"/>
- *       &lt;/sequence>
- *     &lt;/restriction>
- *   &lt;/complexContent>
- * &lt;/complexType>
+ * &lt;complexType name="ProcessorProfileRequestType"&gt;
+ *   &lt;complexContent&gt;
+ *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType"&gt;
+ *       &lt;sequence&gt;
+ *         &lt;element name="name" type="{http://www.w3.org/2001/XMLSchema}string"/&gt;
+ *         &lt;element name="doesAVS" type="{http://www.w3.org/2001/XMLSchema}boolean"/&gt;
+ *         &lt;element name="doesCVV" type="{http://www.w3.org/2001/XMLSchema}boolean"/&gt;
+ *         &lt;element name="whenToUse" type="{http://www.w3.org/2001/XMLSchema}string"/&gt;
+ *         &lt;element name="cashnetInfo" type="{http://schemas.byu.edu/payment/system}CashnetInfoType"/&gt;
+ *       &lt;/sequence&gt;
+ *     &lt;/restriction&gt;
+ *   &lt;/complexContent&gt;
+ * &lt;/complexType&gt;
  * </pre>
  * 
  * 

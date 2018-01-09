@@ -18,16 +18,16 @@ import javax.xml.bind.annotation.XmlType;
  * <p>The following schema fragment specifies the expected content contained within this class.
  * 
  * <pre>
- * &lt;complexType name="PaymentSourceIdType">
- *   &lt;complexContent>
- *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
- *       &lt;sequence>
- *         &lt;element name="PaymentIdUsed" type="{http://schemas.byu.edu/payment/common}uuid"/>
- *         &lt;element name="PaymentSourceUsed" type="{http://schemas.byu.edu/payment/invoice}PaymentSourceUsedType"/>
- *       &lt;/sequence>
- *     &lt;/restriction>
- *   &lt;/complexContent>
- * &lt;/complexType>
+ * &lt;complexType name="PaymentSourceIdType"&gt;
+ *   &lt;complexContent&gt;
+ *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType"&gt;
+ *       &lt;sequence&gt;
+ *         &lt;element name="PaymentIdUsed" type="{http://schemas.byu.edu/payment/common}uuid"/&gt;
+ *         &lt;element name="PaymentSourceUsed" type="{http://schemas.byu.edu/payment/invoice}PaymentSourceUsedType"/&gt;
+ *       &lt;/sequence&gt;
+ *     &lt;/restriction&gt;
+ *   &lt;/complexContent&gt;
+ * &lt;/complexType&gt;
  * </pre>
  * 
  * 

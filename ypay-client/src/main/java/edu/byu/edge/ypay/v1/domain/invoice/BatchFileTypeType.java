@@ -11,12 +11,12 @@ import javax.xml.bind.annotation.XmlType;
  * <p>The following schema fragment specifies the expected content contained within this class.
  * <p>
  * <pre>
- * &lt;simpleType name="BatchFileTypeType">
- *   &lt;restriction base="{http://www.w3.org/2001/XMLSchema}string">
- *     &lt;enumeration value="END_OF_DAY"/>
- *     &lt;enumeration value="RETURNS"/>
- *   &lt;/restriction>
- * &lt;/simpleType>
+ * &lt;simpleType name="BatchFileTypeType"&gt;
+ *   &lt;restriction base="{http://www.w3.org/2001/XMLSchema}string"&gt;
+ *     &lt;enumeration value="END_OF_DAY"/&gt;
+ *     &lt;enumeration value="RETURNS"/&gt;
+ *   &lt;/restriction&gt;
+ * &lt;/simpleType&gt;
  * </pre>
  * 
  */

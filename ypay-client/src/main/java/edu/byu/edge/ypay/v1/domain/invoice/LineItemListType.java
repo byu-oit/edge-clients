@@ -15,15 +15,15 @@ import javax.xml.bind.annotation.XmlType;
  * <p>The following schema fragment specifies the expected content contained within this class.
  * 
  * <pre>
- * &lt;complexType name="LineItemListType">
- *   &lt;complexContent>
- *     &lt;extension base="{http://schemas.byu.edu/payment/common}ListBaseType">
- *       &lt;sequence>
- *         &lt;element name="lineItem" type="{http://schemas.byu.edu/payment/invoice}LineItemType" maxOccurs="unbounded"/>
- *       &lt;/sequence>
- *     &lt;/extension>
- *   &lt;/complexContent>
- * &lt;/complexType>
+ * &lt;complexType name="LineItemListType"&gt;
+ *   &lt;complexContent&gt;
+ *     &lt;extension base="{http://schemas.byu.edu/payment/common}ListBaseType"&gt;
+ *       &lt;sequence&gt;
+ *         &lt;element name="lineItem" type="{http://schemas.byu.edu/payment/invoice}LineItemType" maxOccurs="unbounded"/&gt;
+ *       &lt;/sequence&gt;
+ *     &lt;/extension&gt;
+ *   &lt;/complexContent&gt;
+ * &lt;/complexType&gt;
  * </pre>
  * 
  * 

@@ -18,21 +18,21 @@ import javax.xml.bind.annotation.XmlType;
  * <p>The following schema fragment specifies the expected content contained within this class.
  * 
  * <pre>
- * &lt;complexType name="InvoiceType">
- *   &lt;complexContent>
- *     &lt;extension base="{http://schemas.byu.edu/payment/invoice}InvoiceBaseType">
- *       &lt;sequence>
- *         &lt;element name="invoiceId" type="{http://www.w3.org/2001/XMLSchema}long"/>
- *         &lt;element name="clientSystem" type="{http://schemas.byu.edu/payment/invoice}ClientSystemLinkType"/>
- *         &lt;element name="status" type="{http://schemas.byu.edu/payment/invoice}InvoiceStatusType"/>
- *         &lt;element name="payment" type="{http://schemas.byu.edu/payment/invoice}PaymentInfoType"/>
- *         &lt;element name="reconciliation" type="{http://schemas.byu.edu/payment/invoice}ReconciliationType"/>
- *         &lt;element name="urls" type="{http://schemas.byu.edu/payment/invoice}UrlsType"/>
- *         &lt;element name="scheduledPaymentId" type="{http://www.w3.org/2001/XMLSchema}string"/>
- *       &lt;/sequence>
- *     &lt;/extension>
- *   &lt;/complexContent>
- * &lt;/complexType>
+ * &lt;complexType name="InvoiceType"&gt;
+ *   &lt;complexContent&gt;
+ *     &lt;extension base="{http://schemas.byu.edu/payment/invoice}InvoiceBaseType"&gt;
+ *       &lt;sequence&gt;
+ *         &lt;element name="invoiceId" type="{http://www.w3.org/2001/XMLSchema}long"/&gt;
+ *         &lt;element name="clientSystem" type="{http://schemas.byu.edu/payment/invoice}ClientSystemLinkType"/&gt;
+ *         &lt;element name="status" type="{http://schemas.byu.edu/payment/invoice}InvoiceStatusType"/&gt;
+ *         &lt;element name="payment" type="{http://schemas.byu.edu/payment/invoice}PaymentInfoType"/&gt;
+ *         &lt;element name="reconciliation" type="{http://schemas.byu.edu/payment/invoice}ReconciliationType"/&gt;
+ *         &lt;element name="urls" type="{http://schemas.byu.edu/payment/invoice}UrlsType"/&gt;
+ *         &lt;element name="scheduledPaymentId" type="{http://www.w3.org/2001/XMLSchema}string"/&gt;
+ *       &lt;/sequence&gt;
+ *     &lt;/extension&gt;
+ *   &lt;/complexContent&gt;
+ * &lt;/complexType&gt;
  * </pre>
  * 
  * 

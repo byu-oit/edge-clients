@@ -17,16 +17,16 @@ import javax.xml.bind.annotation.XmlType;
  * <p>The following schema fragment specifies the expected content contained within this class.
  * 
  * <pre>
- * &lt;complexType name="BankAccountRequestType">
- *   &lt;complexContent>
- *     &lt;extension base="{http://schemas.byu.edu/payment/payments}BankAccountBaseType">
- *       &lt;sequence>
- *         &lt;element name="routingNumber" type="{http://www.w3.org/2001/XMLSchema}string"/>
- *         &lt;element name="accountNumber" type="{http://www.w3.org/2001/XMLSchema}string"/>
- *       &lt;/sequence>
- *     &lt;/extension>
- *   &lt;/complexContent>
- * &lt;/complexType>
+ * &lt;complexType name="BankAccountRequestType"&gt;
+ *   &lt;complexContent&gt;
+ *     &lt;extension base="{http://schemas.byu.edu/payment/payments}BankAccountBaseType"&gt;
+ *       &lt;sequence&gt;
+ *         &lt;element name="routingNumber" type="{http://www.w3.org/2001/XMLSchema}string"/&gt;
+ *         &lt;element name="accountNumber" type="{http://www.w3.org/2001/XMLSchema}string"/&gt;
+ *       &lt;/sequence&gt;
+ *     &lt;/extension&gt;
+ *   &lt;/complexContent&gt;
+ * &lt;/complexType&gt;
  * </pre>
  * 
  * 

@@ -12,28 +12,28 @@ import javax.xml.bind.annotation.XmlType;
  * <p>The following schema fragment specifies the expected content contained within this class.
  * <p>
  * <pre>
- * &lt;simpleType name="SortColumnType">
- *   &lt;restriction base="{http://www.w3.org/2001/XMLSchema}string">
- *     &lt;enumeration value="invoice-id"/>
- *     &lt;enumeration value="system-name"/>
- *     &lt;enumeration value="system-id"/>
- *     &lt;enumeration value="status"/>
- *     &lt;enumeration value="items-total"/>
- *     &lt;enumeration value="items-fees"/>
- *     &lt;enumeration value="payment-transaction"/>
- *     &lt;enumeration value="payment-started"/>
- *     &lt;enumeration value="payment-finished"/>
- *     &lt;enumeration value="payment-agreement-date"/>
- *     &lt;enumeration value="reconciliation-date"/>
- *     &lt;enumeration value="reconciliation-file"/>
- *     &lt;enumeration value="return-date"/>
- *     &lt;enumeration value="return-file"/>
- *     &lt;enumeration value="return-reconciled-date"/>
- *     &lt;enumeration value="return-reconciled-file"/>
- *     &lt;enumeration value="return-transaction"/>
- *     &lt;enumeration value="payment-source-allowed"/>
- *   &lt;/restriction>
- * &lt;/simpleType>
+ * &lt;simpleType name="SortColumnType"&gt;
+ *   &lt;restriction base="{http://www.w3.org/2001/XMLSchema}string"&gt;
+ *     &lt;enumeration value="invoice-id"/&gt;
+ *     &lt;enumeration value="system-name"/&gt;
+ *     &lt;enumeration value="system-id"/&gt;
+ *     &lt;enumeration value="status"/&gt;
+ *     &lt;enumeration value="items-total"/&gt;
+ *     &lt;enumeration value="items-fees"/&gt;
+ *     &lt;enumeration value="payment-transaction"/&gt;
+ *     &lt;enumeration value="payment-started"/&gt;
+ *     &lt;enumeration value="payment-finished"/&gt;
+ *     &lt;enumeration value="payment-agreement-date"/&gt;
+ *     &lt;enumeration value="reconciliation-date"/&gt;
+ *     &lt;enumeration value="reconciliation-file"/&gt;
+ *     &lt;enumeration value="return-date"/&gt;
+ *     &lt;enumeration value="return-file"/&gt;
+ *     &lt;enumeration value="return-reconciled-date"/&gt;
+ *     &lt;enumeration value="return-reconciled-file"/&gt;
+ *     &lt;enumeration value="return-transaction"/&gt;
+ *     &lt;enumeration value="payment-source-allowed"/&gt;
+ *   &lt;/restriction&gt;
+ * &lt;/simpleType&gt;
  * </pre>
  * 
  */

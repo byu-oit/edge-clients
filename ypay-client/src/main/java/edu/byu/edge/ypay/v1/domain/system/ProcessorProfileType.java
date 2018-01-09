@@ -12,16 +12,16 @@ import javax.xml.bind.annotation.XmlType;
  *         <p>Java class for ProcessorProfileType complex type.
  * <p>The following schema fragment specifies the expected content contained within this class.
  * <pre>
- * &lt;complexType name="ProcessorProfileType">
- * &lt;complexContent>
- * &lt;extension base="{http://schemas.byu.edu/payment/system}ProcessorProfileRequestType">
- * &lt;sequence>
- * &lt;element name="id" type="{http://www.w3.org/2001/XMLSchema}string"/>
- * &lt;element name="clientSystemId" type="{http://www.w3.org/2001/XMLSchema}string"/>
- * &lt;/sequence>
- * &lt;/extension>
- * &lt;/complexContent>
- * &lt;/complexType>
+ * &lt;complexType name="ProcessorProfileType"&gt;
+ * &lt;complexContent&gt;
+ * &lt;extension base="{http://schemas.byu.edu/payment/system}ProcessorProfileRequestType"&gt;
+ * &lt;sequence&gt;
+ * &lt;element name="id" type="{http://www.w3.org/2001/XMLSchema}string"/&gt;
+ * &lt;element name="clientSystemId" type="{http://www.w3.org/2001/XMLSchema}string"/&gt;
+ * &lt;/sequence&gt;
+ * &lt;/extension&gt;
+ * &lt;/complexContent&gt;
+ * &lt;/complexType&gt;
  * </pre>
  *       
  * 
@@ -30,16 +30,16 @@ import javax.xml.bind.annotation.XmlType;
  * <p>The following schema fragment specifies the expected content contained within this class.
  * 
  * <pre>
- * &lt;complexType name="ProcessorProfileType">
- *   &lt;complexContent>
- *     &lt;extension base="{http://schemas.byu.edu/payment/system}ProcessorProfileRequestType">
- *       &lt;sequence>
- *         &lt;element name="id" type="{http://www.w3.org/2001/XMLSchema}string"/>
- *         &lt;element name="clientSystemId" type="{http://www.w3.org/2001/XMLSchema}string"/>
- *       &lt;/sequence>
- *     &lt;/extension>
- *   &lt;/complexContent>
- * &lt;/complexType>
+ * &lt;complexType name="ProcessorProfileType"&gt;
+ *   &lt;complexContent&gt;
+ *     &lt;extension base="{http://schemas.byu.edu/payment/system}ProcessorProfileRequestType"&gt;
+ *       &lt;sequence&gt;
+ *         &lt;element name="id" type="{http://www.w3.org/2001/XMLSchema}string"/&gt;
+ *         &lt;element name="clientSystemId" type="{http://www.w3.org/2001/XMLSchema}string"/&gt;
+ *       &lt;/sequence&gt;
+ *     &lt;/extension&gt;
+ *   &lt;/complexContent&gt;
+ * &lt;/complexType&gt;
  * </pre>
  * 
  * 

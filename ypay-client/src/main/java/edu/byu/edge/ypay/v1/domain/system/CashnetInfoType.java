@@ -12,21 +12,21 @@ import javax.xml.bind.annotation.XmlType;
  *         <p>Java class for CashnetInfoType complex type.
  * <p>The following schema fragment specifies the expected content contained within this class.
  * <pre>
- * &lt;complexType name="CashnetInfoType">
- * &lt;complexContent>
- * &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
- * &lt;sequence>
- * &lt;element name="operator" type="{http://www.w3.org/2001/XMLSchema}string"/>
- * &lt;element name="password" type="{http://www.w3.org/2001/XMLSchema}string"/>
- * &lt;element name="station" type="{http://www.w3.org/2001/XMLSchema}string"/>
- * &lt;element name="merchant" type="{http://www.w3.org/2001/XMLSchema}string"/>
- * &lt;element name="customerCode" type="{http://www.w3.org/2001/XMLSchema}string"/>
- * &lt;element name="itemCode" type="{http://www.w3.org/2001/XMLSchema}string"/>
- * &lt;element name="virtualDirectory" type="{http://www.w3.org/2001/XMLSchema}string"/>
- * &lt;/sequence>
- * &lt;/restriction>
- * &lt;/complexContent>
- * &lt;/complexType>
+ * &lt;complexType name="CashnetInfoType"&gt;
+ * &lt;complexContent&gt;
+ * &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType"&gt;
+ * &lt;sequence&gt;
+ * &lt;element name="operator" type="{http://www.w3.org/2001/XMLSchema}string"/&gt;
+ * &lt;element name="password" type="{http://www.w3.org/2001/XMLSchema}string"/&gt;
+ * &lt;element name="station" type="{http://www.w3.org/2001/XMLSchema}string"/&gt;
+ * &lt;element name="merchant" type="{http://www.w3.org/2001/XMLSchema}string"/&gt;
+ * &lt;element name="customerCode" type="{http://www.w3.org/2001/XMLSchema}string"/&gt;
+ * &lt;element name="itemCode" type="{http://www.w3.org/2001/XMLSchema}string"/&gt;
+ * &lt;element name="virtualDirectory" type="{http://www.w3.org/2001/XMLSchema}string"/&gt;
+ * &lt;/sequence&gt;
+ * &lt;/restriction&gt;
+ * &lt;/complexContent&gt;
+ * &lt;/complexType&gt;
  * </pre>
  *       
  * 
@@ -35,21 +35,21 @@ import javax.xml.bind.annotation.XmlType;
  * <p>The following schema fragment specifies the expected content contained within this class.
  * 
  * <pre>
- * &lt;complexType name="CashnetInfoType">
- *   &lt;complexContent>
- *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
- *       &lt;sequence>
- *         &lt;element name="operator" type="{http://www.w3.org/2001/XMLSchema}string"/>
- *         &lt;element name="password" type="{http://www.w3.org/2001/XMLSchema}string"/>
- *         &lt;element name="station" type="{http://www.w3.org/2001/XMLSchema}string"/>
- *         &lt;element name="merchant" type="{http://www.w3.org/2001/XMLSchema}string"/>
- *         &lt;element name="customerCode" type="{http://www.w3.org/2001/XMLSchema}string"/>
- *         &lt;element name="itemCode" type="{http://www.w3.org/2001/XMLSchema}string"/>
- *         &lt;element name="virtualDirectory" type="{http://www.w3.org/2001/XMLSchema}string"/>
- *       &lt;/sequence>
- *     &lt;/restriction>
- *   &lt;/complexContent>
- * &lt;/complexType>
+ * &lt;complexType name="CashnetInfoType"&gt;
+ *   &lt;complexContent&gt;
+ *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType"&gt;
+ *       &lt;sequence&gt;
+ *         &lt;element name="operator" type="{http://www.w3.org/2001/XMLSchema}string"/&gt;
+ *         &lt;element name="password" type="{http://www.w3.org/2001/XMLSchema}string"/&gt;
+ *         &lt;element name="station" type="{http://www.w3.org/2001/XMLSchema}string"/&gt;
+ *         &lt;element name="merchant" type="{http://www.w3.org/2001/XMLSchema}string"/&gt;
+ *         &lt;element name="customerCode" type="{http://www.w3.org/2001/XMLSchema}string"/&gt;
+ *         &lt;element name="itemCode" type="{http://www.w3.org/2001/XMLSchema}string"/&gt;
+ *         &lt;element name="virtualDirectory" type="{http://www.w3.org/2001/XMLSchema}string"/&gt;
+ *       &lt;/sequence&gt;
+ *     &lt;/restriction&gt;
+ *   &lt;/complexContent&gt;
+ * &lt;/complexType&gt;
  * </pre>
  * 
  * 

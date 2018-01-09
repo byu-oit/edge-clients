@@ -11,19 +11,19 @@ import javax.xml.bind.annotation.XmlType;
  * <p>The following schema fragment specifies the expected content contained within this class.
  * <p>
  * <pre>
- * &lt;simpleType name="InvoiceStatusType">
- *   &lt;restriction base="{http://www.w3.org/2001/XMLSchema}string">
- *     &lt;enumeration value="CREATED"/>
- *     &lt;enumeration value="PROCESSING"/>
- *     &lt;enumeration value="PAID"/>
- *     &lt;enumeration value="CANCELLED"/>
- *     &lt;enumeration value="REJECTED"/>
- *     &lt;enumeration value="REVERSED"/>
- *     &lt;enumeration value="RETURNED"/>
- *     &lt;enumeration value="NEEDS_ADMIN"/>
- *     &lt;enumeration value="SUBMITTED"/>
- *   &lt;/restriction>
- * &lt;/simpleType>
+ * &lt;simpleType name="InvoiceStatusType"&gt;
+ *   &lt;restriction base="{http://www.w3.org/2001/XMLSchema}string"&gt;
+ *     &lt;enumeration value="CREATED"/&gt;
+ *     &lt;enumeration value="PROCESSING"/&gt;
+ *     &lt;enumeration value="PAID"/&gt;
+ *     &lt;enumeration value="CANCELLED"/&gt;
+ *     &lt;enumeration value="REJECTED"/&gt;
+ *     &lt;enumeration value="REVERSED"/&gt;
+ *     &lt;enumeration value="RETURNED"/&gt;
+ *     &lt;enumeration value="NEEDS_ADMIN"/&gt;
+ *     &lt;enumeration value="SUBMITTED"/&gt;
+ *   &lt;/restriction&gt;
+ * &lt;/simpleType&gt;
  * </pre>
  * 
  */
