@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+		xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+		xmlns:p="http://www.springframework.org/schema/p"
+		xmlns:c="http://www.springframework.org/schema/c"
+		xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<bean id="ypayClient" class="edu.byu.edge.ypay.v1.client.YpayClientImpl"
+			c:prod="false" c:clientSystemId="parking-citations" c:tokenHeaderProvider-ref="tokenHeaderProvider" />
+
+	<bean id="tokenHeaderProvider" class="edu.byu.wso2.core.provider.ClientCredentialsTokenHeaderProvider">
+		<constructor-arg name="clientCredentialsTokenProvider">
+			<bean class="edu.byu.wso2.core.provider.ClientCredentialOauthTokenProvider">
+				<constructor-arg name="wso2Credentials">
+					<bean class="edu.byu.wso2.core.Wso2Credentials" c:clientId="${trafficService.clientId}" c:clientSecret="${trafficService.secret}" />
+				</constructor-arg>
+			</bean>
+		</constructor-arg>
+	</bean>
+
+</beans>

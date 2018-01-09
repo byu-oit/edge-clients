@@ -2,10 +2,11 @@ package edu.byu.edge.ypay.v1.client;
 
 import com.google.common.base.Charsets;
 import com.google.common.io.CharStreams;
-import edu.byu.auth.client.CredentialClient;
 import edu.byu.edge.ypay.v1.domain.invoice.*;
 import edu.byu.spring.ByuAppStage;
-import org.apache.log4j.Logger;
+import edu.byu.wso2.core.provider.TokenHeaderProvider;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import javax.xml.bind.*;
 import java.io.*;
@@ -23,7 +24,7 @@ import java.util.regex.Pattern;
  * Created by wct5 on 2/18/15.
  */
 public class YpayClientImpl implements YpayClient {
-	private static final Logger LOG = Logger.getLogger(YpayClientImpl.class);
+	private static final Logger LOG = LogManager.getLogger(YpayClientImpl.class);
 
 	private static final String SEARCH_STRING = "%sinvoices/search?clientSystemId=%s&paidByIds=%s&start=0&results=64&paymentStartDate=%s&paymentEndDate=%s";
 	private static final String FIND_BY_CLIENT_SYSTEM_AND_OWNER_ID_URL_MASK = "%sinvoices/search?clientSystemId=%s&ownerIds=%s&results=10000";
@@ -34,25 +35,29 @@ public class YpayClientImpl implements YpayClient {
 	private static final String YPAY_PROD_URL = "https://ypay.byu.edu/payments/service/rest/v1/";
 	private static final String YPAY_STAGE_URL = "https://ypay-stg.byu.edu/payments/service/rest/v1/";
 
-	protected String baseUrl;
-	protected final String clientSystemId;
-	protected final CredentialClient credentialClient;
-	protected JAXBContext invoiceContext;
-	protected ThreadLocal<Unmarshaller> unmarshallerThreadLocal;
-	protected ThreadLocal<Marshaller> marshallerThreadLocal;
+	private String baseUrl;
+	private final String clientSystemId;
+	private final TokenHeaderProvider tokenHeaderProvider;
+	private JAXBContext invoiceContext;
+	private ThreadLocal<Unmarshaller> unmarshallerThreadLocal;
+	private ThreadLocal<Marshaller> marshallerThreadLocal;
 
-	public YpayClientImpl(final String clientSystemId, final CredentialClient credentialClient) {
-		this(YPAY_PROD_URL, clientSystemId, credentialClient);
+	public YpayClientImpl(final String clientSystemId, final TokenHeaderProvider tokenHeaderProvider) {
+		this(YPAY_PROD_URL, clientSystemId, tokenHeaderProvider);
 	}
 
-	public YpayClientImpl(final ByuAppStage appStage,  final String clientSystemId, final CredentialClient credentialClient) {
-		this(appStage != null && appStage.isInProd() ? YPAY_PROD_URL : YPAY_STAGE_URL, clientSystemId, credentialClient);
+	public YpayClientImpl(final ByuAppStage appStage, final String clientSystemId, final TokenHeaderProvider tokenHeaderProvider) {
+		this(appStage != null && appStage.isInProd(), clientSystemId, tokenHeaderProvider);
 	}
 
-	public YpayClientImpl(final String baseUrl, final String clientSystemId, final CredentialClient credentialClient) {
+	public YpayClientImpl(final boolean prod, final String clientSystemId, final TokenHeaderProvider tokenHeaderProvider) {
+		this(prod ? YPAY_PROD_URL : YPAY_STAGE_URL, clientSystemId, tokenHeaderProvider);
+	}
+
+	private YpayClientImpl(final String baseUrl, final String clientSystemId, final TokenHeaderProvider tokenHeaderProvider) {
 		this.baseUrl = baseUrl;
 		this.clientSystemId = clientSystemId;
-		this.credentialClient = credentialClient;
+		this.tokenHeaderProvider = tokenHeaderProvider;
 	}
 
 	public void setInvoiceContext(final JAXBContext invoiceContext) {
@@ -64,12 +69,7 @@ public class YpayClientImpl implements YpayClient {
 		marshallerThreadLocal = new InvoiceMarshallerThreadLocal(invoiceContext);
 	}
 
-	public void setToStageUrl() {
-		this.baseUrl = YPAY_STAGE_URL;
-	}
-
 	public InvoiceListType findInvoicesForPersonOnDay(final String personId, final Date day) {
-		PrintStream urlout = null;
 		InputStream urlin = null;
 		FileOutputStream fileout = null;
 		File tempFile = null;
@@ -78,7 +78,7 @@ public class YpayClientImpl implements YpayClient {
 			final URL url = new URL(String.format(FIND_ON_DAY_URL_MASK, baseUrl, clientSystemId, personId, days[0], days[1]));
 			final URLConnection connection = url.openConnection();
 			connection.setRequestProperty("Accept", "application/xml,text/xml");
-			connection.setRequestProperty("Authorization", credentialClient.obtainAuthorizationHeaderString());
+			connection.setRequestProperty("Authorization", tokenHeaderProvider.getTokenHeaderValue());
 			tempFile = getTempFile(personId);
 			urlin = connection.getInputStream();
 			fileout = new FileOutputStream(tempFile);
@@ -91,9 +91,6 @@ public class YpayClientImpl implements YpayClient {
 		} catch (Throwable e) {
 			throw new RuntimeException("Unable to load invoices.", e);
 		} finally {
-			if (urlout != null) {
-				urlout.close();
-			}
 			if (urlin != null) {
 				try {
 					urlin.close();
@@ -115,13 +112,13 @@ public class YpayClientImpl implements YpayClient {
 	@Override
 	public long createInvoice(String clientTransactionId, String returnUrl, String notificationUrl, String owner, List<LineItemType> lineItemList) {
 		//Check for valid values
-		if(clientTransactionId == null || clientTransactionId.isEmpty()) {
+		if (clientTransactionId == null || clientTransactionId.isEmpty()) {
 			throw new IllegalArgumentException("Invalid client transaction ID");
 		}
-		if(owner == null || owner.isEmpty()) {
+		if (owner == null || owner.isEmpty()) {
 			throw new IllegalArgumentException("Invalid owner");
 		}
-		if(lineItemList == null || lineItemList.isEmpty()) {
+		if (lineItemList == null || lineItemList.isEmpty()) {
 			throw new IllegalArgumentException("Invalid line items");
 		}
 
@@ -142,7 +139,7 @@ public class YpayClientImpl implements YpayClient {
 			final HttpURLConnection connection = (HttpURLConnection) url.openConnection();
 			connection.setRequestMethod("GET");
 			connection.setRequestProperty("Accept", "application/xml,text/xml");
-			connection.setRequestProperty("Authorization", credentialClient.obtainAuthorizationHeaderString());
+			connection.setRequestProperty("Authorization", tokenHeaderProvider.getTokenHeaderValue());
 			connection.setRequestProperty("Content-Type", "application/xml");
 			connection.setDoOutput(true);
 
@@ -150,11 +147,11 @@ public class YpayClientImpl implements YpayClient {
 			marshallerThreadLocal.get().marshal(invoiceRequestType, outputStream);
 
 			final Map<String, List<String>> headerFields = connection.getHeaderFields();
-			if(!headerFields.containsKey("Location")) {
+			if (!headerFields.containsKey("Location")) {
 				throw new YPayException("Response missing 'Location' header. Code: " + connection.getResponseCode());
 			}
 			List<String> locations = headerFields.get("Location");
-			if(locations.size() != 1) {
+			if (locations.size() != 1) {
 				throw new YPayException("Response contains multiple 'Location' headers");
 			}
 
@@ -177,7 +174,7 @@ public class YpayClientImpl implements YpayClient {
 			final HttpURLConnection connection = (HttpURLConnection) url.openConnection();
 			connection.setRequestMethod("GET");
 			connection.setRequestProperty("Accept", "application/xml,text/xml");
-			connection.setRequestProperty("Authorization", credentialClient.obtainAuthorizationHeaderString());
+			connection.setRequestProperty("Authorization", tokenHeaderProvider.getTokenHeaderValue());
 			connection.setRequestProperty("Content-Type", "application/xml");
 
 			return ((JAXBElement<InvoiceType>) unmarshallerThreadLocal.get().unmarshal(connection.getInputStream())).getValue();
@@ -198,7 +195,7 @@ public class YpayClientImpl implements YpayClient {
 			final HttpURLConnection connection = (HttpURLConnection) url.openConnection();
 			connection.setRequestMethod("GET");
 			connection.setRequestProperty("Accept", "application/xml,text/xml");
-			connection.setRequestProperty("Authorization", credentialClient.obtainAuthorizationHeaderString());
+			connection.setRequestProperty("Authorization", tokenHeaderProvider.getTokenHeaderValue());
 			connection.setRequestProperty("Content-Type", "application/xml");
 
 			final InvoiceListType invoiceListType = ((JAXBElement<InvoiceListType>) unmarshallerThreadLocal.get().unmarshal(connection.getInputStream()))
@@ -233,7 +230,7 @@ public class YpayClientImpl implements YpayClient {
 			final HttpURLConnection connection = (HttpURLConnection) url.openConnection();
 			connection.setRequestMethod("DELETE");
 			connection.setRequestProperty("Accept", "application/xml,text/xml");
-			connection.setRequestProperty("Authorization", credentialClient.obtainAuthorizationHeaderString());
+			connection.setRequestProperty("Authorization", tokenHeaderProvider.getTokenHeaderValue());
 			connection.setRequestProperty("Content-Type", "application/xml");
 			connection.getInputStream();
 			return true;
@@ -252,7 +249,7 @@ public class YpayClientImpl implements YpayClient {
 			final HttpURLConnection connection = (HttpURLConnection) url.openConnection();
 			connection.setRequestMethod("GET");
 			connection.setRequestProperty("Accept", "application/xml,text/xml");
-			connection.setRequestProperty("Authorization", credentialClient.obtainAuthorizationHeaderString());
+			connection.setRequestProperty("Authorization", tokenHeaderProvider.getTokenHeaderValue());
 
 			String result = CharStreams.toString(new InputStreamReader(connection.getInputStream(), Charsets.UTF_8));
 			return extractCountAndLastInvoiceIdFromResponse(result);
@@ -280,7 +277,7 @@ public class YpayClientImpl implements YpayClient {
 			maxInvoiceId = Math.max(maxInvoiceId, Integer.parseInt(matcher.group(1)));
 		}
 
-		return new int[] {count, maxInvoiceId};
+		return new int[]{count, maxInvoiceId};
 	}
 
 	protected long getInvoiceId(String response) {

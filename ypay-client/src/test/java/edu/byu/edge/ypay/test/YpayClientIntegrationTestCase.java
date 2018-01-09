@@ -1,11 +1,8 @@
 package edu.byu.edge.ypay.test;
 
-import edu.byu.auth.client.CredentialClient;
-import edu.byu.auth.client.impl.ApiKeyClientImpl;
-import edu.byu.auth.client.impl.SharedSecretFileCredentialResolver;
 import edu.byu.edge.ypay.v1.client.YpayClientImpl;
 import edu.byu.edge.ypay.v1.domain.invoice.*;
-import org.apache.log4j.Logger;
+import edu.byu.wso2.core.provider.TokenHeaderProvider;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
@@ -24,19 +21,17 @@ import static org.junit.Assert.assertTrue;
 @RunWith(JUnit4.class)
 public class YpayClientIntegrationTestCase {
 
-	private static final Logger LOG = Logger.getLogger(YpayClientIntegrationTestCase.class);
 	private final MyYpayClient client = initializeClient();
 
 	private MyYpayClient initializeClient() {
 		try {
-			ApiKeyClientImpl apiKeyClient = new ApiKeyClientImpl(2500, 2500);
-			final SharedSecretFileCredentialResolver resolver = new SharedSecretFileCredentialResolver();
-			resolver.setCredentialFile(new File("/opt/prod/edge.cred"));
-			resolver.setKeyFile(new File("/opt/prod/edge.key"));
-			resolver.afterPropertiesSet();
-			apiKeyClient.setResolver(resolver);
-			apiKeyClient.afterPropertiesSet();
-			MyYpayClient client = new MyYpayClient("https://ypay-stg.byu.edu/payments/service/rest/v1/", "parking-citations", apiKeyClient);
+			//TODO: Get valid tokenHeaderProvider
+			final MyYpayClient client = new MyYpayClient(false, "parking-citations", new TokenHeaderProvider() {
+				@Override
+				public String getTokenHeaderValue() {
+					return "Bearer c8358568e5a2b819de9ebd3d744d26e8";
+				}
+			});
 			client.setInvoiceContext(JAXBContext.newInstance(ObjectFactory.class));
 			client.initialize();
 			return client;
@@ -101,12 +96,8 @@ public class YpayClientIntegrationTestCase {
 
 	private static class MyYpayClient extends YpayClientImpl {
 
-		public MyYpayClient(String clientSystemId, CredentialClient credentialClient) {
-			super(clientSystemId, credentialClient);
-		}
-
-		public MyYpayClient(String baseUrl, String clientSystemId, CredentialClient credentialClient) {
-			super(baseUrl, clientSystemId, credentialClient);
+		public MyYpayClient(boolean prod, String clientSystemId, TokenHeaderProvider tokenHeaderProvider) {
+			super(prod, clientSystemId, tokenHeaderProvider);
 		}
 
 		@Override

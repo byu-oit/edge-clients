@@ -1,7 +1,8 @@
 package edu.byu.edge.ypay.test;
 
 import edu.byu.edge.ypay.v1.domain.invoice.InvoiceListType;
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
@@ -17,8 +18,7 @@ import static org.junit.Assert.assertNotNull;
  */
 @RunWith(JUnit4.class)
 public class YpayXmlUnitTest {
-
-	private static final Logger LOG = Logger.getLogger(YpayXmlUnitTest.class);
+	private static final Logger LOG = LogManager.getLogger(YpayXmlUnitTest.class);
 
 	@Test
 	public void testParse1() throws Exception {
