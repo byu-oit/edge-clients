@@ -28,7 +28,8 @@ public class YpayClientIntegrationTestCase {
 			final MyYpayClient client = new MyYpayClient(false, "parking-citations", new TokenHeaderProvider() {
 				@Override
 				public String getTokenHeaderValue() {
-					//NOTE: Fill in your own token to test this
+					//NOTE: Fill in your own token to test this. The token must be from an application that is subscribed to the following API:
+					//      https://api.byu.edu/store/apis/info?name=OpenID-Userinfo&version=v1&provider=BYU%2Fjmooreoa
 					return "Bearer <TOKEN>";
 				}
 			});
