@@ -1,4 +1,4 @@
-$schemaver: '2.0'
+$schemaver: 2.1
 repo_url: https://github.com/byu-oit/edge-clients
 software:
   - name: edge-clients
@@ -46,7 +46,4 @@ software:
             virtual_server:
             rack_server:
             blade_server:
-    tags:
-      data-sensitivity: confidential
-      app: edge-clients
-      team: gro:AD-Back End Technologies and Applications
+    data_sensitivity: confidential
