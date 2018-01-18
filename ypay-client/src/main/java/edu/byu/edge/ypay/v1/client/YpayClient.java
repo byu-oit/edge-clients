@@ -48,9 +48,8 @@ public interface YpayClient {
 	/**
 	 * Find the total number of invoices that a person has for a specified clientTxId
 	 *
-	 * @param clientSystemId Id for the source of the transaction (e.g. parking-citations)
 	 * @param personId Id of the person in question
 	 * @return Array containing: Count of total invoices, Maximum (last) invoiceId
 	 */
-	int[] getTotalInvoicesAndMaxInvoiceIdForClientSystemIdAndPersonId(String clientSystemId, String personId);
+	int[] getTotalInvoicesAndMaxInvoiceIdForPersonId(String personId);
 }

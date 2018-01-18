@@ -243,7 +243,7 @@ public class YpayClientImpl implements YpayClient {
 	}
 
 	@Override
-	public int[] getTotalInvoicesAndMaxInvoiceIdForClientSystemIdAndPersonId(String clientSystemId, String personId) {
+	public int[] getTotalInvoicesAndMaxInvoiceIdForPersonId(String personId) {
 		try {
 			final URL url = new URL(String.format(FIND_BY_CLIENT_SYSTEM_AND_OWNER_ID_URL_MASK, baseUrl, clientSystemId, personId));
 			final HttpURLConnection connection = (HttpURLConnection) url.openConnection();
