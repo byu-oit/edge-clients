@@ -38,7 +38,7 @@ public class ControlDatesClientImplIntegrationTest {
 
 		final FileInputStream inputStream = new FileInputStream(
 				System.getProperty("user.home") + File.separator +
-						"cred" + File.separator + "oauth-tester.cred");
+						"wso2.properties");
 		properties.load(inputStream);
 		controlDatesClient = new ControlDatesClientImpl(
 				new JerseyOutboundOauthTokenFilter(
