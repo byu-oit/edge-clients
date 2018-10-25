@@ -158,6 +158,10 @@ public class ControlDatesClientImpl extends BaseClient implements ControlDatesCl
 	@Override
 	public String getYearTermWithAdjustedFallWinterStartDates(Date onDate, Date winterStartDate, Date fallStartDate) {
 		final DateRowType dateRowType = getByDateAndType(onDate, ControlDateType.CURRICULUM);
+		if (dateRowType == null) {
+			return null;
+		}
+
 		final String currentYearTerm = dateRowType.getYearTerm();
 		final int currentYear = Integer.parseInt(currentYearTerm.substring(0, 4));
 

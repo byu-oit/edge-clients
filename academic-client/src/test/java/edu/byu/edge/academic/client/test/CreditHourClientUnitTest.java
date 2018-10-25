@@ -34,21 +34,18 @@ import java.util.Properties;
 public class CreditHourClientUnitTest {
 	private static final Logger LOG = LogManager.getLogger(CreditHourClientUnitTest.class);
 
+	private static final String personId = "773224762";
 	private static CreditHourClient creditHourClient;
-	private static String personId;
 
 	@BeforeClass
 	public static void setup() throws IOException {
 		final Properties properties = new Properties();
-		final FileInputStream inputStream = new FileInputStream(
-				System.getProperty("user.home") + File.separator +
-						"cred" + File.separator + "oauth-tester.cred");
+		final FileInputStream inputStream = new FileInputStream(System.getProperty("user.home") + File.separator + "wso2.properties");
 		properties.load(inputStream);
 		Wso2Credentials wso2Credentials = new Wso2Credentials(properties.getProperty("stage.client_id"),properties.getProperty("stage.client_secret"));
 		ClientCredentialOauthTokenProvider tokenProvider = new ClientCredentialOauthTokenProvider(wso2Credentials);
 		TokenHeaderProvider tokenHeaderProvider = new ClientCredentialsTokenHeaderProvider(tokenProvider);
 		creditHourClient = new CreditHourClientImpl(tokenHeaderProvider);
-		personId = properties.getProperty("person_id");
 	}
 
 	@Test

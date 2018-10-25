@@ -76,6 +76,10 @@ public class CreditHourClientImpl implements CreditHourClient, InitializingBean 
 			}
 
 			final String result = CharStreams.toString(new InputStreamReader(connection.getInputStream(), Charsets.UTF_8));
+			final int statusCode = connection.getResponseCode();
+			if (statusCode >= 300) {
+				throw new ServiceException("Error determining credit hours.", new Throwable(String.valueOf(statusCode) + "\n" + result));
+			}
 			final List<String> list = new LinkedList<String>();
 			final Matcher matcher = CRED_HRS.matcher(result);
 			while (matcher.find()) {

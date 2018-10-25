@@ -9,7 +9,7 @@
 	   						http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
 
 	<context:annotation-config/>
-	<context:property-placeholder location="file:${user.home}/cred/oauth-tester.cred"/>
+	<context:property-placeholder location="file:${user.home}/wso2.properties"/>
 	<ehcache:annotation-driven/>
 
 	<bean id="controlDatesCacheKeyGenerator" class="edu.byu.edge.client.controldates.ControlDatesCacheKeyGenerator"/>
